@@ -63,42 +63,34 @@ const SignInPage = () => {
       setLoader(true);
       api.signIn(data, userType).then((response) => {
         setLoader(false);
-        if (response?.methodReturnValue) {
+        if (response?.methodReturnValue?.loginType) {
           setUserLoggedIn('true');
-          sessionStorageSet(response.methodReturnValue, SESSION_TYPE.login_resp);
-          console.log(getLogInType());
-          if(getLogInType() === 'CL|CU') {
-            swal({
-                      title: "Welcome to storeFLEX",
-                      text: "Where you want to go....",
-                      icon: "info",
-                      dangerMode: false,
-                      buttons: ["CU Page", "CL Page"]
-                  })
-                  .then(willUpdate => {
-                      if (willUpdate) {
-                          const redirectUrl = getRedirectionPage(response?.methodReturnValue?.redirectUrl);
-                          window.location.href = redirectUrl;
-                      }
-                  });
-          } else if (getLogInType() === 'CU|CL') {
+          let methodReturnValue = response.methodReturnValue;
+          const loginType = methodReturnValue?.loginType ? methodReturnValue.loginType.split('|') : '';
+          console.log(loginType);
+          if(loginType && loginType.length > 1) {
             swal({
               title: "Welcome to storeFLEX",
               text: "Where you want to go....",
               icon: "info",
               dangerMode: false,
-              buttons: ["CU Page", "CL Page"]
-          })
-          .then(willUpdate => {
-              if (willUpdate) {
-                  const redirectUrl = getRedirectionPage(response?.methodReturnValue?.redirectUrl);
-                  window.location.href = redirectUrl;
-              }
-          });
-          }
-          else {
-            const redirectUrl = getRedirectionPage(response?.methodReturnValue?.redirectUrl);
-            window.location.href = redirectUrl;
+              closeOnClickOutside: false,
+              buttons: {confirm : {text : `${loginType[0]} Page`, value: loginType[0]},
+               default: {text : `${loginType[1]} Page`, value: loginType[1]}},
+
+            })
+            .then(willUpdate => {
+                if (willUpdate) {
+                    methodReturnValue.loginType = willUpdate;
+                }
+                sessionStorageSet(methodReturnValue, SESSION_TYPE.login_resp);
+                const redirectUrl = getRedirectionPage(methodReturnValue.loginType);
+                window.location.href = redirectUrl;
+            });
+          } else {
+            sessionStorageSet(methodReturnValue, SESSION_TYPE.login_resp);
+            const redirectUrl = getRedirectionPage(methodReturnValue.loginType);
+             window.location.href = redirectUrl;
           }
         } else {
           setUserLoggedIn('false');

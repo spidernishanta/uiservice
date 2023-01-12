@@ -178,11 +178,11 @@ export const getroleType = () => {
 export const getRedirectionPage = (redirectUrl?: string) => {
     if (redirectUrl === '/storeflexhome') {
         return PAGES.Home.path;
-    } else if (redirectUrl === '/storeflexuserdashboard') {    // Storeflex User Dashboard
+    } else if (redirectUrl === 'SL') {    // Storeflex User Dashboard
         return PAGES.Dashboard.path;
-    } else if (redirectUrl === '/storeflexclientdashboard') {  // Storeflex Client Dashboard
+    } else if (redirectUrl === 'CL') {  // Storeflex Client Dashboard
         return PAGES.Dashboard.path;
-    } else if (redirectUrl === '/storeflexcustdashboard') {    // Storeflex Customer Dashboar
+    } else if (redirectUrl === 'CU') {    // Storeflex Customer Dashboar
         return PAGES.Dashboard.path;
     } else {
         return PAGES.Home.path;      // If redirect url is missing then redirect to home
