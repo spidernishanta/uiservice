@@ -147,9 +147,10 @@ export const getUserEmail = () => {
 
 export const getName = () => {
     const data = sessionStorage.getItem(SESSION_TYPE.login_resp);
+    sessionStorage.setItem("space", " ");
     if (data && JSON.parse(data)) {
         const obj = JSON.parse(data);
-        return (obj.firstName + obj.lastName);
+        return (obj.firstName + sessionStorage.getItem("space") + obj.lastName);
     } else {
         return null;
     }
@@ -195,23 +196,23 @@ export const sessionStorageSet = (data: any, name: string) => {
     }
 }
 
-export const sessionStorageGet = (name: string) => { 
+export const sessionStorageGet = (name: string) => {
     return sessionStorage.getItem(name);
 }
 
 export const getLogInType = () => {
     const data = sessionStorage.getItem(SESSION_TYPE.login_resp);
-    if(data && JSON.parse(data)) {
+    if (data && JSON.parse(data)) {
         const obj = JSON.parse(data);
         return obj.loginType;
     } else {
         return null;
     }
-} 
+}
 
 export const getFirstName = () => {
     const data = sessionStorage.getItem(SESSION_TYPE.login_resp);
-    if( data && JSON.parse(data)) {
+    if (data && JSON.parse(data)) {
         const obj = JSON.parse(data);
         return obj.firstName;
     } else {
