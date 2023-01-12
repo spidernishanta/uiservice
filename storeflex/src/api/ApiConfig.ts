@@ -167,6 +167,7 @@ export interface UserPostData {
     address?: string;
     plotNo?: string;
     houseNo?: string;
+    streetDetails?: string;
     pincode?: string;
     city?: string;
     state?: string;

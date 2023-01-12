@@ -186,16 +186,23 @@ const AddUser = () => {
   }
   const onSave = () => {
     const postData = {} as UserPostData;
-    // postData.clientId = userPostInfo?.clientId;
-    // postData.roleType = userPostInfo?.roleType;
+    postData.clientId = userPostInfo?.clientId;
+    postData.roleType = userPostInfo?.roleType;
     postData.firstName = userPostInfo?.firstName;
     postData.lastName = userPostInfo?.lastName;
     postData.mobileNo = userPostInfo?.mobileNo;
     postData.email = userPostInfo?.email;
-    postData.addresses = [addressInfo];
+    postData.plotNo = addressInfo.plotNo;
+    postData.houseNo = addressInfo.houseNo;
+    postData.streetDetails = addressInfo.streetDetails;
+    postData.city = addressInfo.city;
+    postData.state = addressInfo.state;
+    postData.country = addressInfo.country;
+    postData.pincode = addressInfo.pincode;
+    // postData.addresses = [addressInfo];
 
     setLoaderState(true);
-      api.postUser(postData, userPostInfo?.roleType, userPostInfo?.clientId).then((resp) => {
+      api.postUser(postData, postData?.roleType, postData?.clientId).then((resp) => {
           setLoaderState(false); setStep(3);
           if (resp && resp.methodReturnValue.clientId && imageData) {
               upladPhoto(imageData, resp.methodReturnValue.clientId);
