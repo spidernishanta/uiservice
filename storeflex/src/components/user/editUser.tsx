@@ -7,6 +7,7 @@ import { validateCharacterLength, validateSpecialCharExistance } from '../../../
 import { Button } from '@mui/material';
 import GetCompany from '../atoms/company/GetCompany';
 import { UploadImage } from '../atoms/image/image';
+import { Address } from '../../utils/ResponseSchema';
 
 const EditUser = () => {
   const [values, setValues] = useState({
@@ -104,6 +105,20 @@ const EditUser = () => {
   }
   const [imageData, setImageData] = useState<File>();
 
+  const onAddressUpdate = (data: Address) => {
+    const addressData = {} as Address;
+    addressData.addressType = data.addressType;
+    addressData.city = data.city;
+    addressData.country = data.country;
+    addressData.state = data.state;
+    addressData.pincode = data.pincode;
+    addressData.plotNo = data.plotNo;
+    addressData.houseNo = data.houseNo;
+    addressData.streetDetails = data.streetDetails;
+    console.log(' <<< onAddressUpdate >>>', addressData);
+    // setAddressInfo(addressData);
+  }
+
   const onPhotoUploadChange = (file: any) => {
     if (file) {
         setImageData(file);
@@ -179,6 +194,7 @@ const EditUser = () => {
         <div>{
           <AddressDetails
             countryCode={'01'}
+            onUpdate={onAddressUpdate}
           />}</div>
       </div>
     )

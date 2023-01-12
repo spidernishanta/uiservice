@@ -4,6 +4,7 @@ import InputBox from '../components/atoms/textfield/InputBox';
 import AddressDetails from '../components/atoms/addressforms/AddressDetails';
 import {BusinessDetails} from '../utils/ResponseSchema';
 import AddStore from '../components/panels/warehouseInfo/addstore';
+import { Address } from '../utils/ResponseSchema';
 
 const storeData = require('../mockData/storeinfoData.json');
 
@@ -16,6 +17,20 @@ const AddProfileTemp = () => {
 
   const saveBusinessInfo = () => {
     setProfileSaved(true);
+  }
+
+  const onAddressUpdate = (data: Address) => {
+    const addressData = {} as Address;
+    addressData.addressType = data.addressType;
+    addressData.city = data.city;
+    addressData.country = data.country;
+    addressData.state = data.state;
+    addressData.pincode = data.pincode;
+    addressData.plotNo = data.plotNo;
+    addressData.houseNo = data.houseNo;
+    addressData.streetDetails = data.streetDetails;
+    console.log(' <<< onAddressUpdate >>>', addressData);
+    // setAddressInfo(addressData);
   }
 
   const showSavedProfile = () => {
@@ -98,6 +113,7 @@ const AddProfileTemp = () => {
             <div>{
               <AddressDetails 
                 countryCode={'01'}
+                onUpdate={onAddressUpdate}
             />}</div>
             <Grid container spacing={2} columns={{ xs: 12, sm: 12, md: 12 }}>
               <Grid item xs={12}>
