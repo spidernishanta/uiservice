@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
-import { validateMinLen, setUserLoggedIn, getRedirectionPage, sessionStorageSet, getLogInType } from '../utils/CommonUtils';
+import { validateMinLen, setUserLoggedIn, getRedirectionPage, sessionStorageSet } from '../utils/CommonUtils';
 import Api from '../api/Api';
 import { SignInPost } from '../api/ApiConfig';
 import { USER_TYPE, PAGES, SESSION_TYPE } from '../utils/Constants';

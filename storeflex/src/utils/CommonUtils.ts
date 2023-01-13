@@ -219,3 +219,13 @@ export const getFirstName = () => {
         return null;
     }
 }
+
+export const getIntent = () => {
+    const data = sessionStorage.getItem(SESSION_TYPE.login_resp);
+    if (data && JSON.parse(data)) {
+        const obj = JSON.parse(data);
+        return obj.intent;
+    } else {
+        return null;
+    }
+}
