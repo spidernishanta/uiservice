@@ -5,6 +5,7 @@ import Api from '../api/Api';
 import { SignInPost } from '../api/ApiConfig';
 import GoogleLogin from 'react-google-login';
 import { gapi } from "gapi-script";
+import swal from 'sweetalert';
 
 const SignInCustomer = () => {
   const navigate = useNavigate();
@@ -54,7 +55,21 @@ const SignInCustomer = () => {
           window.location.href = redirectUrl;
         } else {
           setUserLoggedIn('false');
-          window.location.href = '/error';
+          swal({
+            title: 'Please try again...',
+            text: 'The email and password you entered did not match our records. Please double-check and try again.',
+            buttons: {
+              buttonOne: {
+                text: "OK",
+                visible: true,
+                className: "sf-btn",
+              }
+            }
+          })
+          let tID = setTimeout(function () {
+            window.location.href = "/home";
+            window.clearTimeout(tID);		// clear time out.
+          }, 5000);
         }
       });
 
