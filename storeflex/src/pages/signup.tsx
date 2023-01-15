@@ -4,23 +4,32 @@ import Container from '@mui/material/Container';
 import { TextField, Typography, Avatar, Box, Button, Grid, Link } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import CheckBoxR from '../components/atoms/checkbox/CheckBoxR';
-import { validateCharacterLength, validateSpecialCharExistance, validateEmail, validatePassword } from '../utils/CommonUtils';
+import { validateCharacterLength, validateSpecialCharExistance, validateEmail, validatePassword,validatePhone } from '../utils/CommonUtils';
 import { } from '../utils/CommonUtils';
 import GoogleLogin from 'react-google-login';
+import Api from '../api/Api';
+import { SignUpPost } from '../api/ApiConfig';
+import swal from 'sweetalert';
 import { ErrorSharp } from '@mui/icons-material';
 
 const SignUp = () => {
 
+  const api = new Api();
+
   const [values, setValues] = useState({
     firstName: "",
+    middleName:"",
     lastName: "",
+    mobileNo:"",
     email: "",
     password: "",
     password1: ""
   });
   const [errors, setErrors] = useState({
     firstName: "",
+    middleName:"",
     lastName: "",
+    mobileNo:"",
     email: "",
     password: "",
     password1: ""
@@ -30,7 +39,9 @@ const SignUp = () => {
     console.log("Values==", values)
     let errors = {
       firstName: '',
+      middleName:"",
       lastName: "",
+      mobileNo:"",
       email: "",
       password: "",
       password1: ""
@@ -39,10 +50,37 @@ const SignUp = () => {
     return errors;
   }
 
-  // const navigate = useNavigate();
   const onSignUp = () => {
     setErrors(validation(values));
-    // navigate('addprofile');
+      const data: SignUpPost = {
+        firstName: values.firstName,
+        middleName: values.middleName,
+        lastName: values.lastName,
+        mobileNo: values.mobileNo,
+        email: values.email,
+        password: values.password
+      }
+      api.signUp(data,"admin").then((response)=>{
+        console.log(response);
+        //let methodReturnValue = response.methodReturnValue;
+        swal({
+          title: "Welcome to StoreFlex",
+          text: "You have successfully registered to StoreFlex, please check your email and activate your account.",
+          icon: "info",
+          dangerMode: false,
+          closeOnClickOutside: false,
+          buttons: {
+            confirm: { text: "Ok", value: "Ok" },
+          },
+
+        })
+          .then(willUpdate => {
+            if (willUpdate) {
+              window.location.href = "/home";
+            }
+            
+          });
+      });
   }
 
   const onGoogleLoginSuccess = (user: any) => {
@@ -119,6 +157,23 @@ const SignUp = () => {
     } else {
       errors.email = ""
     }
+  }
+
+  //validate mobile no
+  const validateMobileNo = (event: any) => {
+    const mobileTemp = event.target.value;
+    setValues({
+      ...values,
+      [event.target.name]: event.target.value,
+    });
+    if (!mobileTemp) {
+      errors.mobileNo = "*Mobile number is required."
+    }
+    else if (!validatePhone(mobileTemp)) {
+      errors.mobileNo = "Enter a valid mobile number."
+    } else {
+      errors.mobileNo = ""
+    }
 
   }
 
@@ -187,6 +242,21 @@ const SignUp = () => {
               </Grid>
               <Grid item xs={12}>
                 <TextField
+                  autoComplete="given-name"
+                  name="middleName"
+                  className={errors.middleName ? "border-red" : ""}
+                  // required
+                  fullWidth
+                  id="middleName"
+                  label="Middle Name"
+                  value={values.middleName}
+                  onChange={validateFirstName}
+                  autoFocus
+                />
+                {errors.firstName && <p className="text-red">{errors.firstName}</p>}
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
                   className={errors.lastName ? "border-red" : ""}
                   // required
                   fullWidth
@@ -199,6 +269,20 @@ const SignUp = () => {
                   autoFocus
                 />
                 {errors.lastName && <p className="text-red">{errors.lastName}</p>}
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  className={errors.mobileNo ? "border-red" : ""}
+                  // required
+                  fullWidth
+                  id="mobileNo"
+                  label="Mobile No"
+                  name="mobileNo"
+                  autoComplete="mobileNo"
+                  value={values.mobileNo}
+                  onChange={validateMobileNo}
+                />
+                {errors.email && <p className="text-red">{errors.email}</p>}
               </Grid>
               <Grid item xs={12}>
                 <TextField

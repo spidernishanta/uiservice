@@ -74,7 +74,7 @@ const SignInPage = () => {
           console.log(loginType);
           if (loginType && loginType.length > 1) {
             swal({
-              title: "Welcome to storeFLEX",
+              title: "Welcome to StoreFlex",
               text: "Where you want to go....",
               icon: "info",
               dangerMode: false,
