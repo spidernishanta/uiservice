@@ -10,7 +10,7 @@ import swal from 'sweetalert';
 import PrifileMenuList from './profileList.json';
 import { Button } from 'react-bootstrap';
 import Api from '../../../api/Api';
-import { getFirstName, getIntent, getLogInType } from "../../../../src/utils/CommonUtils";
+import { getFirstName, getIntent, getLogInType, setLogInType } from "../../../../src/utils/CommonUtils";
 
 interface ProfileMenuProps {
     isSigned?: boolean;
@@ -180,14 +180,23 @@ export const ProfileMenu = (props?: ProfileMenuProps) => {
         );
     }
 
+    const changeToCL = () => {
+        setLogInType('CL');
+        window.location.reload();
+    }
+    const changeToCU = () => {
+        setLogInType('CU');
+        window.location.reload();
+    }
+
 
     return (
         <>
             <div className='sf-flex profile-menu-container'>
                 <span style={{ 'color': 'white' }}>Welcome {getFirstName()}</span>
                 {!getIntent() && userType === 'CU' ? <Button className='btn primary-btn sf-btn' onClick={() => window.location.href = '/business/add'}>StoreFlex Your Space</Button> : ''}
-                {getIntent() && getLogInType() === 'CU' ? <Button className='btn primary-btn sf-btn'>Owner Profile</Button> : '' }
-                {getIntent() && getLogInType() === 'CL' ? <Button className='btn primary-btn sf-btn'>Customer Profile</Button> : ''}
+                {getIntent() && getLogInType() === 'CU' ? <Button className='btn primary-btn sf-btn' onClick={changeToCL}>Owner Profile</Button> : '' }
+                {getIntent() && getLogInType() === 'CL' ? <Button className='btn primary-btn sf-btn' onClick={changeToCU}>Customer Profile</Button> : ''}
                 <IconButton size="large" edge="start" color="inherit" aria-label="profile" onClick={handleClick} >
                     <ProfileBtn showProfileImg={isSigned} profileImg={profileImgUrl} />
                 </IconButton>

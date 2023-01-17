@@ -210,6 +210,16 @@ export const getLogInType = () => {
     }
 }
 
+export const setLogInType = (val: string) => {
+    const data = sessionStorage.getItem(SESSION_TYPE.login_resp);
+    if (data && JSON.parse(data)) {
+        const obj = JSON.parse(data);
+        console.log(obj);
+        sessionStorage.setItem(obj.loginType=val,val);
+        console.log(obj);
+    }
+}
+
 export const getFirstName = () => {
     const data = sessionStorage.getItem(SESSION_TYPE.login_resp);
     if (data && JSON.parse(data)) {
