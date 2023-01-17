@@ -64,8 +64,12 @@ export default class Api {
             const response = await axios.post(url, postData);
             if(response?.data?.statusCode === 600) {
                 return Promise.resolve(response?.data);
-            } else {
-                console.log(' error : signUp', response);
+            } else if (response?.data?.statusCode === 603) {
+                //console.log(response.data.message);
+                return Promise.reject(response?.data?.message);
+            } 
+            else {
+                //console.log(' error : signUp', response);
                 return Promise.reject(response);
             }
         }
