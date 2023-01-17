@@ -206,7 +206,7 @@ const SignUp = () => {
     else {
       errors.password = ""
     }
-
+ 
   }
 
   const password1Validation = (event: any) => {

@@ -70,7 +70,7 @@ export default class Api {
             } 
             else {
                 //console.log(' error : signUp', response);
-                return Promise.reject(response);
+                return Promise.reject(response); 
             }
         }
         catch (error) {
