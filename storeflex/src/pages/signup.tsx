@@ -4,32 +4,58 @@ import Container from '@mui/material/Container';
 import { TextField, Typography, Avatar, Box, Button, Grid, Link } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import CheckBoxR from '../components/atoms/checkbox/CheckBoxR';
-import { validateCharacterLength, validateSpecialCharExistance, validateEmail, validatePassword,validatePhone } from '../utils/CommonUtils';
+import { validateCharacterLength, validateSpecialCharExistance, validateEmail, validatePassword, validatePhone } from '../utils/CommonUtils';
 import { } from '../utils/CommonUtils';
 import GoogleLogin from 'react-google-login';
 import Api from '../api/Api';
 import { SignUpPost } from '../api/ApiConfig';
 import swal from 'sweetalert';
 import { ErrorSharp } from '@mui/icons-material';
+import IconButton from '@mui/material/IconButton';
+import Input from '@mui/material/Input';
+import FilledInput from '@mui/material/FilledInput';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputLabel from '@mui/material/InputLabel';
+import InputAdornment from '@mui/material/InputAdornment';
+import FormHelperText from '@mui/material/FormHelperText';
+import FormControl from '@mui/material/FormControl';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 const SignUp = () => {
+
+  const [showPassword, setShowPassword] = React.useState(false);
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+  };
+
+  const [showPassword1, setShowPassword1] = React.useState(false);
+
+  const handleClickShowPassword1 = () => setShowPassword1((show) => !show);
+
+  const handleMouseDownPassword1 = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+  };
 
   const api = new Api();
 
   const [values, setValues] = useState({
     firstName: "",
-    middleName:"",
+    middleName: "",
     lastName: "",
-    mobileNo:"",
+    mobileNo: "",
     email: "",
     password: "",
     password1: ""
   });
   const [errors, setErrors] = useState({
     firstName: "",
-    middleName:"",
+    middleName: "",
     lastName: "",
-    mobileNo:"",
+    mobileNo: "",
     email: "",
     password: "",
     password1: ""
@@ -39,9 +65,9 @@ const SignUp = () => {
     console.log("Values==", values)
     let errors = {
       firstName: '',
-      middleName:"",
+      middleName: "",
       lastName: "",
-      mobileNo:"",
+      mobileNo: "",
       email: "",
       password: "",
       password1: ""
@@ -51,7 +77,26 @@ const SignUp = () => {
   }
 
   const onSignUp = () => {
-    setErrors(validation(values));
+    if (!values.firstName) {
+      alert("First Name is required")
+    }
+    else if (!values.lastName) {
+      alert("Last Name is required")
+    }
+    else if (!values.mobileNo) {
+      alert("Mobile Number is required")
+    }
+    else if (!values.email) {
+      alert("Email is required")
+    }
+    else if (!values.password) {
+      alert("Password is required")
+    }
+    else if (!values.password1) {
+      alert("Please re-enter your password")
+    }
+    else {
+      setErrors(validation(values));
       const data: SignUpPost = {
         firstName: values.firstName,
         middleName: values.middleName,
@@ -60,17 +105,17 @@ const SignUp = () => {
         email: values.email,
         password: values.password
       }
-      api.signUp(data,"admin").then((response)=>{
+      api.signUp(data, "admin").then((response) => {
         console.log(response);
         //let methodReturnValue = response.methodReturnValue;
         swal({
           title: "Welcome to StoreFlex",
           text: "You have successfully registered to StoreFlex, please check your email and activate your account.",
-          icon: "info",
+          icon: "warning",
           dangerMode: false,
           closeOnClickOutside: false,
           buttons: {
-            confirm: { text: "Ok", value: "Ok" },
+            confirm: { text: "OK", value: "Ok", className: "sf-btn" },
           },
 
         })
@@ -78,9 +123,10 @@ const SignUp = () => {
             if (willUpdate) {
               window.location.href = "/home";
             }
-            
+
           });
       });
+    }
   }
 
   const onGoogleLoginSuccess = (user: any) => {
@@ -111,7 +157,7 @@ const SignUp = () => {
     });
     // console.log("Name is ",firstNameTemp)
     if (!firstNameTemp) {
-      errors.firstName = "*Firstname is required."
+      errors.firstName = "*Firstname is required"
     } else if (!validateCharacterLength(firstNameTemp, 4, 50)) {
       errors.firstName = "Firstname should have atleast 4 letters and should not grater than 50"
     }
@@ -206,7 +252,7 @@ const SignUp = () => {
       errors.password1 = "*Please re-enter your password"
     }
     else if (values.password != password1Temp) {
-      errors.password1 = "Password do not match"
+      errors.password1 = "Passwords do not match"
     }
     else {
       errors.password1 = ""
@@ -253,7 +299,6 @@ const SignUp = () => {
                   onChange={validateFirstName}
                   autoFocus
                 />
-                {errors.firstName && <p className="text-red">{errors.firstName}</p>}
               </Grid>
               <Grid item xs={12}>
                 <TextField
@@ -282,7 +327,7 @@ const SignUp = () => {
                   value={values.mobileNo}
                   onChange={validateMobileNo}
                 />
-                {errors.email && <p className="text-red">{errors.email}</p>}
+                {errors.mobileNo && <p className="text-red">{errors.mobileNo}</p>}
               </Grid>
               <Grid item xs={12}>
                 <TextField
@@ -298,7 +343,7 @@ const SignUp = () => {
                 />
                 {errors.email && <p className="text-red">{errors.email}</p>}
               </Grid>
-              <Grid item xs={12}>
+              {/* <Grid item xs={12}>
                 <TextField
                   className={errors.password ? "border-red" : ""}
                   // required
@@ -311,9 +356,39 @@ const SignUp = () => {
                   value={values.password}
                   onChange={passwordValidation}
                 />
-                {errors.password && <p className="text-red">{errors.password}</p>}
-              </Grid>
+              </Grid> */}
               <Grid item xs={12}>
+                <FormControl sx={{ m: 0, width: '50ch' }} variant="outlined" className={errors.password ? "border-red" : ""}>
+                  <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                  <OutlinedInput
+                    fullWidth
+                    name="password"
+                    id="password"
+                    autoComplete="new-password"
+                    value={values.password}
+                    type={showPassword ? 'text' : 'password'}
+                    onChange={passwordValidation}
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowPassword}
+                          onMouseDown={handleMouseDownPassword}
+                          edge="end"
+                        >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                    label="Password"
+                  />
+                  {errors.password && <p className="text-red">{errors.password}</p>}
+                </FormControl>
+                <p>&nbsp;&nbsp;&nbsp;&nbsp;Use 8 or more characters with a mix of letters, numbers & </p>
+                <p>&nbsp;&nbsp;&nbsp;&nbsp;symbols</p>
+              </Grid>
+
+              {/* <Grid item xs={12}>
                 <TextField
                   className={errors.password1 ? "border-red" : ""}
                   // required
@@ -326,6 +401,34 @@ const SignUp = () => {
                   onChange={password1Validation}
                 />
                 {errors.password1 && <p className="text-red">{errors.password1}</p>}
+              </Grid> */}
+              <Grid item xs={12}>
+                <FormControl sx={{ m: 0, width: '50ch' }} variant="outlined" className={errors.password1 ? "border-red" : ""}>
+                  <InputLabel htmlFor="outlined-adornment-password">Re-enter Password</InputLabel>
+                  <OutlinedInput
+                    fullWidth
+                    name="password1"
+                    id="password1"
+                    // autoComplete="new-password"
+                    value={values.password1}
+                    type={showPassword1 ? 'text' : 'password'}
+                    onChange={password1Validation}
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowPassword1}
+                          onMouseDown={handleMouseDownPassword1}
+                          edge="end"
+                        >
+                          {showPassword1 ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                    label="Re-enter Password"
+                  />
+                  {errors.password1 && <p className="text-red">{errors.password1}</p>}
+                </FormControl>
               </Grid>
             </Grid>
             <div className='font-12px p-top-md'>

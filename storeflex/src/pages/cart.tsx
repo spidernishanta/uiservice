@@ -12,6 +12,8 @@ const storeDetails = [
         size: "5'x5'x8'",
         price: "4500.00",
         location: "Six mile, Guwahati, 781005",
+        minspace: "9,425 Sq. Ft.",
+        availspace: "20,000 Sq. Ft.",
         displayImage: ""
     }
 ]

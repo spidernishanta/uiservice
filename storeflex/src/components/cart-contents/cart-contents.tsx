@@ -5,6 +5,8 @@ import BeenhereIcon from '@mui/icons-material/Beenhere';
 import './cart-content.scss';
 import Axios from 'axios';
 import { useNavigate } from "react-router-dom";
+import InputBox from '../atoms/textfield/InputBox';
+import { Summarize } from '@mui/icons-material';
 
 interface CartContentsProps {
     storeInfo: any
@@ -87,16 +89,37 @@ const CartContents = (props: CartContentsProps) => {
 
     };
 
-//     const handleSuccess = () => {
-//         console.log("working");
-// 
-//     }
+    //     const handleSuccess = () => {
+    //         console.log("working");
+    //
+    //     }
+    const [spaceOrdered, setSpaceOrdered] = useState('');
+    const [errorMessage, setErrorMessage] = React.useState("");
+    const [onUpdateInfo, setonUpdateInfo] = useState(false);
 
     const navigate = useNavigate();
     const goToNextPage = (pagePath: string) => {
         navigate(pagePath);
     }
 
+    const validateSpaceOrdered = (evt: any) => {
+        if (evt?.target?.value) {
+            const name = evt.target.name;
+            const value = evt.target.value;
+            if (name === 'sporder') {
+                setSpaceOrdered(value);
+                if (value > 20000 || value < 9425)
+                    setErrorMessage("Space Ordered should be between 9,425 Sq. Ft.-20,000 Sq. Ft.")
+                else {
+                    setErrorMessage("")
+                }
+            }
+            else {
+                return false;
+            }
+            setonUpdateInfo(true);
+        }
+    }
 
     return (
         // <div>
@@ -131,139 +154,147 @@ const CartContents = (props: CartContentsProps) => {
 
 
         <>
-        
 
 
 
-        <Box className='p-top-xl' sx={{ width: '100%' }}>
-            <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 1, md: 1 }}>
-                <Container maxWidth="xl">
-                    <Box sx={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        borderRadius: 1,
-                    }}>
 
-                        <Grid item xs={9} sx={{ pl: 1 }}>
+            <Box className='p-top-xl' sx={{ width: '100%' }}>
+                <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 1, md: 1 }}>
+                    <Container maxWidth="xl">
+                        <Box sx={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            borderRadius: 1,
+                        }}>
 
-                            {data.map((data: any) => (
+                            <Grid item xs={9} sx={{ pl: 1 }}>
 
-                                <Item key={data.id} sx={{ mb: 1 }}>
-                                    <Grid item xs={12} sx={{ p: 2 }}>
-                                        <div className='text-left'>
-                                            <div className='header'> {data.companyName} </div>
-                                           
-                                        </div><hr/>
-                                        <Grid container spacing={2}>
-                                            <Grid item sm={3}>
-                                                <div className='card'>
-                                                    <div className='text-left'>
-                                                    <img className='img-200x150'
-                                                src='../static/images/store1.jpg'
-                                            />
+                                {data.map((data: any) => (
+
+                                    <Item key={data.id} sx={{ mb: 1 }}>
+                                        <Grid item xs={12} sx={{ p: 2 }}>
+                                            <div className='text-left'>
+                                                <div className='header'> {data.companyName} </div>
+
+                                            </div><hr />
+                                            <Grid container spacing={2}>
+                                                <Grid item sm={3}>
+                                                    <div className='card'>
+                                                        <div className='text-left'>
+                                                            <img className='img-200x150'
+                                                                src='../static/images/store1.jpg'
+                                                            />
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </Grid>
-                                            <Grid item sm={7}>
-                                                <div className='card p-top-xl'>
-                                                    <div className='text-left'>
-                                                        <div className='sub-header'> {data.storeTitle} </div>
-                                                        <div className='sub-header'> {data.size} </div>
-                                                        <div> {data.location} </div>
+                                                </Grid>
+                                                <Grid item sm={7}>
+                                                    <div className='card p-top-xl'>
+                                                        <div className='text-left'>
+                                                            <div className='sub-header'> {data.storeTitle} </div>
+                                                            <div className='sub-header'> {data.size} </div>
+                                                            <div> {data.location} </div>
+                                                            <div><b>Minimum Space</b> : {data.minspace}</div>
+                                                            <div><b>Available Space</b> : {data.availspace}</div>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </Grid>
-                                            <Grid item sm={2}>
-                                                <div className='card p-top-xl'>
-                                                    <div className='text-left'>
-                                                        <span>{data.price} <i>Per Month</i></span>
+                                                </Grid>
+
+                                                <Grid item sm={2}>
+                                                    <div className='card p-top-xl'>
+                                                        <div className='text-left'>
+                                                            <span>&#x20B9;{data.price}<i>&nbsp;/ month</i></span>
+                                                        </div>
                                                     </div>
-                                                </div>
+                                                </Grid>
+                                                <Grid item sm={3}>
+                                                </Grid>
+                                                <Grid item xs={3}>
+                                                    <InputBox data={{ name: 'sporder', label: 'Space Ordered', value: '' }}
+                                                        onChange={validateSpaceOrdered}
+                                                    />
+                                                    {errorMessage && <div className="text-red"> {errorMessage} </div>}
+                                                </Grid>
                                             </Grid>
                                         </Grid>
-                                    </Grid>
-                                </Item>
-
-                            ))}
+                                    </Item>
+                                ))}
 
 
-                        </Grid>
-                        <Grid item xs={3} sx={{ pl: 3 }}>
+                            </Grid>
+                            <Grid item xs={3} sx={{ pl: 3 }}>
+                                {data.map((data: any) =>
+                                    <Item sx={{ p: 0 }}>
+                                        <Grid item xs={12}>
 
-                            <Item sx={{ p: 0 }}>
-                                <Grid item xs={12}>
+                                            {PriceDetailsHeader()}
 
-                                    {PriceDetailsHeader()}
-
-                                    <Grid container spacing={2} sx={{ p: 1 }}>
-                                        <Grid item sm={12}>
-                                            <div className='card'>
-                                                <div className='text-left'>
-                                                    <span className='text-left'>Price(2 Items):</span> <span className='text-right'> 45000.00</span>
-                                                    <Divider sx={{ m: 2 }} />
-                                                    Discount: 0.00
-                                                    <Divider sx={{ m: 2 }} />
-
-                                                    Total Amount: 45000.00
-                                                    <Divider sx={{ m: 2 }} />
-                                                </div>
-
-                                                
-                                                <form id="merchantHostedForm">
-                                                    <table className="mainForm">
-                                                        <tbody>
-                                                            <tr>
-                                                                {/* <td>order id</td> */}
-                                                                <td><input type="hidden" onChange={handaleInput} name="orderId" value={inputField.orderId} /></td>
-                                                            </tr>
-                                                            <tr>
-                                                                {/* <td>order amount</td> */}
-                                                                <td><input type="hidden" onChange={handaleInput} name="orderAmount" value={inputField.orderAmount} /></td>
-                                                            </tr>
-                                                            <tr>
-                                                                {/* <td>customer name</td> */}
-                                                                <td><input type="hidden" onChange={handaleInput} name="customerName" value={inputField.customerName} /></td>
-                                                            </tr>
-                                                            <tr>
-                                                                {/* <td>customer email</td> */}
-                                                                <td><input type="hidden" onChange={handaleInput} name="customerEmail" value={inputField.customerEmail} /></td>
-                                                            </tr>
-                                                            <tr>
-                                                                {/* <td>MERCHANTHOSTED</td> */}
-                                                                <td><input type="hidden" onChange={handaleInput} name="paymentType" value={inputField.paymentType} /></td>
-                                                            </tr>
-                                                            <tr>
-                                                                {/* <td>customer phone</td> */}
-                                                                <td><input type="hidden" onChange={handaleInput} name="customerPhone" value={inputField.customerPhone} /></td>
-                                                            </tr>
+                                            <Grid container spacing={2} sx={{ p: 1 }}>
+                                                <Grid item sm={12}>
+                                                    <div className='card'>
+                                                        <div className='text-left'>
+                                                            <span className='text-left'>Price(2 Items):</span> <span className='text-right'> 45000.00</span>
+                                                            <Divider sx={{ m: 2 }} />
+                                                            Discount: 0.00
+                                                            <Divider sx={{ m: 2 }} />
+                                                            Total Amount: &#x20B9;{parseFloat(data.price) + 0.18 * parseFloat(data.price)}
+                                                            <Divider sx={{ m: 2 }} />
+                                                        </div>
 
 
-                                                        </tbody>
-                                                    </table>
-                                                </form>
-                                                <div >
-                                                    <Button variant="contained" color="warning" size="small"> Make Payment </Button>
-                                                </div>
+                                                        <form id="merchantHostedForm">
+                                                            <table className="mainForm">
+                                                                <tbody>
+                                                                    <tr>
+                                                                        {/* <td>order id</td> */}
+                                                                        <td><input type="hidden" onChange={handaleInput} name="orderId" value={inputField.orderId} /></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        {/* <td>order amount</td> */}
+                                                                        <td><input type="hidden" onChange={handaleInput} name="orderAmount" value={inputField.orderAmount} /></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        {/* <td>customer name</td> */}
+                                                                        <td><input type="hidden" onChange={handaleInput} name="customerName" value={inputField.customerName} /></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        {/* <td>customer email</td> */}
+                                                                        <td><input type="hidden" onChange={handaleInput} name="customerEmail" value={inputField.customerEmail} /></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        {/* <td>MERCHANTHOSTED</td> */}
+                                                                        <td><input type="hidden" onChange={handaleInput} name="paymentType" value={inputField.paymentType} /></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        {/* <td>customer phone</td> */}
+                                                                        <td><input type="hidden" onChange={handaleInput} name="customerPhone" value={inputField.customerPhone} /></td>
+                                                                    </tr>
 
-                                                <div >
-                                                    <Button variant="contained" onClick={() => { goToNextPage('/paymentstatus') }} color="warning" size="small"> Sucess </Button>
-                                                </div>
 
-                                            </div>
+                                                                </tbody>
+                                                            </table>
+                                                        </form>
+                                                        <div >
+                                                            <Button variant="contained" color="warning" size="small"> Make Payment </Button>
+                                                        </div>
+
+                                                        <div >
+                                                            <Button variant="contained" onClick={() => { goToNextPage('/paymentstatus') }} color="warning" size="small"> Sucess </Button>
+                                                        </div>
+
+                                                    </div>
+                                                </Grid>
+
+                                            </Grid>
                                         </Grid>
-
-                                    </Grid>
-                                </Grid>
-                            </Item>
-
-
-                        </Grid>
-                    </Box>
-                </Container>
-            </Grid>
+                                    </Item>
+                                )}
+                            </Grid>
+                        </Box>
+                    </Container>
+                </Grid>
 
 
-        </Box>
+            </Box>
 
 
         </>
