@@ -12,6 +12,15 @@ export interface SignInPost {
     password: string;
 }
 
+export interface SignUpPost {
+    firstName?: string;
+    middleName?: string;
+    lastName?: string;
+    mobileNo?: string;
+    email?:string;
+    password?: string;
+}
+
 export interface SignInResp {
     firstName?: string;
     middleName?: string;

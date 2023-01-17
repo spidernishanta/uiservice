@@ -1,6 +1,6 @@
 // import React from 'react';
 import axios from 'axios';
-import { ApiConfig, SlLoginProps, SignInPost, GetStatesProp, GetCitiesProp, AddCompanyPostData, 
+import { ApiConfig, SlLoginProps, SignInPost, SignUpPost, GetStatesProp, GetCitiesProp, AddCompanyPostData, 
     ViewCompaniesProps, ViewWarehouseProps, viewWarehouseAdminProps, EnquiryProps, viewUserProps, 
     WarehousePostData, UserPostData } from './ApiConfig';
 
@@ -54,6 +54,23 @@ export default class Api {
         }
         catch (error) {
             console.log(' error : signIn', error);
+            return Promise.reject(error);
+        }
+    }
+
+    async signUp(postData: SignUpPost, roleType: string): Promise<any> {
+        const url = `${this.baseUrl}${this.apiUrl.userUrl}?roleType=${roleType}`;
+        try {
+            const response = await axios.post(url, postData);
+            if(response?.data?.statusCode === 600) {
+                return Promise.resolve(response?.data);
+            } else {
+                console.log(' error : signUp', response);
+                return Promise.reject(response);
+            }
+        }
+        catch (error) {
+            console.log('error: SignUp', error);
             return Promise.reject(error);
         }
     }
