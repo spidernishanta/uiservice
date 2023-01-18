@@ -177,6 +177,10 @@ function App() {
               element={<PAGES.BOOKINGS.Component />}
             />
             <Route
+              path={PAGES.PAYMENTS.path}
+              element={<PAGES.PAYMENTS.Component />}
+            />
+            <Route
               path={PAGES.PAYMENT_HISTORY.path}
               element={<PAGES.PAYMENT_HISTORY.Component />}
             />
