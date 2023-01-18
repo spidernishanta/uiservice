@@ -158,6 +158,11 @@
                     "NavigateTo": "self",
                     "SubMenu": [
                         {
+                            "Label": "Payments",
+                            "Name": "",
+                            "NavigateTo": "/payments"
+                        },
+                        {
                             "Label": "My Payment",
                             "Name": "",
                             "NavigateTo": "/add-payment"

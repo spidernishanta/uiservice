@@ -29,6 +29,7 @@ import ViewUser from "../pages/viewuser";
 import editCompanyUser from "../pages/editCompanyUser";
 import DiscoverMore from "../pages/discovermore";
 import Bookings from "../pages/bookings";
+import Payments from "../pages/payments";
 import PaymentHistory from "../pages/paymentHistory";
 import UserProfile from "../pages/userProfile";
 import SiteMap from "../pages/SiteMap";
@@ -223,6 +224,10 @@ export const PAGES = {
   BOOKINGS: {
     path: "/bookings",
     Component: Bookings,
+  },
+  PAYMENTS: {
+    path: "/payments",
+    Component: Payments,
   },
   PAYMENT_HISTORY: {
     path: "/paymentHistory",

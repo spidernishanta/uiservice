@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-// import { useNavigate } from "react-router-dom"
 import Container from '@mui/material/Container';
-import { TextField, Typography, Avatar, Box, Button, Grid, Link } from '@mui/material';
+import { TextField, Typography, Box, Button, Grid, Link } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import CheckBoxR from '../components/atoms/checkbox/CheckBoxR';
 import { validateCharacterLength, validateSpecialCharExistance, validateEmail, validatePassword, validatePhone } from '../utils/CommonUtils';
@@ -62,7 +61,7 @@ const SignUp = () => {
   });
 
   const validation = (values: any) => {
-    console.log("Values==", values)
+    //console.log("Values==", values)
     let errors = {
       firstName: '',
       middleName: "",
@@ -105,9 +104,8 @@ const SignUp = () => {
         email: values.email,
         password: values.password
       }
-      api.signUp(data, "admin").then((response) => {
-        console.log(response);
-        //let methodReturnValue = response.methodReturnValue;
+    api.signUp(data,"admin").then((response)=> { 
+      console.log(response);
         swal({
           title: "Welcome to StoreFlex",
           text: "You have successfully registered to StoreFlex, please check your email and activate your account.",
@@ -117,13 +115,28 @@ const SignUp = () => {
           buttons: {
             confirm: { text: "OK", value: "Ok", className: "sf-btn" },
           },
-
         })
           .then(willUpdate => {
             if (willUpdate) {
               window.location.href = "/home";
             }
 
+          });
+      }).catch((error) => {
+          console.log(error);
+          swal({
+            title: "Opps....!",
+            text: error,
+            icon: "info",
+            dangerMode: true,
+            closeOnClickOutside: false,
+            buttons: {
+              confirm: {text: "Ok", value: "Ok"},
+            },
+          }).then(goTo => {
+            if(goTo) {
+              window.location.href = "/signup";
+            }
           });
       });
     }
@@ -239,7 +252,7 @@ const SignUp = () => {
     else {
       errors.password = ""
     }
-
+ 
   }
 
   const password1Validation = (event: any) => {
@@ -297,8 +310,8 @@ const SignUp = () => {
                   label="Middle Name"
                   value={values.middleName}
                   onChange={validateFirstName}
-                  autoFocus
                 />
+                {errors.middleName && <p className="text-red">{errors.middleName}</p>}
               </Grid>
               <Grid item xs={12}>
                 <TextField
@@ -311,7 +324,6 @@ const SignUp = () => {
                   autoComplete="family-name"
                   value={values.lastName}
                   onChange={validateLastName}
-                  autoFocus
                 />
                 {errors.lastName && <p className="text-red">{errors.lastName}</p>}
               </Grid>
