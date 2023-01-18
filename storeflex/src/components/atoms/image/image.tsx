@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import swal from 'sweetalert';
 
 // let imageFile;
 interface UploadImageProps {
@@ -18,11 +19,31 @@ export const UploadImage = (props: UploadImageProps) => {
         }
     }, [imageData]);
 
+    const checkImageSize = (file: any) => {
+        const fileLimit = 4.0; // MB;
+        const fileSize = file.size ? (file.size/1048576) : 0;
+        if(fileSize <= fileLimit) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     const onPhotoChange = (event: any) => {
         if (event?.target?.files[0]) {
             const imageFile = event.target.files[0];
-            setImageData(imageFile);
-            setImagePreview(URL.createObjectURL(imageFile));
+            if(checkImageSize(imageFile)) {
+                setImageData(imageFile);
+                setImagePreview(URL.createObjectURL(imageFile));
+            } else {
+                swal({
+                    title: "Uploading image file size is large",
+                    text: "Please use the not more than 4 mb file size",
+                    icon: "warning",
+                    dangerMode: true,
+                    closeOnClickOutside: true,
+                });
+            }
         }
     }
     return(

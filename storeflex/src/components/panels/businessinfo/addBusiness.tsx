@@ -6,18 +6,13 @@ import { InputError } from '../../atoms/textfield/InputError';
 import Accordion from 'react-bootstrap/Accordion';
 import AddressDetails from '../../atoms/addressforms/AddressDetails';
 import { BusinessDetails, Address, Contact } from '../../../utils/ResponseSchema';
-import { validateCharacterLength, validateWebUrl, validateGst, validatePhone, CHARACTER_ONLY, validateCharacterOnly, validateEmail, validateCompanyName } from '../../../utils/CommonUtils';
+import { validateCharacterLength, validateWebUrl, validateGst, validatePhone, 
+    CHARACTER_ONLY, validateCharacterOnly, validateEmail, validateCompanyName } from '../../../utils/CommonUtils';
 import Api from '../../../../src/api/Api';
 import { AddCompanyPostData } from '../../../../src/api/ApiConfig';
 import LoaderSpinner from '../../atoms/spinner/spinner';
 import { objectData } from '../../../utils/ResponseSchema';
 import { UploadImage } from '../../atoms/image/image';
-import { getValue } from '@testing-library/user-event/dist/utils';
-import { CompanyName } from '../../atoms/adduser/UserHelper';
-import { stringify } from 'querystring';
-import { gridDensityValueSelector } from '@mui/x-data-grid';
-import { Value } from 'sass';
-import { Pin } from '@mui/icons-material';
 
 
 interface AddBusinessProps {
