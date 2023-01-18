@@ -166,7 +166,7 @@ export const PAGES = {
     Component: UpdateUser,
   },
   ADD_PAYMENT: {
-    path: "/addpayment",
+    path: "/add-payment",
     Component: AddPayment,
   },
   DELETE_PAYMENT: {
