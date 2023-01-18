@@ -1,223 +1,254 @@
-import React, { useState } from 'react';
-import { Grid } from '@mui/material';
-import AddressDetails from '../atoms/addressforms/AddressDetails';
-import InputBox from '../atoms/textfield/InputBox';
-import { UserType } from '../atoms/adduser/UserHelper';
-import { validateCharacterLength, validateSpecialCharExistance } from '../../../src/utils/CommonUtils';
-import { Button } from '@mui/material';
-import GetCompany from '../atoms/company/GetCompany';
-import { UploadImage } from '../atoms/image/image';
-import { Address } from '../../utils/ResponseSchema';
+import React, { useState, useEffect } from 'react';
+import { Box, Tooltip } from '@mui/material';
+import { useNavigate } from "react-router-dom";
+import swal from 'sweetalert';
+import Api from '../../api/Api';
+import { ViewCompaniesProps } from '../../api/ApiConfig';
+import { LoaderFull } from '../atoms/loader/loader';
+import { DataGrid } from "@mui/x-data-grid";
+import IconButton from "@mui/material/IconButton";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 
-const ViewUser = () => {
-  const [values, setValues] = useState({
-    FirstName: "",
-    LastName: "",
-    Phone: "",
-    Email: "",
-  });
-  const [errors, setErrors] = useState({
-    FirstName: "",
-    LastName: "",
-    Phone: "",
-    Email: "",
 
-  });
+let recordLabel = '';
 
-  const onAddressUpdate = (data: Address) => {
-    const addressData = {} as Address;
-    addressData.addressType = data.addressType;
-    addressData.city = data.city;
-    addressData.country = data.country;
-    addressData.state = data.state;
-    addressData.pincode = data.pincode;
-    addressData.plotNo = data.plotNo;
-    addressData.houseNo = data.houseNo;
-    addressData.streetDetails = data.streetDetails;
-    console.log(' <<< onAddressUpdate >>>', addressData);
-    // setAddressInfo(addressData);
-  }
+const ViewBusiness = () => {
+  const companyView = window.location.hash;
+  const api = new Api();
+  const navigate = useNavigate();
+  const [myCompanies, setMyCompanies] = useState<Array<any>>([]);
+  const [isLoader, setIsLoader] = useState(false);
+  const [currentView, setCurrentView] = useState('');
 
-  //Validate First name
-  const validateFirstName = (event: any) => {
+  const pageNo = '0';
+  const numberOfRecord = '10';
 
-    const firstNameTemp = event.target.value;
-    setValues({
-      ...values,
-      [event.target.name]: event.target.value,
-    });
-    if (!firstNameTemp) {
-      errors.FirstName = "*Firstname is required."
-      document.getElementsByName("firstname")[0].style.border = " solid red";
-
-    } else if (!validateCharacterLength(firstNameTemp, 4, 50)) {
-      errors.FirstName = "Firstname should have atleast 4 letters and should not grater than 50"
-      document.getElementsByName("firstname")[0].style.border = "2px solid red";
+  useEffect(() => {
+    if (companyView !== currentView) {
+      getMyCompanies(pageNo, numberOfRecord);
+      setCurrentView(companyView);
     }
-    else if (!validateSpecialCharExistance(firstNameTemp)) {
-      errors.FirstName = "Firstname should not contain any special character or number "
-      document.getElementsByName("firstname")[0].style.border = "2px solid red";
+  }, [companyView])
+
+
+  const getMyCompanies = (curentPage, numberOfRecords) => {
+    // IN-PROGRESS , IN-ACTIVE , ACTIVE
+    let companyStatus = 'ACTIVE'
+    if (companyView === '#inactive') {
+      companyStatus = 'IN-ACTIVE';
+      recordLabel = ' Inactive Users'
+    } else if (companyView === '#pending') {
+      companyStatus = 'IN-PROGRESS';
+      recordLabel = ' Pending Users '
     } else {
-      errors.FirstName = ""
-      document.getElementsByName("firstname")[0].style.border = "2px solid dodgerblue"
+      companyStatus = 'ACTIVE';
+      recordLabel = 'Active Users'
     }
-
-  }
-  //Validate Last Name
-  const validateLastName = (event: any) => {
-    const lastNameTemp = event.target.value;
-    setValues({
-      ...values,
-      [event.target.name]: event.target.value,
+    setIsLoader(true);
+    const data: ViewCompaniesProps = {
+      page: curentPage,
+      size: numberOfRecords,
+      status: companyStatus
+    }
+    api.getMyCompanies(data).then((response) => {
+      setIsLoader(false);
+      setMyCompanies(response.methodReturnValue.clientList);
+    }).catch((error) => {
+      setIsLoader(false);
+      console.log(' getMyCompanies  ', error);
     });
-    if (!lastNameTemp) {
-      errors.LastName = "*Lastname is required."
-      document.getElementsByName("lastname")[0].style.border = " solid red";
-    } else if (!validateCharacterLength(lastNameTemp, 2, 30)) {
-      errors.LastName = "Lastname should have atleast 2 letters and should not grater than 30"
-      document.getElementsByName("lastname")[0].style.border = "2px solid red";
-    }
-    else if (!validateSpecialCharExistance(lastNameTemp)) {
-      errors.LastName = "Lastname should not contain any special character or number "
-      document.getElementsByName("lastname")[0].style.border = "2px solid red";
-    } else {
-      errors.LastName = ""
-      document.getElementsByName("lastname")[0].style.border = "2px solid dodgerblue"
-    }
   }
-  //Validate Phone
-  const validatePhone = (event: any) => {
-    const phoneTemp = event.target.value;
-    setValues({
-      ...values,
-      [event.target.name]: event.target.value,
+
+  const editBusiness = (companyId: any) => {
+    const pagePath = '/business/edit'
+    navigate(pagePath,
+      {
+        state: { editRecord: companyId },
+      }
+    );
+  }
+  const deleteBusiness = (company: any) => {
+    console.log(company);
+    swal({
+      title: "Are you sure?",
+      text: 'You are about to delete the company "' + company.compyName + '(' + company.clientId + ')" . Once deleted, you will not be able to recover this company!',
+      icon: "warning",
+      buttons: [true, true],
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        if (company.clientId) {
+          setIsLoader(true);
+          api.deleteCompany(company.clientId).then((response) => {
+            setIsLoader(false);
+            swal('Success! Your company "' + company.compyName + '(' + company.clientId + ')" has been deleted!', {
+              icon: "success",
+              buttons: {
+                buttonOne: {
+                  text: "OK",
+                  value: "ok",
+                  visible: true,
+                  className: "sf-btn",
+                }
+              }
+            });
+            let extractedArr = myCompanies.filter((item, index) => {
+              return item.clientId !== company.clientId;
+            });
+            setMyCompanies(extractedArr);
+          }).catch((error) => {
+            setIsLoader(false);
+            console.log(' deleteCompany erroor ', error);
+          });
+        }
+      } else {
+        // do something if required   
+      }
     });
-    if (!phoneTemp) {
-      errors.Phone = "*Phone is required."
-      document.getElementsByName("phone")[0].style.border = " solid red";
-    } else if (!validateCharacterLength(phoneTemp, 10, 10)) {
-      errors.Phone = "Phone Number should contains 10 characters"
-      document.getElementsByName("phone")[0].style.border = "2px solid red";
-    }
-    else if (!validateSpecialCharExistance(phoneTemp)) {
-      errors.Phone = "Phone number should not contain any special characters"
-      document.getElementsByName("phone")[0].style.border = "2px solid red";
-    } else {
-      errors.Phone = ""
-      document.getElementsByName("phone")[0].style.border = "2px solid dodgerblue"
-    }
-  }
-  // const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //     const {name, value } = e.currentTarget;
-  //     console.log(' #### name ', name);
-  //     console.log(' #### name ', value);
-  // }
-  const handelOnBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-    const { name, value } = e.currentTarget;
-    console.log(' #### name ', name);
-    console.log(' #### name ', value);
-  }
-  const [imageData, setImageData] = useState<File>();
+  };
 
-  const onPhotoUploadChange = (file: any) => {
-    if (file) {
-        setImageData(file);
-    }
-}
-  const selectDetails = () => {
+  const [hoveredRow, setHoveredRow] = useState(null);
+  const onMouseEnterRow = (event) => {
+    const id = event.currentTarget.getAttribute("data-id");
+    setHoveredRow(id);
+  };
+  const onMouseLeaveRow = () => {
+    setHoveredRow(null);
+  };
+  const [deleteLogoStatus, setDeleteLogoStatus] = useState(false);
+  const [editLogoStatus, setEditLogoStatus] = useState(false);
+
+  const columns = [
+    {
+      field: "actions",
+      headerName: "ACTIONS",
+      width: 100,
+      sortable: false,
+      disableColumnMenu: true,
+      renderCell: (params) => {
+        return (
+          <Box
+            sx={{
+              width: "100%",
+              height: "100%",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Tooltip
+              title="Edit"
+              placement="left"
+              arrow
+              enterDelay={100}
+              leaveDelay={100}
+            >
+              <IconButton
+                style={{
+                  backgroundColor:
+                    editLogoStatus && params.id === hoveredRow ? "#008CBA" : "",
+                  color:
+                    editLogoStatus && params.id === hoveredRow ? "white" : "",
+                }}
+                onMouseEnter={() => {
+                  setEditLogoStatus(true);
+                }}
+                onMouseLeave={() => {
+                  setEditLogoStatus(false);
+                }}
+                onClick={() => {
+                  editBusiness(params.id);
+                }}
+              >
+                <EditIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip
+              title="Delete"
+              placement="top"
+              arrow
+              enterDelay={100}
+              leaveDelay={100}
+            >
+              <IconButton
+                style={{
+                  backgroundColor:
+                    deleteLogoStatus && params.id === hoveredRow
+                      ? "#f44336"
+                      : "",
+                  color:
+                    deleteLogoStatus && params.id === hoveredRow ? "white" : "",
+                }}
+                onMouseEnter={() => {
+                  setDeleteLogoStatus(true);
+                }}
+                onMouseLeave={() => {
+                  setDeleteLogoStatus(false);
+                }}
+                onClick={() => {
+                  deleteBusiness(params.row)
+                }}
+              >
+                <DeleteIcon />
+              </IconButton>
+            </Tooltip>
+          </Box>
+        );
+      },
+    },
+    { field: "Name", headerName: "Name", width: 245 },
+    { field: "Address", headerName: "Address", width: 245, },
+    { field: "Phone", headerName: "Phone", width: 245 },
+    { field: "Email", headerName: "Email", width: 245 },
+  ];
+
+  const showCompanyList = () => {
     return (
-      <Grid container spacing={2} columns={{ xs: 4, sm: 12, md: 12 }}>
-        <Grid item xs={5}>
-          <div> User Type </div>
-          <div className='p-top-md'>
-            {<UserType />}
-
-            <Grid container spacing={0} columns={{ xs: 6, sm: 12, md: 12 }}></Grid>
-             <InputBox data={{ name: 'firstname', label: 'First  Name*', value: values.FirstName }}
-              onChange={validateFirstName} onBlur={handelOnBlur}
-            />
-            {errors.FirstName && <p className="text-red">{errors.FirstName}</p>}
-
-            <InputBox data={{ name: 'phone', label: 'Phone*', value: values.Phone }}
-              onChange={validatePhone} onBlur={handelOnBlur}
-            />
-            {errors.Phone && <p className="text-red">{errors.Phone}</p>}
-
-
+      <Box className='m-top-md m-bot-md m-left-md m-right-md'>
+        <div className='primary-gradient'>
+          <div className='font-white p-turing
+                        sm f-18px f-bold'>
+            {recordLabel}
           </div>
-        </Grid>
-
-       <Grid item xs={4}>
-          <div>Company</div>
-          <div className='p-top-md'>
-            {<GetCompany />}
-
-            <InputBox data={{ name: 'lastname', label: 'Last  Name*', value: values.LastName }}
-              onChange={validateLastName} onBlur={handelOnBlur}
-            />
-            {errors.LastName && <p className="text-red">{errors.LastName}</p>}
-            <InputBox data={{ name: 'email', label: 'Email*', value: values.LastName }}
-              onChange={validateLastName} onBlur={handelOnBlur}
-            />
-            {errors.LastName && <p className="text-red">{errors.LastName}</p>}
-          </div>
-        </Grid>
-
-        <Grid item xs={3}>
-          <div>Profile Photo (optional)</div>
-          <div className='p-top-md'>
-          <UploadImage name={'companyphoto'} onImageChange={onPhotoUploadChange} />
-          
-            
-          </div>
-        </Grid>
-        
-      </Grid>
-    )
-  }
-
-  const userInfo = () => {
-    return (
-      <div className='p-top-md'>
-        <Grid container spacing={2} columns={{ xs: 4, sm: 12, md: 12 }}>
-          
-          </Grid>
-          <Grid item xs={4}>
-        </Grid>
-      </div>
-
-    )
-  }
-  const addAddress = () => {
-    return (
-      <div className='p-top-md'>
-        <div>{
-          <AddressDetails
-            countryCode={'01'}
-            onUpdate={onAddressUpdate}
-          />}</div>
-      </div>
+        </div>
+        <div style={{ height: 370, width: "100%" }}>
+          <DataGrid getRowHeight={() => 'auto'}
+            rows={myCompanies && myCompanies.map((item: any) => ({
+              id: item.clientId,
+              clientId: item.clientId,
+              compyName: item.compyName,
+              compyDesc: item.compyDesc,
+              url: item.url,
+              addresses: item.addresses[0].addressType + ':' + item.addresses[0].streetDetails + ',' + item.addresses[0].city + ',' + item.addresses[0].pincode,
+              contact: item.contact[0].contactName + '/' + item.contact[0].mobileNo,
+            }))}
+            componentsProps={{
+              row: {
+                onMouseEnter: onMouseEnterRow,
+                onMouseLeave: onMouseLeaveRow,
+              },
+            }}
+            columns={columns}
+            pageSize={5}
+            rowsPerPageOptions={[5]}
+            disableSelectionOnClick
+          />
+        </div>
+      </Box>
     )
   }
 
   return (
-    <div className='c-box-shadow-blue m-bot-md'>
-      <div className='primary-gradient'>
-        <div className='font-white p-md f-18px f-bold'>Add User</div>
+    <>
+      {isLoader && <LoaderFull />}
+      <div className='c-box-shadow-blue'>
+        {showCompanyList()}
       </div>
-      <div className='p-md'>
-        {selectDetails()}
-        {userInfo()}
-        {addAddress()}
-      </div>
-      <div className='p-top-md align-c'>
-        <Button className='sf-btn' variant="contained" onClick={() => { alert('Cancel') }}> Cancel </Button>
-        <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-        <Button className="btn primary-btn sf-btn" variant="contained" onClick={() => { }}> Save </Button>
-      </div>
-    </div>
-  );
+    </>
+
+  )
 }
 
+export default ViewBusiness;
 
-export default ViewUser;
