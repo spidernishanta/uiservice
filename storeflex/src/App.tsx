@@ -49,7 +49,18 @@ function App() {
               path={PAGES.PRIVACYPOLICY.path}
               element={<PAGES.PRIVACYPOLICY.Component />}
             />
-            <Route path={PAGES.FAQ.path} element={<PAGES.FAQ.Component />} />
+            <Route
+              path={PAGES.FAQ.path}
+              element={<PAGES.FAQ.Component />}
+            />
+            <Route
+              path={PAGES.ForgotPassword.path}
+              element={<PAGES.ForgotPassword.Component />}
+            />
+            <Route
+              path={PAGES.ChangePassword.path}
+              element={<PAGES.ChangePassword.Component />}
+            />
           </Routes>
         )}
         {isAuthenticated && (
