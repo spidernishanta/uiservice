@@ -82,9 +82,6 @@ const SignUp = () => {
     else if (!values.lastName) {
       alert("Last Name is required")
     }
-    else if (!values.mobileNo) {
-      alert("Mobile Number is required")
-    }
     else if (!values.email) {
       alert("Email is required")
     }
@@ -95,50 +92,99 @@ const SignUp = () => {
       alert("Please re-enter your password")
     }
     else {
-      setErrors(validation(values));
-      const data: SignUpPost = {
-        firstName: values.firstName,
-        middleName: values.middleName,
-        lastName: values.lastName,
-        mobileNo: values.mobileNo,
-        email: values.email,
-        password: values.password
-      }
-    api.signUp(data,"admin").then((response)=> { 
-      console.log(response);
-        swal({
-          title: "Welcome to StoreFlex",
-          text: "You have successfully registered to StoreFlex, please check your email and activate your account.",
-          icon: "warning",
-          dangerMode: false,
-          closeOnClickOutside: false,
-          buttons: {
-            confirm: { text: "OK", value: "Ok", className: "sf-btn" },
-          },
-        })
-          .then(willUpdate => {
-            if (willUpdate) {
-              window.location.href = "/home";
-            }
+      if (!values.mobileNo) {
+        setErrors(validation(values));
+        if (!values.mobileNo) { }
+        const data: SignUpPost = {
+          firstName: values.firstName,
+          middleName: values.middleName,
+          lastName: values.lastName,
+          mobileNo: values.mobileNo = "1234567890",
+          email: values.email,
+          password: values.password
+        }
+        api.signUp(data, "admin").then((response) => {
+          console.log(response);
+          swal({
+            title: "Welcome to StoreFlex",
+            text: "You have successfully registered to StoreFlex, please check your email and activate your account.",
+            icon: "warning",
+            dangerMode: false,
+            closeOnClickOutside: false,
+            buttons: {
+              confirm: { text: "OK", value: "Ok", className: "sf-btn" },
+            },
+          })
+            .then(willUpdate => {
+              if (willUpdate) {
+                window.location.href = "/home";
+              }
 
-          });
-      }).catch((error) => {
+            });
+        }).catch((error) => {
           console.log(error);
           swal({
-            title: "Opps....!",
+            title: "Account Exists",
             text: error,
-            icon: "info",
+            icon: "warning",
             dangerMode: true,
             closeOnClickOutside: false,
             buttons: {
-              confirm: {text: "Ok", value: "Ok"},
+              confirm: { text: "OK", value: "Ok", className: "sf-btn" },
             },
           }).then(goTo => {
-            if(goTo) {
+            if (goTo) {
               window.location.href = "/signup";
             }
           });
-      });
+        });
+      }
+      else {
+        setErrors(validation(values));
+        const data: SignUpPost = {
+          firstName: values.firstName,
+          middleName: values.middleName,
+          lastName: values.lastName,
+          mobileNo: values.mobileNo,
+          email: values.email,
+          password: values.password
+        }
+        api.signUp(data, "admin").then((response) => {
+          console.log(response);
+          swal({
+            title: "Welcome to StoreFlex",
+            text: "You have successfully registered to StoreFlex, please check your email and activate your account.",
+            icon: "warning",
+            dangerMode: false,
+            closeOnClickOutside: false,
+            buttons: {
+              confirm: { text: "OK", value: "Ok", className: "sf-btn" },
+            },
+          })
+            .then(willUpdate => {
+              if (willUpdate) {
+                window.location.href = "/home";
+              }
+
+            });
+        }).catch((error) => {
+          console.log(error);
+          swal({
+            title: "Account Exists",
+            text: error,
+            icon: "warning",
+            dangerMode: true,
+            closeOnClickOutside: false,
+            buttons: {
+              confirm: { text: "OK", value: "Ok", className: "sf-btn" },
+            },
+          }).then(goTo => {
+            if (goTo) {
+              window.location.href = "/signup";
+            }
+          });
+        });
+      }
     }
   }
 
@@ -226,10 +272,10 @@ const SignUp = () => {
       [event.target.name]: event.target.value,
     });
     if (!mobileTemp) {
-      errors.mobileNo = "*Mobile number is required."
+      errors.mobileNo = ""
     }
     else if (!validatePhone(mobileTemp)) {
-      errors.mobileNo = "Enter a valid mobile number."
+      errors.mobileNo = "Enter a valid mobile number"
     } else {
       errors.mobileNo = ""
     }
@@ -252,7 +298,7 @@ const SignUp = () => {
     else {
       errors.password = ""
     }
- 
+
   }
 
   const password1Validation = (event: any) => {

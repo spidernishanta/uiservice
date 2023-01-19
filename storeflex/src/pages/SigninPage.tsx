@@ -211,6 +211,8 @@ const SignInPage = () => {
                   </div>
                   <div className="col-md-12">
                     <div className="form-input text-center">
+                      <a href='/reset'>Forgot password?</a>
+                      <br /><br />
                       <p className="text">
                         By continuing, you have read and agree to our<br></br>
                         <a href="/termsandconditions">Terms and Conditions &nbsp;</a>
