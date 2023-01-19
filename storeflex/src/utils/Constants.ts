@@ -38,6 +38,8 @@ import UserPage from "../pages/UserPage";
 
 import WarehouseDetails from "../components/atoms/Searchresult/warehouseDetails";
 import SignInCustomer from "../pages/signin-customer";
+import ForgotPass from "../pages/ForgotPass";
+import ChangePass from "../pages/ChangePass";
 
 export enum USER_TYPE {
   SfUser = "SL",
@@ -75,6 +77,14 @@ export const PAGES = {
   SignUp: {
     path: "/signup",
     Component: SignUp,
+  },
+  ForgotPassword: {
+    path: "/reset",
+    Component: ForgotPass,
+  },
+  ChangePassword: {
+    path: "/changepass",
+    Component: ChangePass,
   },
   Dashboard: {
     path: "/dashboard",
@@ -166,7 +176,7 @@ export const PAGES = {
     Component: UpdateUser,
   },
   ADD_PAYMENT: {
-    path: "/addpayment",
+    path: "/add-payment",
     Component: AddPayment,
   },
   DELETE_PAYMENT: {

@@ -161,32 +161,34 @@ const WarehouseDetails = () => {
                 <tbody>
                   <tr>
                     <th>Status</th>
-                    <td>{warehouseInfo['status']}</td>
-                    <td></td>
+                    <td>Available</td>
+                    <td>Monday-Friday</td>
                   </tr>
 
                   <tr>
                     <th>Property Type</th>
-                    <td></td>
+                    <td>Warehouse</td>
                     <th>Clear Ceiling Height</th>
-                    <td>{warehouseInfo['ceillingheight']}</td>
+                    <td>10 ft.</td>
                   </tr>
                   <tr>
                     <th>Available Space</th>
-                    <td></td>
+                    <td>9,452 Sq. Ft.</td>
                     <th>Minimum Order Quantity</th>
-                    <td></td>
+                    <td>3</td>
                   </tr>
 
                   <tr>
                     <th>Price/Sq.Ft.</th>
-                    <td>&#x20B9; </td>
+                    <td>&#x20B9; 240</td>
                     <th>#At Grade Doors</th>
-                    <td></td>
+                    <td>3</td>
                   </tr>
                   <tr>
                     <th>#Dock High Doors</th>
-                    <td>{warehouseInfo['dockhighdoors']}</td>
+                    <td>5</td>
+
+
                   </tr>
                 </tbody>
               </Table>
