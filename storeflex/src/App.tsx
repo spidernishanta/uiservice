@@ -57,10 +57,6 @@ function App() {
               path={PAGES.ForgotPassword.path}
               element={<PAGES.ForgotPassword.Component />}
             />
-            <Route
-              path={PAGES.ChangePassword.path}
-              element={<PAGES.ChangePassword.Component />}
-            />
           </Routes>
         )}
         {isAuthenticated && (
@@ -206,6 +202,10 @@ function App() {
             <Route
               path={PAGES.SITE_MAP.path}
               element={<PAGES.SITE_MAP.Component />}
+            />
+            <Route
+              path={PAGES.ChangePassword.path}
+              element={<PAGES.ChangePassword.Component />}
             />
           </Routes>
         )}

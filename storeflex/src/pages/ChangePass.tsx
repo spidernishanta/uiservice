@@ -1,198 +1,251 @@
 import React, { useState } from 'react';
-import { useNavigate } from "react-router-dom";
-import { validateMinLen, setUserLoggedIn, getRedirectionPage, sessionStorageSet } from '../utils/CommonUtils';
+import Container from '@mui/material/Container';
+import { TextField, Typography, Box, Button, Grid, Link } from '@mui/material';
+import { validatePassword } from '../utils/CommonUtils';
 import Api from '../api/Api';
-import { SignInPost } from '../api/ApiConfig';
-import { USER_TYPE, PAGES, SESSION_TYPE } from '../utils/Constants';
-import GoogleLogin from 'react-google-login';
-import { gapi } from "gapi-script";
-import { LoaderFull } from '../components/atoms/loader/loader';
 import swal from 'sweetalert';
-import { CheckBox, CheckBoxOutlineBlankTwoTone, RadioButtonChecked, Visibility } from '@mui/icons-material';
-import IconButton from '@mui/material';
-import InputAdornment from '@mui/material';
-import { VisibilityOff } from '@mui/icons-material';
+import IconButton from '@mui/material/IconButton';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputLabel from '@mui/material/InputLabel';
+import InputAdornment from '@mui/material/InputAdornment';
+import FormControl from '@mui/material/FormControl';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { Navbar } from 'react-bootstrap';
 
 const ChangePass = () => {
-    const navigate = useNavigate();
+
+    const [showOldPassword, setShowOldPassword] = React.useState(false);
+    const handleClickShowOldPassword = () => setShowOldPassword((show) => !show);
+    const handleMouseDownOldPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
+    };
+
+    const [showPassword, setShowPassword] = React.useState(false);
+    const handleClickShowPassword = () => setShowPassword((show) => !show);
+    const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
+    };
+
+    const [showPassword1, setShowPassword1] = React.useState(false);
+    const handleClickShowPassword1 = () => setShowPassword1((show) => !show);
+    const handleMouseDownPassword1 = (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
+    };
+
     const api = new Api();
-    const [loader, setLoader] = useState(false);
-
-    let userType = '';
-
-    const url = window.location.href;
-
-    if (url && url.indexOf(PAGES.SignIn.adminPath) !== -1) {
-        userType = USER_TYPE.SfUser;
-    } else {
-        userType = USER_TYPE.SfClient;
-    }
-
-    gapi.load("client:auth2", () => {
-        gapi.client.init({
-            clientId: process.env.REACT_APP_GOOGLE_CLIENT_ID,
-            plugin_name: "storeflex",
-            scope: 'email',
-        });
-    });
 
     const [values, setValues] = useState({
+        firstName: "",
+        middleName: "",
+        lastName: "",
+        mobileNo: "",
         email: "",
         password: "",
-        username: "",
+        password1: ""
+    });
+    const [errors, setErrors] = useState({
+        email: "",
+        password: "",
+        password1: ""
     });
 
-    const handleChange = (event: any) => {
+    const onChangePass = () => {
+        swal("Your password has been successfully changed. Please use your new password to login!",
+            {
+                title: "Well Done!",
+                icon: "success",
+                buttons: {
+                    buttonOne: {
+                        text: "OK",
+                        value: "pc",
+                        className: "sf-btn"
+                    }
+                }
+            }).then(function (value) {
+                if (value === "pc") {
+                    logout('/home');
+                    window.location.reload();
+
+                }
+            });
+    }
+
+    const logout = (pagePath: string) => {
+        sessionStorage.setItem('isLoggedIn', 'false');
+    }
+
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        const data = new FormData(event.currentTarget);
+        console.log({
+            email: data.get('email'),
+            password: data.get('password'),
+        });
+    };
+
+    const passwordValidation = (event: any) => {
+        const passwordTemp = event.target.value;
         setValues({
             ...values,
             [event.target.name]: event.target.value,
         });
-    };
-
-
-    const SubmitSignUp = () => {
-        window.location.href = '/signup';
-    }
-
-    const submitSignIn = () => {
-        const emailValid = validateMinLen(values.email, true);
-        const passwordValid = validateMinLen(values.password, true);
-        setUserLoggedIn('false');
-        if (emailValid && passwordValid) {
-            const data: SignInPost = {
-                username: values.username,
-                emailId: values.email,
-                password: values.password
-            }
-            setLoader(true);
-            api.signIn(data, userType).then((response) => {
-                setLoader(false);
-                if (response?.methodReturnValue?.loginType) {
-                    setUserLoggedIn('true');
-                    let methodReturnValue = response.methodReturnValue;
-                    const loginType = methodReturnValue?.loginType ? methodReturnValue.loginType.split('|') : '';
-                    console.log(loginType);
-                    if (loginType && loginType.length > 1) {
-                        swal({
-                            title: "Welcome to Store Flex",
-                            text: "Where you want to go....",
-                            icon: "warning",
-                            dangerMode: false,
-                            closeOnClickOutside: false,
-                            buttons: {
-                                confirm: { text: `${loginType[0]} Page`, value: loginType[0], className: "sf-btn" },
-                                default: { text: `${loginType[1]} Page`, value: loginType[1], className: "sf-btn" }
-                            },
-
-                        })
-                            .then(willUpdate => {
-                                if (willUpdate) {
-                                    methodReturnValue.loginType = willUpdate;
-                                }
-                                sessionStorageSet(methodReturnValue, SESSION_TYPE.login_resp);
-                                const redirectUrl = getRedirectionPage(methodReturnValue.loginType);
-                                window.location.href = redirectUrl;
-                            });
-                    } else {
-                        sessionStorageSet(methodReturnValue, SESSION_TYPE.login_resp);
-                        const redirectUrl = getRedirectionPage(methodReturnValue.loginType);
-                        window.location.href = redirectUrl;
-                    }
-                } else {
-                    setUserLoggedIn('false');
-                    swal({
-                        title: 'Please try again...',
-                        text: 'The email and password you entered did not match our records. Please double-check and try again.',
-                        buttons: {
-                            buttonOne: {
-                                text: "OK",
-                                visible: true,
-                                className: "sf-btn",
-                            }
-                        }
-                    })
-                    let tID = setTimeout(function () {
-                        window.location.href = "/home";
-                        window.clearTimeout(tID);		// clear time out.
-                    }, 5000);
-                }
-            });
-        } else {
-            setLoader(false);
-            console.log('  please provide valid  email and password ');
+        if (!passwordTemp) {
+            errors.password = "*Password is required."
         }
-    }
-
-    const onGoogleLoginSuccess = (user: any) => {
-        console.log("Login Success====", user);
-        navigate('/dashboard');
-    };
-
-    const onGoogleLoginFailure = (err: any) => {
-        console.error("Login Failure", err)
-    };
-
-    const [passwordType, setPasswordType] = useState("password");
-    const [passwordInput, setPasswordInput] = useState("");
-    const handlePasswordChange = (evnt) => {
-        setPasswordInput(evnt.target.value);
-    }
-
-    const togglePassword = () => {
-        if (passwordType === "password") {
-            setPasswordType("text")
-            return;
+        else if (!validatePassword(passwordTemp)) {
+            errors.password = "Enter valid password"
         }
-        setPasswordType("password")
+        else {
+            errors.password = ""
+        }
+
+    }
+
+    const password1Validation = (event: any) => {
+        const password1Temp = event.target.value;
+        setValues({
+            ...values,
+            [event.target.name]: event.target.value,
+        });
+        if (!password1Temp) {
+            errors.password1 = "*Please re-enter your password"
+        }
+        else if (values.password != password1Temp) {
+            errors.password1 = "Passwords do not match"
+        }
+        else {
+            errors.password1 = ""
+        }
+
     }
 
     return (
-        <>
-            {loader && <LoaderFull />}
-            <section className="signin-area signin-one">
-                <div className="container">
-                    <div className="row justify-content-center">
-                        <div className="col-lg-5">
-                            <div className="signin-form form-style-two rounded-buttons">
-                                <div className="row">
-                                    <div className="col-md-12 justify-content-center">
-                                        <div className="form-input justify-content-center">
-                                            <a href="/home"><img src="assets/images/white-logo.jpg" alt="Logo" style={{ height: '8vh' }} /></a>
-                                            <h4 className='pb-3' style={{ textAlign: 'center' }}>
-                                                Storeflex <span>{userType === USER_TYPE.SfUser ? 'Admin' : 'User'}</span>  Login</h4>
-                                            <div className="input-items default">
-                                                <input type="text" placeholder="User ID" name="email" onChange={handleChange} />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="col-md-12">
-                                        <div className="form-input">
-                                            <label>Password for your account</label>
-                                            <div className="input-items default">
-                                                <input type={passwordType} placeholder="Password" name="password" onChange={handleChange} />
-                                                {passwordType === "password" ? <i className="mdi mdi-eye" onClick={togglePassword}></i> : <i className="mdi mdi-eye-off" onClick={togglePassword}></i>}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="col-md-6">
-                                        <div className="form-input rounded-buttons">
-                                            <button onClick={SubmitSignUp}
-                                                className="btn primary-btn-outline rounded-full"
-                                                type="submit"
-                                            >
-                                                Change Password
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+        <Container component="main" maxWidth="xs" className='c-box-shadow p-no'>
+            <div className='p-md'>
+                <div className='text-center'>
+                    <Navbar.Brand href="/home">
+                        <span className='top-nav-logo'>
+                            <img src="../../assets/images/white-logo.jpg" alt="Logo" />
+                        </span>
+                    </Navbar.Brand>
                 </div>
-            </section>
-        </>
+                <Box sx={{ marginTop: 4, display: 'flex', flexDirection: 'column', alignItems: 'center' }} >
+                    <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+                        <Grid container spacing={2}>
+                            <Grid item xs={12}>
+                                <TextField
+                                    className={errors.email ? "border-red" : ""}
+                                    // required
+                                    fullWidth
+                                    id="email"
+                                    label="Email Address"
+                                    name="email"
+                                    autoComplete="email"
+                                    value={sessionStorage.getItem('LOGIN_RESP')}
+                                    disabled
+                                />
+                            </Grid>
 
-    )
+                            <Grid item xs={12}>
+                                <FormControl sx={{ m: 0, width: '50ch' }} variant="outlined" className={errors.password ? "border-red" : ""}>
+                                    <InputLabel htmlFor="outlined-adornment-password">Old Password</InputLabel>
+                                    <OutlinedInput
+                                        fullWidth
+                                        name="oldpassword"
+                                        id="oldpassword"
+                                        type={showOldPassword ? 'text' : 'password'}
+                                        endAdornment={
+                                            <InputAdornment position="end">
+                                                <IconButton
+                                                    aria-label="toggle password visibility"
+                                                    onClick={handleClickShowOldPassword}
+                                                    onMouseDown={handleMouseDownOldPassword}
+                                                    edge="end"
+                                                >
+                                                    {showOldPassword ? <VisibilityOff /> : <Visibility />}
+                                                </IconButton>
+                                            </InputAdornment>
+                                        }
+                                        label="Old Password"
+                                    />
+                                </FormControl>
+                            </Grid>
+
+                            <Grid item xs={12}>
+                                <FormControl sx={{ m: 0, width: '50ch' }} variant="outlined" className={errors.password ? "border-red" : ""}>
+                                    <InputLabel htmlFor="outlined-adornment-password">New Password</InputLabel>
+                                    <OutlinedInput
+                                        fullWidth
+                                        name="password"
+                                        id="password"
+                                        autoComplete="new-password"
+                                        value={values.password}
+                                        type={showPassword ? 'text' : 'password'}
+                                        onChange={passwordValidation}
+                                        endAdornment={
+                                            <InputAdornment position="end">
+                                                <IconButton
+                                                    aria-label="toggle password visibility"
+                                                    onClick={handleClickShowPassword}
+                                                    onMouseDown={handleMouseDownPassword}
+                                                    edge="end"
+                                                >
+                                                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                                                </IconButton>
+                                            </InputAdornment>
+                                        }
+                                        label="New Password"
+                                    />
+                                    {errors.password && <p className="text-red">{errors.password}</p>}
+                                </FormControl>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;Use 8 or more characters with a mix of letters, numbers & </p>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;symbols</p>
+                            </Grid>
+
+                            <Grid item xs={12}>
+                                <FormControl sx={{ m: 0, width: '50ch' }} variant="outlined" className={errors.password1 ? "border-red" : ""}>
+                                    <InputLabel htmlFor="outlined-adornment-password">Re-enter New Password</InputLabel>
+                                    <OutlinedInput
+                                        fullWidth
+                                        name="password1"
+                                        id="password1"
+                                        // autoComplete="new-password"
+                                        value={values.password1}
+                                        type={showPassword1 ? 'text' : 'password'}
+                                        onChange={password1Validation}
+                                        endAdornment={
+                                            <InputAdornment position="end">
+                                                <IconButton
+                                                    aria-label="toggle password visibility"
+                                                    onClick={handleClickShowPassword1}
+                                                    onMouseDown={handleMouseDownPassword1}
+                                                    edge="end"
+                                                >
+                                                    {showPassword1 ? <VisibilityOff /> : <Visibility />}
+                                                </IconButton>
+                                            </InputAdornment>
+                                        }
+                                        label="Re-enter New Password"
+                                    />
+                                    {errors.password1 && <p className="text-red">{errors.password1}</p>}
+                                </FormControl>
+                            </Grid>
+                        </Grid>
+                        <Button className='primary-gradient'
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            sx={{ mt: 4, mb: 4 }}
+                            onClick={() => { onChangePass() }}
+                        >
+                            Change Password
+                        </Button>
+                    </Box>
+                </Box>
+            </div>
+        </Container>
+    );
 };
 
 export default ChangePass;
