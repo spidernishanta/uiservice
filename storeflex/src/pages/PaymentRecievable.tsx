@@ -1,22 +1,18 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import { Box, Tooltip } from '@mui/material';
-import Table from 'react-bootstrap/Table';
 import { useNavigate } from "react-router-dom";
-import TopNavBar from "../../navbar/TopNavBar";
-import SideNavBar from "../../navbar/SideNavBar";
-import { AppContainer, SplitPaneContainer } from "../../containers/containers";
-import Footer from "../../footer/footer";
-import { getUserType } from "../../../utils/CommonUtils";
+import Table from 'react-bootstrap/Table';
+import TopNavBar from '../components/navbar/TopNavBar';
+import SideNavBar from '../components/navbar/SideNavBar';
+import { AppContainer, SplitPaneContainer } from '../components/containers/containers';
+import Footer from '../components/footer/footer';
+import { getUserType } from '../utils/CommonUtils';
 import { DataGrid } from "@mui/x-data-grid";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 
-
-
-
-
-const OrderTable = () => {
+const ViewWarehouse = () => {
     const navigate = useNavigate();
     const goToNextPage = (pagePath: string) => {
         navigate(pagePath);
@@ -75,7 +71,7 @@ const OrderTable = () => {
                                     setEditLogoStatus(false);
                                 }}
                                 onClick={() => {
-
+                                    // editBusiness(params.id);
                                 }}
                             >
                                 <EditIcon />
@@ -114,33 +110,81 @@ const OrderTable = () => {
                 );
             },
         },
-        { field: "Order", headerName: "Order", width: 100 },
-        { field: "ProductName", headerName: "Product Name", width: 120 },
-        { field: "AreaSize", headerName: "Area Size", width: 170 },
-        { field: "Price", headerName: "Price", width: 150 },
-        { field: "OrderDate", headerName: "Order Date", width: 120, },
-        { field: "FromTo", headerName: "From To", width: 230 },
+        { field: "OrderId", headerName: "Order Id", width: 100 },
+        { field: "PaymentDate", headerName: "Payment Date", width: 120 },
+        { field: "LeasePeriodFromTo", headerName: "Lease Period From To", width: 200 },
+        { field: "LeaseAmount", headerName: "Lease Amount", width: 120, },
+        { field: "PaymentAmount", headerName: "Payment Amount", width: 130 },
+        { field: "Balance", headerName: "Balance", width: 120 },
+        { field: "Tax", headerName: "Tax", width: 100 },
+        { field: "Invoice", headerName: "Invoice", width: 100 },
         { field: "Status", headerName: "Status", width: 100 },
     ];
     return (
-        <AppContainer>         
-                {
+        <AppContainer>
+            <TopNavBar />
+            <SplitPaneContainer
+                left={<SideNavBar userType={getUserType()} />}
+                right={
                     <div className='c-box-shadow-blue'>
                         <Box className='m-top-md m-bot-md m-left-md m-right-md'>
                             <div>
                                 <div className='primary-gradient'>
                                     <div className='font-white p-sm f-18px f-bold'>
-                                        My Orders
+                                        Payment History
                                         {/* <button className="primary-btn-outline" style={{ fontSize: '14px', float: 'right', borderRadius: 20, paddingLeft: '12px', paddingRight: '12px' }}><i className='mdi mdi-plus menu-icon'></i> Add New</button> */}
                                     </div>
                                 </div>
+                                {/* <Table striped bordered hover>
+                                    <thead>
+                                        <tr>
+                                            <th>Order ID</th>
+                                            <th>Payment Date</th>
+                                            <th>Lease Period from-to</th>
+                                            <th>Payment Mode</th>
+                                            <th>Lease Amount</th>
+                                            <th>Payment Amount</th>
+                                            <th>Balance</th>
+                                            <th>Tax</th>
+                                            <th>Invoice</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>ORD-101</td>
+                                            <td>1/1/2023</td>
+                                            <td>1/1/2023-31/1/2023</td>
+                                            <td>Bank Transfer</td>
+                                            <td>Rs.50000</td>
+                                            <td>Rs.40000</td>
+                                            <td>Rs.10000</td>
+                                            <td></td>
+                                            <td><a href='/document/sample.pdf'> Download </a></td>
+                                            <td>Active</td>
+
+                                        </tr>
+                                        <tr>
+                                            <td>ORD-102</td>
+                                            <td>1/12/2022</td>
+                                            <td>1/12/2022-31/1/2022</td>
+                                            <td>Cheque</td>
+                                            <td>Rs.75000</td>
+                                            <td>Rs.75000</td>
+                                            <td>Rs.0</td>
+                                            <td></td>
+                                            <td><a href='/downloadInvoice'> Download </a></td>
+                                            <td>Active</td>
+
+                                        </tr>
+                                    </tbody>
+                                </Table>  */}
                                 <div style={{ height: 370, width: "100%" }}>
                                     <DataGrid
                                         rows={[
-                                            { id: '123', Order: '12387', ProductName: 'ABC House', AreaSize: '12*12', Price: '1500', OrderDate: '12-02-2022', FromTo: '10th Jan,20-20th Jan,20', Status: 'Success' },
-                                            { id: '124', Order: '12678', ProductName: 'JHCD House', AreaSize: '14*17', Price: '1100', OrderDate: '17-01-2022', FromTo: '14th Jan,20-27th Jan,20', Status: 'Failed' },
-                                            { id: '124', Order: '4552', ProductName: 'KUJT House', AreaSize: '12*12', Price: '1900', OrderDate: '12-01-2022', FromTo: '14th Jan,20-27th Jan,20', Status: 'Success' },
-                                            { id: '124', Order: '12387', ProductName: 'JHCD House', AreaSize: '14*17', Price: '1100', OrderDate: '17-01-2022', FromTo: '14th Jan,20-27th Jan,20', Status: 'Success' },
+                                            { id: '123', OrderId: 'ORD-101', PaymentDate: '1/1/2023', LeasePeriodFromTo: '1/1/2023-31/1/2023',  LeaseAmount: 'Rs.50000', PaymentAmount: 'Rs.40000', Balance: 'Rs.10000', Tax: '', Invoice: 'Download', Status: 'Active' },
+                                            { id: '124', OrderId: 'ORD-!02', PaymentDate: '1/12/2022', LeasePeriodFromTo: '1/12/2022-31/1/2022', LeaseAmount: 'Rs.75000', PaymentAmount: 'Rs.75000', Balance: 'Rs.0', Tax: '', Invoice: 'Download', Status: 'Active' },
+
                                         ]}
 
                                         componentsProps={{
@@ -158,11 +202,11 @@ const OrderTable = () => {
                             </div>
                         </Box>
                     </div>
-                }          
+                }
+            />
+            <Footer />
         </AppContainer>
     )
 }
 
-
-
-export default OrderTable;
+export default ViewWarehouse;
