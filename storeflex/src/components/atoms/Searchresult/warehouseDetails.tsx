@@ -18,13 +18,13 @@ const WarehouseDetails = () => {
 
   useEffect(() => {
     const stateIdData: any = state;
-    api.getWarehouseById(stateIdData).then((response)=>{
-      if(response.status == 'SUCCESS') {
+    api.getWarehouseById(stateIdData).then((response) => {
+      if (response.status == 'SUCCESS') {
         //console.log(response.methodReturnValue);
         setWarehouseInfo(response.methodReturnValue);
         setAddress(response.methodReturnValue.address);
       }
-    }).catch((error)=>{
+    }).catch((error) => {
       console.log(error);
     })
   }, [])
@@ -130,7 +130,7 @@ const WarehouseDetails = () => {
                   <span>{warehouseInfo['warehouseId']}</span>
                 </div>
                 <div className="mt-1 mb-0 text-muted small">
-                  <span>{address.map((item,index)=>(
+                  <span>{address.map((item, index) => (
                     <span key={index}>
                       <span>House No: {item.houseNo},&nbsp;&nbsp;</span>
                       <span>Street: {item.streetDetails},&nbsp;&nbsp;</span>
@@ -139,7 +139,7 @@ const WarehouseDetails = () => {
                       <span>Pin Code: {item.pincode},&nbsp;&nbsp;</span>
                       <span>State: {item.state},&nbsp;&nbsp;</span>
                       <span>Country: {item.country}&nbsp;&nbsp;</span>
-                    </span> 
+                    </span>
                   ))}</span>
                 </div>
                 <div className="mb-2 text-muted small">
@@ -162,33 +162,28 @@ const WarehouseDetails = () => {
                   <tr>
                     <th>Status</th>
                     <td>Available</td>
+                    <th>Available Days</th>
                     <td>Monday-Friday</td>
                   </tr>
 
                   <tr>
-                    <th>Property Type</th>
-                    <td>Warehouse</td>
-                    <th>Clear Ceiling Height</th>
-                    <td>10 ft.</td>
+                    <th>Available Space</th>
+                    <td>9,452 Sq Ft</td>
+                    <th>Price/Sq Ft</th>
+                    <td>&#x20B9; 240</td>
                   </tr>
                   <tr>
-                    <th>Available Space</th>
-                    <td>9,452 Sq. Ft.</td>
                     <th>Minimum Order Quantity</th>
                     <td>3</td>
+                    <th>Clear Ceiling Height</th>
+                    <td>10 Ft</td>
                   </tr>
 
-                  <tr>
-                    <th>Price/Sq.Ft.</th>
-                    <td>&#x20B9; 240</td>
-                    <th>#At Grade Doors</th>
-                    <td>3</td>
-                  </tr>
                   <tr>
                     <th>#Dock High Doors</th>
                     <td>5</td>
-
-
+                    <th>#At Grade Doors</th>
+                    <td>3</td>
                   </tr>
                 </tbody>
               </Table>

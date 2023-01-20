@@ -67,7 +67,7 @@ export default function Searchresult() {
   }
 
   const WarehouseDetails = (id: String) => {
-    navigate('/WarehouseDetails', {state: id});
+    navigate('/WarehouseDetails', { state: id });
   }
 
 
@@ -115,7 +115,7 @@ export default function Searchresult() {
 
           <section>
             <div className="container">
-              
+
               {warehouse.map((ware) => (
                 <div className="row justify-content-center mb-3">
                   <div className="col-md-12 col-xl-12">
@@ -145,19 +145,41 @@ export default function Searchresult() {
                               <span>{ware.descp}</span>
                             </div>
                             <div className="mt-1 mb-0 text-muted small">
-                              <span>{ware.streetAddrs}, House no- {ware.houseNo}, {ware.pincode}, {ware.state}</span>
+                              <span>{ware.streetAddrs}, {ware.state}, {ware.pincode}</span>
                               {/* <span className="text-primary"> • </span>
                               <span>Light weight</span>
                               <span className="text-primary"> • </span>
-                              <span>Best finish<br /></span> */}
+                            <span>Best finish<br /></span> */}
                             </div>
-                            {/* <div className="mb-2 text-muted small">
-                              <span>Room Size</span>
+                            &nbsp;
+                            <div className="mb-2 text-muted small">
+                              <span><b>Minimum Order Quantity</b></span>
                               <span className="text-primary"> • </span>
-                              <span>24x24</span>
+                              <span>24</span>
+                              {/* <span className="text-primary"> • </span>
+                              <span>10x12<br /></span> */}
+                            </div>
+                            <div className="mb-2 text-muted small">
+                              <span><b>Available Space</b></span>
                               <span className="text-primary"> • </span>
-                              <span>10x12<br /></span>
-                            </div> */}
+                              <span>9250 Sq Ft</span>
+                            </div>
+                            <div className="mb-2 text-muted small">
+                              <span><b>Industries Served</b></span>
+                              <span className="text-primary"> • </span>
+                              <span>Base Metals</span>
+                              <span className="text-primary"> • </span>
+                              <span>Industrial & Manufacturing Materials</span>
+                            </div>
+                            <div className="mb-2 text-muted small">
+                              <span><b>Storage Layout</b></span>
+                              <span className="text-primary"> • </span>
+                              <span>Video Surveillance</span>
+                              <span className="text-primary"> • </span>
+                              <span>On Site Guards</span>
+                              <span className="text-primary"> • </span>
+                              <span>Security System</span>
+                            </div>
                             {/* <p className="text-truncate mb-4 mb-md-0">
                               There are many variations of passages of Lorem Ipsum available, but the
                               majority have suffered alteration in some form, by injected humour, or

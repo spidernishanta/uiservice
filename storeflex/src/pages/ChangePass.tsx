@@ -12,8 +12,11 @@ import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { Navbar } from 'react-bootstrap';
+import { getUserEmail } from '../utils/CommonUtils';
 
 const ChangePass = () => {
+
+    sessionStorage.setItem('email', getUserEmail());
 
     const [showOldPassword, setShowOldPassword] = React.useState(false);
     const handleClickShowOldPassword = () => setShowOldPassword((show) => !show);
@@ -142,7 +145,7 @@ const ChangePass = () => {
                                     label="Email Address"
                                     name="email"
                                     autoComplete="email"
-                                    value={sessionStorage.getItem('LOGIN_RESP')}
+                                    value={sessionStorage.getItem('email')}
                                     disabled
                                 />
                             </Grid>
