@@ -74,14 +74,14 @@ const SignInPage = () => {
           console.log(loginType);
           if (loginType && loginType.length > 1) {
             swal({
-              title: "Welcome to Store Flex",
-              text: "Where you want to go....",
+              title: "Welcome to StoreFlex",
+              text: "Where you want to go...",
               icon: "warning",
               dangerMode: false,
               closeOnClickOutside: false,
               buttons: {
-                confirm: { text: `${loginType[0]} Page`, value: loginType[0], className: "sf-btn" },
-                default: { text: `${loginType[1]} Page`, value: loginType[1], className: "sf-btn" }
+                confirm: { text: "Owner", value: loginType[0], className: "sf-btn" },
+                default: { text: "Customer", value: loginType[1], className: "sf-btn" }
               },
 
             })

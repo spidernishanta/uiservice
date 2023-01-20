@@ -37,6 +37,10 @@
             "url": "/faq"
         },
         {
+            "label": "Change Password",
+            "url": "/changepass"
+        },
+        {
             "label": "Log out",
             "url": "logout_user"
         }

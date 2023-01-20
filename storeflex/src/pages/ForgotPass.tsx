@@ -54,7 +54,20 @@ const ForgotPass = () => {
 
 
     const SubmitSendLink = () => {
-        window.location.href = '/home';
+        swal('We sent an email to ' + values.email + ' with a link to get back into your account.', {
+            title: "Email Sent",
+            buttons: {
+                buttonOne: {
+                    text: "OK",
+                    visible: true,
+                    className: "sf-btn",
+                }
+            }
+        }).then(willUpdate => {
+            if (willUpdate) {
+                window.location.href = '/home';
+            }
+        });
     }
 
     const [passwordType, setPasswordType] = useState("password");
