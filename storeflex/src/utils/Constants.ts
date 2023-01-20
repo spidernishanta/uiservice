@@ -35,6 +35,7 @@ import UserProfile from "../pages/userProfile";
 import SiteMap from "../pages/SiteMap";
 import WarehousePage from "../pages/WarehousePage";
 import UserPage from "../pages/UserPage";
+import PaymentRecievable from "../pages/PaymentRecievable";
 
 import WarehouseDetails from "../components/atoms/Searchresult/warehouseDetails";
 import SignInCustomer from "../pages/signin-customer";
@@ -238,6 +239,11 @@ export const PAGES = {
   PAYMENTS: {
     path: "/payments",
     Component: Payments,
+  },
+  PAYMENT_RECIEVABLE:{
+    path: "/paymentRecievable",
+    Component: PaymentRecievable,
+
   },
   PAYMENT_HISTORY: {
     path: "/paymentHistory",

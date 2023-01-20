@@ -192,6 +192,10 @@ function App() {
               element={<PAGES.PAYMENT_HISTORY.Component />}
             />
             <Route
+             path={PAGES.PAYMENT_RECIEVABLE.path}
+             element={<PAGES.PAYMENT_RECIEVABLE.Component/>}
+             />
+            <Route
               path={PAGES.USER_PROFILE.path}
               element={<PAGES.USER_PROFILE.Component />}
             />
