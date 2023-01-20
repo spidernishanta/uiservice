@@ -1,111 +1,173 @@
-import React from "react";
-import { Box } from '@mui/material';
+import React, { useState } from "react";
+import { Box, Tooltip } from '@mui/material';
 import Table from 'react-bootstrap/Table';
-// import './myorders.css'
+import { useNavigate } from "react-router-dom";
+import TopNavBar from "../../navbar/TopNavBar";
+import SideNavBar from "../../navbar/SideNavBar";
+import { AppContainer, SplitPaneContainer } from "../../containers/containers";
+import Footer from "../../footer/footer";
+import { getUserType } from "../../../utils/CommonUtils";
+import { DataGrid } from "@mui/x-data-grid";
+import IconButton from "@mui/material/IconButton";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+
 
 
 
 
 const OrderTable = () => {
-
-    const orderData = ([
-        {
-            orderID: 12387,
-            product_name: "ABC House",
-            size: "12x12",
-            price: 1500,
-            orderDate: "12-02-2022",
-            from: "10th Jan, 20 - 20th Jan, 20",
-            status: "success"
-        },
-        {
-            orderID: 12687,
-            product_name: "JHJGC House",
-            size: "14x17",
-            price: 1100,
-            orderDate: "17-01-2022",
-            from: "14th Jan, 20 - 27th Jan, 20",
-            status: "Failed"
-        },
-        {
-            orderID: 4542,
-            product_name: "KUJT House",
-            size: "12x12",
-            price: 1900,
-            orderDate: "12-02-2022",
-            from: "10th Jan, 20 - 20th Jan, 20",
-            status: "success"
-        },
-        {
-            orderID: 12387,
-            product_name: "ABC House",
-            size: "12x12",
-            price: 1500,
-            orderDate: "12-02-2022",
-            from: "10th Jan, 20 - 20th Jan, 20",
-            status: "success"
-        },
-    ])
+    const navigate = useNavigate();
+    const goToNextPage = (pagePath: string) => {
+        navigate(pagePath);
+    }
 
 
+
+
+
+    const [hoveredRow, setHoveredRow] = useState(null);
+    const onMouseEnterRow = (event) => {
+        const id = event.currentTarget.getAttribute("data-id");
+        setHoveredRow(id);
+    };
+    const onMouseLeaveRow = () => {
+        setHoveredRow(null);
+    };
+    const [deleteLogoStatus, setDeleteLogoStatus] = useState(false);
+    const [editLogoStatus, setEditLogoStatus] = useState(false);
+    const columns = [
+        {
+            field: "actions",
+            headerName: "ACTIONS",
+            width: 100,
+            sortable: false,
+            disableColumnMenu: true,
+            renderCell: (params) => {
+                return (
+                    <Box
+                        sx={{
+                            width: "100%",
+                            height: "100%",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                        }}
+                    >
+                        <Tooltip
+                            title="Edit"
+                            placement="left"
+                            arrow
+                            enterDelay={100}
+                            leaveDelay={100}
+                        >
+                            <IconButton
+                                style={{
+                                    backgroundColor:
+                                        editLogoStatus && params.id === hoveredRow ? "#008CBA" : "",
+                                    color:
+                                        editLogoStatus && params.id === hoveredRow ? "white" : "",
+                                }}
+                                onMouseEnter={() => {
+                                    setEditLogoStatus(true);
+                                }}
+                                onMouseLeave={() => {
+                                    setEditLogoStatus(false);
+                                }}
+                                onClick={() => {
+
+                                }}
+                            >
+                                <EditIcon />
+                            </IconButton>
+                        </Tooltip>
+                        <Tooltip
+                            title="Delete"
+                            placement="top"
+                            arrow
+                            enterDelay={100}
+                            leaveDelay={100}
+                        >
+                            <IconButton
+                                style={{
+                                    backgroundColor:
+                                        deleteLogoStatus && params.id === hoveredRow
+                                            ? "#f44336"
+                                            : "",
+                                    color:
+                                        deleteLogoStatus && params.id === hoveredRow ? "white" : "",
+                                }}
+                                onMouseEnter={() => {
+                                    setDeleteLogoStatus(true);
+                                }}
+                                onMouseLeave={() => {
+                                    setDeleteLogoStatus(false);
+                                }}
+                                onClick={() => {
+
+                                }}
+                            >
+                                <DeleteIcon />
+                            </IconButton>
+                        </Tooltip>
+                    </Box>
+                );
+            },
+        },
+        { field: "Order", headerName: "Order", width: 100 },
+        { field: "ProductName", headerName: "Product Name", width: 120 },
+        { field: "AreaSize", headerName: "Area Size", width: 170 },
+        { field: "Price", headerName: "Price", width: 150 },
+        { field: "OrderDate", headerName: "Order Date", width: 120, },
+        { field: "FromTo", headerName: "From To", width: 230 },
+        { field: "Status", headerName: "Status", width: 100 },
+    ];
     return (
-        <>
-            <br />
-            <br />
-            <br />
-            <br />
-            <div className="container mt-4">
-                <div className='c-box-shadow-blue'>
-                    <Box className='m-top-md m-bot-md m-left-md m-right-md'>
-                        <div>
-                            <div className='primary-gradient'>
-                                <div className='font-white p-sm f-18px f-bold'>
-                                    My Orders
-                                   
+        <AppContainer>
+            <TopNavBar />
+            <SplitPaneContainer
+                left={<SideNavBar userType={getUserType()} />}
+                right={
+                    <div className='c-box-shadow-blue'>
+                        <Box className='m-top-md m-bot-md m-left-md m-right-md'>
+                            <div>
+                                <div className='primary-gradient'>
+                                    <div className='font-white p-sm f-18px f-bold'>
+                                        My Orders
+                                        {/* <button className="primary-btn-outline" style={{ fontSize: '14px', float: 'right', borderRadius: 20, paddingLeft: '12px', paddingRight: '12px' }}><i className='mdi mdi-plus menu-icon'></i> Add New</button> */}
+                                    </div>
+                                </div>
+                                <div style={{ height: 370, width: "100%" }}>
+                                    <DataGrid
+                                        rows={[
+                                            { id: '123', Order: '12387', ProductName: 'ABC House', AreaSize: '12*12', Price: '1500', OrderDate: '12-02-2022', FromTo: '10th Jan,20-20th Jan,20', Status: 'Success' },
+                                            { id: '124', Order: '12678', ProductName: 'JHCD House', AreaSize: '14*17', Price: '1100', OrderDate: '17-01-2022', FromTo: '14th Jan,20-27th Jan,20', Status: 'Failed' },
+                                            { id: '124', Order: '4552', ProductName: 'KUJT House', AreaSize: '12*12', Price: '1900', OrderDate: '12-01-2022', FromTo: '14th Jan,20-27th Jan,20', Status: 'Success' },
+                                            { id: '124', Order: '12387', ProductName: 'JHCD House', AreaSize: '14*17', Price: '1100', OrderDate: '17-01-2022', FromTo: '14th Jan,20-27th Jan,20', Status: 'Success' },
+                                        ]}
+
+                                        componentsProps={{
+                                            row: {
+                                                onMouseEnter: onMouseEnterRow,
+                                                onMouseLeave: onMouseLeaveRow,
+                                            },
+                                        }}
+                                        columns={columns}
+                                        pageSize={5}
+                                        rowsPerPageOptions={[5]}
+                                        disableSelectionOnClick
+                                    />
                                 </div>
                             </div>
-                            <Table striped bordered hover responsive="sm">
-                            <thead>
-                                        <tr>
-
-                                            <th>Order #</th>
-                                            <th>Product name</th>
-                                            <th>Area Size</th>
-                                            <th>Price</th>
-                                            <th>Order Date</th>
-                                            <th>From - TO</th>
-                                            <th>Status</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody className="table-body">
-
-                                        {orderData.map((data) => (
-
-                                            <tr className="cell-1" key={data.orderID}>
-
-                                                <td>{data.orderID}</td>
-                                                <td>{data.product_name}</td>
-                                                <td>{data.size}</td>
-                                                <td>{data.price}</td>
-                                                <td>{data.orderDate}</td>
-                                                <td>{data.from}
-
-                                                </td>
-                                                <td><span className={data.status == 'success' ? 'badge badge-success' : 'badge badge-danger'}>{data.status}</span></td>
-                                            </tr>
-                                        ))}
-
-                                    </tbody>
-                            </Table>
-                        </div>
-                    </Box>
-                </div>
-
-            </div>
-
-
-        </>
+                        </Box>
+                    </div>
+                }
+            />
+            <Footer />
+        </AppContainer>
     )
 }
+
+
 
 export default OrderTable;
