@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Tooltip } from '@mui/material';
 import { useNavigate } from "react-router-dom";
+import { DataGrid } from "@mui/x-data-grid";
 import swal from 'sweetalert';
 import Api from '../../../../src/api/Api';
 import { ViewCompaniesProps } from '../../../api/ApiConfig';
 import { LoaderFull } from '../../atoms/loader/loader';
 
-import { DataGrid } from "@mui/x-data-grid";
+
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
