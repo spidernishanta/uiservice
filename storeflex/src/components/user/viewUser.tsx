@@ -3,21 +3,25 @@ import { Box, Tooltip } from '@mui/material';
 import { useNavigate } from "react-router-dom";
 import swal from 'sweetalert';
 import Api from '../../api/Api';
-import { ViewCompaniesProps } from '../../api/ApiConfig';
+import { viewUserProps } from '../../api/ApiConfig';
 import { LoaderFull } from '../atoms/loader/loader';
 import { DataGrid } from "@mui/x-data-grid";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import { PAGES } from "../../utils/Constants";
+import { getLogInType } from '../../utils/CommonUtils';
+import { UserPostData } from '../../api/ApiConfig';
 
 
 let recordLabel = '';
 
-const ViewBusiness = () => {
-  const companyView = window.location.hash;
+const ViewUser = () => {
+  const userView = window.location.hash;
+
   const api = new Api();
   const navigate = useNavigate();
-  const [myCompanies, setMyCompanies] = useState<Array<any>>([]);
+  const [userList, setUserList] = useState<Array<UserPostData>>([]);
   const [isLoader, setIsLoader] = useState(false);
   const [currentView, setCurrentView] = useState('');
 
@@ -25,20 +29,20 @@ const ViewBusiness = () => {
   const numberOfRecord = '10';
 
   useEffect(() => {
-    if (companyView !== currentView) {
-      getMyCompanies(pageNo, numberOfRecord);
-      setCurrentView(companyView);
+    if (userView !== currentView) {
+      getUserList(pageNo, numberOfRecord);
+      setCurrentView(userView);
     }
-  }, [companyView])
+  }, [userView])
 
 
-  const getMyCompanies = (curentPage, numberOfRecords) => {
+  const getUserList = (curentPage, numberOfRecords) => {
     // IN-PROGRESS , IN-ACTIVE , ACTIVE
     let companyStatus = 'ACTIVE'
-    if (companyView === '#inactive') {
+    if (userView === '#inactive') {
       companyStatus = 'IN-ACTIVE';
       recordLabel = ' Inactive Users'
-    } else if (companyView === '#pending') {
+    } else if (userView === '#pending') {
       companyStatus = 'IN-PROGRESS';
       recordLabel = ' Pending Users '
     } else {
@@ -46,25 +50,26 @@ const ViewBusiness = () => {
       recordLabel = 'Active Users'
     }
     setIsLoader(true);
-    const data: ViewCompaniesProps = {
+    const data: viewUserProps = {
       page: curentPage,
       size: numberOfRecords,
       status: companyStatus
     }
-    api.getMyCompanies(data).then((response) => {
+    const userType = getLogInType();
+    api.getUserList(data, userType).then((resp) => {
       setIsLoader(false);
-      setMyCompanies(response.methodReturnValue.clientList);
+      setUserList(resp.methodReturnValue);
     }).catch((error) => {
       setIsLoader(false);
-      console.log(' getMyCompanies  ', error);
+      console.log(' getUserList  ', error);
     });
   }
 
-  const editBusiness = (companyId: any) => {
-    const pagePath = '/business/edit'
+  const editUser = (userId: any) => {
+    const pagePath = PAGES.USER.EDIT.path
     navigate(pagePath,
       {
-        state: { editRecord: companyId },
+        state: { editRecord: userId },
       }
     );
   }
@@ -93,10 +98,10 @@ const ViewBusiness = () => {
                 }
               }
             });
-            let extractedArr = myCompanies.filter((item, index) => {
+            let extractedArr = userList.filter((item, index) => {
               return item.clientId !== company.clientId;
             });
-            setMyCompanies(extractedArr);
+            setUserList(extractedArr);
           }).catch((error) => {
             setIsLoader(false);
             console.log(' deleteCompany erroor ', error);
@@ -158,7 +163,7 @@ const ViewBusiness = () => {
                   setEditLogoStatus(false);
                 }}
                 onClick={() => {
-                  editBusiness(params.id);
+                  editUser(params.id);
                 }}
               >
                 <EditIcon />
@@ -197,13 +202,30 @@ const ViewBusiness = () => {
         );
       },
     },
-    { field: "Name", headerName: "Name", width: 245 },
-    { field: "Address", headerName: "Address", width: 245, },
-    { field: "Phone", headerName: "Phone", width: 245 },
-    { field: "Email", headerName: "Email", width: 245 },
+    { field: "name", headerName: "Name", width: 245 },
+    { field: "address", headerName: "Address", width: 245, },
+    { field: "phone", headerName: "Phone", width: 245 },
+    { field: "email", headerName: "Email", width: 245 },
   ];
 
-  const showCompanyList = () => {
+  const userData = () => {
+    const user : any[] = [];
+    if(userList && userList.length > 0) {
+      const t = userList.map((item, index) => {
+        return {
+          id: item.userId || index,
+          name: `${item.firstName} ${item.lastName}`,
+          address: `${item.houseNo} ${item.address}`,
+          phone: `${item.mobileNo}`,
+          email: `${item.email}`,
+        }
+      })
+      return t;
+    } else {
+      return user;
+    }
+  }
+  const showUserList = () => {
     return (
       <Box className='m-top-md m-bot-md m-left-md m-right-md'>
         <div className='primary-gradient'>
@@ -214,15 +236,7 @@ const ViewBusiness = () => {
         </div>
         <div style={{ height: 370, width: "100%" }}>
           <DataGrid getRowHeight={() => 'auto'}
-            rows={myCompanies && myCompanies.map((item: any) => ({
-              id: item.clientId,
-              clientId: item.clientId,
-              compyName: item.compyName,
-              compyDesc: item.compyDesc,
-              url: item.url,
-              addresses: item.addresses[0].addressType + ':' + item.addresses[0].streetDetails + ',' + item.addresses[0].city + ',' + item.addresses[0].pincode,
-              contact: item.contact[0].contactName + '/' + item.contact[0].mobileNo,
-            }))}
+            rows={userData()}
             componentsProps={{
               row: {
                 onMouseEnter: onMouseEnterRow,
@@ -243,12 +257,12 @@ const ViewBusiness = () => {
     <>
       {isLoader && <LoaderFull />}
       <div className='c-box-shadow-blue'>
-        {showCompanyList()}
+        {showUserList()}
       </div>
     </>
 
   )
 }
 
-export default ViewBusiness;
+export default ViewUser;
 

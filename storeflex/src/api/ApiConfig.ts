@@ -131,9 +131,9 @@ export interface EnquiryProps {
   }
 
 export interface viewUserProps {
-    page:string;
-    size: string;
-    status: string;
+    page?:string;
+    size?: string;
+    status?: string;
 }
 
 export class ApiConfig {
@@ -157,7 +157,8 @@ export class ApiConfig {
     getWarehouseAdminUrl = '/warehouses';
     addWarehouseUrl = '/warehouse';
     enquiry = '/enquiry';
-    getViewUserUrl = '/storeflexusers';
+    slUsersUrl = '/storeflexusers';
+    clUsersUrl = '/clientUsers';
     userUrl = '/storeflexuser';
     getCompanyListApi = '/clientDropList';
     getWarehouseCategoriesApi = '/categories'

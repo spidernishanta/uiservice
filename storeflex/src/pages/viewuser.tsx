@@ -28,16 +28,16 @@ const ViewUser = () => {
     var page: any = '0';
     var size: any = '3';
     useEffect(() => {
-        getViewUser(page, size);
+        getUserList(page, size);
     }, [])
 
     useEffect(() => {
         if (userView !== currentView)
-            getViewUser(page, size);
+        getUserList(page, size);
         setCurrentView(userView);
     }, [userView]);
 
-    const getViewUser = (page, size) => {
+    const getUserList = (page, size) => {
         //IN-Progress, In-Active, Active
         let userStatus = 'ACTIVE'
         if (userView === '#active') {
@@ -52,14 +52,14 @@ const ViewUser = () => {
         }
         setIsLoader(true);
 
-        const data: viewUserProps = { page: page, size: size, status: userStatus };
-        api.getViewUser(data).then((response) => {
-            setIsLoader(false);
-            setmyUser(response.methodReturnValue);
-        }).catch((error) => {
-            setIsLoader(false);
-            console.log('getUsers', error);
-        });
+        // const data: viewUserProps = { page: page, size: size, status: userStatus };
+        // api.getUserList(data).then((response) => {
+        //     setIsLoader(false);
+        //     setmyUser(response.methodReturnValue);
+        // }).catch((error) => {
+        //     setIsLoader(false);
+        //     console.log('getUsers', error);
+        // });
     };
 
     // const goToEditPage = (pagePath: any, record: object) => {

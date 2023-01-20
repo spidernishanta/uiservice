@@ -93,11 +93,11 @@ const EditUser = () => {
       document.getElementsByName("phone")[0].style.border = "2px solid dodgerblue"
     }
   }
-  // const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //     const {name, value } = e.currentTarget;
-  //     console.log(' #### name ', name);
-  //     console.log(' #### name ', value);
-  // }
+  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const {name, value } = e.currentTarget;
+      console.log(' #### name ', name);
+      console.log(' #### name ', value);
+  }
   const handelOnBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     const { name, value } = e.currentTarget;
     console.log(' #### name ', name);

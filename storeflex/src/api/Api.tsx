@@ -342,20 +342,27 @@ export default class Api {
             return Promise.reject(error);
         }
     }
-    async getViewUser(getData: viewUserProps): Promise<any> {
-        const url = `${this.baseUrl}${this.apiUrl.getViewUserUrl}?page=${getData.page}&size=${getData.size}&status=${getData.status}`;
+    async getUserList(getData?: viewUserProps, userType?: string ): Promise<any> {
+        let url = ''
+        if(userType === 'SL') {
+             url = `${this.baseUrl}${this.apiUrl.slUsersUrl}?page=${getData?.page}&size=${getData?.size}&status=${getData?.status}`;
+        } else {
+            url = `${this.baseUrl}${this.apiUrl.slUsersUrl}?page=${getData?.page}&size=${getData?.size}&status=${getData?.status}?clientId=${userType}`;
+            // ?clientId=CL-119&status=ACTIVE&page=0&size=3
+        }
+        
         try {
             const response = await axios.get(url);
-            if (response?.data?.statusCode === 600) {
+            if (response?.data?.statusCode === 600 || response?.data?.statusCode === 603) {
                 return Promise.resolve(response?.data);
             } else {
-                console.log(' error : getViewUser ', response);
+                console.log(' error : getUserList ', response);
                 return Promise.reject(response);
             }
 
         }
         catch (error) {
-            console.log(' error : View User', error);
+            console.log(' error : getUserList', error);
             return Promise.reject(error);
         }
     }
