@@ -48,28 +48,28 @@ export const ProfileMenu = (props?: ProfileMenuProps) => {
     };
 
     const onMenuItemClick = (value: string) => {
-        if (value === '/search-new') {
-            const api = new Api();
-            const pin = '';
-            // const pin = '781036'
-            api.searchwarehouse(pin).then((response) => {
-                console.log('Warehouse Search >>>>', response);
-                const data: warehouse = response.data.methodReturnValue.warehouseViewBean
-                    ;
-
-                if (response.data.status == 'SUCCESS') {
-                    navigate('/search-new', { state: data });
-                    window.location.reload();
-                }
-            })
-                .catch((error) => {
-                    console.log(error);
-                })
-        }
+        // if (value === '/search-new') {
+        //     const api = new Api();
+        //     //const pin = '';
+        //     const pin = '781036'
+        //     api.searchwarehouse(pin).then((response) => {
+        //         console.log('Warehouse Search >>>>', response);
+        //         const data: warehouse = response.data.methodReturnValue.warehouseViewBean;
+        //         if (response.data.status == 'SUCCESS') {
+        //             console.log(data);
+        //             //navigate('/search-new', { state: data });
+        //             //window.location.reload();
+        //         }
+        //     })
+        //         .catch((error) => {
+        //             console.log(error);
+        //         })
+        // }
         if (value === 'list_popup') {
             createSwalButton()
         }
         else if (value === 'logout_user') {
+            sessionStorage.clear();
             logout('/home')
             window.location.reload()
         }

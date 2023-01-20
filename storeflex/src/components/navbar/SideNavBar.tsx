@@ -60,16 +60,14 @@ const SideNavBar = (props) => {
 
   const handleOnClick = (path: string) => {
     if (path === '/search-new') {
-      console.log("ok");
+      //console.log("ok");
 
       const api = new Api();
-      const pin = '';
-      // const pin = '781036'
+      //const pin = '';
+      const pin = '781036'
       api.searchwarehouse(pin).then((response) => {
-        console.log('Warehouse Search >>>>', response);
-        const data: warehouse = response.data.methodReturnValue.warehouseViewBean
-          ;
-
+        //console.log('Warehouse Search >>>>', response);
+        const data: warehouse = response.data.methodReturnValue.warehouseViewBean;
         if (response.data.status == 'SUCCESS') {
           navigate('/search-new', { state: data });
         }

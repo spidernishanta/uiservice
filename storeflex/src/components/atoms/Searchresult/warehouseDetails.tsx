@@ -6,28 +6,27 @@ import './searchresult.css';
 import BeenhereIcon from '@mui/icons-material/Beenhere';
 import Carousel from 'react-bootstrap/Carousel';
 import Table from 'react-bootstrap/Table';
+import Api from '../../../api/Api';
+
 
 const WarehouseDetails = () => {
-  const [warehouse, setWarehouse] = useState<Array<any>>([]);
+  const [warehouseInfo, setWarehouseInfo] = useState<Array<any>>([]);
   const [office, setOffice] = useState<Array<any>>([]);
+  const { state } = useLocation();
+  const api = new Api();
+  const [address, setAddress] = useState<Array<any>>([]);
 
   useEffect(() => {
-
-    const data = ([
-      {
-        id: 1,
-        img: 'https://media.istockphoto.com/photos/warehouse-worker-picture-id1179825208',
-        business: "AAA Self Storage",
-        name: "Abc Office",
-        address: "Six mile, Guwahati-01",
-        rate: 58,
-
+    const stateIdData: any = state;
+    api.getWarehouseById(stateIdData).then((response)=>{
+      if(response.status == 'SUCCESS') {
+        //console.log(response.methodReturnValue);
+        setWarehouseInfo(response.methodReturnValue);
+        setAddress(response.methodReturnValue.address);
       }
-    ])
-    setOffice(data);
-    console.log(office);
-
-
+    }).catch((error)=>{
+      console.log(error);
+    })
   }, [])
 
 
@@ -126,34 +125,33 @@ const WarehouseDetails = () => {
 
               </div>
               <div className="col-md-12 col-lg-12 col-xl-12 p-3">
-                <h5><BeenhereIcon />{'AAA Self Storage'}</h5>
+                <h5><BeenhereIcon />{warehouseInfo['warehouseName']}</h5>
                 <div className="d-flex flex-row">
-                  {/* <div className="text-danger mb-1 me-2">
-                                  <i className="fa fa-star"></i>
-                                  <i className="fa fa-star"></i>
-                                  <i className="fa fa-star"></i>
-                                  <i className="fa fa-star"></i>
-                                </div> */}
-                  <span>{'My Office Name'}</span>
+                  <span>{warehouseInfo['warehouseId']}</span>
                 </div>
                 <div className="mt-1 mb-0 text-muted small">
-                  <span>{'Six Mile, Guwahati, Assam, 781036'}</span>
-                  {/* <span className="text-primary"> • </span>
-                                <span>Light weight</span>
-                                <span className="text-primary"> • </span>
-                                <span>Best finish<br /></span> */}
+                  <span>{address.map((item,index)=>(
+                    <span key={index}>
+                      <span>House No: {item.houseNo},&nbsp;&nbsp;</span>
+                      <span>Street: {item.streetDetails},&nbsp;&nbsp;</span>
+                      <span>Plot No: {item.plotNo},&nbsp;&nbsp;</span>
+                      <span>City: {item.city},&nbsp;&nbsp;</span>
+                      <span>Pin Code: {item.pincode},&nbsp;&nbsp;</span>
+                      <span>State: {item.state},&nbsp;&nbsp;</span>
+                      <span>Country: {item.country}&nbsp;&nbsp;</span>
+                    </span> 
+                  ))}</span>
                 </div>
                 <div className="mb-2 text-muted small">
                   <span>Room Size</span>
                   <span className="text-primary"> • </span>
-                  <span>24x24</span>
+                  {/* <span>24x24</span> */}
                   <span className="text-primary"> • </span>
-                  <span>10x12<br /></span>
+                  {/* <span>10x12<br /></span> */}
                 </div>
                 <p className="text-truncate mb-4 mb-md-0">
-                  <h5> About </h5> There are many variations of passages of Lorem Ipsum available, but the
-                  majority have suffered alteration in some form, by injected humour, or
-                  randomised words which don't look even slightly believable.
+                  <h5> About </h5>
+                  {warehouseInfo['descp']}
                 </p>
               </div>
 
@@ -164,28 +162,33 @@ const WarehouseDetails = () => {
                   <tr>
                     <th>Status</th>
                     <td>Available</td>
-                    <th>Available Days</th>
                     <td>Monday-Friday</td>
                   </tr>
 
                   <tr>
-                    <th>Available Space</th>
-                    <td>9,452 Sq. Ft.</td>
-                    <th>Price/Sq.Ft.</th>
-                    <td>&#x20B9; 240</td>
-                  </tr>
-                  <tr>
-                    <th>Minimum Order Quantity</th>
-                    <td>3</td>
+                    <th>Property Type</th>
+                    <td>Warehouse</td>
                     <th>Clear Ceiling Height</th>
                     <td>10 ft.</td>
                   </tr>
+                  <tr>
+                    <th>Available Space</th>
+                    <td>9,452 Sq. Ft.</td>
+                    <th>Minimum Order Quantity</th>
+                    <td>3</td>
+                  </tr>
 
                   <tr>
+                    <th>Price/Sq.Ft.</th>
+                    <td>&#x20B9; 240</td>
                     <th>#At Grade Doors</th>
                     <td>3</td>
+                  </tr>
+                  <tr>
                     <th>#Dock High Doors</th>
                     <td>5</td>
+
+
                   </tr>
                 </tbody>
               </Table>

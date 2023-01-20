@@ -46,60 +46,8 @@ export default function Searchresult() {
 
 
   useEffect(() => {
-    console.log("From Search Page ==>", state);
     const stateData: any = state;
-    console.log("From Search Pageqqq ==>", stateData);
     setWarehouse(stateData);
-
-    const data = ([
-      {
-        id: 1,
-        img: 'https://media.istockphoto.com/photos/warehouse-worker-picture-id1179825208',
-        business: "AAA Self Storage",
-        name: "Abc Office",
-        address: "Six mile, Guwahati-01",
-        rate: 58,
-
-      },
-      {
-        id: 2,
-        img: 'https://media.istockphoto.com/id/1165357335/photo/male-worker-working-in-warehouse.webp?s=612x612&w=is&k=20&c=zcBK2kcxFDIBbd_aKXh_-kek_MGX30smjx64GURYGAU=',
-        business: "BBB Self Storage",
-        name: "Cde Office",
-        address: "Dispur, Guwahati-02",
-        rate: 56,
-      },
-      {
-        id: 3,
-        img: 'https://media.istockphoto.com/id/980114338/photo/supervisor-and-employee-at-warehouse.webp?s=612x612&w=is&k=20&c=6TtBd269scsOMBrswgxy0tsa64_MsChdpXo_oBrz8yk=',
-        business: "CCC Self Storage",
-        name: "Efg office",
-        address: "Ganesguri, Guwahati-01",
-        rate: 59,
-      },
-      {
-        id: 4,
-        img: 'https://media.istockphoto.com/id/1210741114/photo/warehouse-staff-meeting-workers-with-mnagers.webp?s=612x612&w=is&k=20&c=HRcjLXsBF9tLCn765rrncx4Ij9xfwn7IT-S-8kVHD3o=',
-        business: "DDD Self Storage",
-        name: "Hij Office",
-        address: "Pan bazar, Guwahati-01",
-        rate: 54,
-      },
-      {
-        id: 5,
-        img: 'https://media.istockphoto.com/id/516206444/photo/coworkers-carrying-cardboard-box-in-warehouse.webp?s=612x612&w=is&k=20&c=fqcKbzb0ncXSenuko63xHER_ksQaIlkCC63h-3_Ya1M=',
-        business: "EEE Self Storage",
-        name: "Klm office",
-        address: "Paltan Bazar, Guwahati-01",
-        rate: 64,
-      }
-    ])
-    setOffice(data);
-
-
-    console.log("saved Data==>", warehouse);
-
-
   }, [])
 
 
@@ -118,8 +66,8 @@ export default function Searchresult() {
 
   }
 
-  const WarehouseDetails = () => {
-    navigate('/WarehouseDetails');
+  const WarehouseDetails = (id: String) => {
+    navigate('/WarehouseDetails', {state: id});
   }
 
 
@@ -167,7 +115,7 @@ export default function Searchresult() {
 
           <section>
             <div className="container">
-
+              
               {warehouse.map((ware) => (
                 <div className="row justify-content-center mb-3">
                   <div className="col-md-12 col-xl-12">
@@ -203,18 +151,18 @@ export default function Searchresult() {
                               <span className="text-primary"> • </span>
                               <span>Best finish<br /></span> */}
                             </div>
-                            <div className="mb-2 text-muted small">
+                            {/* <div className="mb-2 text-muted small">
                               <span>Room Size</span>
                               <span className="text-primary"> • </span>
                               <span>24x24</span>
                               <span className="text-primary"> • </span>
                               <span>10x12<br /></span>
-                            </div>
-                            <p className="text-truncate mb-4 mb-md-0">
+                            </div> */}
+                            {/* <p className="text-truncate mb-4 mb-md-0">
                               There are many variations of passages of Lorem Ipsum available, but the
                               majority have suffered alteration in some form, by injected humour, or
                               randomised words which don't look even slightly believable.
-                            </p>
+                            </p> */}
                           </div>
                           <div className="col-md-6 col-lg-3 col-xl-3 border-sm-start-none border-start">
                             <div className="d-flex flex-row align-items-center mb-1">
@@ -223,7 +171,7 @@ export default function Searchresult() {
                             </div>
                             <h6 className="text-success"> Few rooms left.</h6>
                             <div className="d-flex flex-column mt-4">
-                              <button className="btn primary-btn-outline rounded-full" type="button" onClick={WarehouseDetails}>Details</button>
+                              <button className="btn primary-btn-outline rounded-full" type="button" onClick={() => WarehouseDetails(ware.warehouseId)}>Details</button>
                               <button className="btn primary-btn rounded-full" style={{ marginTop: '5px' }} type="button" onClick={(e) => { addToCart(e, ware) }} >
                                 Proceed to Buy
                               </button>
