@@ -1,7 +1,7 @@
 import React from 'react';
-import AddBusiness from './addUser';
-import ViewBusiness from './viewUser';
-import EditBusiness from './editUser';
+import  AddUser from './addUser';
+import ViewUser from './viewUser';
+import EditUser from './editUser';
 import { ACTIONS_TYPE } from '../../utils/Constants';
 
 interface UserInfoProps {
@@ -12,15 +12,15 @@ interface UserInfoProps {
 const UserInfo = (props: UserInfoProps) => {
     if(ACTIONS_TYPE.add === props?.action) {
         return (
-            <AddBusiness />
+            <AddUser />
          );
     }else  if(ACTIONS_TYPE.edit === props?.action) {
         return (
-            <EditBusiness />
+            <EditUser />
          );
     } else {
         return (
-            <ViewBusiness />
+            <ViewUser />
          );
     }
 }

@@ -123,17 +123,17 @@
                         {
                             "Label": "Active User",
                             "Name": "",
-                            "NavigateTo": "/user/view#active"
+                            "NavigateTo": "/user/view"
                         },
                         {
                             "Label": "Pending Users",
                             "Name": "",
-                            "NavigateTo": "/user/view#active"
+                            "NavigateTo": "/user/view"
                         },
                         {
                             "Label": "Inactive Users",
                             "Name": "",
-                            "NavigateTo": "/user/view#inactive"
+                            "NavigateTo": "/user/view"
                         }
                     ],
                     "Icon": "mdi mdi-account-multiple-outline menu-icon"
@@ -163,11 +163,6 @@
                             "NavigateTo": "/payments"
                         },
                         {
-                            "Label": "My Payment",
-                            "Name": "",
-                            "NavigateTo": "/add-payment"
-                        },
-                        {
                             "Label": "Payment History",
                             "Name": "",
                             "NavigateTo": "/paymentHistory"
@@ -175,7 +170,7 @@
                         {
                             "Label": "Payment Receivables",
                             "Name": "",
-                            "NavigateTo": "/paymentHistory"
+                            "NavigateTo": "/paymentRecievable"
                         }
                     ],
                     "Icon": "mdi mdi-cash menu-icon"

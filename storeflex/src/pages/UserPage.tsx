@@ -1,5 +1,4 @@
 import React from 'react';
-import AddUser from '../components/atoms/adduser/AddUser';
 import { AppContainer, SplitPaneContainer } from '../components/containers/containers';
 import TopNavBar from '../components/navbar/TopNavBar';
 import Footer from '../components/footer/footer';

@@ -8,10 +8,6 @@ import GoogleLogin from 'react-google-login';
 import { gapi } from "gapi-script";
 import { LoaderFull } from '../components/atoms/loader/loader';
 import swal from 'sweetalert';
-import { CheckBox, CheckBoxOutlineBlankTwoTone, RadioButtonChecked, Visibility } from '@mui/icons-material';
-import IconButton from '@mui/material';
-import InputAdornment from '@mui/material';
-import { VisibilityOff } from '@mui/icons-material';
 
 const SignInPage = () => {
   const navigate = useNavigate();
