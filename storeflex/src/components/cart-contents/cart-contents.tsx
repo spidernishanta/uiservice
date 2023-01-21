@@ -46,7 +46,7 @@ const PriceDetailsHeader = () => {
 
 const CartContents = (props: CartContentsProps) => {
     const data = props.storeInfo;
-    // console.log(data);
+    console.log(data);
     // const [storeDetails, setStoreData] = useState<Array<any>>([]);
     // useEffect(()=>{
     //     setStoreData(data);  
@@ -169,12 +169,11 @@ const CartContents = (props: CartContentsProps) => {
 
                             <Grid item xs={9} sx={{ pl: 1 }}>
 
-                                {data.map((data: any) => (
 
                                     <Item key={data.id} sx={{ mb: 1 }}>
                                         <Grid item xs={12} sx={{ p: 2 }}>
                                             <div className='text-left'>
-                                                <div className='header'> {data.companyName} </div>
+                                                <div className='header'> {data['warehouseId']} </div>
 
                                             </div><hr />
                                             <Grid container spacing={2}>
@@ -190,11 +189,11 @@ const CartContents = (props: CartContentsProps) => {
                                                 <Grid item sm={7}>
                                                     <div className='card p-top-xl'>
                                                         <div className='text-left'>
-                                                            <div className='sub-header'> {data.storeTitle} </div>
-                                                            <div className='sub-header'> {data.size} </div>
-                                                            <div> {data.location} </div>
-                                                            <div><b>Minimum Space</b> : {data.minspace}</div>
-                                                            <div><b>Available Space</b> : {data.availspace}</div>
+                                                            <div className='sub-header'> {data['warehouseName']} </div>
+                                                            <div className='sub-header'> {data['warehouseTaxId']} </div>
+                                                            <div> {data['warehouseTaxId']} </div>
+                                                            <div><b>Minimum Space</b> : {data['updatedBy']}</div>
+                                                            <div><b>Available Space</b> : {data['updateDate']}</div>
                                                         </div>
                                                     </div>
                                                 </Grid>
@@ -217,12 +216,12 @@ const CartContents = (props: CartContentsProps) => {
                                             </Grid>
                                         </Grid>
                                     </Item>
-                                ))}
+                            
 
 
                             </Grid>
                             <Grid item xs={3} sx={{ pl: 3 }}>
-                                {data.map((data: any) =>
+                                
                                     <Item sx={{ p: 0 }}>
                                         <Grid item xs={12}>
 
@@ -236,7 +235,7 @@ const CartContents = (props: CartContentsProps) => {
                                                             <Divider sx={{ m: 2 }} />
                                                             Discount: 0.00
                                                             <Divider sx={{ m: 2 }} />
-                                                            Total Amount: &#x20B9;{parseFloat(data.price) + 0.18 * parseFloat(data.price)}
+                                                            {/* Total Amount: &#x20B9;{parseFloat(data.clientId) + 0.18 * parseFloat(data.clientId)} */}
                                                             <Divider sx={{ m: 2 }} />
                                                         </div>
 
@@ -274,7 +273,7 @@ const CartContents = (props: CartContentsProps) => {
                                                             </table>
                                                         </form>
                                                         <div >
-                                                            <Button variant="contained" color="warning" size="small"> Make Payment </Button>
+                                                            <Button variant="contained" color="warning" size="small" onClick={() => { goToNextPage('/paymentstatus') }}> Make Payment </Button>
                                                         </div>
 
                                                         <div >
@@ -287,7 +286,7 @@ const CartContents = (props: CartContentsProps) => {
                                             </Grid>
                                         </Grid>
                                     </Item>
-                                )}
+                            
                             </Grid>
                         </Box>
                     </Container>

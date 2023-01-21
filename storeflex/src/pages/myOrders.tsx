@@ -12,14 +12,15 @@ import OrderTable from "../components/atoms/payment/myorderstable";
 const MyOrders = () => {
     return (
         <>
-           <AppContainer>
+           {/* <AppContainer>
                 <TopNavBar/>
                 <SplitPaneContainer
                 left={<SideNavBar userType={getUserType()}/>}
                 right={<OrderTable/>}
                 />
-            </AppContainer>
-            <Footer/>
+            </AppContainer> */}
+            {/* <Footer/> */}
+            <OrderTable/>
         </>
     )
 }

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import TopNavBar from '../../navbar/TopNavBar';
-import { useNavigate, useLocation } from "react-router-dom"
+import { useNavigate, useLocation } from "react-router-dom";
 import './searchresult.css';
 import BeenhereIcon from '@mui/icons-material/Beenhere';
 import Carousel from 'react-bootstrap/Carousel';
@@ -11,7 +11,6 @@ import Api from '../../../api/Api';
 
 const WarehouseDetails = () => {
   const [warehouseInfo, setWarehouseInfo] = useState<Array<any>>([]);
-  const [office, setOffice] = useState<Array<any>>([]);
   const { state } = useLocation();
   const api = new Api();
   const [address, setAddress] = useState<Array<any>>([]);
@@ -32,8 +31,8 @@ const WarehouseDetails = () => {
 
   const navigate = useNavigate();
   const addToCart = (e: any, selectedItem: any) => {
-    console.log("Selected Item===", selectedItem);
-    navigate('/cart');
+    //console.log("Selected Item===", selectedItem);
+    navigate('/cart',{state: selectedItem});
   }
 
 
@@ -242,7 +241,7 @@ const WarehouseDetails = () => {
                 <h6 className="text-success"> Few space left.</h6>
                 <div className="d-flex flex-column mt-4">
 
-                  <button className="btn primary-btn rounded-full" style={{ marginTop: '5px' }} type="button" onClick={(e) => { addToCart(e, office) }}>
+                  <button className="btn primary-btn rounded-full" style={{ marginTop: '5px' }} type="button" onClick={(e) => { addToCart(e, warehouseInfo) }}>
                     Proceed to Buy
                   </button>
 
