@@ -57,6 +57,14 @@ function App() {
               path={PAGES.ForgotPassword.path}
               element={<PAGES.ForgotPassword.Component />}
             />
+            <Route
+              path={PAGES.DISCOVER_MORE.path}
+              element={<PAGES.DISCOVER_MORE.Component />}
+            />
+            <Route
+              path={PAGES.PgSearchNew.path}
+              element={<PAGES.PgSearchNew.Component />}
+            />
           </Routes>
         )}
         {isAuthenticated && (
@@ -192,9 +200,9 @@ function App() {
               element={<PAGES.PAYMENT_HISTORY.Component />}
             />
             <Route
-             path={PAGES.PAYMENT_RECIEVABLE.path}
-             element={<PAGES.PAYMENT_RECIEVABLE.Component/>}
-             />
+              path={PAGES.PAYMENT_RECIEVABLE.path}
+              element={<PAGES.PAYMENT_RECIEVABLE.Component />}
+            />
             <Route
               path={PAGES.USER_PROFILE.path}
               element={<PAGES.USER_PROFILE.Component />}

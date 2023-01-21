@@ -129,10 +129,6 @@ const SignInPage = () => {
   };
 
   const [passwordType, setPasswordType] = useState("password");
-  const [passwordInput, setPasswordInput] = useState("");
-  const handlePasswordChange = (evnt) => {
-    setPasswordInput(evnt.target.value);
-  }
 
   const togglePassword = () => {
     if (passwordType === "password") {
