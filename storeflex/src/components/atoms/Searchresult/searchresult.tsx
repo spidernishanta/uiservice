@@ -10,9 +10,9 @@ import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import Carousel from 'react-bootstrap/Carousel';
 import Table from 'react-bootstrap/Table';
-
+import InputBox from '../textfield/InputBox';
 import WarehouseDetails from './warehouseDetails';
-
+import { Grid } from '@mui/material';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -162,7 +162,16 @@ export default function Searchresult() {
                             <div className="mb-2 text-muted small">
                               <span><b>Available Space</b></span>
                               <span className="text-primary"> • </span>
-                              <span>9250 Sq Ft</span>
+                              <span>9250 Sq Ft </span>
+                              <Grid container className='p-top-md' spacing={2} columns={{ xs: 6, sm: 12, md: 12 }}>
+                                <Grid xs={4}>
+                                  <InputBox data={{ type: 'date', name: 'fromdate', label: 'From', isDisabled: true }} />
+                                </Grid>
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                <Grid xs={4}>
+                                  <InputBox data={{ type: 'date', name: 'todate', label: 'To', isDisabled: true }} />
+                                </Grid>
+                              </Grid>
                             </div>
                             <div className="mb-2 text-muted small">
                               <span><b>Industries Served</b></span>
