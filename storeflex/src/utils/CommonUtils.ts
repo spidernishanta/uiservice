@@ -214,7 +214,8 @@ export const setLogInType = (val: string) => {
     const data = sessionStorage.getItem(SESSION_TYPE.login_resp);
     if (data && JSON.parse(data)) {
         const obj = JSON.parse(data);
-        sessionStorage.setItem(obj.loginType = val, val);
+        obj.loginType = val;
+        sessionStorage.setItem(SESSION_TYPE.login_resp,JSON.stringify(obj));
     }
 }
 
