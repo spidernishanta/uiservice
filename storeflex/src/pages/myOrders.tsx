@@ -18,8 +18,9 @@ const MyOrders = () => {
                 left={<SideNavBar userType={getUserType()}/>}
                 right={<OrderTable/>}
                 />
-            </AppContainer>
+            </AppContainer> 
             <Footer/>
+            {/* <OrderTable/> */}
         </>
     )
 }
