@@ -188,7 +188,7 @@ export const ProfileMenu = (props?: ProfileMenuProps) => {
     const changeToCU = () => {
         setLogInType('CU');
         window.location.href = "/dashboard";
-    }
+    } 
 
 
     return (
