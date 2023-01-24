@@ -52,10 +52,9 @@ export default function Searchresult() {
 
 
 
-  const addToCart = (e: any, selectedItem: any) => {
-    console.log("Selected Item===", selectedItem);
-    navigate('/cart');
-  }
+  // const addToCart = (e: any, selectedItem: any) => {
+  //   navigate('/cart');
+  // }
 
 
 
@@ -203,9 +202,9 @@ export default function Searchresult() {
                             <h6 className="text-success"> Few rooms left.</h6>
                             <div className="d-flex flex-column mt-4">
                               <button className="btn primary-btn-outline rounded-full" type="button" onClick={() => WarehouseDetails(ware.warehouseId)}>Details</button>
-                              <button className="btn primary-btn rounded-full" style={{ marginTop: '5px' }} type="button" onClick={(e) => { addToCart(e, ware) }} >
+                              {/* <button className="btn primary-btn rounded-full" style={{ marginTop: '5px' }} type="button" onClick={(e) => { addToCart(e, ware) }} >
                                 Proceed to Buy
-                              </button>
+                              </button> */}
                             </div>
                           </div>
                         </div>

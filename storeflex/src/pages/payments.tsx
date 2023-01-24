@@ -42,7 +42,6 @@ const Payments = () => {
                                     fullWidth
                                     id="mobileNo"
                                     label="Mobile No"
-                                    autoFocus
                                 />
                             </Grid>
                         </Grid>
@@ -55,7 +54,6 @@ const Payments = () => {
                                     fullWidth
                                     id="accountNo"
                                     label="Account Number"
-                                    autoFocus
                                 />
                             </Grid>
                             <Grid item xs={6}>
@@ -66,7 +64,6 @@ const Payments = () => {
                                     fullWidth
                                     id="ifsc"
                                     label="IFSC"
-                                    autoFocus
                                 />
                             </Grid>
                         </Grid>
