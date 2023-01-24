@@ -11,6 +11,7 @@ import PrifileMenuList from './profileList.json';
 import { Button } from 'react-bootstrap';
 import Api from '../../../api/Api';
 import { getFirstName, getIntent, getLogInType, setLogInType } from "../../../../src/utils/CommonUtils";
+import AppLogout from '../../../pages/applogout';
 
 interface ProfileMenuProps {
     isSigned?: boolean;
@@ -192,16 +193,18 @@ export const ProfileMenu = (props?: ProfileMenuProps) => {
 
     return (
         <>
-            <div className='sf-flex profile-menu-container'>
-                <span style={{ 'color': 'white' }}>Welcome {getFirstName()}</span>
-                {!getIntent() && userType === 'CU' ? <Button className='btn primary-btn sf-btn' onClick={() => window.location.href = '/business/add'}>StoreFlex Your Space</Button> : ''}
-                {getIntent() && getLogInType() === 'CU' ? <Button className='btn primary-btn sf-btn' onClick={changeToCL}>Owner Profile</Button> : '' }
-                {getIntent() && getLogInType() === 'CL' ? <Button className='btn primary-btn sf-btn' onClick={changeToCU}>Customer Profile</Button> : ''}
-                <IconButton size="large" edge="start" color="inherit" aria-label="profile" onClick={handleClick} >
-                    <ProfileBtn showProfileImg={isSigned} profileImg={profileImgUrl} />
-                </IconButton>
-                {profileMenuList()}
-            </div>
+            <AppLogout>
+                <div className='sf-flex profile-menu-container'>
+                    <span style={{ 'color': 'white' }}>Welcome {getFirstName()}</span>
+                    {!getIntent() && userType === 'CU' ? <Button className='btn primary-btn sf-btn' onClick={() => window.location.href = '/business/add'}>StoreFlex Your Space</Button> : ''}
+                    {getIntent() && getLogInType() === 'CU' ? <Button className='btn primary-btn sf-btn' onClick={changeToCL}>Owner Profile</Button> : ''}
+                    {getIntent() && getLogInType() === 'CL' ? <Button className='btn primary-btn sf-btn' onClick={changeToCU}>Customer Profile</Button> : ''}
+                    <IconButton size="large" edge="start" color="inherit" aria-label="profile" onClick={handleClick} >
+                        <ProfileBtn showProfileImg={isSigned} profileImg={profileImgUrl} />
+                    </IconButton>
+                    {profileMenuList()}
+                </div>
+            </AppLogout>
         </>
     )
 }

@@ -15,6 +15,7 @@ import { VisibilityOff } from '@mui/icons-material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { Add } from '@mui/icons-material';
 import { Navbar, Container } from 'react-bootstrap';
+import faq from './faq';
 
 const ForgotPass = () => {
     const navigate = useNavigate();

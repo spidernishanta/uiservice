@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { Grid } from '@mui/material';
 import InputBox from '../../../atoms/textfield/InputBox';
 import { validateAreaSpace, validateRate } from '../../../../utils/CommonUtils';
@@ -12,30 +12,30 @@ interface WearehousePricingProps {
     onWearehousePricingUpdate?: (data: any) => void;
 }
 
-const WearehousePricing=(props: WearehousePricingProps) => {
+const WearehousePricing = (props: WearehousePricingProps) => {
 
     const [spaceInfo, setSpaceInfo] = useState<objectData>({});
     const [rateInfo, setRateInfo] = useState<objectData>({});
     const [quantityInfo, setQuantityInfo] = useState<objectData>({});
 
-    const [onUpdateInfo , setonUpdateInfo] = useState(false);
+    const [onUpdateInfo, setonUpdateInfo] = useState(false);
 
     useEffect(() => {
-        if(onUpdateInfo) {
+        if (onUpdateInfo) {
             setonUpdateInfo(false);
             onChangeUpdateInfo();
         }
     }, [onUpdateInfo]);
 
     const getVal = (obj: objectData) => {
-        if(obj.isUpdated) {
+        if (obj.isUpdated) {
             return obj.val
         } else {
             return undefined;
         }
     }
     const onChangeUpdateInfo = () => {
-        if(props?.onWearehousePricingUpdate) {
+        if (props?.onWearehousePricingUpdate) {
             const obj = {} as Warehouseprice;
             obj.availspace = getVal(spaceInfo);
             obj.ratesqtft = getVal(rateInfo);
@@ -93,7 +93,7 @@ const WearehousePricing=(props: WearehousePricingProps) => {
         setQuantityInfo(obj);
         setonUpdateInfo(true);
     }
-    
+
 
 
     return (
@@ -103,26 +103,32 @@ const WearehousePricing=(props: WearehousePricingProps) => {
                     <div className='font-white p-sm f-18px f-bold'>Pricing</div>
                 </div>
                 <div className='p-md'>
-                        <Grid container spacing={2} columns={{ xs: 4, sm: 12, md: 12 }}>
-                            <Grid item xs={4}>
-                                <InputBox data={{ name: 'availablespace', label: 'Total Available Space (sq.ft)*', value: '' }}
-                                    onChange={validateSpaceInfo}
-                                />
-                                <InputError errorText={spaceInfo.error}/>
-                            </Grid>
-                            <Grid item xs={4}>
-                                <InputBox data={{ name: 'rate', label: 'Rate(Rs)/sq.ft/month *', value: '' }}
-                                    onChange={validateRateInfo}
-                                />
-                            <InputError errorText={rateInfo.error}/>
-                            </Grid>
-                            <Grid item xs={4}>
-                                <InputBox data={{ name: 'quantity', label: 'Minimum Order Quantity (sq.ft)', value: '' }}
-                                    onChange={validateQuantityInfo}
-                                />
-                                <InputError errorText={quantityInfo.error}/>
-                            </Grid>
+                    <Grid container spacing={2} columns={{ xs: 4, sm: 12, md: 12 }}>
+                        <Grid item xs={4}>
+                            <InputBox data={{ name: 'availablespace', label: 'Total Available Space (sq.ft)*', value: '' }}
+                                onChange={validateSpaceInfo}
+                            />
+                            <InputError errorText={spaceInfo.error} />
                         </Grid>
+                        <Grid item xs={4}>
+                            <InputBox data={{ name: 'rate', label: 'Rate(Rs)/sq.ft/month *', value: '' }}
+                                onChange={validateRateInfo}
+                            />
+                            <InputError errorText={rateInfo.error} />
+                        </Grid>
+                        <Grid item xs={4}>
+                            <InputBox data={{ name: 'quantity', label: 'Minimum Order Quantity (sq.ft)', value: '' }}
+                                onChange={validateQuantityInfo}
+                            />
+                            <InputError errorText={quantityInfo.error} />
+                        </Grid>
+                        <Grid item xs={4}>
+                            <InputBox data={{ type: 'date', name: 'fromdate', label: 'From' }} />
+                        </Grid>
+                        <Grid item xs={4}>
+                            <InputBox data={{ type: 'date', name: 'todate', label: 'To' }} />
+                        </Grid>
+                    </Grid>
                 </div>
             </div>
         </>
