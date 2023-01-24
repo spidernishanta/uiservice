@@ -183,11 +183,11 @@ export const ProfileMenu = (props?: ProfileMenuProps) => {
 
     const changeToCL = () => {
         setLogInType('CL');
-        window.location.reload();
+        window.location.replace('/dashboard');
     }
     const changeToCU = () => {
         setLogInType('CU');
-        window.location.reload();
+        window.location.replace('/dashboard');
     }
 
 
