@@ -132,7 +132,7 @@ const ContactUs = () => {
                     <div className="col-lg-4 col-md-6 col-12">
                       <div className="form-group">
                         {isAuthenticated ?
-                          <input name="fname" type="text" placeholder="First Name" onChange={handleChange} value={sessionStorage.getItem('firstName')} readOnly />
+                          <input name="fname" type="text" placeholder="First Name" onChange={handleChange} value={sessionStorage.getItem('firstName') || ''} readOnly />
                           : <input name="fname" type="text" placeholder="First Name" onChange={handleChange} value={values.fname} />
                         }
                         {errors.nameError && <p className="text-red">{errors.nameError}</p>}
@@ -146,7 +146,7 @@ const ContactUs = () => {
                     <div className="col-lg-4 col-md-6 col-12">
                       <div className="form-group">
                         {isAuthenticated ?
-                          <input name="lname" type="text" placeholder="Last Name" onChange={handleChange} value={sessionStorage.getItem('lastName')} readOnly />
+                          <input name="lname" type="text" placeholder="Last Name" onChange={handleChange} value={sessionStorage.getItem('lastName') || ''} readOnly />
                           : <input name="lname" type="text" placeholder="Last Name" onChange={handleChange} value={values.lname} />
                         }
                       </div>
@@ -160,7 +160,7 @@ const ContactUs = () => {
                     <div className="col-lg-6 col-md-6 col-12">
                       <div className="form-group">
                         {isAuthenticated ?
-                          <input name="email" type="email" placeholder="Email" onChange={handleChange} value={sessionStorage.getItem('email')} readOnly />
+                          <input name="email" type="email" placeholder="Email" onChange={handleChange} value={sessionStorage.getItem('email') || ''} readOnly />
                           : <input name="email" type="email" placeholder="Email" onChange={handleChange} value={values.email} />
                         }
                         {errors.emailError && <p className="text-red">{errors.emailError}</p>}
