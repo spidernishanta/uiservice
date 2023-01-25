@@ -5,7 +5,7 @@ import MenuItem from '@mui/material/MenuItem';
 import ListItemText from '@mui/material/ListItemText';
 import { ProfileBtn } from '../button/button';
 import './profile.scss';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import swal from 'sweetalert';
 import PrifileMenuList from './profileList.json';
 import { Button } from 'react-bootstrap';
@@ -181,13 +181,25 @@ export const ProfileMenu = (props?: ProfileMenuProps) => {
         );
     }
 
+    const ll = useLocation();
+
     const changeToCL = () => {
         setLogInType('CL');
-        window.location.href = "/dashboard";
+        if (ll.pathname === '/home') {
+            window.location.href = '/home'
+        }
+        else {
+            window.location.href = '/dashboard'
+        }
     }
     const changeToCU = () => {
         setLogInType('CU');
-        window.location.href = "/dashboard";
+        if (ll.pathname === '/home') {
+            window.location.href = '/home'
+        }
+        else {
+            window.location.href = '/dashboard'
+        }
     }
 
     return (
