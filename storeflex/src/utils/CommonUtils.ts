@@ -218,6 +218,7 @@ export const setLogInType = (val: string) => {
             sessionStorage.setItem(SESSION_TYPE.login_resp,JSON.stringify(obj));
         }
     } 
+    
 
 export const getFirstName = () => {
     const data = sessionStorage.getItem(SESSION_TYPE.login_resp);
