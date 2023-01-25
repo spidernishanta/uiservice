@@ -46,7 +46,6 @@ const PriceDetailsHeader = () => {
 
 const CartContents = (props: CartContentsProps) => {
     const data = props.storeInfo;
-    console.log(data);
     // const [storeDetails, setStoreData] = useState<Array<any>>([]);
     // useEffect(()=>{
     //     setStoreData(data);  
@@ -190,10 +189,10 @@ const CartContents = (props: CartContentsProps) => {
                                                     <div className='card p-top-xl'>
                                                         <div className='text-left'>
                                                             <div className='sub-header'> {data['warehouseName']} </div>
-                                                            <div className='sub-header'> {data['warehouseTaxId']} </div>
+                                                            <div className='sub-header'> {data['descp']} </div>
                                                             <div> {data['warehouseTaxId']} </div>
-                                                            <div><b>Minimum Space</b> : {data['updatedBy']}</div>
-                                                            <div><b>Available Space</b> : {data['updateDate']}</div>
+                                                            <div><b>Minimum Space</b> : {data['streetAddrs']}</div>
+                                                            <div><b>Available Space</b> : {data['state']}</div>
                                                         </div>
                                                     </div>
                                                 </Grid>
@@ -212,6 +211,17 @@ const CartContents = (props: CartContentsProps) => {
                                                         onChange={validateSpaceOrdered}
                                                     />
                                                     {errorMessage && <div className="text-red"> {errorMessage} </div>}
+                                                </Grid>
+                                                <Grid item xs={3}>
+                                                    <InputBox data={{name: 'startdata', label: 'Start Date', value: ''}}/>
+                                                </Grid>
+                                                <Grid item xs={3}>
+                                                    <InputBox data={{name: 'enddata', label: 'End Date', value: ''}}/>
+                                                </Grid>
+                                                <Grid item sm={3}>
+                                                </Grid>
+                                                <Grid item xs={9}>
+                                                    <InputBox data={{name: 'NotestoWarehouse', label: 'Notes to Warehouse', value: ''}}/>
                                                 </Grid>
                                             </Grid>
                                         </Grid>
@@ -235,7 +245,7 @@ const CartContents = (props: CartContentsProps) => {
                                                             <Divider sx={{ m: 2 }} />
                                                             Discount: 0.00
                                                             <Divider sx={{ m: 2 }} />
-                                                            {/* Total Amount: &#x20B9;{parseFloat(data.clientId) + 0.18 * parseFloat(data.clientId)} */}
+                                                            Total Amount: &#x20B9;{parseFloat(data.clientId) + 0.18 * parseFloat(data.clientId)}
                                                             <Divider sx={{ m: 2 }} />
                                                         </div>
 
@@ -273,12 +283,12 @@ const CartContents = (props: CartContentsProps) => {
                                                             </table>
                                                         </form>
                                                         <div >
-                                                            <Button variant="contained" color="warning" size="small" onClick={() => { goToNextPage('/paymentstatus') }}> Make Payment </Button>
+                                                            <Button variant="contained" color="warning" size="small" onClick={() => { goToNextPage('/paymentstatus') }}>Review Order</Button>
                                                         </div>
 
-                                                        <div >
+                                                        {/* <div >
                                                             <Button variant="contained" onClick={() => { goToNextPage('/paymentstatus') }} color="warning" size="small"> Sucess </Button>
-                                                        </div>
+                                                        </div> */}
 
                                                     </div>
                                                 </Grid>
