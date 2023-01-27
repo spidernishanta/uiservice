@@ -207,26 +207,47 @@ const ViewBusiness = () => {
         { field: "contact", headerName: "Email/Phone", width: 250 },
     ];
 
+    const getAddress = (item: any) => {
+        let address = '';
+        if( item && item?.addresses.length) {
+            address = item.addresses[0]?.addressType + ':' + item.addresses[0]?.streetDetails + ',' + 
+            item.addresses[0]?.city + ',' + item.addresses[0]?.pincode;
+            return address;  
+        } else {
+            return address;
+        }
+    }
+    const companyData = () => {
+        let list : any[] = [];
+        if(myCompanies && myCompanies.length > 0) {
+            list = myCompanies.map((item, index) => {
+            return {
+                id: item.clientId,
+                clientId: item?.clientId,
+                compyName: item?.compyName,
+                compyDesc: item?.compyDesc,
+                url: item.url,
+                addresses: getAddress(item),
+                contact: item?.contact[0]?.contactName + '/' + item?.contact[0]?.mobileNo,
+            }
+          })
+          return list;
+        } else {
+          return list;
+        }
+      }
+
     const showCompanyList = () => {
         return (
             <Box className='m-top-md m-bot-md m-left-md m-right-md'>
                 <div className='primary-gradient'>
-                    <div className='font-white p-turing
-                        sm f-18px f-bold'>
+                    <div className='font-white p-md f-18px f-bold'>
                         {recordLabel}
                     </div>
                 </div>
                 <div style={{ height: 370, width: "100%" }}>
                     <DataGrid getRowHeight={() => 'auto'}
-                        rows={myCompanies && myCompanies.map((item: any) => ({
-                            id: item.clientId,
-                            clientId: item.clientId,
-                            compyName: item.compyName,
-                            compyDesc: item.compyDesc,
-                            url: item.url,
-                            addresses: item.addresses[0].addressType + ':' + item.addresses[0].streetDetails + ',' + item.addresses[0].city + ',' + item.addresses[0].pincode,
-                            contact: item.contact[0].contactName + '/' + item.contact[0].mobileNo,
-                        }))}
+                        rows={companyData()}
                         componentsProps={{
                             row: {
                                 onMouseEnter: onMouseEnterRow,

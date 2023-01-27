@@ -2,7 +2,7 @@
 import axios from 'axios';
 import { ApiConfig, SlLoginProps, SignInPost, SignUpPost, GetStatesProp, GetCitiesProp, AddCompanyPostData, 
     ViewCompaniesProps, ViewWarehouseProps, viewWarehouseAdminProps, EnquiryProps, viewUserProps, 
-    WarehousePostData, UserPostData } from './ApiConfig';
+    WarehousePostData, UserPostData, SearchProps } from './ApiConfig';
 
 
 // let axiosConfig = {
@@ -264,13 +264,30 @@ export default class Api {
     //     }
     // }
     async searchwarehouse(): Promise<any> {
-        const url = this.baseUrl + this.apiUrl.searchwarehouse + '&page=0&size=3';
+        const url = this.baseUrl + this.apiUrl.searchwarehouse + '?page=0&size=3';
         try {
             const response = await axios.get(url);
             return Promise.resolve(response);
         }
         catch (error) {
             console.log(' error : Get Company', error);
+            return Promise.reject(error);
+        }
+    }
+
+    async getGuestsearchwarehouse(data: SearchProps): Promise<any> {
+        const url = `${this.baseUrl}${this.apiUrl.guestsearchwarehouseApi}?searchBy=${data.search}&page=${data?.page || 0}&size=${data?.size || 3}`;
+        try {
+            const response = await axios.get(url);
+            if (response?.data?.statusCode === 600) {
+                return Promise.resolve(response?.data);
+            } else {
+                console.log(' error : getGuestsearchwarehouse ', response);
+                return Promise.reject(response);
+            }
+        }
+        catch (error) {
+            console.log(' error : getGuestsearchwarehouse ', error);
             return Promise.reject(error);
         }
     }
