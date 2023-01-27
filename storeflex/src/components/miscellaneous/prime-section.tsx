@@ -4,6 +4,7 @@ import Api from '../../api/Api';
 import Swal from 'sweetalert';
 import Carousel from "react-bootstrap/Carousel";
 import { CmsContext } from '../../context/ContextProvider';
+import { SearchProps } from '../../api/ApiConfig';
 
 interface warehouse {
   city: any,
@@ -40,12 +41,16 @@ const PrimeSection = () => {
     console.log("====>", inputRef.current.value);
     //const pin = inputRef.current.value;
     // const pin = '781036'
-    api.searchwarehouse().then((response) => {
+
+    const postData = {} as SearchProps;
+    postData.search = inputRef.current.value;
+
+    api.getGuestsearchwarehouse(postData).then((response) => {
       console.log('Warehouse Search >>>>', response);
-      const data: warehouse = response.data.methodReturnValue.warehouseViewBean
+      const data: warehouse = response.methodReturnValue.warehouseViewBean
         ;
 
-      if (response.data.status == 'SUCCESS') {
+      if (response.status === 'SUCCESS') {
         navigate('/search-new', { state: data });
       } else {
         Swal({
