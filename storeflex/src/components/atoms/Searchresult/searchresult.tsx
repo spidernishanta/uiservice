@@ -53,7 +53,7 @@ export default function Searchresult() {
 
 
   const addToCart = (e: any, selectedItem: any) => {
-    navigate('/cart',{state: selectedItem});
+    navigate('/cart', { state: selectedItem });
   }
 
 
@@ -162,15 +162,6 @@ export default function Searchresult() {
                               <span><b>Available Space</b></span>
                               <span className="text-primary"> • </span>
                               <span>9250 Sq Ft </span>
-                              <Grid container className='p-top-md' spacing={2} columns={{ xs: 6, sm: 12, md: 12 }}>
-                                <Grid xs={4}>
-                                  <InputBox data={{ type: 'date', name: 'fromdate', label: 'From', isDisabled: true }} />
-                                </Grid>
-                                &nbsp;&nbsp;&nbsp;&nbsp;
-                                <Grid xs={4}>
-                                  <InputBox data={{ type: 'date', name: 'todate', label: 'To', isDisabled: true }} />
-                                </Grid>
-                              </Grid>
                             </div>
                             <div className="mb-2 text-muted small">
                               <span><b>Industries Served</b></span>

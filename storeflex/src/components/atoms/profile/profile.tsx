@@ -71,8 +71,25 @@ export const ProfileMenu = (props?: ProfileMenuProps) => {
         }
         else if (value === 'logout_user') {
             sessionStorage.clear();
-            logout('/home')
-            window.location.reload()
+            swal({
+                icon: "success",
+                title: "You have successfully logged out.",
+                text: "Page will be auto redirect on main page in 10 seconds...",
+                buttons: {
+                    buttonOne: {
+                        text: "Login Page",
+                        value: "lp",
+                        visible: true,
+                        className: "sf-btn",
+                    }
+                },
+                timer: 10000
+            }).then(function (value) {
+                if (value == "lp") {
+                    logout('/home')
+                }
+                else { logout('/home') }
+            });
         }
         else {
             navigate(value);
@@ -188,6 +205,18 @@ export const ProfileMenu = (props?: ProfileMenuProps) => {
         if (ll.pathname === '/home') {
             window.location.href = '/home'
         }
+        else if (ll.pathname === '/discovermore') {
+            window.location.href = 'discovermore'
+        }
+        else if (ll.pathname === '/termsandconditions') {
+            window.location.href = '/termsandconditions'
+        }
+        else if (ll.pathname === '/privacypolicy') {
+            window.location.href = '/privacypolicy'
+        }
+        else if (ll.pathname === '/faq') {
+            window.location.href = '/faq'
+        }
         else {
             window.location.href = '/dashboard'
         }
@@ -196,6 +225,18 @@ export const ProfileMenu = (props?: ProfileMenuProps) => {
         setLogInType('CU');
         if (ll.pathname === '/home') {
             window.location.href = '/home'
+        }
+        else if (ll.pathname === '/discovermore') {
+            window.location.href = 'discovermore'
+        }
+        else if (ll.pathname === '/termsandconditions') {
+            window.location.href = '/termsandconditions'
+        }
+        else if (ll.pathname === '/privacypolicy') {
+            window.location.href = '/privacypolicy'
+        }
+        else if (ll.pathname === '/faq') {
+            window.location.href = '/faq'
         }
         else {
             window.location.href = '/dashboard'
