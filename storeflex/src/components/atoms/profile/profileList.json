@@ -41,7 +41,7 @@
             "url": "/changepass"
         },
         {
-            "label": "Log out",
+            "label": "Log Out",
             "url": "logout_user"
         }
     ],
@@ -79,7 +79,7 @@
             "url": "/changepass"
         },
         {
-            "label": "Log out",
+            "label": "Log Out",
             "url": "logout_user"
         }
     ],
@@ -113,7 +113,7 @@
             "url": "/changepass"
         },
         {
-            "label": "Log out",
+            "label": "Log Out",
             "url": "logout_user"
         }
     ]
