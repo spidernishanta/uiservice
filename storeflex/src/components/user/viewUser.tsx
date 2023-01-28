@@ -163,7 +163,7 @@ const ViewUser = () => {
                   setEditLogoStatus(false);
                 }}
                 onClick={() => {
-                  editUser(params.id);
+                  editUser(params.row.userInfo);
                 }}
               >
                 <EditIcon />
@@ -218,6 +218,7 @@ const ViewUser = () => {
           address: `${item.houseNo} ${item.address}`,
           phone: `${item.mobileNo}`,
           email: `${item.email}`,
+          userInfo : item,
         }
       })
       return t;
@@ -229,8 +230,7 @@ const ViewUser = () => {
     return (
       <Box className='m-top-md m-bot-md m-left-md m-right-md'>
         <div className='primary-gradient'>
-          <div className='font-white p-turing
-                        sm f-18px f-bold'>
+          <div className='font-white p-md f-18px f-bold'>
             {recordLabel}
           </div>
         </div>

@@ -4,6 +4,7 @@ import Api from '../../api/Api';
 import Swal from 'sweetalert';
 import Carousel from "react-bootstrap/Carousel";
 import { CmsContext } from '../../context/ContextProvider';
+import { SearchProps } from '../../api/ApiConfig';
 
 interface warehouse {
   city: any,
@@ -72,10 +73,67 @@ const PrimeSection = () => {
               visible: true,
               className: "sf-btn",
             }
-          }
-        })
+    // const pin = '781036'
 
+    const postData = {} as SearchProps;
+    postData.search = inputRef.current.value;
+    if (inputRef.current.value === '') {
+      Swal({
+        title: 'IMPORTANT MESSAGE',
+        icon: 'error',
+        text: 'Sorry! No StoreFlex warehouses found.\nPlease try a different search criteria\nor choose a different address',
+        buttons: {
+          buttonOne: {
+            text: "OK",
+            visible: true,
+            value: "nw",
+            className: "sf-btn",
+          }
+        }
+      }).then(function (value) {
+        if (value === 'nw') {
+          navigate('/home')
+        }
       })
+    }
+    else {
+      api.getGuestsearchwarehouse(postData).then((response) => {
+        console.log('Warehouse Search >>>>', response);
+        const data: warehouse = response.methodReturnValue.warehouseViewBean
+          ;
+
+        if (response.status === 'SUCCESS') {
+          navigate('/search-new', { state: data });
+        } else {
+          Swal({
+            title: 'We are sorry',
+            text: 'We were not able to find a match. Please try another Search Word',
+            buttons: {
+              buttonOne: {
+                text: "OK",
+                visible: true,
+                className: "sf-btn",
+              }
+            }
+          })
+        }
+      })
+        .catch((error) => {
+          console.log(error);
+          Swal({
+            title: 'We are sorry',
+            text: 'We were not able to find a match. Please try another Search Word',
+            buttons: {
+              buttonOne: {
+                text: "OK",
+                visible: true,
+                className: "sf-btn",
+              }
+            }
+          })
+
+        })
+    }
 
   }
 

@@ -136,6 +136,12 @@ export interface viewUserProps {
     status?: string;
 }
 
+export interface SearchProps {
+    page?:string;
+    size?: string;
+    search?: string;
+}
+
 export class ApiConfig {
     endPointGateWay = '/';
     testApi = '/test';
@@ -152,6 +158,7 @@ export class ApiConfig {
     updateCompanyApi = '/clientUpdate';
     uploadCompanyPhotoApi = '/uploadClientProfilePic';
     searchwarehouse = '/searchwarehouse';
+    guestsearchwarehouseApi = '/guestsearchwarehouse';
     getWarehouseByClientIdUrl = '/warehouseByClientId';
     getWarehouseByIdUrl = '/warehouseById';
     getWarehouseAdminUrl = '/warehouses';
@@ -161,7 +168,7 @@ export class ApiConfig {
     clUsersUrl = '/clientUsers';
     userUrl = '/storeflexuser';
     getCompanyListApi = '/clientDropList';
-    getWarehouseCategoriesApi = '/categories'
+    getWarehouseCategoriesApi = '/categories';
 
 }
 

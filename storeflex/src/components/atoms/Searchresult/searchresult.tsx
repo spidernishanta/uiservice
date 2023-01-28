@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from "react-router-dom"
+import { useNavigate, useLocation, Route, redirect } from "react-router-dom"
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import './searchresult.css';
@@ -13,6 +13,10 @@ import Table from 'react-bootstrap/Table';
 import InputBox from '../textfield/InputBox';
 import WarehouseDetails from './warehouseDetails';
 import { Grid } from '@mui/material';
+import { getUserLoggedIn } from '../../../utils/CommonUtils';
+import swal from 'sweetalert';
+
+const isAuthenticated = getUserLoggedIn();
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -49,7 +53,7 @@ export default function Searchresult() {
 
 
   const addToCart = (e: any, selectedItem: any) => {
-    navigate('/cart',{state: selectedItem});
+    navigate('/cart', { state: selectedItem });
   }
 
 
@@ -162,6 +166,9 @@ export default function Searchresult() {
                               <span><b>To:</b></span>
                               <span>{ware.endLease}</span>
                               <span></span>
+
+                              <span>9250 Sq Ft </span>
+
                             </div>
                             <div className="mb-2 text-muted small">
                               <span><b>Industries Served</b></span>
@@ -196,8 +203,33 @@ export default function Searchresult() {
                             </div>
                             <h6 className="text-success"> Few rooms left.</h6>
                             <div className="d-flex flex-column mt-4">
+
                               <button className="btn primary-btn-outline rounded-full" type="button" onClick={() => WarehouseDetails(ware)}>Details</button>
                               <button className="btn primary-btn rounded-full" style={{ marginTop: '5px' }} type="button" onClick={(e) => { addToCart(e, ware) }} >
+                              <button className="btn primary-btn-outline rounded-full" type="button" onClick={() => WarehouseDetails(ware.warehouseId)}>Details</button>
+                              <button className="btn primary-btn rounded-full" style={{ marginTop: '5px' }} type="button" onClick={isAuthenticated ? (e) => { addToCart(e, ware) } : () => swal({
+                                icon: "warning",
+                                title: "Confirm Identity",
+                                text: "The action you have requested requires you to provide your credentials before proceeding.",
+                                buttons: {
+                                  buttonOne: {
+                                    text: "Cancel",
+                                    value: "cl",
+                                    visible: true,
+                                    className: "sf-btn",
+                                  },
+                                  buttonTwo: {
+                                    text: "Confirm",
+                                    value: "cm",
+                                    visible: true,
+                                    className: "sf-btn",
+                                  }
+                                }
+                              }).then(function (value) {
+                                if (value === 'cm') {
+                                  navigate('/signin');
+                                }
+                              })} >
                                 Proceed to Buy
                               </button>
                             </div>

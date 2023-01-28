@@ -5,7 +5,7 @@ import MenuItem from '@mui/material/MenuItem';
 import ListItemText from '@mui/material/ListItemText';
 import { ProfileBtn } from '../button/button';
 import './profile.scss';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import swal from 'sweetalert';
 import PrifileMenuList from './profileList.json';
 import { Button } from 'react-bootstrap';
@@ -71,8 +71,26 @@ export const ProfileMenu = (props?: ProfileMenuProps) => {
         }
         else if (value === 'logout_user') {
             sessionStorage.clear();
-            logout('/home')
-            window.location.reload()
+            swal({
+                icon: "success",
+                title: "You have successfully logged out.",
+                text: "Page will be auto redirect on main page in 10 seconds...",
+                buttons: {
+                    buttonOne: {
+                        text: "Login Page",
+                        value: "lp",
+                        visible: true,
+                        className: "sf-btn",
+                    }
+                },
+                timer: 10000
+            }).then(function (value) {
+                if (value == "lp") {
+                    logout('/home');
+                }
+                else { logout('/home') }
+                window.location.reload();
+            });
         }
         else {
             navigate(value);
@@ -181,13 +199,49 @@ export const ProfileMenu = (props?: ProfileMenuProps) => {
         );
     }
 
+    const ll = useLocation();
+
     const changeToCL = () => {
         setLogInType('CL');
-        window.location.href = "/dashboard";
+        if (ll.pathname === '/home') {
+            window.location.href = '/home'
+        }
+        else if (ll.pathname === '/discovermore') {
+            window.location.href = 'discovermore'
+        }
+        else if (ll.pathname === '/termsandconditions') {
+            window.location.href = '/termsandconditions'
+        }
+        else if (ll.pathname === '/privacypolicy') {
+            window.location.href = '/privacypolicy'
+        }
+        else if (ll.pathname === '/faq') {
+            window.location.href = '/faq'
+        }
+        else {
+            window.location.href = '/dashboard'
+        }
     }
     const changeToCU = () => {
         setLogInType('CU');
-        window.location.href = "/dashboard";
+        if (ll.pathname === '/home') {
+            window.location.href = '/home'
+        }
+        else if (ll.pathname === '/discovermore') {
+            window.location.href = 'discovermore'
+        }
+        else if (ll.pathname === '/termsandconditions') {
+            window.location.href = '/termsandconditions'
+        }
+        else if (ll.pathname === '/privacypolicy') {
+            window.location.href = '/privacypolicy'
+        }
+        else if (ll.pathname === '/faq') {
+            window.location.href = '/faq'
+        }
+        else {
+            window.location.href = '/dashboard'
+        }
     }
 
     return (
