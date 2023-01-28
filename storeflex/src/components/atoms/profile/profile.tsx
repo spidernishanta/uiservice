@@ -86,9 +86,10 @@ export const ProfileMenu = (props?: ProfileMenuProps) => {
                 timer: 10000
             }).then(function (value) {
                 if (value == "lp") {
-                    logout('/home')
+                    logout('/home');
                 }
                 else { logout('/home') }
+                window.location.reload();
             });
         }
         else {
