@@ -75,5 +75,5 @@
     "node-sass": "^7.0.3",
     "typed-scss-modules": "^7.0.1"
   },
-  "proxy": "http://localhost:8088"
+  "proxy": "http://localhost:8082"
 }

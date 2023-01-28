@@ -39,8 +39,8 @@ const PrimeSection = () => {
     const api = new Api();
     console.log("====>", inputRef.current.value);
     //const pin = inputRef.current.value;
-    // const pin = '781036'
-    api.searchwarehouse().then((response) => {
+    const pin = '781036'
+    api.searchwarehouse(pin).then((response) => {
       console.log('Warehouse Search >>>>', response);
       const data: warehouse = response.data.methodReturnValue.warehouseViewBean
         ;

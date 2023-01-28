@@ -14,29 +14,25 @@ const WarehouseDetails = () => {
   const { state } = useLocation();
   const api = new Api();
   const [address, setAddress] = useState<Array<any>>([]);
+  const [hours, setHours] = useState<Array<any>>([]);
 
   useEffect(() => {
-    const stateIdData: any = state;
-    api.getWarehouseById(stateIdData).then((response) => {
+    const stateWarehouseData: any = state;
+    api.getWarehouseById(stateWarehouseData.warehouseId).then((response) => {
       if (response.status == 'SUCCESS') {
-        //console.log(response.methodReturnValue);
         setWarehouseInfo(response.methodReturnValue);
         setAddress(response.methodReturnValue.address);
+        setHours(response.methodReturnValue.hours);
       }
     }).catch((error) => {
       console.log(error);
     })
-  }, [])
-
+  }, []);
 
   const navigate = useNavigate();
   const addToCart = (e: any, selectedItem: any) => {
-    //console.log("Selected Item===", selectedItem);
     navigate('/cart',{state: selectedItem});
   }
-
-
-
 
   return (
     <>
@@ -103,25 +99,12 @@ const WarehouseDetails = () => {
                             className="w-100" />
                         </div>
                       </div>
-
                     </div>
-
-
-
-
                     <div className="text-center p-2" style={{ border: '0px' }}>
                       <button className='btn primary-btn-outline rounded-full btn-sm text-capitalize'>More Images</button>
                     </div>
-
-
                   </div>
-
-
                 </div>
-
-
-
-
               </div>
               <div className="col-md-12 col-lg-12 col-xl-12 p-3">
                 <h5><BeenhereIcon />{warehouseInfo['warehouseName']}</h5>
@@ -160,71 +143,57 @@ const WarehouseDetails = () => {
                 <tbody>
                   <tr>
                     <th>Status</th>
-                    <td>Available</td>
+                    <td>{warehouseInfo['status']}</td>
                     <th>Available Days</th>
-                    <td>Monday-Friday</td>
+                    <td>{hours['openday']}</td>
                   </tr>
 
                   <tr>
                     <th>Available Space</th>
-                    <td>9,452 Sq Ft</td>
+                    <td></td>
                     <th>Price/Sq Ft</th>
-                    <td>&#x20B9; 240</td>
+                    <td>&#x20B9;</td>
                   </tr>
                   <tr>
                     <th>Minimum Order Quantity</th>
-                    <td>3</td>
+                    <td></td>
                     <th>Clear Ceiling Height</th>
-                    <td>10 Ft</td>
+                    <td>{warehouseInfo['ceillingheight']}</td>
                   </tr>
 
                   <tr>
                     <th>#Dock High Doors</th>
-                    <td>5</td>
+                    <td>{warehouseInfo['dockhighdoors']}</td>
                     <th>#At Grade Doors</th>
-                    <td>3</td>
+                    <td>{warehouseInfo['atgradedoors']}</td>
+                  </tr>
+                  <tr>
+                    <th>#Start Lease</th>
+                    <td>{warehouseInfo['startLease']}</td>
+                    <th>#End Lease</th>
+                    <td>{warehouseInfo['endLease']}</td>
                   </tr>
                 </tbody>
               </Table>
-
-
-
-
-
               <div className="col-md-12 col-lg-12 col-xl-12 border-sm-start-none border-start p-3">
                 <div className="d-flex flex-row align-items-center mb-1">
                   <h4 className="mb-1 me-1">Industry served</h4>
                 </div>
-                <li>Flooring: Carpet </li>
-                <li>Heating features: Central</li>
-                <li>Cooling features: Central Air</li>
-                <li>Exterior features: Lighting, Private Yard</li>
-                {/* <h6 className="text-success"> Few rooms left.</h6> */}
-
+                <li>Industry Id: {warehouseInfo['industryId']} </li>
               </div>
 
               <div className="col-md-12 col-lg-12 col-xl-12 border-sm-start-none border-start p-3">
                 <div className="d-flex flex-row align-items-center mb-1">
                   <h4 className="mb-1 me-1">Storage Layout</h4>
                 </div>
-                <li>Flooring: Carpet </li>
-                <li>Heating features: Central</li>
-                <li>Cooling features: Central Air</li>
-                <li>Exterior features: Lighting, Private Yard</li>
-                {/* <h6 className="text-success"> Few rooms left.</h6> */}
-
+                <li>Storage Id: {warehouseInfo['storagesId']} </li>
               </div>
 
               <div className="col-md-12 col-lg-12 col-xl-12 border-sm-start-none border-start p-3">
                 <div className="d-flex flex-row align-items-center mb-1">
                   <h4 className="mb-1 me-1">Facility Qualifications</h4>
                 </div>
-                <li>Flooring: Carpet </li>
-                <li>Heating features: Central</li>
-                <li>Cooling features: Central Air</li>
-                <li>Exterior features: Lighting, Private Yard</li>
-                {/* <h6 className="text-success"> Few rooms left.</h6> */}
-
+                
               </div>
 
 

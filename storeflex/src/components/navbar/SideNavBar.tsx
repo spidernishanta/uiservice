@@ -64,9 +64,9 @@ const SideNavBar = (props) => {
 
       const api = new Api();
       //const pin = '';
-      //const pin = '781036'
-      api.searchwarehouse().then((response) => {
-        //console.log('Warehouse Search >>>>', response);
+      const pin = '781036'
+      api.searchwarehouse(pin).then((response) => {
+        console.log('Warehouse Search >>>>', response);
         const data: warehouse = response.data.methodReturnValue.warehouseViewBean;
         if (response.data.status == 'SUCCESS') {
           navigate('/search-new', { state: data });

@@ -34,7 +34,8 @@ const Cart = () => {
             {<TopNavBar />}
             <Container component="main" maxWidth="xl" className='p-no'>
                 <div className='font-gray f-24px p-top-xl'>Your Shopping Cart(1)</div>
-                {<CartContents storeInfo={warehouseData} />}
+                {/* {<CartContents storeInfo={warehouseData} />} */}
+                {<CartContents/>}
             </Container>
 
         </>
