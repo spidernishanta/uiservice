@@ -61,8 +61,7 @@ const PrimeSection = () => {
           }
         })
       }
-    })
-      .catch((error) => {
+    }).catch((error) => {
         console.log(error);
         Swal({
           title: 'We are sorry',
@@ -73,6 +72,9 @@ const PrimeSection = () => {
               visible: true,
               className: "sf-btn",
             }
+            }
+        })
+      })
     // const pin = '781036'
 
     const postData = {} as SearchProps;
@@ -303,5 +305,5 @@ const PrimeSection = () => {
       </section>
     </>
   );
-};
+ };
 export default PrimeSection;
