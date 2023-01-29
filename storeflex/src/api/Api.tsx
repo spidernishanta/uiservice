@@ -3,7 +3,7 @@ import axios from 'axios';
 import { ApiConfig, SlLoginProps, SignInPost, SignUpPost, GetStatesProp, GetCitiesProp, AddCompanyPostData, 
     ViewCompaniesProps, ViewWarehouseProps, viewWarehouseAdminProps, EnquiryProps, viewUserProps, 
     WarehousePostData, UserPostData, SearchProps } from './ApiConfig';
-import { sessionStorageSet, sessionStorageGet } from '../utils/CommonUtils';
+import { sessionStorageSet, sessionStorageGet} from '../utils/CommonUtils';
 import { SESSION_TYPE } from '../utils/Constants'; 
 
 

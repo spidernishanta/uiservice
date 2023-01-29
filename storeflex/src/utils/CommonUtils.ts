@@ -249,3 +249,53 @@ export const getIntent = () => {
         return null;
     }
 }
+
+export const getWhCategories = (type?: string, ids?: string) => {
+    const   warehouseCategories = sessionStorageGet(SESSION_TYPE.wh_categories);
+    if (type && ids && warehouseCategories && JSON.parse(warehouseCategories)) {
+        const whCategories =  JSON.parse(warehouseCategories);
+
+        if(whCategories && type === 'WF') {
+            const facilities = whCategories?.methodReturnValue?.facilities;
+            const idArry = ids.split("|");
+            const values = idArry.map((id) => {
+                if( facilities[id] ) {
+                    return {[id] : facilities[id]};
+                } else {
+                    return null;
+                }
+            });
+            return values
+    
+        } else if(whCategories && type === 'WT') {
+            const industries = whCategories?.methodReturnValue?.industries;
+            const idArry = ids.split("|");
+            const values = idArry.map((id) => {
+                if( industries[id] ) {
+                    return {[id] : industries[id]};
+                } else {
+                    return null;
+                }
+            });
+            return values
+    
+        } else if(whCategories && type === 'WS') {
+            const storages = whCategories?.methodReturnValue?.storages;
+            const idArry = ids.split("|");
+            const values = idArry.map((id) => {
+                if( storages[id] ) {
+                    return {[id] : storages[id]};
+                } else {
+                    return null;
+                }
+            });
+            return values
+    
+        } else {
+            return null;
+        }
+    } else {
+        return null;
+    }
+
+}
