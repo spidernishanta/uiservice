@@ -3,6 +3,8 @@ import axios from 'axios';
 import { ApiConfig, SlLoginProps, SignInPost, SignUpPost, GetStatesProp, GetCitiesProp, AddCompanyPostData, 
     ViewCompaniesProps, ViewWarehouseProps, viewWarehouseAdminProps, EnquiryProps, viewUserProps, 
     WarehousePostData, UserPostData, SearchProps } from './ApiConfig';
+import { sessionStorageSet, sessionStorageGet } from '../utils/CommonUtils';
+import { SESSION_TYPE } from '../utils/Constants'; 
 
 
 // let axiosConfig = {
@@ -338,20 +340,27 @@ export default class Api {
         }
     }
 
-    async getWarehouseCategories(): Promise<any> {
+    async getWarehouseCategories(forceCall?: boolean): Promise<any> {
         const url = this.baseUrl + this.apiUrl.getWarehouseCategoriesApi;
-        try {
-            const response = await axios.get(url);
-            if (response?.data?.statusCode === 600) {
-                return Promise.resolve(response?.data);
-            } else {
-                console.log(' error : getWarehouseCategories ', response);
-                return Promise.reject(response);
+        const   warehouseCategories = sessionStorageGet(SESSION_TYPE.wh_categories);
+        if (!forceCall && warehouseCategories && JSON.parse(warehouseCategories)) {
+            const whCategories =  JSON.parse(warehouseCategories);
+            return Promise.resolve(whCategories);
+        } else {
+            try {
+                const response = await axios.get(url);
+                if (response?.data?.statusCode === 600) {
+                    sessionStorageSet(response.data, SESSION_TYPE.wh_categories);
+                    return Promise.resolve(response?.data);
+                } else {
+                    console.log(' error : getWarehouseCategories ', response);
+                    return Promise.reject(response);
+                }
             }
-        }
-        catch (error) {
-            console.log(' error : getWarehouseCategories', error);
-            return Promise.reject(error);
+            catch (error) {
+                console.log(' error : getWarehouseCategories', error);
+                return Promise.reject(error);
+            }
         }
     }
     async enquiry(postData: EnquiryProps): Promise<any> {
