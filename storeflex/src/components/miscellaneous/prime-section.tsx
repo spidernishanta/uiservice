@@ -40,6 +40,39 @@ const PrimeSection = () => {
     const api = new Api();
     console.log("====>", inputRef.current.value);
     //const pin = inputRef.current.value;
+    const pin = '781036'
+    api.searchwarehouse(pin).then((response) => {
+      console.log('Warehouse Search >>>>', response);
+      const data: warehouse = response.data.methodReturnValue.warehouseViewBean
+        ;
+
+      if (response.data.status == 'SUCCESS') {
+        navigate('/search-new', { state: data });
+      } else {
+        Swal({
+          title: 'We are sorry',
+          text: 'We were not able to find a match. Please try another Search Word',
+          buttons: {
+            buttonOne: {
+              text: "OK",
+              visible: true,
+              className: "sf-btn",
+            }
+          }
+        })
+      }
+    })
+      .catch((error) => {
+        console.log(error);
+        Swal({
+          title: 'We are sorry',
+          text: 'We were not able to find a match. Please try another Search Word',
+          buttons: {
+            buttonOne: {
+              text: "OK",
+              visible: true,
+              className: "sf-btn",
+            }
     // const pin = '781036'
 
     const postData = {} as SearchProps;

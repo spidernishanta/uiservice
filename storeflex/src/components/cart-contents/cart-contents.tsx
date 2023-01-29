@@ -4,13 +4,8 @@ import { Button, Grid, Box, Container, styled, Paper, Divider } from '@mui/mater
 import BeenhereIcon from '@mui/icons-material/Beenhere';
 import './cart-content.scss';
 import Axios from 'axios';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import InputBox from '../atoms/textfield/InputBox';
-import { Summarize } from '@mui/icons-material';
-
-interface CartContentsProps {
-    storeInfo: any
-}
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -44,12 +39,22 @@ const PriceDetailsHeader = () => {
     )
 }
 
-const CartContents = (props: CartContentsProps) => {
-    const data = props.storeInfo;
-    // const [storeDetails, setStoreData] = useState<Array<any>>([]);
-    // useEffect(()=>{
-    //     setStoreData(data);  
-    // },[])
+const CartContents = () => {
+    const [data, setData] = useState<Array<any>>([]);
+    const [hourData, setHourData] = useState<Array<any>>([]);
+    const [addData, setAddData] = useState(0);
+    const [valueId,setValueId] = useState(false);
+    const { state } = useLocation();
+    useEffect(() => {
+        const warehouseData: any = state; 
+        setData(warehouseData);
+        setHourData(warehouseData.hours);
+        if(warehouseData.address) {
+            setAddData(warehouseData.address); 
+            setValueId(true);
+        }
+        
+      }, []);
 
     const [inputField, setInputField] = useState({
         orderId: '1211',
@@ -88,10 +93,6 @@ const CartContents = (props: CartContentsProps) => {
 
     };
 
-    //     const handleSuccess = () => {
-    //         console.log("working");
-    //
-    //     }
     const [spaceOrdered, setSpaceOrdered] = useState('');
     const [errorMessage, setErrorMessage] = React.useState("");
     const [onUpdateInfo, setonUpdateInfo] = useState(false);
@@ -121,42 +122,7 @@ const CartContents = (props: CartContentsProps) => {
     }
 
     return (
-        // <div>
-        //     <Grid container  className='p-top-xl' spacing={2} columns={{ xs: 6, sm: 12, md: 12 }}>
-        //         <Grid item xs={9}>
-        //           Self Storage Rental<hr/>
-        //         </Grid>
-        //         <Grid item xs={3}>
-        //          Due Amount
-        //         </Grid>
-        //     </Grid>
-        //     <Grid container>
-        //         <Grid item xs={12}>
-        //             {/* {data.storeInfo} */}
-        //             <img className='img-200x150'
-        //                 src='../static/images/img3.jpg'
-        //             />
-        //         </Grid>
-        //     </Grid>
-
-        //     <Grid container spacing={2} columns={{ xs: 6, sm: 12, md: 12 }}>
-        //         {/* <Grid item xs={6}>
-        //         <InputBox data={{name:'zipcode', label:'Zip*', value: data.zip}}/>
-        //         </Grid>
-        //         <Grid item xs={6}>
-        //         {data.country && 
-        //         <InputBox data={{name:'country', label:'Country', value: data.country}}/>}
-        //         </Grid> */}
-        //     </Grid>
-        // </div>
-
-
-
         <>
-
-
-
-
             <Box className='p-top-xl' sx={{ width: '100%' }}>
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 1, md: 1 }}>
                     <Container maxWidth="xl">
@@ -167,13 +133,10 @@ const CartContents = (props: CartContentsProps) => {
                         }}>
 
                             <Grid item xs={9} sx={{ pl: 1 }}>
-
-
-                                    <Item key={data.id} sx={{ mb: 1 }}>
+                                    <Item  sx={{ mb: 1 }}>
                                         <Grid item xs={12} sx={{ p: 2 }}>
                                             <div className='text-left'>
-                                                <div className='header'> {data['warehouseId']} </div>
-
+                                                <div className='header'> {data['warehouseName']} </div>
                                             </div><hr />
                                             <Grid container spacing={2}>
                                                 <Grid item sm={3}>
@@ -188,11 +151,16 @@ const CartContents = (props: CartContentsProps) => {
                                                 <Grid item sm={7}>
                                                     <div className='card p-top-xl'>
                                                         <div className='text-left'>
-                                                            <div className='sub-header'> {data['warehouseName']} </div>
-                                                            <div className='sub-header'> {data['descp']} </div>
-                                                            <div> {data['warehouseTaxId']} </div>
-                                                            <div><b>Minimum Space</b> : {data['streetAddrs']}</div>
-                                                            <div><b>Available Space</b> : {data['state']}</div>
+                                                            <div className='sub-header'> {data['warehouseId']} </div>
+                                                            <div className='sub-header'> {} </div>
+                                                            <div><b>From Date:</b>{data['startLease']}</div>
+                                                            <div><b>To Date:</b>{data['endLease']}</div>
+                                                            {valueId  ? <div><b>Address:</b>{addData[0]['streetDetails']}, {addData[0]['houseNo']}, {addData[0]['plotNo']}, {addData[0]['pincode']}, {addData[0]['city']}, {addData[0]['state']}</div> :
+                                                            <div><b>Address:</b>{data['streetAddrs']}, {data['houseNo']}, {data['plotNo']}, {data['pincode']}, {data['city']}, {data['state']}</div>
+                                                            }
+                                                            <div><b>Available Days:</b>{hourData['openday']}</div>
+                                                            <div><b>Minimum Space</b> : {}</div>
+                                                            <div><b>Available Space</b> : {}</div>
                                                         </div>
                                                     </div>
                                                 </Grid>
@@ -200,7 +168,7 @@ const CartContents = (props: CartContentsProps) => {
                                                 <Grid item sm={2}>
                                                     <div className='card p-top-xl'>
                                                         <div className='text-left'>
-                                                            <span>&#x20B9;{data.price}<i>&nbsp;/ month</i></span>
+                                                            <span>&#x20B9;{}<i>&nbsp;/ month</i></span>
                                                         </div>
                                                     </div>
                                                 </Grid>
@@ -245,7 +213,7 @@ const CartContents = (props: CartContentsProps) => {
                                                             <Divider sx={{ m: 2 }} />
                                                             Discount: 0.00
                                                             <Divider sx={{ m: 2 }} />
-                                                            Total Amount: &#x20B9;{parseFloat(data.clientId) + 0.18 * parseFloat(data.clientId)}
+                                                            {/* Total Amount: &#x20B9;{parseFloat(data.clientId) + 0.18 * parseFloat(data.clientId)} */}
                                                             <Divider sx={{ m: 2 }} />
                                                         </div>
 
@@ -285,11 +253,6 @@ const CartContents = (props: CartContentsProps) => {
                                                         <div >
                                                             <Button variant="contained" color="warning" size="small" onClick={() => { goToNextPage('/paymentstatus') }}>Review Order</Button>
                                                         </div>
-
-                                                        {/* <div >
-                                                            <Button variant="contained" onClick={() => { goToNextPage('/paymentstatus') }} color="warning" size="small"> Sucess </Button>
-                                                        </div> */}
-
                                                     </div>
                                                 </Grid>
 
