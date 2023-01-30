@@ -6,6 +6,7 @@ import './cart-content.scss';
 import Axios from 'axios';
 import { useNavigate, useLocation } from "react-router-dom";
 import InputBox from '../atoms/textfield/InputBox';
+import OrderReview from '../atoms/payment/orderReview';
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -43,18 +44,18 @@ const CartContents = () => {
     const [data, setData] = useState<Array<any>>([]);
     const [hourData, setHourData] = useState<Array<any>>([]);
     const [addData, setAddData] = useState(0);
-    const [valueId,setValueId] = useState(false);
+    const [valueId, setValueId] = useState(false);
     const { state } = useLocation();
     useEffect(() => {
-        const warehouseData: any = state; 
+        const warehouseData: any = state;
         setData(warehouseData);
         setHourData(warehouseData.hours);
-        if(warehouseData.address) {
-            setAddData(warehouseData.address); 
+        if (warehouseData.address) {
+            setAddData(warehouseData.address);
             setValueId(true);
         }
-        
-      }, []);
+
+    }, []);
 
     const [inputField, setInputField] = useState({
         orderId: '1211',
@@ -133,142 +134,136 @@ const CartContents = () => {
                         }}>
 
                             <Grid item xs={9} sx={{ pl: 1 }}>
-                                    <Item  sx={{ mb: 1 }}>
-                                        <Grid item xs={12} sx={{ p: 2 }}>
-                                            <div className='text-left'>
-                                                <div className='header'> {data['warehouseName']} </div>
-                                            </div><hr />
-                                            <Grid container spacing={2}>
-                                                <Grid item sm={3}>
-                                                    <div className='card'>
-                                                        <div className='text-left'>
-                                                            <img className='img-200x150'
-                                                                src='../static/images/store1.jpg'
-                                                            />
-                                                        </div>
+                                <Item sx={{ mb: 1 }}>
+                                    <Grid item xs={12} sx={{ p: 2 }}>
+                                        <div className='text-left'>
+                                            <div className='header'> {data['warehouseName']} </div>
+                                        </div><hr />
+                                        <Grid container spacing={2}>
+                                            <Grid item sm={3}>
+                                                <div className='card'>
+                                                    <div className='text-left'>
+                                                        <img className='img-200x150'
+                                                            src='../static/images/store1.jpg'
+                                                        />
                                                     </div>
-                                                </Grid>
-                                                <Grid item sm={7}>
-                                                    <div className='card p-top-xl'>
-                                                        <div className='text-left'>
-                                                            <div className='sub-header'> {data['warehouseId']} </div>
-                                                            <div className='sub-header'> {} </div>
-                                                            <div><b>From Date:</b>{data['startLease']}</div>
-                                                            <div><b>To Date:</b>{data['endLease']}</div>
-                                                            {valueId  ? <div><b>Address:</b>{addData[0]['streetDetails']}, {addData[0]['houseNo']}, {addData[0]['plotNo']}, {addData[0]['pincode']}, {addData[0]['city']}, {addData[0]['state']}</div> :
+                                                </div>
+                                            </Grid>
+                                            <Grid item sm={7}>
+                                                <div className='card p-top-xl'>
+                                                    <div className='text-left'>
+                                                        <div className='sub-header'> {data['warehouseId']} </div>
+                                                        <div className='sub-header'> { } </div>
+                                                        <div><b>From Date:</b>{data['startLease']}</div>
+                                                        <div><b>To Date:</b>{data['endLease']}</div>
+                                                        {valueId ? <div><b>Address:</b>{addData[0]['streetDetails']}, {addData[0]['houseNo']}, {addData[0]['plotNo']}, {addData[0]['pincode']}, {addData[0]['city']}, {addData[0]['state']}</div> :
                                                             <div><b>Address:</b>{data['streetAddrs']}, {data['houseNo']}, {data['plotNo']}, {data['pincode']}, {data['city']}, {data['state']}</div>
-                                                            }
-                                                            <div><b>Available Days:</b>{hourData['openday']}</div>
-                                                            <div><b>Minimum Space</b> : {}</div>
-                                                            <div><b>Available Space</b> : {}</div>
-                                                        </div>
+                                                        }
+                                                        <div><b>Available Days:</b>{hourData['openday']}</div>
+                                                        <div><b>Minimum Space</b> : { }</div>
+                                                        <div><b>Available Space</b> : { }</div>
                                                     </div>
-                                                </Grid>
+                                                </div>
+                                            </Grid>
 
-                                                <Grid item sm={2}>
-                                                    <div className='card p-top-xl'>
-                                                        <div className='text-left'>
-                                                            <span>&#x20B9;{}<i>&nbsp;/ month</i></span>
-                                                        </div>
+                                            <Grid item sm={2}>
+                                                <div className='card p-top-xl'>
+                                                    <div className='text-left'>
+                                                        <span>&#x20B9;{ }<i>&nbsp;/ month</i></span>
                                                     </div>
-                                                </Grid>
-                                                <Grid item sm={3}>
-                                                </Grid>
-                                                <Grid item xs={3}>
-                                                    <InputBox data={{ name: 'sporder', label: 'Space Ordered', value: '' }}
-                                                        onChange={validateSpaceOrdered}
-                                                    />
-                                                    {errorMessage && <div className="text-red"> {errorMessage} </div>}
-                                                </Grid>
-                                                <Grid item xs={3}>
-                                                    <InputBox data={{name: 'startdata', label: 'Start Date', value: ''}}/>
-                                                </Grid>
-                                                <Grid item xs={3}>
-                                                    <InputBox data={{name: 'enddata', label: 'End Date', value: ''}}/>
-                                                </Grid>
-                                                <Grid item sm={3}>
-                                                </Grid>
-                                                <Grid item xs={9}>
-                                                    <InputBox data={{name: 'NotestoWarehouse', label: 'Notes to Warehouse', value: ''}}/>
-                                                </Grid>
+                                                </div>
+                                            </Grid>
+                                            <Grid item sm={3}>
+                                            </Grid>
+                                            <Grid item xs={3}>
+                                                <InputBox data={{ name: 'sporder', label: 'Space Ordered', value: '' }}
+                                                    onChange={validateSpaceOrdered}
+                                                />
+                                                {errorMessage && <div className="text-red"> {errorMessage} </div>}
+                                            </Grid>
+                                            <Grid item xs={3}>
+                                                <InputBox data={{ name: 'startdata', label: 'Start Date', value: '', type: 'date' }} />
+                                            </Grid>
+                                            <Grid item xs={3}>
+                                                <InputBox data={{ name: 'enddata', label: 'End Date', value: '', type: 'date' }} />
+                                            </Grid>
+                                            <Grid item sm={3}>
+                                            </Grid>
+                                            <Grid item xs={9}>
+                                                <InputBox data={{ name: 'NotestoWarehouse', label: 'Notes to Warehouse', value: '' }} />
                                             </Grid>
                                         </Grid>
-                                    </Item>
-                            
-
-
+                                        {<OrderReview />}
+                                    </Grid>
+                                </Item>
                             </Grid>
                             <Grid item xs={3} sx={{ pl: 3 }}>
-                                
-                                    <Item sx={{ p: 0 }}>
-                                        <Grid item xs={12}>
 
-                                            {PriceDetailsHeader()}
+                                <Item sx={{ p: 0 }}>
+                                    <Grid item xs={12}>
 
-                                            <Grid container spacing={2} sx={{ p: 1 }}>
-                                                <Grid item sm={12}>
-                                                    <div className='card'>
-                                                        <div className='text-left'>
-                                                            <span className='text-left'>Price(2 Items):</span> <span className='text-right'> 45000.00</span>
-                                                            <Divider sx={{ m: 2 }} />
-                                                            Discount: 0.00
-                                                            <Divider sx={{ m: 2 }} />
-                                                            {/* Total Amount: &#x20B9;{parseFloat(data.clientId) + 0.18 * parseFloat(data.clientId)} */}
-                                                            <Divider sx={{ m: 2 }} />
-                                                        </div>
+                                        {PriceDetailsHeader()}
 
-
-                                                        <form id="merchantHostedForm">
-                                                            <table className="mainForm">
-                                                                <tbody>
-                                                                    <tr>
-                                                                        {/* <td>order id</td> */}
-                                                                        <td><input type="hidden" onChange={handaleInput} name="orderId" value={inputField.orderId} /></td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        {/* <td>order amount</td> */}
-                                                                        <td><input type="hidden" onChange={handaleInput} name="orderAmount" value={inputField.orderAmount} /></td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        {/* <td>customer name</td> */}
-                                                                        <td><input type="hidden" onChange={handaleInput} name="customerName" value={inputField.customerName} /></td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        {/* <td>customer email</td> */}
-                                                                        <td><input type="hidden" onChange={handaleInput} name="customerEmail" value={inputField.customerEmail} /></td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        {/* <td>MERCHANTHOSTED</td> */}
-                                                                        <td><input type="hidden" onChange={handaleInput} name="paymentType" value={inputField.paymentType} /></td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        {/* <td>customer phone</td> */}
-                                                                        <td><input type="hidden" onChange={handaleInput} name="customerPhone" value={inputField.customerPhone} /></td>
-                                                                    </tr>
-
-
-                                                                </tbody>
-                                                            </table>
-                                                        </form>
-                                                        <div >
-                                                            <Button variant="contained" color="warning" size="small" onClick={() => { goToNextPage('/paymentstatus') }}>Review Order</Button>
-                                                        </div>
+                                        <Grid container spacing={2} sx={{ p: 1 }}>
+                                            <Grid item sm={12}>
+                                                <div className='card'>
+                                                    <div className='text-left'>
+                                                        <span className='text-left'>Price(2 Items):</span> <span className='text-right'> 45000.00</span>
+                                                        <Divider sx={{ m: 2 }} />
+                                                        Discount: 0.00
+                                                        <Divider sx={{ m: 2 }} />
+                                                        {/* Total Amount: &#x20B9;{parseFloat(data.clientId) + 0.18 * parseFloat(data.clientId)} */}
+                                                        <Divider sx={{ m: 2 }} />
                                                     </div>
-                                                </Grid>
 
+
+                                                    <form id="merchantHostedForm">
+                                                        <table className="mainForm">
+                                                            <tbody>
+                                                                <tr>
+                                                                    {/* <td>order id</td> */}
+                                                                    <td><input type="hidden" onChange={handaleInput} name="orderId" value={inputField.orderId} /></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    {/* <td>order amount</td> */}
+                                                                    <td><input type="hidden" onChange={handaleInput} name="orderAmount" value={inputField.orderAmount} /></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    {/* <td>customer name</td> */}
+                                                                    <td><input type="hidden" onChange={handaleInput} name="customerName" value={inputField.customerName} /></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    {/* <td>customer email</td> */}
+                                                                    <td><input type="hidden" onChange={handaleInput} name="customerEmail" value={inputField.customerEmail} /></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    {/* <td>MERCHANTHOSTED</td> */}
+                                                                    <td><input type="hidden" onChange={handaleInput} name="paymentType" value={inputField.paymentType} /></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    {/* <td>customer phone</td> */}
+                                                                    <td><input type="hidden" onChange={handaleInput} name="customerPhone" value={inputField.customerPhone} /></td>
+                                                                </tr>
+
+
+                                                            </tbody>
+                                                        </table>
+                                                    </form>
+                                                    <div >
+                                                        <Button variant="contained" color="warning" size="small" onClick={() => { goToNextPage('/paymentstatus') }}>Review Order</Button>
+                                                    </div>
+                                                </div>
                                             </Grid>
+
                                         </Grid>
-                                    </Item>
-                            
+                                    </Grid>
+                                </Item>
+
                             </Grid>
                         </Box>
                     </Container>
                 </Grid>
-
-
             </Box>
-
-
         </>
 
     )
