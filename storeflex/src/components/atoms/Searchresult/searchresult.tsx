@@ -183,7 +183,6 @@ export default function Searchresult() {
                             </div>
                             <h6 className="text-success"> Few rooms left.</h6>
                             <div className="d-flex flex-column mt-4">
-
                               <button className="btn primary-btn-outline rounded-full" type="button" onClick={() => WarehouseDetails(ware)}>Details</button>
                               <button className="btn primary-btn rounded-full" style={{ marginTop: '5px' }} type="button" onClick={isAuthenticated ? (e) => { addToCart(e, ware) } : () => swal({
                                 icon: "warning",

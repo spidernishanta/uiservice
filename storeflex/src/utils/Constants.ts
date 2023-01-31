@@ -23,24 +23,25 @@ import BusinessReport from "../pages/businessreport";
 import LocationReport from "../pages/locationreport";
 import TermsAndConditions from "../pages/termsandconditions";
 import PrivacyPolicy from "../pages/privacy";
-import paymentStatus from "../pages/paymentStatus";
+import paymentStatus from "../components/panels/payment/paymentStatus";
 import MyOrders from "../pages/myOrders";
 import ViewUser from "../pages/viewuser";
 import editCompanyUser from "../pages/editCompanyUser";
 import DiscoverMore from "../pages/discovermore";
 import Bookings from "../pages/bookings";
-import Payments from "../pages/payments";
-import PaymentHistory from "../pages/paymentHistory";
+import PaymentPage from "../pages/PaymentPage";
+import PaymentHistory from "../components/panels/payment/PaymentHistory";
 import UserProfile from "../pages/userProfile";
 import SiteMap from "../pages/SiteMap";
 import WarehousePage from "../pages/WarehousePage";
 import UserPage from "../pages/UserPage";
-import PaymentRecievable from "../pages/PaymentRecievable";
+import PaymentRecievable from "../components/panels/payment/PaymentRecievable";
 
 import WarehouseDetails from "../components/atoms/Searchresult/warehouseDetails";
 import SignInCustomer from "../pages/signin-customer";
 import ForgotPass from "../pages/ForgotPass";
 import ChangePass from "../pages/ChangePass";
+import PaymentVerify from "../components/panels/payment/PaymentVerify";
 
 export enum USER_TYPE {
   SfUser = "SL",
@@ -236,10 +237,6 @@ export const PAGES = {
     path: "/bookings",
     Component: Bookings,
   },
-  PAYMENTS: {
-    path: "/payments",
-    Component: Payments,
-  },
   PAYMENT_RECIEVABLE:{
     path: "/paymentRecievable",
     Component: PaymentRecievable,
@@ -248,6 +245,20 @@ export const PAGES = {
   PAYMENT_HISTORY: {
     path: "/paymentHistory",
     Component: PaymentHistory,
+  },
+  PAYMENTS: {
+    path: "/payment",
+    Component : PaymentPage,
+    VERIFY: {
+      path: "/payment/verify",
+      Component: PaymentVerify,
+      id: 'VERIFY',
+    },
+    HISTORY: {
+      path: "/payment/history",
+      Component: PaymentHistory,
+      id: 'HISTORY'
+    }
   },
   USER_PROFILE: {
     path: "/view-profile",

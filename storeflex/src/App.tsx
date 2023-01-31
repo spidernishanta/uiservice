@@ -100,6 +100,11 @@ function App() {
               <Route path={PAGES.USER.EDIT.path} element={<PAGES.USER.Component id="EDIT" />} />
             </Route>
 
+            <Route path={PAGES.PAYMENTS.path}>
+              <Route path={PAGES.PAYMENTS.VERIFY.path} element={<PAGES.PAYMENTS.Component id={PAGES.PAYMENTS.VERIFY.id} />} />
+              <Route path={PAGES.PAYMENTS.HISTORY.path} element={<PAGES.PAYMENTS.Component id={PAGES.PAYMENTS.HISTORY.id}/>} />
+            </Route>
+
             <Route
               path={PAGES.EDIT_COMPANY_USER.path}
               element={<PAGES.EDIT_COMPANY_USER.Component />}
@@ -190,10 +195,6 @@ function App() {
             <Route
               path={PAGES.BOOKINGS.path}
               element={<PAGES.BOOKINGS.Component />}
-            />
-            <Route
-              path={PAGES.PAYMENTS.path}
-              element={<PAGES.PAYMENTS.Component />}
             />
             <Route
               path={PAGES.PAYMENT_HISTORY.path}

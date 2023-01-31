@@ -12,6 +12,7 @@ import { Button } from 'react-bootstrap';
 import Api from '../../../api/Api';
 import { getFirstName, getIntent, getLogInType, setLogInType } from "../../../../src/utils/CommonUtils";
 import AppLogout from '../../../pages/applogout';
+import Swal from 'sweetalert2';
 
 interface ProfileMenuProps {
     isSigned?: boolean;
@@ -71,26 +72,39 @@ export const ProfileMenu = (props?: ProfileMenuProps) => {
         }
         else if (value === 'logout_user') {
             sessionStorage.clear();
-            swal({
-                icon: "success",
-                title: "You have successfully logged out.",
-                text: "Page will be auto redirect on main page in 10 seconds...",
-                buttons: {
-                    buttonOne: {
-                        text: "Login Page",
-                        value: "lp",
-                        visible: true,
-                        className: "sf-btn",
+            var timer = 10,
+                isTimerStarted = false;
+
+            (function logOutSwal() {
+                swal({
+                    icon: "../../assets/images/white-logo.jpg",
+                    title: "You have successfully Logged Out",
+                    text: "Page will be auto redirect on main page in " + timer + " seconds...",
+                    buttons: {
+                        buttonOne: {
+                            text: "Login Page",
+                            value: "lp",
+                            visible: true,
+                            className: "sf-btn",
+                        }
+                    },
+                    timer: !isTimerStarted ? timer * 1000 : undefined,
+                }).then(function (value) {
+                    if (value == "lp") {
+                        logout('/home');
                     }
-                },
-                timer: 10000
-            }).then(function (value) {
-                if (value == "lp") {
-                    logout('/home');
+                    else { logout('/home') }
+                    window.location.reload();
+                });
+                isTimerStarted = true;
+                if (timer) {
+                    timer--;
+                    setTimeout(logOutSwal, 1000);
                 }
-                else { logout('/home') }
-                window.location.reload();
-            });
+                else {
+                    window.location.reload();
+                }
+            })();
         }
         else {
             navigate(value);

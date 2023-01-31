@@ -1,12 +1,12 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { Box, Tooltip } from '@mui/material';
 import { useNavigate } from "react-router-dom";
 import Table from 'react-bootstrap/Table';
-import TopNavBar from '../components/navbar/TopNavBar';
-import SideNavBar from '../components/navbar/SideNavBar';
-import { AppContainer, SplitPaneContainer } from '../components/containers/containers';
-import Footer from '../components/footer/footer';
-import { getUserType } from '../utils/CommonUtils';
+import TopNavBar from '../../navbar/TopNavBar';
+import SideNavBar from '../../navbar/SideNavBar';
+import { AppContainer, SplitPaneContainer } from '../../containers/containers';
+import Footer from '../../footer/footer';
+import { getUserType } from '../../../utils/CommonUtils';
 import { DataGrid } from "@mui/x-data-grid";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -17,11 +17,11 @@ const ViewWarehouse = () => {
     const goToNextPage = (pagePath: string) => {
         navigate(pagePath);
     }
-    
 
-    
 
-    
+
+
+
     const [hoveredRow, setHoveredRow] = useState(null);
     const onMouseEnterRow = (event) => {
         const id = event.currentTarget.getAttribute("data-id");
@@ -100,7 +100,7 @@ const ViewWarehouse = () => {
                                     setDeleteLogoStatus(false);
                                 }}
                                 onClick={() => {
-                                    
+
                                 }}
                             >
                                 <DeleteIcon />
@@ -112,14 +112,13 @@ const ViewWarehouse = () => {
         },
         { field: "OrderId", headerName: "Order Id", width: 100 },
         { field: "PaymentDate", headerName: "Payment Date", width: 120 },
-        { field: "LeasePeriodFromTo", headerName: "Lease Period From To", width: 170 },
-        { field: "PaymentMode", headerName: "Payment Mode", width: 150 },
+        { field: "LeasePeriodFromTo", headerName: "Lease Period From To", width: 200 },
         { field: "LeaseAmount", headerName: "Lease Amount", width: 120, },
         { field: "PaymentAmount", headerName: "Payment Amount", width: 130 },
-        { field: "Balance", headerName: "Balance",width: 120 },
-        { field: "Tax", headerName: "Tax", width: 100},
-        { field: "Invoice", headerName: "Invoice", width: 100},
-        { field: "Status", headerName: "Status", width: 100},
+        { field: "Balance", headerName: "Balance", width: 120 },
+        { field: "Tax", headerName: "Tax", width: 100 },
+        { field: "Invoice", headerName: "Invoice", width: 100 },
+        { field: "Status", headerName: "Status", width: 100 },
     ];
     return (
         <AppContainer>
@@ -181,25 +180,25 @@ const ViewWarehouse = () => {
                                     </tbody>
                                 </Table>  */}
                                 <div style={{ height: 370, width: "100%" }}>
-                    <DataGrid 
-                        rows={[
-                            {id:'123', OrderId:'ORD-101', PaymentDate:'1/1/2023', LeasePeriodFromTo: '1/1/2023-31/1/2023',PaymentMode:'Bank Transfer', LeaseAmount:'Rs.50000', PaymentAmount:'Rs.40000', Balance:'Rs.10000',Tax:'', Invoice:'Download',Status:'Active' },
-                            {id:'124', OrderId:'ORD-!02', PaymentDate:'1/12/2022', LeasePeriodFromTo:'1/12/2022-31/1/2022',PaymentMode:'Cheque',LeaseAmount:'Rs.75000', PaymentAmount:'Rs.75000',Balance:'Rs.0', Tax:'', Invoice:'Download',Status:'Active'},
+                                    <DataGrid
+                                        rows={[
+                                            { id: '123', OrderId: 'ORD-101', PaymentDate: '1/1/2023', LeasePeriodFromTo: '1/1/2023-31/1/2023',  LeaseAmount: 'Rs.50000', PaymentAmount: 'Rs.40000', Balance: 'Rs.10000', Tax: '', Invoice: 'Download', Status: 'Active' },
+                                            { id: '124', OrderId: 'ORD-!02', PaymentDate: '1/12/2022', LeasePeriodFromTo: '1/12/2022-31/1/2022', LeaseAmount: 'Rs.75000', PaymentAmount: 'Rs.75000', Balance: 'Rs.0', Tax: '', Invoice: 'Download', Status: 'Active' },
 
-                        ]}
-                        
-                        componentsProps={{
-                            row: {
-                                onMouseEnter: onMouseEnterRow,
-                                onMouseLeave: onMouseLeaveRow,
-                            },
-                        }}
-                        columns={columns}
-                        pageSize={5}
-                        rowsPerPageOptions={[5]}
-                        disableSelectionOnClick
-                    />
-                </div>
+                                        ]}
+
+                                        componentsProps={{
+                                            row: {
+                                                onMouseEnter: onMouseEnterRow,
+                                                onMouseLeave: onMouseLeaveRow,
+                                            },
+                                        }}
+                                        columns={columns}
+                                        pageSize={5}
+                                        rowsPerPageOptions={[5]}
+                                        disableSelectionOnClick
+                                    />
+                                </div>
                             </div>
                         </Box>
                     </div>

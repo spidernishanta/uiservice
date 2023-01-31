@@ -1,7 +1,7 @@
 import React from 'react';
 //import Footer from '../components/footer/footer';
 //import GuestNavbar from '../components/navbar/guest-navbar';
-import OrderReview from '../components/atoms/payment/orderReview';
+import OrderReview from '../../atoms/payment/orderReview';
 //import PaymentMsg from '../components/atoms/payment/paymentMsg';
 //import { type } from '@testing-library/user-event/dist/type';
 
