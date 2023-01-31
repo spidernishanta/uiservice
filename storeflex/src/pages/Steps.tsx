@@ -10,6 +10,11 @@ import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import VideoLabelIcon from '@mui/icons-material/VideoLabel';
 import StepConnector, { stepConnectorClasses } from '@mui/material/StepConnector';
 import { StepIconProps } from '@mui/material/StepIcon';
+import CheckIcon from '@mui/icons-material/Check';
+import DetailsIcon from '@mui/icons-material/Details';
+import ReviewsIcon from '@mui/icons-material/Reviews';
+import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
+import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
 
 
 const QontoConnector = styled(StepConnector)(({ theme }) => ({
@@ -124,9 +129,11 @@ function ColorlibStepIcon(props: StepIconProps) {
     const { active, completed, className } = props;
 
     const icons: { [index: string]: React.ReactElement } = {
-        1: <SettingsIcon />,
-        2: <GroupAddIcon />,
-        3: <VideoLabelIcon />,
+        1: <CheckIcon />,
+        2: <DetailsIcon />,
+        3: <ReviewsIcon />,
+        4: <ShoppingCartCheckoutIcon />,
+        5: <ConfirmationNumberIcon />
     };
 
     return (
