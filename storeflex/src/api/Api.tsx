@@ -1,10 +1,12 @@
 // import React from 'react';
 import axios from 'axios';
-import { ApiConfig, SlLoginProps, SignInPost, SignUpPost, GetStatesProp, GetCitiesProp, AddCompanyPostData, 
-    ViewCompaniesProps, ViewWarehouseProps, viewWarehouseAdminProps, EnquiryProps, viewUserProps, 
-    WarehousePostData, UserPostData, SearchProps } from './ApiConfig';
-import { sessionStorageSet, sessionStorageGet} from '../utils/CommonUtils';
-import { SESSION_TYPE } from '../utils/Constants'; 
+import {
+    ApiConfig, SlLoginProps, SignInPost, SignUpPost, GetStatesProp, GetCitiesProp, AddCompanyPostData,
+    ViewCompaniesProps, ViewWarehouseProps, viewWarehouseAdminProps, EnquiryProps, viewUserProps,
+    WarehousePostData, UserPostData, SearchProps
+} from './ApiConfig';
+import { sessionStorageSet, sessionStorageGet } from '../utils/CommonUtils';
+import { SESSION_TYPE } from '../utils/Constants';
 
 
 // let axiosConfig = {
@@ -64,15 +66,15 @@ export default class Api {
         const url = `${this.baseUrl}${this.apiUrl.userUrl}?roleType=${roleType}`;
         try {
             const response = await axios.post(url, postData);
-            if(response?.data?.statusCode === 600) {
+            if (response?.data?.statusCode === 600) {
                 return Promise.resolve(response?.data);
             } else if (response?.data?.statusCode === 603) {
                 //console.log(response.data.message);
                 return Promise.reject(response?.data?.message);
-            } 
+            }
             else {
                 //console.log(' error : signUp', response);
-                return Promise.reject(response); 
+                return Promise.reject(response);
             }
         }
         catch (error) {
@@ -221,9 +223,9 @@ export default class Api {
             return Promise.reject(error);
         }
     }
-    
+
     async getCompanyById(chId: string): Promise<any> {
-        const url = `${this.baseUrl}${ this.apiUrl.getCompanyByIdUrl}?clientId=${chId}`;
+        const url = `${this.baseUrl}${this.apiUrl.getCompanyByIdUrl}?clientId=${chId}`;
         try {
             const response = await axios.get(url);
             if (response?.data?.statusCode === 600) {
@@ -254,8 +256,8 @@ export default class Api {
             return Promise.reject(error);
         }
     }
-    
-   async searchwarehouse(getData: any): Promise<any> {
+
+    async searchwarehouse(getData?: any): Promise<any> {
         const url = this.baseUrl + this.apiUrl.searchwarehouse + '?pincode=' + getData + '&page=0&size=10';
         try {
             const response = await axios.get(url);
@@ -297,7 +299,7 @@ export default class Api {
     }
 
     async getWarehouseById(whId: string): Promise<any> {
-        const url = `${this.baseUrl}${ this.apiUrl.getWarehouseByIdUrl}?warehouseId=${whId}`;
+        const url = `${this.baseUrl}${this.apiUrl.getWarehouseByIdUrl}?warehouseId=${whId}`;
         try {
             const response = await axios.get(url);
             if (response?.data?.statusCode === 600) {
@@ -332,9 +334,9 @@ export default class Api {
 
     async getWarehouseCategories(forceCall?: boolean): Promise<any> {
         const url = this.baseUrl + this.apiUrl.getWarehouseCategoriesApi;
-        const   warehouseCategories = sessionStorageGet(SESSION_TYPE.wh_categories);
+        const warehouseCategories = sessionStorageGet(SESSION_TYPE.wh_categories);
         if (!forceCall && warehouseCategories && JSON.parse(warehouseCategories)) {
-            const whCategories =  JSON.parse(warehouseCategories);
+            const whCategories = JSON.parse(warehouseCategories);
             return Promise.resolve(whCategories);
         } else {
             try {
@@ -369,15 +371,15 @@ export default class Api {
             return Promise.reject(error);
         }
     }
-    async getUserList(getData?: viewUserProps, userType?: string ): Promise<any> {
+    async getUserList(getData?: viewUserProps, userType?: string): Promise<any> {
         let url = ''
-        if(userType === 'SL') {
-             url = `${this.baseUrl}${this.apiUrl.slUsersUrl}?page=${getData?.page}&size=${getData?.size}&status=${getData?.status}`;
+        if (userType === 'SL') {
+            url = `${this.baseUrl}${this.apiUrl.slUsersUrl}?page=${getData?.page}&size=${getData?.size}&status=${getData?.status}`;
         } else {
             url = `${this.baseUrl}${this.apiUrl.slUsersUrl}?page=${getData?.page}&size=${getData?.size}&status=${getData?.status}?clientId=${userType}`;
             // ?clientId=CL-119&status=ACTIVE&page=0&size=3
         }
-        
+
         try {
             const response = await axios.get(url);
             if (response?.data?.statusCode === 600 || response?.data?.statusCode === 603) {

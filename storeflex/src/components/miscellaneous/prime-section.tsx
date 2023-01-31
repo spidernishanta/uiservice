@@ -73,6 +73,9 @@ const PrimeSection = () => {
               visible: true,
               className: "sf-btn",
             }
+          }
+        })
+      })
     // const pin = '781036'
 
     const postData = {} as SearchProps;
