@@ -14,6 +14,7 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { Navbar } from 'react-bootstrap';
 import { getUserEmail } from '../utils/CommonUtils';
 
+
 const ChangePass = () => {
 
     sessionStorage.setItem('email', getUserEmail());
@@ -202,8 +203,8 @@ const ChangePass = () => {
                                     />
                                     {errors.password && <p className="text-red">{errors.password}</p>}
                                 </FormControl>
-                                <p>&nbsp;&nbsp;&nbsp;&nbsp;Use 8 or more characters with a mix of letters, numbers & </p>
-                                <p>&nbsp;&nbsp;&nbsp;&nbsp;symbols</p>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;Passwords must have at least 8 Characters and contain at least  </p>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;uppercase letters, lowercase letters, numbers and symbol</p>
                             </Grid>
 
                             <Grid item xs={12}>
