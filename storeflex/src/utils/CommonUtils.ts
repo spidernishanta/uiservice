@@ -254,13 +254,14 @@ export const getWhCategories = (type?: string, ids?: string) => {
     const   warehouseCategories = sessionStorageGet(SESSION_TYPE.wh_categories);
     if (type && ids && warehouseCategories && JSON.parse(warehouseCategories)) {
         const whCategories =  JSON.parse(warehouseCategories);
-
+        
         if(whCategories && type === 'WF') {
             const facilities = whCategories?.methodReturnValue?.facilities;
             const idArry = ids.split("|");
             const values = idArry.map((id) => {
                 if( facilities[id] ) {
-                    return {[id] : facilities[id]};
+                    //return {[id] : facilities[id]};
+                    return facilities[id];
                 } else {
                     return null;
                 }
@@ -272,7 +273,8 @@ export const getWhCategories = (type?: string, ids?: string) => {
             const idArry = ids.split("|");
             const values = idArry.map((id) => {
                 if( industries[id] ) {
-                    return {[id] : industries[id]};
+                    //return {[id] : industries[id]};
+                    return industries[id];
                 } else {
                     return null;
                 }
@@ -284,7 +286,8 @@ export const getWhCategories = (type?: string, ids?: string) => {
             const idArry = ids.split("|");
             const values = idArry.map((id) => {
                 if( storages[id] ) {
-                    return {[id] : storages[id]};
+                    //return {[id] : storages[id]};
+                    return storages[id];
                 } else {
                     return null;
                 }

@@ -60,13 +60,9 @@ const SideNavBar = (props) => {
 
   const handleOnClick = (path: string) => {
     if (path === '/search-new') {
-      //console.log("ok");
-
       const api = new Api();
-      //const pin = '';
-      const pin = '781036'
+      const pin = ''
       api.searchwarehouse(pin).then((response) => {
-        console.log('Warehouse Search >>>>', response);
         const data: warehouse = response.data.methodReturnValue.warehouseViewBean;
         if (response.data.status == 'SUCCESS') {
           navigate('/search-new', { state: data });
@@ -75,9 +71,6 @@ const SideNavBar = (props) => {
         .catch((error) => {
           console.log(error);
         })
-
-
-
     } else {
       navigate(path);
     }
@@ -108,24 +101,6 @@ const SideNavBar = (props) => {
         setValues({ ...values, MyPaymentsMenu: !values[menuState], }); break;
     }
   }
-
-  // const isPathActive = (path) => {
-  //   return true;
-  // }
-
-  // const imageHandler = (e) => {
-  //   setSelectedFile(e.target.files[0]);
-  // };
-
-  // const handleClick = () => {
-  //   document.getElementById('fileInput')?.click();
-  // };
-  // Call a function (passed as a prop from the parent component)
-  // to handle the user-selected file 
-  // const handleChange = event => {
-  //   setSelectedFile(event.target.files[0]);
-  // <nav className="sidebar sidebar-offcanvas" id="sidebar">
-  // };
   return (
     <div className='sf-box-shadow-orange'>
       <div className='p-top-md'>
