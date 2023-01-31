@@ -7,6 +7,7 @@ import Axios from 'axios';
 import { useNavigate, useLocation } from "react-router-dom";
 import InputBox from '../atoms/textfield/InputBox';
 import OrderReview from '../atoms/payment/orderReview';
+import CustomizedSteppers from '../../pages/Steps';
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -124,6 +125,7 @@ const CartContents = () => {
 
     return (
         <>
+            <CustomizedSteppers />
             <Box className='p-top-xl' sx={{ width: '100%' }}>
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 1, md: 1 }}>
                     <Container maxWidth="xl">

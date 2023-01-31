@@ -82,7 +82,7 @@ export const ProfileMenu = (props?: ProfileMenuProps) => {
                     text: "Page will be auto redirect on main page in " + timer + " seconds...",
                     buttons: {
                         buttonOne: {
-                            text: "Login Page",
+                            text: "Home Page",
                             value: "lp",
                             visible: true,
                             className: "sf-btn",

@@ -22,7 +22,7 @@ const AppLogout = ({ children }) => {
                 window.removeEventListener(item, resetTimer);
             });
             logoutAction();
-        }, 1800000); // after 30 min auto logout occurs 1800000
+        }, 1800000); // after 30 min auto logout occurs
     };
 
     const resetTimer = () => {
@@ -52,10 +52,11 @@ const AppLogout = ({ children }) => {
                     visible: true,
                     className: "sf-btn",
                 }
-            }
+            },
+            timer: 60000
         }).then(function (value) {
-            if (value == "al") { window.location.href = "/signin"; }
-            else { window.location.href = "/signin"; }
+            if (value == "al") { window.location.href = "/home"; }
+            else { window.location.href = "/home"; }
         });
     };
 
