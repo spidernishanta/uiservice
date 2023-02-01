@@ -7,6 +7,7 @@ import BeenhereIcon from '@mui/icons-material/Beenhere';
 import Carousel from 'react-bootstrap/Carousel';
 import Table from 'react-bootstrap/Table';
 import Api from '../../../api/Api';
+import { getWhCategories } from '../../../utils/CommonUtils';
 
 
 const WarehouseDetails = () => {
@@ -26,7 +27,7 @@ const WarehouseDetails = () => {
       }
     }).catch((error) => {
       console.log(error);
-    })
+    });
   }, []);
 
   const navigate = useNavigate();
@@ -179,7 +180,7 @@ const WarehouseDetails = () => {
                 <div className="d-flex flex-row align-items-center mb-1">
                   <h4 className="mb-1 me-1">Industry served</h4>
                 </div>
-                <li>Industry Id: {warehouseInfo['industryId']} </li>
+                <li>{JSON.stringify(getWhCategories('WT',warehouseInfo['industryId'])).substring(1,JSON.stringify(getWhCategories('WT',warehouseInfo['industryId'])).length - 1 )} </li>
               </div>
 
               <div className="col-md-12 col-lg-12 col-xl-12 border-sm-start-none border-start p-3">
@@ -193,7 +194,7 @@ const WarehouseDetails = () => {
                 <div className="d-flex flex-row align-items-center mb-1">
                   <h4 className="mb-1 me-1">Facility Qualifications</h4>
                 </div>
-                
+                <li>{JSON.stringify(getWhCategories('WF',warehouseInfo['facilitiesId'])).substring(1,JSON.stringify(getWhCategories('WF',warehouseInfo['facilitiesId'])).length - 1 )} </li>
               </div>
 
 
