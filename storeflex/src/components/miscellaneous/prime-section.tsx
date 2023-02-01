@@ -75,7 +75,6 @@ const PrimeSection = () => {
             }
         })
       })
-    // const pin = '781036'
 
     const postData = {} as SearchProps;
     postData.search = inputRef.current.value;

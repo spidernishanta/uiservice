@@ -160,12 +160,12 @@
                         {
                             "Label": "Payments",
                             "Name": "",
-                            "NavigateTo": "/payments"
+                            "NavigateTo": "/payment/verify"
                         },
                         {
                             "Label": "Payment History",
                             "Name": "",
-                            "NavigateTo": "/paymentHistory"
+                            "NavigateTo": "/payment/history"
                         },
                         {
                             "Label": "Payment Receivables",

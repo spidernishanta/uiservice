@@ -24,43 +24,43 @@ const InputBox = (props?: InputBoxProps) => {
         size: props?.data?.size || 'small',
         value: props?.data?.value || '',
         label: props?.data?.label,
-        type: props?.data?.type || 'text',
-        isDisabled : props?.data?.isDisabled
-    } ;
+        type: props?.data?.type || 'text' || 'date',
+        isDisabled: props?.data?.isDisabled
+    };
     const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if(props?.onChange) {
+        if (props?.onChange) {
             // console.log(' ### ' , JSON.stringify(e.currentTarget));
             props.onChange(e);
         }
     }
     const handelOnBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-        if(props?.onBlur) {
+        if (props?.onBlur) {
             props.onBlur(e);
         }
     }
     return (
         <>
-        <div className='inputbox-container'>
-            {data.label && <span className='inputbox-label'>{data.label}</span> }
-            {data.isDisabled && 
-                <input className='inputbox-field f-16px f-regular inputbox-bg' style={{height:'6vh'}}
-                type={data.type}
-                name={data.name}
-                defaultValue={data.value}
-                disabled
-                />
-            }
+            <div className='inputbox-container'>
+                {data.label && <span className='inputbox-label'>{data.label}</span>}
+                {data.isDisabled &&
+                    <input className='inputbox-field f-16px f-regular inputbox-bg' style={{ height: '6vh' }}
+                        type={data.type}
+                        name={data.name}
+                        defaultValue={data.value}
+                        disabled
+                    />
+                }
 
-            {!data.isDisabled && 
-                <input className='inputbox-field f-16px f-regular inputbox-bg' style={{height:'6vh'}}
-                type={data.type}
-                name={data.name}
-                defaultValue={data.value}
-                onChange={handleOnChange}
-                onBlur={handelOnBlur}
-                />
-            }
-        </div>
+                {!data.isDisabled &&
+                    <input className='inputbox-field f-16px f-regular inputbox-bg' style={{ height: '6vh' }}
+                        type={data.type}
+                        name={data.name}
+                        defaultValue={data.value}
+                        onChange={handleOnChange}
+                        onBlur={handelOnBlur}
+                    />
+                }
+            </div>
         </>
     )
 }

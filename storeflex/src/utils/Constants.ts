@@ -23,25 +23,30 @@ import BusinessReport from "../pages/businessreport";
 import LocationReport from "../pages/locationreport";
 import TermsAndConditions from "../pages/termsandconditions";
 import PrivacyPolicy from "../pages/privacy";
-import paymentStatus from "../pages/paymentStatus";
+import paymentStatus from "../components/panels/payment/paymentStatus";
 import MyOrders from "../pages/myOrders";
 import ViewUser from "../pages/viewuser";
 import editCompanyUser from "../pages/editCompanyUser";
 import DiscoverMore from "../pages/discovermore";
 import Bookings from "../pages/bookings";
-import Payments from "../pages/payments";
-import PaymentHistory from "../pages/paymentHistory";
+import PaymentPage from "../pages/PaymentPage";
+import PaymentHistory from "../components/panels/payment/PaymentHistory";
 import UserProfile from "../pages/userProfile";
 import SiteMap from "../pages/SiteMap";
 import WarehousePage from "../pages/WarehousePage";
 import UserPage from "../pages/UserPage";
+<<<<<<< HEAD
 import PaymentRecievable from "../pages/PaymentRecievable";
 import PaymentReport from "../pages/paymentReport";
+=======
+import PaymentRecievable from "../components/panels/payment/PaymentRecievable";
+>>>>>>> 6e8eb2021e6edc583a96d01c3ed13ff365905f82
 
 import WarehouseDetails from "../components/atoms/Searchresult/warehouseDetails";
 import SignInCustomer from "../pages/signin-customer";
 import ForgotPass from "../pages/ForgotPass";
 import ChangePass from "../pages/ChangePass";
+import PaymentVerify from "../components/panels/payment/PaymentVerify";
 
 export enum USER_TYPE {
   SfUser = "SL",
@@ -237,10 +242,6 @@ export const PAGES = {
     path: "/bookings",
     Component: Bookings,
   },
-  PAYMENTS: {
-    path: "/payments",
-    Component: Payments,
-  },
   PAYMENT_RECIEVABLE:{
     path: "/paymentRecievable",
     Component: PaymentRecievable,
@@ -249,9 +250,25 @@ export const PAGES = {
     path: "/paymentHistory",
     Component: PaymentHistory,
   },
+<<<<<<< HEAD
   PAYMENT_REPORT: {
     path: "/PaymentReport",
     Component: PaymentReport,
+=======
+  PAYMENTS: {
+    path: "/payment",
+    Component : PaymentPage,
+    VERIFY: {
+      path: "/payment/verify",
+      Component: PaymentVerify,
+      id: 'VERIFY',
+    },
+    HISTORY: {
+      path: "/payment/history",
+      Component: PaymentHistory,
+      id: 'HISTORY'
+    }
+>>>>>>> 6e8eb2021e6edc583a96d01c3ed13ff365905f82
   },
   USER_PROFILE: {
     path: "/view-profile",
