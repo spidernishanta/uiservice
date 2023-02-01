@@ -24,7 +24,7 @@ const InputBox = (props?: InputBoxProps) => {
         size: props?.data?.size || 'small',
         value: props?.data?.value || '',
         label: props?.data?.label,
-        type: props?.data?.type || 'text' || 'date',
+        type: props?.data?.type || 'text' || 'date' || 'number',
         isDisabled: props?.data?.isDisabled
     };
     const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
