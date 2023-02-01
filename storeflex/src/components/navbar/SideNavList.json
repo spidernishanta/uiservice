@@ -171,6 +171,11 @@
                             "Label": "Payment Receivables",
                             "Name": "",
                             "NavigateTo": "/paymentRecievable"
+                        },
+                        {
+                            "Label": "Payment Report",
+                            "Name": "",
+                            "NavigateTo": "/paymentReport"
                         }
                     ],
                     "Icon": "mdi mdi-cash menu-icon"

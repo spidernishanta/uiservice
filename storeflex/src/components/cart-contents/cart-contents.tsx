@@ -6,6 +6,7 @@ import './cart-content.scss';
 import Axios from 'axios';
 import { useNavigate, useLocation } from "react-router-dom";
 import InputBox from '../atoms/textfield/InputBox';
+import swal from 'sweetalert';
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -40,6 +41,7 @@ const PriceDetailsHeader = () => {
 }
 
 const CartContents = () => {
+    const [orderReviewBox, setOrderReviewBox] = useState(false);
     const [data, setData] = useState<Array<any>>([]);
     const [hourData, setHourData] = useState<Array<any>>([]);
     const [addData, setAddData] = useState(0);
@@ -121,6 +123,20 @@ const CartContents = () => {
         }
     }
 
+    const openReviewOrder = () => {
+        swal({
+            title: 'Review Order',
+            text: 'Warehouse Name: '+data['warehouseName']+' Space Ordered: '+data['warehouseName'],
+            closeOnClickOutside: false,
+            buttons: {
+                confirm:{text:"Make Payment"},
+                default:{text:"Cancel"}
+            },
+        }).then((response)=>{
+            console.log(response);
+        })
+    }
+
     return (
         <>
             <Box className='p-top-xl' sx={{ width: '100%' }}>
@@ -194,9 +210,6 @@ const CartContents = () => {
                                             </Grid>
                                         </Grid>
                                     </Item>
-                            
-
-
                             </Grid>
                             <Grid item xs={3} sx={{ pl: 3 }}>
                                 
@@ -251,7 +264,8 @@ const CartContents = () => {
                                                             </table>
                                                         </form>
                                                         <div >
-                                                            <Button variant="contained" color="warning" size="small" onClick={() => { goToNextPage('/paymentstatus') }}>Review Order</Button>
+                                                            {/* <Button variant="contained" color="warning" size="small" onClick={() => { goToNextPage('/paymentstatus') }}>Review Order</Button> */}
+                                                            <Button variant="contained" color="warning" size="small" onClick={()=>{openReviewOrder()}}>Review Order</Button>
                                                         </div>
                                                     </div>
                                                 </Grid>
@@ -259,16 +273,52 @@ const CartContents = () => {
                                             </Grid>
                                         </Grid>
                                     </Item>
-                            
                             </Grid>
                         </Box>
                     </Container>
                 </Grid>
-
-
+                {/* Start Review order page */}
+                {orderReviewBox ? 
+                <>
+                    <Grid item xs={9} sx={{ pl: 1 }}>
+                        <Item  sx={{ mb: 1 }}>
+                            <Grid item xs={12} sx={{ p: 2 }}>
+                                <div className='text-left'>
+                                    <div className='header'>Order Review</div>
+                                </div>
+                                <Grid container spacing={2}>
+                                    <Grid item sm={3}>
+                                        <div className='card'>
+                                            <div className='text-left'>
+                                            </div>
+                                        </div>
+                                    </Grid>
+                                    <Grid item sm={7}>
+                                        <div className='card p-top-xl'>
+                                            <div className='text-left'>
+                                            </div>
+                                        </div>
+                                    </Grid>
+                                    <Grid item sm={2}>
+                                        <div className='card p-top-xl'>
+                                            <div className='text-left'>
+                                            </div>
+                                        </div>
+                                    </Grid>
+                                    <Grid item xs={3}>
+                                        <InputBox data={{name: 'startdata', label: 'Start Date', value: ''}}/>
+                                    </Grid>
+                                    <Grid item xs={3}>
+                                        <InputBox data={{name: 'enddata', label: 'End Date', value: ''}}/>
+                                    </Grid>
+                                                
+                                </Grid>
+                            </Grid>
+                        </Item>
+                    </Grid>
+                </>:''}
+                {/* End Review order page */}
             </Box>
-
-
         </>
 
     )

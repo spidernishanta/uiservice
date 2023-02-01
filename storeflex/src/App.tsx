@@ -204,6 +204,10 @@ function App() {
               element={<PAGES.PAYMENT_RECIEVABLE.Component />}
             />
             <Route
+              path={PAGES.PAYMENT_REPORT.path}
+              element={<PAGES.PAYMENT_REPORT.Component/>}
+            />
+            <Route
               path={PAGES.USER_PROFILE.path}
               element={<PAGES.USER_PROFILE.Component />}
             />
