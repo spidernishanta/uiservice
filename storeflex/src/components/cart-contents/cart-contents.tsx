@@ -20,6 +20,7 @@ const Item = styled(Paper)(({ theme }) => ({
 const PriceDetailsHeader = () => {
     return (
         <>
+            <br />
             <Box sx={{
                 p: 1,
                 bgcolor: (theme) =>
@@ -138,7 +139,7 @@ const CartContents = () => {
                             <Grid item xs={9} sx={{ pl: 1 }}>
                                 <Item sx={{ mb: 1 }}>
                                     <Grid item xs={12} sx={{ p: 2 }}>
-                                        <div className='text-left'>
+                                        <div className='text-center'>
                                             <div className='header'> {data['warehouseName']} </div>
                                         </div><hr />
                                         <Grid container spacing={2}>
@@ -156,14 +157,15 @@ const CartContents = () => {
                                                     <div className='text-left'>
                                                         <div className='sub-header'> {data['warehouseId']} </div>
                                                         <div className='sub-header'> { } </div>
-                                                        <div><b>From Date:</b>{data['startLease']}</div>
-                                                        <div><b>To Date:</b>{data['endLease']}</div>
+                                                        <div><b>From Date:</b>{data['startLease']}&nbsp;
+                                                            <b>To Date:</b>{data['endLease']}</div>
                                                         {valueId ? <div><b>Address:</b>{addData[0]['streetDetails']}, {addData[0]['houseNo']}, {addData[0]['plotNo']}, {addData[0]['pincode']}, {addData[0]['city']}, {addData[0]['state']}</div> :
                                                             <div><b>Address:</b>{data['streetAddrs']}, {data['houseNo']}, {data['plotNo']}, {data['pincode']}, {data['city']}, {data['state']}</div>
                                                         }
                                                         <div><b>Available Days:</b>{hourData['openday']}</div>
-                                                        <div><b>Minimum Space</b> : { }</div>
-                                                        <div><b>Available Space</b> : { }</div>
+                                                        <div><b>Min. Space</b> : { }&nbsp;&nbsp;
+                                                            <b>Available Space</b> : { }
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </Grid>
@@ -178,21 +180,21 @@ const CartContents = () => {
                                             <Grid item sm={3}>
                                             </Grid>
                                             <Grid item xs={3}>
-                                                <InputBox data={{ name: 'sporder', label: 'Space Ordered', value: '' }}
+                                                <InputBox data={{ name: 'sporder', label: 'Space Required (Sq. Ft.)', value: '', type: "number" }}
                                                     onChange={validateSpaceOrdered}
                                                 />
                                                 {errorMessage && <div className="text-red"> {errorMessage} </div>}
                                             </Grid>
                                             <Grid item xs={3}>
-                                                <InputBox data={{ name: 'startdata', label: 'Start Date', value: '', type: 'date' }} />
+                                                <InputBox data={{ name: 'startdata', label: 'Start Lease', value: '', type: 'date' }} />
                                             </Grid>
                                             <Grid item xs={3}>
-                                                <InputBox data={{ name: 'enddata', label: 'End Date', value: '', type: 'date' }} />
+                                                <InputBox data={{ name: 'enddata', label: 'End Lease', value: '', type: 'date' }} />
                                             </Grid>
                                             <Grid item sm={3}>
                                             </Grid>
                                             <Grid item xs={9}>
-                                                <InputBox data={{ name: 'NotestoWarehouse', label: 'Notes to Warehouse', value: '' }} />
+                                                <InputBox data={{ name: 'NotestoWarehouse', label: 'Notes to Warehouse (Optional)', value: '' }} />
                                             </Grid>
                                         </Grid>
                                         {<OrderReview />}
