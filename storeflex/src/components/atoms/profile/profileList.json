@@ -13,10 +13,6 @@
             "url": "/myorders"
         },
         {
-            "label": "Wishlists",
-            "url": "/cart"
-        },
-        {
             "label": "List Space",
             "url": "list_popup"
         },
