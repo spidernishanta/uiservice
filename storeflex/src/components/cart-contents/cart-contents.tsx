@@ -6,7 +6,7 @@ import './cart-content.scss';
 import Axios from 'axios';
 import { useNavigate, useLocation } from "react-router-dom";
 import InputBox from '../atoms/textfield/InputBox';
-import OrderReview from '../atoms/payment/orderReview';
+//import OrderReview from '../atoms/payment/orderReview';
 import CustomizedSteppers from '../../pages/Steps';
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -43,6 +43,7 @@ const PriceDetailsHeader = () => {
 }
 
 const CartContents = () => {
+    
     const [data, setData] = useState<Array<any>>([]);
     const [hourData, setHourData] = useState<Array<any>>([]);
     const [addData, setAddData] = useState(0);
@@ -124,6 +125,7 @@ const CartContents = () => {
         }
     }
 
+
     return (
         <>
             <CustomizedSteppers />
@@ -197,17 +199,48 @@ const CartContents = () => {
                                                 <InputBox data={{ name: 'NotestoWarehouse', label: 'Notes to Warehouse (Optional)', value: '' }} />
                                             </Grid>
                                         </Grid>
-                                        {<OrderReview />}
-                                    </Grid>
-                                </Item>
+                                        </Grid>
+                                    </Item>
+                                        {/* {<OrderReview />} */}
                             </Grid>
+                            
                             <Grid item xs={3} sx={{ pl: 3 }}>
 
                                 <Item sx={{ p: 0 }}>
                                     <Grid item xs={12}>
-
                                         {PriceDetailsHeader()}
+                                                        <form id="merchantHostedForm">
+                                                            <table className="mainForm">
+                                                                <tbody>
+                                                                    <tr>
+                                                                        {/* <td>order id</td> */}
+                                                                        <td><input type="hidden" onChange={handaleInput} name="orderId" value={inputField.orderId} /></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        {/* <td>order amount</td> */}
+                                                                        <td><input type="hidden" onChange={handaleInput} name="orderAmount" value={inputField.orderAmount} /></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        {/* <td>customer name</td> */}
+                                                                        <td><input type="hidden" onChange={handaleInput} name="customerName" value={inputField.customerName} /></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        {/* <td>customer email</td> */}
+                                                                        <td><input type="hidden" onChange={handaleInput} name="customerEmail" value={inputField.customerEmail} /></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        {/* <td>MERCHANTHOSTED</td> */}
+                                                                        <td><input type="hidden" onChange={handaleInput} name="paymentType" value={inputField.paymentType} /></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        {/* <td>customer phone</td> */}
+                                                                        <td><input type="hidden" onChange={handaleInput} name="customerPhone" value={inputField.customerPhone} /></td>
+                                                                    </tr>
 
+
+                                                                </tbody>
+                                                            </table>
+                                                        </form>
                                         <Grid container spacing={2} sx={{ p: 1 }}>
                                             <Grid item sm={12}>
                                                 <div className='card'>
@@ -218,6 +251,7 @@ const CartContents = () => {
                                                         <Divider sx={{ m: 2 }} />
                                                         {/* Total Amount: &#x20B9;{parseFloat(data.clientId) + 0.18 * parseFloat(data.clientId)} */}
                                                         <Divider sx={{ m: 2 }} />
+
                                                     </div>
 
 
@@ -258,12 +292,12 @@ const CartContents = () => {
                                                     </div>
                                                 </div>
                                             </Grid>
-
                                         </Grid>
                                     </Grid>
-                                </Item>
+                                    </Item>
 
-                            </Grid>
+                                    </Grid>
+                               
                         </Box>
                     </Container>
                 </Grid>
