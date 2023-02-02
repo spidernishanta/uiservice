@@ -35,12 +35,9 @@ import UserProfile from "../pages/userProfile";
 import SiteMap from "../pages/SiteMap";
 import WarehousePage from "../pages/WarehousePage";
 import UserPage from "../pages/UserPage";
-<<<<<<< HEAD
-import PaymentRecievable from "../pages/PaymentRecievable";
+
 import PaymentReport from "../pages/paymentReport";
-=======
 import PaymentRecievable from "../components/panels/payment/PaymentRecievable";
->>>>>>> 6e8eb2021e6edc583a96d01c3ed13ff365905f82
 
 import WarehouseDetails from "../components/atoms/Searchresult/warehouseDetails";
 import SignInCustomer from "../pages/signin-customer";
@@ -250,11 +247,11 @@ export const PAGES = {
     path: "/paymentHistory",
     Component: PaymentHistory,
   },
-<<<<<<< HEAD
+
   PAYMENT_REPORT: {
     path: "/PaymentReport",
     Component: PaymentReport,
-=======
+  },
   PAYMENTS: {
     path: "/payment",
     Component : PaymentPage,
@@ -268,7 +265,6 @@ export const PAGES = {
       Component: PaymentHistory,
       id: 'HISTORY'
     }
->>>>>>> 6e8eb2021e6edc583a96d01c3ed13ff365905f82
   },
   USER_PROFILE: {
     path: "/view-profile",

@@ -6,7 +6,7 @@ import './cart-content.scss';
 import Axios from 'axios';
 import { useNavigate, useLocation } from "react-router-dom";
 import InputBox from '../atoms/textfield/InputBox';
-import OrderReview from '../atoms/payment/orderReview';
+//import OrderReview from '../atoms/payment/orderReview';
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -197,7 +197,7 @@ const CartContents = () => {
                                         </Grid>
                                         </Grid>
                                     </Item>
-                                        {<OrderReview />}
+                                        {/* {<OrderReview />} */}
                             </Grid>
                             
                             <Grid item xs={3} sx={{ pl: 3 }}>
@@ -237,10 +237,6 @@ const CartContents = () => {
                                                                 </tbody>
                                                             </table>
                                                         </form>
-                                                        <div >
-                                                            <Button variant="contained" color="warning" size="small" onClick={() => { goToNextPage('/paymentstatus') }}>Review Order</Button>
-                                                            
-                                                        </div>
                                         <Grid container spacing={2} sx={{ p: 1 }}>
                                             <Grid item sm={12}>
                                                 <div className='card'>
