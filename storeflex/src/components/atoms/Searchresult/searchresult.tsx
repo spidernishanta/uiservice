@@ -15,6 +15,8 @@ import WarehouseDetails from './warehouseDetails';
 import { Grid } from '@mui/material';
 import { getUserLoggedIn } from '../../../utils/CommonUtils';
 import swal from 'sweetalert';
+import Api from '../../../api/Api';
+import { getWhCategories } from '../../../utils/CommonUtils';
 
 const isAuthenticated = getUserLoggedIn();
 
@@ -44,6 +46,7 @@ export default function Searchresult() {
   const img4 = 'https://media.istockphoto.com/photos/warehouse-worker-picture-id1179825208';
 
   const price = '200';
+
 
   useEffect(() => {
     const stateData: any = state;
@@ -159,42 +162,24 @@ export default function Searchresult() {
                             </div>
                             <div className="mb-2 text-muted small">
                               <span><b>From:</b></span>
-                              <span>{ware.startLease}</span>
-                              <span></span>
-                            </div>
-                            <div className="mb-2 text-muted small">
+                              <span>{ware.startLease}&nbsp;</span>
                               <span><b>To:</b></span>
                               <span>{ware.endLease}</span>
-                              <span></span>
-
-                              <span>9250 Sq Ft </span>
-
                             </div>
                             <div className="mb-2 text-muted small">
                               <span><b>Industries Served</b></span>
                               <span className="text-primary"> . </span>
-                              <span></span>
-                              {/* <span className="text-primary"> • </span>
-                              <span>Base Metals</span>
-                              <span className="text-primary"> • </span>
-                              <span>Industrial & Manufacturing Materials</span> */}
                             </div>
                             <div className="mb-2 text-muted small">
                               <span><b>Storage Layout</b></span>
                               <span className="text-primary"> . </span>
-                              <span>Storage Id: {ware.storagesId}</span>
-                              {/* <span className="text-primary"> • </span>
-                              <span>Video Surveillance</span>
-                              <span className="text-primary"> • </span>
-                              <span>On Site Guards</span>
-                              <span className="text-primary"> • </span>
-                              <span>Security System</span> */}
+                              <span>{JSON.stringify(getWhCategories('WS',ware.storagesId)).substring(1,JSON.stringify(getWhCategories('WS',ware.storagesId)).length - 1 )}</span>
                             </div>
-                            {/* <p className="text-truncate mb-4 mb-md-0">
-                              There are many variations of passages of Lorem Ipsum available, but the
-                              majority have suffered alteration in some form, by injected humour, or
-                              randomised words which don't look even slightly believable.
-                            </p> */}
+                            <div className="mb-2 text-muted small">
+                              <span><b>Facilities: </b></span>
+                              <span className="text-primary"> . </span>
+                              <span>{JSON.stringify(getWhCategories('WF',ware.facilitiesId)).substring(1,JSON.stringify(getWhCategories('WF',ware.facilitiesId)).length - 1 )}</span>
+                            </div>
                           </div>
                           <div className="col-md-6 col-lg-3 col-xl-3 border-sm-start-none border-start">
                             <div className="d-flex flex-row align-items-center mb-1">
@@ -204,9 +189,7 @@ export default function Searchresult() {
                             <h6 className="text-success"> Few rooms left.</h6>
                             <div className="d-flex flex-column mt-4">
 
-                              {/* <button className="btn primary-btn-outline rounded-full" type="button" onClick={() => WarehouseDetails(ware)}>Details</button>
-                              <button className="btn primary-btn rounded-full" style={{ marginTop: '5px' }} type="button" onClick={(e) => { addToCart(e, ware) }} > */}
-                              <button className="btn primary-btn-outline rounded-full" type="button" onClick={() => WarehouseDetails(ware.warehouseId)}>Details</button>
+                              <button className="btn primary-btn-outline rounded-full" type="button" onClick={() => WarehouseDetails(ware)}>Details</button>
                               <button className="btn primary-btn rounded-full" style={{ marginTop: '5px' }} type="button" onClick={isAuthenticated ? (e) => { addToCart(e, ware) } : () => swal({
                                 icon: "warning",
                                 title: "Login Required",
