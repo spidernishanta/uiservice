@@ -23,6 +23,8 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 const SignUp = () => {
 
+
+
   const [showPassword, setShowPassword] = React.useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -75,7 +77,7 @@ const SignUp = () => {
     return errors;
   }
 
-  const onSignUp = () => {
+  const onSignUp = () => { 
     if (!values.firstName) {
       alert("First Name is required")
     }
@@ -91,6 +93,9 @@ const SignUp = () => {
     else if (!values.password1) {
       alert("Please re-enter your password")
     }
+    else if(values.password != values.password1)
+      alert("Password do not match")
+
     else {
       if (!values.mobileNo) {
         setErrors(validation(values));
