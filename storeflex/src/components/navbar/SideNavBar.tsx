@@ -45,7 +45,14 @@ const SideNavBar = (props) => {
   const [listItems, setListItems] = useState<Array<any>>([]);
   const [selectedFile, setSelectedFile] = useState<Blob>();
 
+  const api = new Api();
+
   useEffect(() => {
+    api.getWarehouseCategories().then((response)=>{
+      console.log(response);
+    }).catch((error)=>{
+      console.log(error);
+    });
     getUserMenu();
   }, [""]);
 
