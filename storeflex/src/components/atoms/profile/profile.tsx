@@ -13,6 +13,7 @@ import Api from '../../../api/Api';
 import { getFirstName, getIntent, getLogInType, setLogInType } from "../../../../src/utils/CommonUtils";
 import AppLogout from '../../../pages/applogout';
 import Swal from 'sweetalert2';
+import { SearchProps } from '../../../api/ApiConfig';
 
 interface ProfileMenuProps {
     isSigned?: boolean;
@@ -48,25 +49,25 @@ export const ProfileMenu = (props?: ProfileMenuProps) => {
     const handleClose = () => {
         setAnchorEl(null);
     };
+    const postData = {} as SearchProps;
 
     const onMenuItemClick = (value: string) => {
-        // if (value === '/search-new') {
-        //     const api = new Api();
-        //     //const pin = '';
-        //     const pin = '781036'
-        //     api.searchwarehouse(pin).then((response) => {
-        //         console.log('Warehouse Search >>>>', response);
-        //         const data: warehouse = response.data.methodReturnValue.warehouseViewBean;
-        //         if (response.data.status == 'SUCCESS') {
-        //             console.log(data);
-        //             //navigate('/search-new', { state: data });
-        //             //window.location.reload();
-        //         }
-        //     })
-        //         .catch((error) => {
-        //             console.log(error);
-        //         })
-        // }
+        if (value === '/search-new') {
+            const api = new Api();
+            const pin = ''
+            api.searchwarehouse(pin).then((response) => {
+                const data: warehouse = response.data.methodReturnValue.warehouseViewBean;
+                if (response.data.status == 'SUCCESS') {
+                    navigate('/search-new', { state: data });
+                    window.location.reload();
+                }
+            })
+                .catch((error) => {
+                    console.log(error);
+                })
+        } else {
+            navigate(value);
+        }
         if (value === 'list_popup') {
             createSwalButton()
         }
