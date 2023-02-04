@@ -13,6 +13,7 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { Navbar } from 'react-bootstrap';
 import { getUserEmail } from '../utils/CommonUtils';
+import { ChangePassPost } from '../api/ApiConfig';
 
 
 const ChangePass = () => {
@@ -40,39 +41,61 @@ const ChangePass = () => {
     const api = new Api();
 
     const [values, setValues] = useState({
-        firstName: "",
-        middleName: "",
-        lastName: "",
-        mobileNo: "",
-        email: "",
+        emailId: "",
+        oldPassword: "",
         password: "",
         password1: ""
     });
     const [errors, setErrors] = useState({
-        email: "",
+        emailId: "",
+        oldPassword: "",
         password: "",
         password1: ""
     });
 
     const onChangePass = () => {
-        swal("Your password has been successfully changed. Please use your new password to login!",
-            {
-                title: "Well Done!",
-                icon: "success",
-                buttons: {
-                    buttonOne: {
-                        text: "OK",
-                        value: "pc",
-                        className: "sf-btn"
+        const data: ChangePassPost = {
+            emailId: values.emailId,
+            oldPassword: values.oldPassword,
+            password: values.password,
+        }
+        api.changePass(data).then((response) => {
+            console.log(response);
+            swal("Your password has been successfully changed. Please use your new password to login!",
+                {
+                    title: "Well Done!",
+                    icon: "success",
+                    buttons: {
+                        buttonOne: {
+                            text: "OK",
+                            value: "pc",
+                            className: "sf-btn"
+                        }
                     }
-                }
-            }).then(function (value) {
-                if (value === "pc") {
-                    logout('/home');
-                    window.location.reload();
+                }).then(function (value) {
+                    if (value === "pc") {
+                        logout('/home');
+                        window.location.reload();
 
+                    }
+                });
+        }).catch((error) => {
+            console.log(error);
+            swal({
+                title: "Can't change password",
+                text: error,
+                icon: "erro",
+                dangerMode: true,
+                closeOnClickOutside: false,
+                buttons: {
+                    confirm: { text: "OK", value: "Ok", className: "sf-btn" },
+                },
+            }).then(goTo => {
+                if (goTo) {
+                    window.location.href = "/faq";
                 }
             });
+        })
     }
 
     const logout = (pagePath: string) => {
@@ -139,7 +162,7 @@ const ChangePass = () => {
                         <Grid container spacing={2}>
                             <Grid item xs={12}>
                                 <TextField
-                                    className={errors.email ? "border-red" : ""}
+                                    className={errors.emailId ? "border-red" : ""}
                                     // required
                                     fullWidth
                                     id="email"

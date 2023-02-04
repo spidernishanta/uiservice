@@ -1,5 +1,5 @@
 
-import { Address, Contact , Photo, Warehouseprice} from '../../src/utils/ResponseSchema'
+import { Address, Contact, Photo, Warehouseprice } from '../../src/utils/ResponseSchema'
 export interface SlLoginProps {
     username: string;
     emailId: string;
@@ -17,7 +17,13 @@ export interface SignUpPost {
     middleName?: string;
     lastName?: string;
     mobileNo?: string;
-    email?:string;
+    email?: string;
+    password?: string;
+}
+
+export interface ChangePassPost {
+    emailId?: string;
+    oldPassword?: string;
     password?: string;
 }
 
@@ -55,8 +61,8 @@ export interface ViewWarehouseProps {
     size: string;
 }
 
-export interface viewWarehouseAdminProps{
-    page:string;
+export interface viewWarehouseAdminProps {
+    page: string;
     size: string;
     status: string;
 }
@@ -120,7 +126,7 @@ export interface Hours {
     openall?: boolean;
 }
 export interface EnquiryProps {
- 
+
     firstName: string,
     middleName: string
     lastName: string,
@@ -128,16 +134,16 @@ export interface EnquiryProps {
     mobileNo: string,
     subject: string,
     descp: string
-  }
+}
 
 export interface viewUserProps {
-    page?:string;
+    page?: string;
     size?: string;
     status?: string;
 }
 
 export interface SearchProps {
-    page?:string;
+    page?: string;
     size?: string;
     search?: string;
 }
@@ -149,6 +155,7 @@ export class ApiConfig {
     slLoginApi = '/sllogin';
     signinTestApi = '/logintest';
     signUpUrl = '/register';
+    ChangePassUrl = '/changepassword';
     getStatesUrl = '/state';
     getCitiesUrl = '/city';
     getCompaniesApi = '/clients';
