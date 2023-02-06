@@ -65,6 +65,10 @@ function App() {
               path={PAGES.PgSearchNew.path}
               element={<PAGES.PgSearchNew.Component />}
             />
+            <Route
+              path={PAGES.ForgotChangePassword.path}
+              element={<PAGES.ForgotChangePassword.Component />}
+            />
           </Routes>
         )}
         {isAuthenticated && (
@@ -102,7 +106,7 @@ function App() {
 
             <Route path={PAGES.PAYMENTS.path}>
               <Route path={PAGES.PAYMENTS.VERIFY.path} element={<PAGES.PAYMENTS.Component id={PAGES.PAYMENTS.VERIFY.id} />} />
-              <Route path={PAGES.PAYMENTS.HISTORY.path} element={<PAGES.PAYMENTS.Component id={PAGES.PAYMENTS.HISTORY.id}/>} />
+              <Route path={PAGES.PAYMENTS.HISTORY.path} element={<PAGES.PAYMENTS.Component id={PAGES.PAYMENTS.HISTORY.id} />} />
             </Route>
 
             <Route
@@ -206,7 +210,7 @@ function App() {
             />
             <Route
               path={PAGES.PAYMENT_REPORT.path}
-              element={<PAGES.PAYMENT_REPORT.Component/>}
+              element={<PAGES.PAYMENT_REPORT.Component />}
             />
             <Route
               path={PAGES.USER_PROFILE.path}

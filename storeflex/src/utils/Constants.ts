@@ -44,6 +44,7 @@ import SignInCustomer from "../pages/signin-customer";
 import ForgotPass from "../pages/ForgotPass";
 import ChangePass from "../pages/ChangePass";
 import PaymentVerify from "../components/panels/payment/PaymentVerify";
+import ForgotChangePass from "../pages/ForgotChangePass";
 
 export enum USER_TYPE {
   SfUser = "SL",
@@ -85,6 +86,10 @@ export const PAGES = {
   ForgotPassword: {
     path: "/reset",
     Component: ForgotPass,
+  },
+  ForgotChangePassword: {
+    path: "/forgotpassword",
+    Component: ForgotChangePass,
   },
   ChangePassword: {
     path: "/changepass",
@@ -239,7 +244,7 @@ export const PAGES = {
     path: "/bookings",
     Component: Bookings,
   },
-  PAYMENT_RECIEVABLE:{
+  PAYMENT_RECIEVABLE: {
     path: "/paymentRecievable",
     Component: PaymentRecievable,
   },
@@ -254,7 +259,7 @@ export const PAGES = {
   },
   PAYMENTS: {
     path: "/payment",
-    Component : PaymentPage,
+    Component: PaymentPage,
     VERIFY: {
       path: "/payment/verify",
       Component: PaymentVerify,

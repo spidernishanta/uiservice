@@ -16,15 +16,10 @@ import { getUserEmail } from '../utils/CommonUtils';
 import { ChangePassPost } from '../api/ApiConfig';
 
 
-const ChangePass = () => {
+const ForgotChangePass = () => {
     sessionStorage.setItem('emailId', getUserEmail());
 
     const [loader, setLoader] = useState(false);
-    const [showOldPassword, setShowOldPassword] = React.useState(false);
-    const handleClickShowOldPassword = () => setShowOldPassword((show) => !show);
-    const handleMouseDownOldPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
-        event.preventDefault();
-    };
 
     const [showPassword, setShowPassword] = React.useState(false);
     const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -127,9 +122,6 @@ const ChangePass = () => {
         else if (!validatePassword(passwordTemp)) {
             errors.password = "Enter valid password"
         }
-        else if (values.oldPassword == passwordTemp) {
-            errors.password = "Your new password cannot be the same as your current password"
-        }
         else {
             errors.password = ""
         }
@@ -144,6 +136,9 @@ const ChangePass = () => {
         });
         if (!oldPasswordTemp) {
             errors.oldPassword = "Old Password is required."
+        }
+        else if (oldPasswordTemp == values.password) {
+            errors.oldPassword = "Your new password cannot be the same as your current password"
         }
         else {
             errors.oldPassword = ""
@@ -193,34 +188,6 @@ const ChangePass = () => {
                                     autoComplete="email"
                                     value={sessionStorage.getItem('emailId')}
                                 />
-                            </Grid>
-
-                            <Grid item xs={12}>
-                                <FormControl sx={{ m: 0, width: '50ch' }} variant="outlined" className={errors.oldPassword ? "border-red" : ""}>
-                                    <InputLabel htmlFor="outlined-adornment-password">Old Password</InputLabel>
-                                    <OutlinedInput
-                                        fullWidth
-                                        name="oldPassword"
-                                        id="oldPassword"
-                                        value={values.oldPassword}
-                                        type={showOldPassword ? 'text' : 'password'}
-                                        onChange={oldPasswordValidation}
-                                        endAdornment={
-                                            <InputAdornment position="end">
-                                                <IconButton
-                                                    aria-label="toggle password visibility"
-                                                    onClick={handleClickShowOldPassword}
-                                                    onMouseDown={handleMouseDownOldPassword}
-                                                    edge="end"
-                                                >
-                                                    {showOldPassword ? <VisibilityOff /> : <Visibility />}
-                                                </IconButton>
-                                            </InputAdornment>
-                                        }
-                                        label="Old Password"
-                                    />
-                                    {errors.oldPassword && <p className="text-red">{errors.oldPassword}</p>}
-                                </FormControl>
                             </Grid>
 
                             <Grid item xs={12}>
@@ -299,4 +266,4 @@ const ChangePass = () => {
     );
 };
 
-export default ChangePass;
+export default ForgotChangePass;
