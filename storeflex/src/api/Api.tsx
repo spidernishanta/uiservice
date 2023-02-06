@@ -3,7 +3,7 @@ import axios from 'axios';
 import {
     ApiConfig, SlLoginProps, SignInPost, SignUpPost, GetStatesProp, GetCitiesProp, AddCompanyPostData,
     ViewCompaniesProps, ViewWarehouseProps, viewWarehouseAdminProps, EnquiryProps, viewUserProps,
-    WarehousePostData, UserPostData, SearchProps
+    WarehousePostData, UserPostData, SearchProps, ChangePassPost
 } from './ApiConfig';
 import { sessionStorageSet, sessionStorageGet } from '../utils/CommonUtils';
 import { SESSION_TYPE } from '../utils/Constants';
@@ -79,6 +79,25 @@ export default class Api {
         }
         catch (error) {
             console.log('error: SignUp', error);
+            return Promise.reject(error);
+        }
+    }
+
+    async changePass(postData: ChangePassPost): Promise<any> {
+        const url = `${this.baseUrl}${this.apiUrl.ChangePassUrl}?emailId=${postData.emailId}&oldPassword=${postData.oldPassword}&password=${postData.password}`;
+        try {
+            const response = await axios.post(url, postData);
+            if (response?.data?.statusCode === 600) {
+                return Promise.resolve(response?.data);
+            } else if (response?.data?.statusCode === 603) {
+                return Promise.reject(response?.data?.message);
+            }
+            else {
+                return Promise.reject(response);
+            }
+        }
+        catch (error) {
+            console.log('error: ChangePass', error);
             return Promise.reject(error);
         }
     }
