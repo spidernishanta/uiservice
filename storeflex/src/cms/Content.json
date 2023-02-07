@@ -1,25 +1,23 @@
 {
     "common": {
         "addressText": "Address",
-        "CityText" : "City",
+        "CityText": "City",
         "StateText": "State",
         "ZipText": "Zip",
-        "Asterisk" : "*",
+        "Asterisk": "*",
         "saveBtn": "Save",
         "cancelBtn": "Cancel",
         "searchBtn": "Search",
         "termOfConditionBtn": "Terms of condiotions"
-
     },
-    "home" : {
-        "homeTitleText" : "Smarter search for space at your fingertips under one roof",
-        "homeSubTitleText" : "Global marketplace for warehouse & logistics management solutions",
-        "discoverMoreBtn" : "Discover More",
-        "searchMsgText" : "LET’S FIND THE WAREHOUSE YOU ARE LOOKING FOR",
-        "searchInputLabel" : "Enter Pin or City"
-
+    "home": {
+        "homeTitleText": "Smarter search for space at your fingertips under one roof",
+        "homeSubTitleText": "Global marketplace for warehouse & logistics management solutions",
+        "discoverMoreBtn": "Discover More",
+        "searchMsgText": "LET’S FIND THE WAREHOUSE YOU ARE LOOKING FOR",
+        "searchInputLabel": ""
     },
-    "dashboard" : {
+    "dashboard": {
         "addBusinessBtn": "Add Company",
         "searchBtn": "Search",
         "addUserBtn": "View User",
@@ -27,22 +25,14 @@
         "reportBtn": "Reports",
         "contactUpdateBtn": "Add User",
         "viewUserbtn": ""
-
-    }, 
-    "business" : {
-        "businessInfoText" : "Business Information",
-        "businessNameLabel" : "Company Name*",
-        "businessUrlLabel" : "Company Url",
-        "businessPhoneLabel" : "Business Phone*"
     },
-    "warehouse" : {
-
+    "business": {
+        "businessInfoText": "Business Information",
+        "businessNameLabel": "Company Name*",
+        "businessUrlLabel": "Company Url",
+        "businessPhoneLabel": "Business Phone*"
     },
-    "management" : {
-
-    },
-    "search" : {
-
-    }
-    
+    "warehouse": {},
+    "management": {},
+    "search": {}
 }

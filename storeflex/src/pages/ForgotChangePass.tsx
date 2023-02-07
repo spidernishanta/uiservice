@@ -12,12 +12,10 @@ import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { Navbar } from 'react-bootstrap';
-import { getUserEmail } from '../utils/CommonUtils';
 import { ChangePassPost } from '../api/ApiConfig';
 
 
 const ForgotChangePass = () => {
-    sessionStorage.setItem('emailId', getUserEmail());
 
     const [loader, setLoader] = useState(false);
 

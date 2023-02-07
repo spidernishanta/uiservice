@@ -36,7 +36,7 @@ const PrimeSection = () => {
 
   const inputRef: any = useRef(null);
 
-  const searchWarehouse = (data: any) => {
+  const searchWarehouse = (data?: any) => {
     const api = new Api();
     console.log("====>", inputRef.current.value);
     //const pin = inputRef.current.value;
@@ -62,19 +62,19 @@ const PrimeSection = () => {
         })
       }
     }).catch((error) => {
-        console.log(error);
-        Swal({
-          title: 'We are sorry',
-          text: 'We were not able to find a match. Please try another Search Word',
-          buttons: {
-            buttonOne: {
-              text: "OK",
-              visible: true,
-              className: "sf-btn",
-            }
-            }
-        })
+      console.log(error);
+      Swal({
+        title: 'We are sorry',
+        text: 'We were not able to find a match. Please try another Search Word',
+        buttons: {
+          buttonOne: {
+            text: "OK",
+            visible: true,
+            className: "sf-btn",
+          }
+        }
       })
+    })
 
     const postData = {} as SearchProps;
     postData.search = inputRef.current.value;
@@ -138,6 +138,12 @@ const PrimeSection = () => {
 
   }
 
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      searchWarehouse()
+    }
+  }
+
   return (
     <>
       <section id="hero-area" className="header-area header-ten">
@@ -178,7 +184,7 @@ const PrimeSection = () => {
                     <div className="form-group d-flex flex-row">
 
 
-                      <input className="input-search-size form-control p-2" name="name" ref={inputRef} type="text" placeholder={homeContent?.searchInputLabel} style={{ height: '50px' }} />
+                      <input className="input-search-size form-control p-2" name="name" ref={inputRef} onKeyDown={handleKeyDown} type="text" placeholder={homeContent?.searchInputLabel} style={{ height: '50px' }} />
 
 
                       <div className="light-rounded-buttons float-end mt-0">
@@ -304,5 +310,5 @@ const PrimeSection = () => {
       </section>
     </>
   );
- };
+};
 export default PrimeSection;

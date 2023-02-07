@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { validateMinLen, setUserLoggedIn, getRedirectionPage, sessionStorageSet } from '../utils/CommonUtils';
 import Api from '../api/Api';
-import { SignInPost } from '../api/ApiConfig';
+import { GetForgotPassProp, SignInPost } from '../api/ApiConfig';
 import { USER_TYPE, PAGES, SESSION_TYPE } from '../utils/Constants';
 import GoogleLogin from 'react-google-login';
 import { gapi } from "gapi-script";
@@ -16,6 +16,10 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { Add } from '@mui/icons-material';
 import { Navbar, Container } from 'react-bootstrap';
 import faq from './faq';
+
+interface forwordmail {
+    emailId: string
+}
 
 const ForgotPass = () => {
     const navigate = useNavigate();
@@ -55,20 +59,25 @@ const ForgotPass = () => {
 
 
     const SubmitSendLink = () => {
-        swal('We sent an email to ' + values.email + ' with a link to get back into your account.', {
-            title: "Email Sent",
-            buttons: {
-                buttonOne: {
-                    text: "OK",
-                    visible: true,
-                    className: "sf-btn",
+        const emailId = values.email;
+        api.ForgotPass({ emailId }).then((response) => {
+            swal('We sent an email to ' + values.email + ' with a link to get back into your account.', {
+                title: "Email Sent",
+                buttons: {
+                    buttonOne: {
+                        text: "OK",
+                        visible: true,
+                        className: "sf-btn",
+                    }
                 }
-            }
-        }).then(willUpdate => {
-            if (willUpdate) {
-                window.location.href = '/home';
-            }
-        });
+            }).then(willUpdate => {
+                if (willUpdate) {
+                    window.location.href = '/home';
+                }
+            });
+        }).catch((error) => {
+            console.log(error);
+        })
     }
 
     const [passwordType, setPasswordType] = useState("password");
@@ -124,7 +133,7 @@ const ForgotPass = () => {
                                                 Enter your email and we'll send you a link to get back into your account.
                                             </div>
                                             <div className="input-items default">
-                                                <input type="text" placeholder="Email" name="email" onChange={handleChange} />
+                                                <input type="text" placeholder="Email" name="email" id="email" onChange={handleChange} />
                                             </div>
                                         </div>
                                     </div>

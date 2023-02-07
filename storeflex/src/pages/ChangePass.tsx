@@ -62,30 +62,32 @@ const ChangePass = () => {
         setLoader(true);
         api.changePass(data).then((response) => {
             console.log(response);
-            swal("Your password has been successfully changed. Please use your new password to login!",
-                {
-                    title: "Well Done!",
-                    text: response,
-                    icon: "success",
-                    buttons: {
-                        buttonOne: {
-                            text: "OK",
-                            value: "pc",
-                            className: "sf-btn"
-                        }
+            swal({
+                title: "Password Changed",
+                text: "Please login with the new password",
+                icon: "success",
+                buttons: {
+                    buttonOne: {
+                        text: "Log In",
+                        value: "pc",
+                        className: "sf-btn"
                     }
-                }).then(function (value) {
-                    if (value === "pc") {
-                        logout('/home');
-                        window.location.reload();
+                }
+            }).then(function (value) {
+                if (value === "pc") {
+                    logout('/home');
 
-                    }
-                });
+                }
+                else {
+                    logout('/home');
+                }
+                window.location.reload();
+            });
             setLoader(false);
         }).catch((error) => {
             console.log(error);
             swal({
-                title: "Can't change password",
+                title: "StoreFlex cannot change the password",
                 text: error,
                 icon: "error",
                 dangerMode: true,
@@ -192,6 +194,7 @@ const ChangePass = () => {
                                     name="emailId"
                                     autoComplete="email"
                                     value={sessionStorage.getItem('emailId')}
+                                    disabled
                                 />
                             </Grid>
 

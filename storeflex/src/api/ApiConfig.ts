@@ -55,6 +55,10 @@ export interface GetCitiesProp {
     state: string;
 }
 
+export interface GetForgotPassProp {
+    emailId: string;
+}
+
 export interface ViewWarehouseProps {
     clientId: string;
     page: string;
@@ -156,6 +160,7 @@ export class ApiConfig {
     signinTestApi = '/logintest';
     signUpUrl = '/register';
     ChangePassUrl = '/changepassword';
+    ForgotPassUrl = '/forgotpassword';
     getStatesUrl = '/state';
     getCitiesUrl = '/city';
     getCompaniesApi = '/clients';
