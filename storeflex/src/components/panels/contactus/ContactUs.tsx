@@ -85,6 +85,13 @@ const ContactUs = () => {
       api.enquiry(postData).then((response) => {
         swal('Your message has been sent successfully!', {
           icon: "success",
+          buttons: {
+            buttonOne: {
+              text: "OK",
+              visible: true,
+              className: "sf-btn",
+            }
+          }
         });
         setValues(contactUsFields);
         setErrors(contactUsErrors);

@@ -12,19 +12,12 @@ import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { Navbar } from 'react-bootstrap';
-import { getUserEmail } from '../utils/CommonUtils';
-import { ChangePassPost } from '../api/ApiConfig';
+import { UpdatePassPost } from '../api/ApiConfig';
 
 
-const ChangePass = () => {
-    sessionStorage.setItem('emailId', getUserEmail());
+const ForgotChangePass = () => {
 
     const [loader, setLoader] = useState(false);
-    const [showOldPassword, setShowOldPassword] = React.useState(false);
-    const handleClickShowOldPassword = () => setShowOldPassword((show) => !show);
-    const handleMouseDownOldPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
-        event.preventDefault();
-    };
 
     const [showPassword, setShowPassword] = React.useState(false);
     const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -54,40 +47,37 @@ const ChangePass = () => {
     });
 
     const onChangePass = () => {
-        const data: ChangePassPost = {
+        const data: UpdatePassPost = {
             emailId: values.emailId,
-            oldPassword: values.oldPassword,
             password: values.password,
         }
         setLoader(true);
-        api.changePass(data).then((response) => {
+        api.updatePass(data).then((response) => {
             console.log(response);
-            swal({
-                title: "Password Changed",
-                text: "Please login with the new password",
-                icon: "success",
-                buttons: {
-                    buttonOne: {
-                        text: "Log In",
-                        value: "pc",
-                        className: "sf-btn"
+            swal("Your password has been successfully changed. Please use your new password to login!",
+                {
+                    title: "Well Done!",
+                    text: response,
+                    icon: "success",
+                    buttons: {
+                        buttonOne: {
+                            text: "OK",
+                            value: "pc",
+                            className: "sf-btn"
+                        }
                     }
-                }
-            }).then(function (value) {
-                if (value === "pc") {
-                    logout('/home');
+                }).then(function (value) {
+                    if (value === "pc") {
+                        logout('/home');
+                        window.location.reload();
 
-                }
-                else {
-                    logout('/home');
-                }
-                window.location.reload();
-            });
+                    }
+                });
             setLoader(false);
         }).catch((error) => {
             console.log(error);
             swal({
-                title: "StoreFlex cannot change the password",
+                title: "Can't change password",
                 text: error,
                 icon: "error",
                 dangerMode: true,
@@ -112,7 +102,6 @@ const ChangePass = () => {
         const data = new FormData(event.currentTarget);
         console.log({
             emailId: data.get('emailId'),
-            oldPassword: data.get('oldPassword'),
             password: data.get('password'),
         });
     };
@@ -129,26 +118,8 @@ const ChangePass = () => {
         else if (!validatePassword(passwordTemp)) {
             errors.password = "Enter valid password"
         }
-        else if (values.oldPassword == passwordTemp) {
-            errors.password = "Your new password cannot be the same as your current password"
-        }
         else {
             errors.password = ""
-        }
-
-    }
-
-    const oldPasswordValidation = (event: any) => {
-        const oldPasswordTemp = event.target.value;
-        setValues({
-            ...values,
-            [event.target.name]: event.target.value,
-        });
-        if (!oldPasswordTemp) {
-            errors.oldPassword = "Old Password is required."
-        }
-        else {
-            errors.oldPassword = ""
         }
 
     }
@@ -194,36 +165,7 @@ const ChangePass = () => {
                                     name="emailId"
                                     autoComplete="email"
                                     value={sessionStorage.getItem('emailId')}
-                                    disabled
                                 />
-                            </Grid>
-
-                            <Grid item xs={12}>
-                                <FormControl sx={{ m: 0, width: '50ch' }} variant="outlined" className={errors.oldPassword ? "border-red" : ""}>
-                                    <InputLabel htmlFor="outlined-adornment-password">Old Password</InputLabel>
-                                    <OutlinedInput
-                                        fullWidth
-                                        name="oldPassword"
-                                        id="oldPassword"
-                                        value={values.oldPassword}
-                                        type={showOldPassword ? 'text' : 'password'}
-                                        onChange={oldPasswordValidation}
-                                        endAdornment={
-                                            <InputAdornment position="end">
-                                                <IconButton
-                                                    aria-label="toggle password visibility"
-                                                    onClick={handleClickShowOldPassword}
-                                                    onMouseDown={handleMouseDownOldPassword}
-                                                    edge="end"
-                                                >
-                                                    {showOldPassword ? <VisibilityOff /> : <Visibility />}
-                                                </IconButton>
-                                            </InputAdornment>
-                                        }
-                                        label="Old Password"
-                                    />
-                                    {errors.oldPassword && <p className="text-red">{errors.oldPassword}</p>}
-                                </FormControl>
                             </Grid>
 
                             <Grid item xs={12}>
@@ -302,4 +244,4 @@ const ChangePass = () => {
     );
 };
 
-export default ChangePass;
+export default ForgotChangePass;

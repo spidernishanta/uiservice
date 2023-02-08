@@ -27,6 +27,11 @@ export interface ChangePassPost {
     password?: string;
 }
 
+export interface UpdatePassPost {
+    emailId?: string;
+    password?: string;
+}
+
 export interface SignInResp {
     firstName?: string;
     middleName?: string;
@@ -53,6 +58,10 @@ export interface GetStatesProp {
 
 export interface GetCitiesProp {
     state: string;
+}
+
+export interface GetForgotPassProp {
+    emailId: string;
 }
 
 export interface ViewWarehouseProps {
@@ -156,6 +165,8 @@ export class ApiConfig {
     signinTestApi = '/logintest';
     signUpUrl = '/register';
     ChangePassUrl = '/changepassword';
+    UpdatePassUrl = '/updatepassword';
+    ForgotPassUrl = '/forgotpassword';
     getStatesUrl = '/state';
     getCitiesUrl = '/city';
     getCompaniesApi = '/clients';
