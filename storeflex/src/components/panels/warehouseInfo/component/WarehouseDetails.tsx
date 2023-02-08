@@ -127,9 +127,9 @@ const WarehouseDetails = (props: WarehouseDetailsProps) => {
     return (
         <>
             <div className='m-bot-lg'>
-                <div className='primary-gradient m-bot-md'>
+                {/* <div className='primary-gradient m-bot-md'>
                     <div className='font-white p-sm f-18px f-bold'>Warehouse Details</div>
-                </div>
+                </div> */}
                 <div className='p-md'>
                     <Grid container spacing={2} columns={{ xs: 6, sm: 12, md: 12 }}>
                         <Grid item xs={9}>

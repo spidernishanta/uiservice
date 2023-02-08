@@ -134,9 +134,9 @@ const WarehouseHours = (props: WarehouseHoursProps) => {
     return (
         <>
             <div className='m-bot-lg'>
-                <div className='primary-gradient m-bot-md'>
+                {/* <div className='primary-gradient m-bot-md'>
                     <div className='font-white p-sm f-18px f-bold'>Facility Hours</div>
-                </div>
+                </div> */}
 
                 <div className='p-md'>
                     <div>
