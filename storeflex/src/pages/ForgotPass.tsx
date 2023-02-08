@@ -60,9 +60,11 @@ const ForgotPass = () => {
 
     const SubmitSendLink = () => {
         const emailId = values.email;
+        setLoader(true);
         api.ForgotPass({ emailId }).then((response) => {
             swal('We sent an email to ' + values.email + ' with a link to get back into your account.', {
                 title: "Email Sent",
+                icon: "success",
                 buttons: {
                     buttonOne: {
                         text: "OK",
@@ -75,7 +77,19 @@ const ForgotPass = () => {
                     window.location.href = '/home';
                 }
             });
+            setLoader(false);
         }).catch((error) => {
+            setLoader(false);
+            swal('No users found', {
+                icon: "error",
+                buttons: {
+                    buttonOne: {
+                        text: "OK",
+                        visible: true,
+                        className: "sf-btn",
+                    }
+                }
+            });
             console.log(error);
         })
     }

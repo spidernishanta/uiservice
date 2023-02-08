@@ -12,7 +12,7 @@ import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { Navbar } from 'react-bootstrap';
-import { ChangePassPost } from '../api/ApiConfig';
+import { UpdatePassPost } from '../api/ApiConfig';
 
 
 const ForgotChangePass = () => {
@@ -47,13 +47,12 @@ const ForgotChangePass = () => {
     });
 
     const onChangePass = () => {
-        const data: ChangePassPost = {
+        const data: UpdatePassPost = {
             emailId: values.emailId,
-            oldPassword: values.oldPassword,
             password: values.password,
         }
         setLoader(true);
-        api.changePass(data).then((response) => {
+        api.updatePass(data).then((response) => {
             console.log(response);
             swal("Your password has been successfully changed. Please use your new password to login!",
                 {
@@ -103,7 +102,6 @@ const ForgotChangePass = () => {
         const data = new FormData(event.currentTarget);
         console.log({
             emailId: data.get('emailId'),
-            oldPassword: data.get('oldPassword'),
             password: data.get('password'),
         });
     };
@@ -122,24 +120,6 @@ const ForgotChangePass = () => {
         }
         else {
             errors.password = ""
-        }
-
-    }
-
-    const oldPasswordValidation = (event: any) => {
-        const oldPasswordTemp = event.target.value;
-        setValues({
-            ...values,
-            [event.target.name]: event.target.value,
-        });
-        if (!oldPasswordTemp) {
-            errors.oldPassword = "Old Password is required."
-        }
-        else if (oldPasswordTemp == values.password) {
-            errors.oldPassword = "Your new password cannot be the same as your current password"
-        }
-        else {
-            errors.oldPassword = ""
         }
 
     }
