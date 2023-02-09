@@ -36,9 +36,9 @@ const WearehouseAddress = (props: WearehouseAddressProps) => {
     if(addressId || !props.editMode) {
         return (
             <div>
-                {/* <div className='primary-gradient'>
+                <div className='primary-gradient'>
                     <div className='font-white p-sm f-18px f-bold'>Where's warehouse located?</div>
-                </div> */}
+                </div>
 
                 <div className='p-md'>
                     <AddressDetails

@@ -231,9 +231,9 @@ const WarehouseLayout = (props: WarehouseLayoutProps) => {
     return (
         <>
             <div className='m-bot-lg'>
-                {/* <div className='primary-gradient m-bot-md'>
+                <div className='primary-gradient m-bot-md'>
                     <div className='font-white p-sm f-18px f-bold'>Warehouse Layout (select all that apply)</div>
-                </div> */}
+                </div>
                 <div className='p-md'>
                     <div>
                         <div>
