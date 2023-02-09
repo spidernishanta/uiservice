@@ -168,16 +168,9 @@ const AddWarehouse = () => {
                     </Accordion.Header>
                     <Accordion.Body>
                         <> {<WarehouseDetails onWarehouseDetailsUpdate={onWarehouseDetailsUpdate} />}</>
-                    </Accordion.Body>
-                </Accordion.Item>
-                <Accordion.Item eventKey="1">
-                    <Accordion.Header className='sf-ac'>
-                        <div className='primary-gradient w100'>
-                            <div className='font-white p-sm f-18px f-bold'>Where's warehouse located?</div>
-                        </div>
-                    </Accordion.Header>
-                    <Accordion.Body>
                         <> {<WearehouseAddress onWearehouseAddressUpdate={onWearehouseAddressUpdate} />}</>
+                        <> {<WarehouseHours onWarehouseHoursUpdate={onWarehouseHoursUpdate} />}</>
+                        <> {<WarehouseLayout onWarehouseLayoutUpdate={onWarehouseLayoutUpdate} />}</>
                     </Accordion.Body>
                 </Accordion.Item>
                 <Accordion.Item eventKey="2">
@@ -188,26 +181,6 @@ const AddWarehouse = () => {
                     </Accordion.Header>
                     <Accordion.Body>
                         <> {<WearehousePricing onWearehousePricingUpdate={onWearehousePricingUpdate} />}</>
-                    </Accordion.Body>
-                </Accordion.Item>
-                <Accordion.Item eventKey="3">
-                    <Accordion.Header className='sf-ac'>
-                        <div className='primary-gradient w100'>
-                            <div className='font-white p-sm f-18px f-bold'>Facility Hours</div>
-                        </div>
-                    </Accordion.Header>
-                    <Accordion.Body>
-                        <> {<WarehouseHours onWarehouseHoursUpdate={onWarehouseHoursUpdate} />}</>
-                    </Accordion.Body>
-                </Accordion.Item>
-                <Accordion.Item eventKey="4">
-                    <Accordion.Header className='sf-ac'>
-                        <div className='primary-gradient w100'>
-                            <div className='font-white p-sm f-18px f-bold'>Warehouse Layout (select all that apply)</div>
-                        </div>
-                    </Accordion.Header>
-                    <Accordion.Body>
-                        <> {<WarehouseLayout onWarehouseLayoutUpdate={onWarehouseLayoutUpdate} />}</>
                     </Accordion.Body>
                 </Accordion.Item>
             </Accordion>
