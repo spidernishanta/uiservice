@@ -16,6 +16,8 @@ import { UpdatePassPost } from '../api/ApiConfig';
 
 
 const ForgotChangePass = () => {
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
 
     const [loader, setLoader] = useState(false);
 
@@ -34,14 +36,12 @@ const ForgotChangePass = () => {
     const api = new Api();
 
     const [values, setValues] = useState({
-        emailId: "",
-        oldPassword: "",
+        emailId: String(urlParams.get('email')),
         password: "",
         password1: ""
     });
     const [errors, setErrors] = useState({
         emailId: "",
-        oldPassword: "",
         password: "",
         password1: ""
     });
@@ -54,25 +54,24 @@ const ForgotChangePass = () => {
         setLoader(true);
         api.updatePass(data).then((response) => {
             console.log(response);
-            swal("Your password has been successfully changed. Please use your new password to login!",
-                {
-                    title: "Well Done!",
-                    text: response,
-                    icon: "success",
-                    buttons: {
-                        buttonOne: {
-                            text: "OK",
-                            value: "pc",
-                            className: "sf-btn"
-                        }
+            swal({
+                title: "Well Done!",
+                text: "Your password has been successfully changed. Please use your new password to login!",
+                icon: "success",
+                buttons: {
+                    buttonOne: {
+                        text: "OK",
+                        value: "pc",
+                        className: "sf-btn"
                     }
-                }).then(function (value) {
-                    if (value === "pc") {
-                        logout('/home');
-                        window.location.reload();
+                }
+            }).then(function (value) {
+                if (value === "pc") {
+                    logout('/home');
+                    window.location.reload();
 
-                    }
-                });
+                }
+            });
             setLoader(false);
         }).catch((error) => {
             console.log(error);
@@ -101,7 +100,7 @@ const ForgotChangePass = () => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         console.log({
-            emailId: data.get('emailId'),
+            emailId: urlParams.get('email'),
             password: data.get('password'),
         });
     };
@@ -164,7 +163,8 @@ const ForgotChangePass = () => {
                                     label="Email Address"
                                     name="emailId"
                                     autoComplete="email"
-                                    value={sessionStorage.getItem('emailId')}
+                                    value={urlParams.get('email')}
+                                    disabled
                                 />
                             </Grid>
 
