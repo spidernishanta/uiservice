@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Container from '@mui/material/Container';
-import { TextField, Typography, Box, Button, Grid, Link } from '@mui/material';
-import { sessionStorageGet, validatePassword } from '../utils/CommonUtils';
+import { TextField, Box, Button, Grid } from '@mui/material';
+import { validatePassword } from '../utils/CommonUtils';
 import Api from '../api/Api';
 import swal from 'sweetalert';
 import IconButton from '@mui/material/IconButton';
@@ -14,6 +14,9 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { Navbar } from 'react-bootstrap';
 import { getUserEmail } from '../utils/CommonUtils';
 import { ChangePassPost } from '../api/ApiConfig';
+import { AppContainer } from '../components/containers/containers';
+import TopNavBar from '../components/navbar/TopNavBar';
+import Footer from '../components/footer/footer';
 
 
 const ChangePass = () => {
@@ -172,133 +175,139 @@ const ChangePass = () => {
     }
 
     return (
-        <Container component="main" maxWidth="xs" className='c-box-shadow p-no'>
-            <div className='p-md'>
-                <div className='text-center'>
-                    <Navbar.Brand href="/home">
-                        <span className='top-nav-logo'>
-                            <img src="../../assets/images/white-logo.jpg" alt="Logo" />
-                        </span>
-                    </Navbar.Brand>
-                </div>
-                <Box sx={{ marginTop: 4, display: 'flex', flexDirection: 'column', alignItems: 'center' }} >
-                    <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
-                        <Grid container spacing={2}>
-                            <Grid item xs={12}>
-                                <TextField
-                                    className={errors.emailId ? "border-red" : ""}
-                                    // required
+        <>
+            <AppContainer>
+                <TopNavBar />
+                <Container component="main" maxWidth="xs" className='c-box-shadow p-no'>
+                    <div className='p-md'>
+                        <div className='text-center'>
+                            <Navbar.Brand href="/home">
+                                <span className='top-nav-logo'>
+                                    <img src="../../assets/images/white-logo.jpg" alt="Logo" />
+                                </span>
+                            </Navbar.Brand>
+                        </div>
+                        <Box sx={{ marginTop: 4, display: 'flex', flexDirection: 'column', alignItems: 'center' }} >
+                            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+                                <Grid container spacing={2}>
+                                    <Grid item xs={12}>
+                                        <TextField
+                                            className={errors.emailId ? "border-red" : ""}
+                                            // required
+                                            fullWidth
+                                            id="emailId"
+                                            label="Email Address"
+                                            name="emailId"
+                                            autoComplete="email"
+                                            value={sessionStorage.getItem('emailId')}
+                                            disabled
+                                        />
+                                    </Grid>
+
+                                    <Grid item xs={12}>
+                                        <FormControl sx={{ m: 0, width: '50ch' }} variant="outlined" className={errors.oldPassword ? "border-red" : ""}>
+                                            <InputLabel htmlFor="outlined-adornment-password">Old Password</InputLabel>
+                                            <OutlinedInput
+                                                fullWidth
+                                                name="oldPassword"
+                                                id="oldPassword"
+                                                value={values.oldPassword}
+                                                type={showOldPassword ? 'text' : 'password'}
+                                                onChange={oldPasswordValidation}
+                                                endAdornment={
+                                                    <InputAdornment position="end">
+                                                        <IconButton
+                                                            aria-label="toggle password visibility"
+                                                            onClick={handleClickShowOldPassword}
+                                                            onMouseDown={handleMouseDownOldPassword}
+                                                            edge="end"
+                                                        >
+                                                            {showOldPassword ? <VisibilityOff /> : <Visibility />}
+                                                        </IconButton>
+                                                    </InputAdornment>
+                                                }
+                                                label="Old Password"
+                                            />
+                                            {errors.oldPassword && <p className="text-red">{errors.oldPassword}</p>}
+                                        </FormControl>
+                                    </Grid>
+
+                                    <Grid item xs={12}>
+                                        <FormControl sx={{ m: 0, width: '50ch' }} variant="outlined" className={errors.password ? "border-red" : ""}>
+                                            <InputLabel htmlFor="outlined-adornment-password">New Password</InputLabel>
+                                            <OutlinedInput
+                                                fullWidth
+                                                name="password"
+                                                id="password"
+                                                autoComplete="new-password"
+                                                value={values.password}
+                                                type={showPassword ? 'text' : 'password'}
+                                                onChange={passwordValidation}
+                                                endAdornment={
+                                                    <InputAdornment position="end">
+                                                        <IconButton
+                                                            aria-label="toggle password visibility"
+                                                            onClick={handleClickShowPassword}
+                                                            onMouseDown={handleMouseDownPassword}
+                                                            edge="end"
+                                                        >
+                                                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                                                        </IconButton>
+                                                    </InputAdornment>
+                                                }
+                                                label="New Password"
+                                            />
+                                            {errors.password && <p className="text-red">{errors.password}</p>}
+                                        </FormControl>
+                                        <p>&nbsp;&nbsp;&nbsp;&nbsp;Passwords must have at least 8 characters and contain at least </p>
+                                        <p>&nbsp;&nbsp;&nbsp;&nbsp;uppercase letters, lowercase letters, numbers and symbols</p>
+                                    </Grid>
+
+                                    <Grid item xs={12}>
+                                        <FormControl sx={{ m: 0, width: '50ch' }} variant="outlined" className={errors.password1 ? "border-red" : ""}>
+                                            <InputLabel htmlFor="outlined-adornment-password">Re-enter New Password</InputLabel>
+                                            <OutlinedInput
+                                                fullWidth
+                                                name="password1"
+                                                id="password1"
+                                                // autoComplete="new-password"
+                                                value={values.password1}
+                                                type={showPassword1 ? 'text' : 'password'}
+                                                onChange={password1Validation}
+                                                endAdornment={
+                                                    <InputAdornment position="end">
+                                                        <IconButton
+                                                            aria-label="toggle password visibility"
+                                                            onClick={handleClickShowPassword1}
+                                                            onMouseDown={handleMouseDownPassword1}
+                                                            edge="end"
+                                                        >
+                                                            {showPassword1 ? <VisibilityOff /> : <Visibility />}
+                                                        </IconButton>
+                                                    </InputAdornment>
+                                                }
+                                                label="Re-enter New Password"
+                                            />
+                                            {errors.password1 && <p className="text-red">{errors.password1}</p>}
+                                        </FormControl>
+                                    </Grid>
+                                </Grid>
+                                <Button className='primary-gradient'
+                                    type="submit"
                                     fullWidth
-                                    id="emailId"
-                                    label="Email Address"
-                                    name="emailId"
-                                    autoComplete="email"
-                                    value={sessionStorage.getItem('emailId')}
-                                    disabled
-                                />
-                            </Grid>
-
-                            <Grid item xs={12}>
-                                <FormControl sx={{ m: 0, width: '50ch' }} variant="outlined" className={errors.oldPassword ? "border-red" : ""}>
-                                    <InputLabel htmlFor="outlined-adornment-password">Old Password</InputLabel>
-                                    <OutlinedInput
-                                        fullWidth
-                                        name="oldPassword"
-                                        id="oldPassword"
-                                        value={values.oldPassword}
-                                        type={showOldPassword ? 'text' : 'password'}
-                                        onChange={oldPasswordValidation}
-                                        endAdornment={
-                                            <InputAdornment position="end">
-                                                <IconButton
-                                                    aria-label="toggle password visibility"
-                                                    onClick={handleClickShowOldPassword}
-                                                    onMouseDown={handleMouseDownOldPassword}
-                                                    edge="end"
-                                                >
-                                                    {showOldPassword ? <VisibilityOff /> : <Visibility />}
-                                                </IconButton>
-                                            </InputAdornment>
-                                        }
-                                        label="Old Password"
-                                    />
-                                    {errors.oldPassword && <p className="text-red">{errors.oldPassword}</p>}
-                                </FormControl>
-                            </Grid>
-
-                            <Grid item xs={12}>
-                                <FormControl sx={{ m: 0, width: '50ch' }} variant="outlined" className={errors.password ? "border-red" : ""}>
-                                    <InputLabel htmlFor="outlined-adornment-password">New Password</InputLabel>
-                                    <OutlinedInput
-                                        fullWidth
-                                        name="password"
-                                        id="password"
-                                        autoComplete="new-password"
-                                        value={values.password}
-                                        type={showPassword ? 'text' : 'password'}
-                                        onChange={passwordValidation}
-                                        endAdornment={
-                                            <InputAdornment position="end">
-                                                <IconButton
-                                                    aria-label="toggle password visibility"
-                                                    onClick={handleClickShowPassword}
-                                                    onMouseDown={handleMouseDownPassword}
-                                                    edge="end"
-                                                >
-                                                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                                                </IconButton>
-                                            </InputAdornment>
-                                        }
-                                        label="New Password"
-                                    />
-                                    {errors.password && <p className="text-red">{errors.password}</p>}
-                                </FormControl>
-                                <p>&nbsp;&nbsp;&nbsp;&nbsp;Passwords must have at least 8 Characters and contain at least  </p>
-                                <p>&nbsp;&nbsp;&nbsp;&nbsp;uppercase letters, lowercase letters, numbers and symbol</p>
-                            </Grid>
-
-                            <Grid item xs={12}>
-                                <FormControl sx={{ m: 0, width: '50ch' }} variant="outlined" className={errors.password1 ? "border-red" : ""}>
-                                    <InputLabel htmlFor="outlined-adornment-password">Re-enter New Password</InputLabel>
-                                    <OutlinedInput
-                                        fullWidth
-                                        name="password1"
-                                        id="password1"
-                                        // autoComplete="new-password"
-                                        value={values.password1}
-                                        type={showPassword1 ? 'text' : 'password'}
-                                        onChange={password1Validation}
-                                        endAdornment={
-                                            <InputAdornment position="end">
-                                                <IconButton
-                                                    aria-label="toggle password visibility"
-                                                    onClick={handleClickShowPassword1}
-                                                    onMouseDown={handleMouseDownPassword1}
-                                                    edge="end"
-                                                >
-                                                    {showPassword1 ? <VisibilityOff /> : <Visibility />}
-                                                </IconButton>
-                                            </InputAdornment>
-                                        }
-                                        label="Re-enter New Password"
-                                    />
-                                    {errors.password1 && <p className="text-red">{errors.password1}</p>}
-                                </FormControl>
-                            </Grid>
-                        </Grid>
-                        <Button className='primary-gradient'
-                            type="submit"
-                            fullWidth
-                            variant="contained"
-                            sx={{ mt: 4, mb: 4 }}
-                            onClick={() => { onChangePass() }}
-                        >
-                            Change Password
-                        </Button>
-                    </Box>
-                </Box>
-            </div>
-        </Container>
+                                    variant="contained"
+                                    sx={{ mt: 4, mb: 4 }}
+                                    onClick={() => { onChangePass() }}
+                                >
+                                    Change Password
+                                </Button>
+                            </Box>
+                        </Box>
+                    </div>
+                </Container>
+                <Footer />
+            </AppContainer>
+        </>
     );
 };
 

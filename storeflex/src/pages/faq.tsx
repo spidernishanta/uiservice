@@ -1,12 +1,8 @@
-import React from 'react';
-import { AccordionActions, AccordionDetails, Container } from '@mui/material';
 import Footer from '../components/footer/footer';
 import TopNavBar from '../components/navbar/TopNavBar';
 import { AppContainer } from '../components/containers/containers';
 import { SplitPaneContainer } from '../components/containers/containers';
 import Accordion from 'react-bootstrap/Accordion'
-import { Action } from '@remix-run/router';
-import { Nav } from 'react-bootstrap';
 
 const faq = () => {
   return (
@@ -16,7 +12,7 @@ const faq = () => {
         <SplitPaneContainer
           left={<></>}
           right={
-            <Accordion defaultActiveKey="0">
+            <Accordion defaultActiveKey="">
               <Accordion.Item eventKey="0">
                 <Accordion.Header>What is the benefit of choosing Store flex ?</Accordion.Header>
                 <Accordion.Body>
@@ -141,11 +137,11 @@ const faq = () => {
                 <Accordion.Header>Recover your StoreFlex password</Accordion.Header>
                 <Accordion.Body>
                   If you can't remember your password, you can reset it using your email address.<br /><br />
-                  1. On the login screen, click Forgot password?<br /><br />
+                  1. On the login screen, click <b>Forgot password?</b><br /><br />
                   2. Enter email address.<br /><br />
-                  3. Click Next and follow the on-screen instructions.<br /><br />
+                  3. Click <b>Send login link</b> and follow the on-screen instructions.<br /><br />
                   4. A link will be sent to your email address to help reset your password.<br /><br />
-                  If you're not able to reset your password this way, <a href="/home#contact">visit this page</a> on your desktop or mobile browser to secure your account.
+                  If you're not able to reset your password this way, <a href="/contactus">visit this page</a> on your desktop or mobile browser to secure your account.
                 </Accordion.Body>
               </Accordion.Item>
             </Accordion>

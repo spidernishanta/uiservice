@@ -69,6 +69,10 @@ function App() {
               path={PAGES.ForgotChangePassword.path}
               element={<PAGES.ForgotChangePassword.Component />}
             />
+            <Route
+              path={PAGES.ContactUs.path}
+              element={<PAGES.ContactUs.Component />}
+            />
           </Routes>
         )}
         {isAuthenticated && (
