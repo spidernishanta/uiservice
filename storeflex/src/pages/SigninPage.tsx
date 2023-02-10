@@ -138,6 +138,12 @@ const SignInPage = () => {
     setPasswordType("password")
   }
 
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      submitSignIn()
+    }
+  }
+
   return (
     <>
       {loader && <LoaderFull />}
@@ -161,7 +167,7 @@ const SignInPage = () => {
                     <div className="form-input">
                       <label>Password for your account</label>
                       <div className="input-items default">
-                        <input type={passwordType} placeholder="Password" name="password" onChange={handleChange} />
+                        <input type={passwordType} placeholder="Password" name="password" onChange={handleChange} onKeyDown={handleKeyDown} />
                         {passwordType === "password" ? <i className="mdi mdi-eye" onClick={togglePassword}></i> : <i className="mdi mdi-eye-off" onClick={togglePassword}></i>}
                       </div>
                     </div>

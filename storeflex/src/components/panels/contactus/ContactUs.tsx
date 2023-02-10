@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import swal from 'sweetalert';
 import { Contacts } from '../../atoms/contact/contacts';
 import { EnquiryProps } from '../../../api/ApiConfig';
@@ -117,10 +117,10 @@ const ContactUs = () => {
             <div className="col-12">
               <div className="content">
                 <h5>Contact Us</h5>
-                <h2 className="fw-bold">Need Any Help?</h2>
+                <h2 className="fw-bold">Reach out to us!</h2>
                 <p>
-                  There are many variations of passages of Lorem Ipsum available,
-                  but the majority have suffered alteration in some form.
+                  Got a question about StoreFlex? Are you interested in partnering with us?
+                  Have some suggestions or just want to say hi? Contact us:
                 </p>
               </div>
             </div>

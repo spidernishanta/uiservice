@@ -1,28 +1,17 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
-import { validateMinLen, setUserLoggedIn, getRedirectionPage, sessionStorageSet } from '../utils/CommonUtils';
 import Api from '../api/Api';
-import { GetForgotPassProp, SignInPost } from '../api/ApiConfig';
-import { USER_TYPE, PAGES, SESSION_TYPE } from '../utils/Constants';
-import GoogleLogin from 'react-google-login';
+import { USER_TYPE, PAGES } from '../utils/Constants';
 import { gapi } from "gapi-script";
 import { LoaderFull } from '../components/atoms/loader/loader';
 import swal from 'sweetalert';
-import { CheckBox, CheckBoxOutlineBlankTwoTone, Lock, RadioButtonChecked, Visibility } from '@mui/icons-material';
-import IconButton from '@mui/material';
-import InputAdornment from '@mui/material';
-import { VisibilityOff } from '@mui/icons-material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import { Add } from '@mui/icons-material';
 import { Navbar, Container } from 'react-bootstrap';
-import faq from './faq';
-
-interface forwordmail {
-    emailId: string
-}
+import Footer from '../components/footer/footer';
+import { validateEmail } from '../utils/CommonUtils';
 
 const ForgotPass = () => {
-    const navigate = useNavigate();
+
     const api = new Api();
     const [loader, setLoader] = useState(false);
 
@@ -46,9 +35,27 @@ const ForgotPass = () => {
 
     const [values, setValues] = useState({
         email: "",
-        password: "",
-        username: "",
     });
+
+    const [errors, setErrors] = useState({
+        email: "",
+    });
+
+    const validateEmailId = (event: any) => {
+        const emailTemp = event.target.value;
+        setValues({
+            ...values,
+            [event.target.name]: event.target.value,
+        });
+        if (!emailTemp) {
+            errors.email = "*Email is required."
+        }
+        else if (!validateEmail(emailTemp)) {
+            errors.email = "Enter a valid mail"
+        } else {
+            errors.email = ""
+        }
+    }
 
     const handleChange = (event: any) => {
         setValues({
@@ -90,22 +97,7 @@ const ForgotPass = () => {
                     }
                 }
             });
-            console.log(error);
         })
-    }
-
-    const [passwordType, setPasswordType] = useState("password");
-    const [passwordInput, setPasswordInput] = useState("");
-    const handlePasswordChange = (evnt) => {
-        setPasswordInput(evnt.target.value);
-    }
-
-    const togglePassword = () => {
-        if (passwordType === "password") {
-            setPasswordType("text")
-            return;
-        }
-        setPasswordType("password")
     }
 
     return (
@@ -147,8 +139,9 @@ const ForgotPass = () => {
                                                 Enter your email and we'll send you a link to get back into your account.
                                             </div>
                                             <div className="input-items default">
-                                                <input type="text" placeholder="Email" name="email" id="email" onChange={handleChange} />
+                                                <input type="text" placeholder="Email" name="email" id="email" onChange={validateEmailId} />
                                             </div>
+                                            {errors.email && <p className="text-red">{errors.email}</p>}
                                         </div>
                                     </div>
                                     <div className="col-md-6">
@@ -170,6 +163,7 @@ const ForgotPass = () => {
                     </div>
                 </div>
             </section>
+            <Footer />
         </>
     )
 };
