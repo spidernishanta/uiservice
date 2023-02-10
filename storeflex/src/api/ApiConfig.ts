@@ -187,6 +187,7 @@ export class ApiConfig {
     userUrl = '/storeflexuser';
     getCompanyListApi = '/clientDropList';
     getWarehouseCategoriesApi = '/categories';
+    getValidationBank = 'https://payout-api.cashfree.com/payout/v1/asyncValidation/bankDetails';
 
 }
 
@@ -210,4 +211,11 @@ export interface UserPostData {
     roleType?: string;
     clientId?: string;
     addresses?: Address[];
+}
+
+export interface BankInfo {
+    phone?: string;
+    name?: string;
+    bankAccount?: string;
+    ifsc?: string;
 }

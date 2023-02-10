@@ -3,7 +3,7 @@ import axios from 'axios';
 import {
     ApiConfig, SlLoginProps, SignInPost, SignUpPost, GetStatesProp, GetCitiesProp, AddCompanyPostData,
     ViewCompaniesProps, ViewWarehouseProps, viewWarehouseAdminProps, EnquiryProps, viewUserProps,
-    WarehousePostData, UserPostData, SearchProps, ChangePassPost, GetForgotPassProp, UpdatePassPost
+    WarehousePostData, UserPostData, SearchProps, ChangePassPost, GetForgotPassProp, UpdatePassPost, BankInfo
 } from './ApiConfig';
 import { sessionStorageSet, sessionStorageGet } from '../utils/CommonUtils';
 import { SESSION_TYPE } from '../utils/Constants';
@@ -15,6 +15,7 @@ import { SESSION_TYPE } from '../utils/Constants';
 //         "Access-Control-Allow-Origin": "*",
 //     }
 //   };
+
 export default class Api {
     baseUrl: any;
     apiUrl: ApiConfig;
@@ -464,6 +465,30 @@ export default class Api {
         }
         catch (error) {
             console.log(' error : postUser ', error);
+            return Promise.reject(error);
+        }
+    }
+
+    async asyncValidationBankDetails(bankInfo: BankInfo): Promise<any> {
+        let axiosConfig = {
+            headers: {
+                "Authorization": "Bearer ofmNMTl88y3_K0nV_jR"
+            }
+        };
+        const url = `${this.apiUrl.getValidationBank}?phone=${bankInfo.phone}&name=${bankInfo.name}&bankAccount=${bankInfo.bankAccount}&ifsc=${bankInfo.ifsc}`;
+        try {
+            const response = await axios.get(url, axiosConfig);
+            console.log(response);
+            if (response?.data?.statusCode === 600) {
+                sessionStorageSet(response.data, SESSION_TYPE.wh_categories);
+                return Promise.resolve(response?.data);
+            } else {
+                console.log(' error : getWarehouseCategories ', response);
+                return Promise.reject(response);
+            }
+        }
+        catch (error) {
+            console.log(' error : enquiry', error);
             return Promise.reject(error);
         }
     }
