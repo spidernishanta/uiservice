@@ -75,9 +75,9 @@
                             "NavigateTo": "/business/view#pending"
                         },
                         {
-                            "Label":"Inactive",
-                            "Name":"",
-                            "NavigateTo":"/business/view#inactive"
+                            "Label": "Inactive",
+                            "Name": "",
+                            "NavigateTo": "/business/view#inactive"
                         }
                     ],
                     "Icon": "mdi mdi-chart-areaspline menu-icon"
@@ -141,15 +141,15 @@
                 {
                     "Label": "Bookings",
                     "Name": "BookingDetailsMenu",
-                    "NavigateTo":"/bookings",
-                    "SubMenu":[],
+                    "NavigateTo": "/bookings",
+                    "SubMenu": [],
                     "Icon": "mdi mdi-checkbox-marked-outline menu-icon"
                 },
                 {
                     "Label": "Order Details",
                     "Name": "OrderDetailsMenu",
-                    "NavigateTo":"/myorders",
-                    "SubMenu":[],
+                    "NavigateTo": "/myorders",
+                    "SubMenu": [],
                     "Icon": "mdi mdi-briefcase-check menu-icon"
                 },
                 {
@@ -181,7 +181,7 @@
                     "Icon": "mdi mdi-cash menu-icon"
                 },
                 {
-                 "Label": "Search",
+                    "Label": "Search",
                     "Name": "SearchMenu",
                     "NavigateTo": "/search-new",
                     "SubMenu": [],
@@ -204,9 +204,9 @@
                         }
                     ],
                     "Icon": "mdi mdi-chart-pie menu-icon"
-                } 
+                }
             ]
-        } 
+        }
     },
     {
         "UserType": "CL",
@@ -298,8 +298,8 @@
                 {
                     "Label": "Bookings",
                     "Name": "BookingDetailsMenu",
-                    "NavigateTo":"/bookings",
-                    "SubMenu":[],
+                    "NavigateTo": "/bookings",
+                    "SubMenu": [],
                     "Icon": "mdi mdi-checkbox-marked-outline menu-icon"
                 },
                 {
@@ -367,9 +367,9 @@
                         }
                     ],
                     "Icon": "mdi mdi-file-multiple menu-icon"
-                }  
+                }
             ]
-        } 
+        }
     },
     {
         "UserType": "CU",
@@ -463,17 +463,10 @@
                     "Icon": "mdi mdi-account-box menu-icon"
                 },
                 {
-                    "Label": "Bookings",
-                    "Name": "BookingDetailsMenu",
-                    "NavigateTo":"/bookings",
-                    "SubMenu":[],
-                    "Icon": "mdi mdi-checkbox-marked-outline menu-icon"
-                },
-                {
                     "Label": "Order Details",
                     "Name": "OrderDetailsMenu",
-                    "NavigateTo":"/myorders",
-                    "SubMenu":[],
+                    "NavigateTo": "/myorders",
+                    "SubMenu": [],
                     "Icon": "mdi mdi-briefcase-check menu-icon"
                 },
                 {
@@ -495,7 +488,7 @@
                     "Icon": "mdi mdi-cash menu-icon"
                 },
                 {
-                 "Label": "Search",
+                    "Label": "Search",
                     "Name": "SearchMenu",
                     "NavigateTo": "/search-new",
                     "SubMenu": [],
@@ -520,6 +513,6 @@
                     "Icon": "mdi mdi-chart-pie menu-icon"
                 }
             ]
-        } 
+        }
     }
 ]

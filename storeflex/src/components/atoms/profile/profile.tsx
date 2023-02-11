@@ -12,7 +12,6 @@ import { Button } from 'react-bootstrap';
 import Api from '../../../api/Api';
 import { getFirstName, getIntent, getLogInType, setLogInType } from "../../../../src/utils/CommonUtils";
 import AppLogout from '../../../pages/applogout';
-import Swal from 'sweetalert2';
 import { SearchProps } from '../../../api/ApiConfig';
 
 interface ProfileMenuProps {
