@@ -16,6 +16,7 @@ import { AddBusiness } from '@mui/icons-material';
 import Accordion from 'react-bootstrap/Accordion';
 
 
+
 const AddWarehouse = () => {
 
     const api = new Api();
@@ -26,6 +27,16 @@ const AddWarehouse = () => {
     const [whHours, setWhHours] = useState<Hours>({});
     const [whLayout, setLayout] = useState<WarehouseLayoutObj>({});
 
+    const [priceList, setPriceList] = useState([{price: ""}]);
+    const handlePriceAdd = () => {
+        setPriceList([...priceList, { price:"" }]);
+    }
+    const handlePriceRemove = (index) => {
+        const list = [...priceList];
+        list.splice(index,1);
+        setPriceList(list);
+    }
+    
 
     const onWarehouseDetailsUpdate = (data: WhDetail) => {
         setWhDetails(data);
@@ -180,7 +191,17 @@ const AddWarehouse = () => {
                         </div>
                     </Accordion.Header>
                     <Accordion.Body>
-                        <> {<WearehousePricing onWearehousePricingUpdate={onWearehousePricingUpdate} />}</>
+                        <>     
+                        {priceList.map((data,index)=>(
+                            <div key={index}>
+                                <WearehousePricing onWearehousePricingUpdate={onWearehousePricingUpdate}/>
+                                {priceList.length - 1 === index && priceList.length < 4 && <Button variant="contained" color="primary" onClick={handlePriceAdd} style={{marginLeft:'20px'}}>Add Pricing</Button>}
+                                {priceList.length > 1 && <Button variant="contained" color="secondary" onClick={()=>handlePriceRemove(index)} style={{marginLeft:'20px'}}>Remove Pricing</Button>}
+                            </div>
+                            
+                        ))}
+                           
+                        </>
                     </Accordion.Body>
                 </Accordion.Item>
             </Accordion>
