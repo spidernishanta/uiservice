@@ -4,6 +4,7 @@ import "./App.css";
 import "../src/styles/sfglobal.scss";
 import { PAGES } from "./utils/Constants";
 import { getUserLoggedIn } from "./utils/CommonUtils";
+import { getLogInType } from "./utils/CommonUtils";
 
 function App() {
   const isAuthenticated = getUserLoggedIn();
@@ -96,11 +97,14 @@ function App() {
               <Route path={PAGES.Business.EDIT.path} element={<PAGES.Business.Component id="EDIT" />} />
             </Route>
 
-            <Route path={PAGES.Warehouse.path}>
-              <Route path={PAGES.Warehouse.ADD.path} element={<PAGES.Warehouse.Component id="ADD" />} />
-              <Route path={PAGES.Warehouse.VIEW.path} element={<PAGES.Warehouse.Component id="VIEW" />} />
-              <Route path={PAGES.Warehouse.EDIT.path} element={<PAGES.Warehouse.Component id="EDIT" />} />
-            </Route>
+            {getLogInType() != 'CU' && (
+              <Route path={PAGES.Warehouse.path}>
+                <Route path={PAGES.Warehouse.ADD.path} element={<PAGES.Warehouse.Component id="ADD" />} />
+                <Route path={PAGES.Warehouse.VIEW.path} element={<PAGES.Warehouse.Component id="VIEW" />} />
+                <Route path={PAGES.Warehouse.EDIT.path} element={<PAGES.Warehouse.Component id="EDIT" />} />
+              </Route>
+            )}
+
 
             <Route path={PAGES.USER.path}>
               <Route path={PAGES.USER.ADD.path} element={<PAGES.USER.Component id="ADD" />} />
@@ -200,10 +204,14 @@ function App() {
               path={PAGES.DISCOVER_MORE.path}
               element={<PAGES.DISCOVER_MORE.Component />}
             />
-            <Route
-              path={PAGES.BOOKINGS.path}
-              element={<PAGES.BOOKINGS.Component />}
-            />
+            {
+              getLogInType() != 'CU' && (
+                <Route
+                  path={PAGES.BOOKINGS.path}
+                  element={<PAGES.BOOKINGS.Component />}
+                />
+              )
+            }
             <Route
               path={PAGES.PAYMENT_HISTORY.path}
               element={<PAGES.PAYMENT_HISTORY.Component />}
