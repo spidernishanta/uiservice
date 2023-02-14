@@ -347,6 +347,12 @@ const EditBusiness = (props: EditBusinessProps) => {
                             </select>
                         </div>
                     </Grid>
+                    <Grid item xs={1} />
+                    <Grid item xs={4}>
+                        <div style={{ marginBottom: '8px' }}>
+                            <InputBox data={{ name: 'clientId', label: 'Company ID', value: businessProfile.clientId, isDisabled: true }} />
+                        </div>
+                    </Grid>
                     <Grid item xs={9}>
                         <InputBox data={{ name: 'companyname', label: 'Company Name*', value: businessProfile.compyName }}
                             onChange={onCompanyNameChange} onBlur={handelOnBlur}

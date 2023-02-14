@@ -58,11 +58,11 @@ const ContactUs = () => {
   };
 
   const sendMessage = () => {
-    if (!values.fname) {
+    if (!values.fname && !sessionStorage.getItem('firstName')) {
       setErrors({ ...errors, nameError: " *First Name is required. " });
     } else if (!values.subject) {
       setErrors({ ...errors, subjectError: " *Subject is required. " });
-    } else if (!values.email) {
+    } else if (!values.email && !sessionStorage.getItem('email')) {
       setErrors({ ...errors, emailError: " *Email is required. " });
     } else if (!values.phone) {
       setErrors({ ...errors, phoneError: " *Phone is required. " });
@@ -72,10 +72,10 @@ const ContactUs = () => {
     else {
 
       const postData = {
-        firstName: values.fname,
+        firstName: values.fname || sessionStorage.getItem('firstName'),
         middleName: values.mname,
-        lastName: values.lname,
-        email: values.email,
+        lastName: values.lname || sessionStorage.getItem('lastName'),
+        email: values.email || sessionStorage.getItem('email'),
         mobileNo: values.phone,
         subject: values.subject,
         descp: values.message,
@@ -101,6 +101,13 @@ const ContactUs = () => {
         setLoader(false);
         swal('Error sending message please try again', {
           icon: "error",
+          buttons: {
+            buttonOne: {
+              text: "OK",
+              visible: true,
+              className: "sf-btn",
+            }
+          }
         });
         console.log(' Error sending message please try again ', error);
       });
