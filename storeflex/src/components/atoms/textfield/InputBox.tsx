@@ -16,6 +16,7 @@ interface Data {
     label?: string;
     type?: string;
     isDisabled?: boolean;
+    min?: number;
 }
 
 const InputBox = (props?: InputBoxProps) => {
@@ -25,7 +26,8 @@ const InputBox = (props?: InputBoxProps) => {
         value: props?.data?.value || '',
         label: props?.data?.label,
         type: props?.data?.type || 'text' || 'date' || 'number',
-        isDisabled: props?.data?.isDisabled
+        isDisabled: props?.data?.isDisabled,
+
     };
     const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (props?.onChange) {

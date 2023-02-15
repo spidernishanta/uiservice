@@ -32,7 +32,7 @@ const WarehouseDetails = () => {
 
   const navigate = useNavigate();
   const addToCart = (e: any, selectedItem: any) => {
-    navigate('/cart',{state: selectedItem});
+    navigate('/cart', { state: selectedItem });
   }
 
   return (
@@ -152,7 +152,7 @@ const WarehouseDetails = () => {
                   <tr>
                     <th>Available Space</th>
                     <td></td>
-                    <th>Price/Sq Ft</th>
+                    <th>Price/Sq.Ft./30 days</th>
                     <td>&#x20B9;</td>
                   </tr>
                   <tr>
@@ -180,7 +180,7 @@ const WarehouseDetails = () => {
                 <div className="d-flex flex-row align-items-center mb-1">
                   <h4 className="mb-1 me-1">Industry served</h4>
                 </div>
-                <li>{JSON.stringify(getWhCategories('WT',warehouseInfo['industryId'])).substring(1,JSON.stringify(getWhCategories('WT',warehouseInfo['industryId'])).length - 1 )} </li>
+                <li>{JSON.stringify(getWhCategories('WT', warehouseInfo['industryId'])).substring(1, JSON.stringify(getWhCategories('WT', warehouseInfo['industryId'])).length - 1)} </li>
               </div>
 
               <div className="col-md-12 col-lg-12 col-xl-12 border-sm-start-none border-start p-3">
@@ -194,7 +194,7 @@ const WarehouseDetails = () => {
                 <div className="d-flex flex-row align-items-center mb-1">
                   <h4 className="mb-1 me-1">Facility Qualifications</h4>
                 </div>
-                <li>{JSON.stringify(getWhCategories('WF',warehouseInfo['facilitiesId'])).substring(1,JSON.stringify(getWhCategories('WF',warehouseInfo['facilitiesId'])).length - 1 )} </li>
+                <li>{JSON.stringify(getWhCategories('WF', warehouseInfo['facilitiesId'])).substring(1, JSON.stringify(getWhCategories('WF', warehouseInfo['facilitiesId'])).length - 1)} </li>
               </div>
 
 
