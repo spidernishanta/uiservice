@@ -54,7 +54,7 @@ const ViewBusiness = () => {
             status: companyStatus
         }
         api.getMyCompanies(data).then((response) => {
-            setIsLoader(false);
+            setIsLoader(false); console.log(response.methodReturnValue.clientList);
             setMyCompanies(response.methodReturnValue.clientList);
         }).catch((error) => {
             setIsLoader(false);
@@ -228,7 +228,7 @@ const ViewBusiness = () => {
                 compyDesc: item?.compyDesc,
                 url: item.url,
                 addresses: getAddress(item),
-                contact: item?.contact[0]?.contactName + '/' + item?.contact[0]?.mobileNo,
+                contact: item?.contact[0]?.emailId + '/' + item?.contact[0]?.mobileNo,
             }
           })
           return list;
