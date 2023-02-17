@@ -115,7 +115,7 @@ const AddressDetails = (props: AddressDetailsProps) => {
         if (validateCharacterLength(obj.val, 4, 80)) {
             obj.error = '';
         } else {
-            obj.error = 'Minimum 6 letters and maximum 80 letters required';
+            obj.error = 'Minimum 4 letters and maximum 80 letters required';
         }
         setStreetInfo(obj);
         // setOnUpdateInfo(true);
@@ -205,13 +205,13 @@ const AddressDetails = (props: AddressDetailsProps) => {
             {showAddressType()}
             <Grid container className='p-top-md' spacing={2} columns={{ xs: 6, sm: 12, md: 12 }}>
                 <Grid item xs={3}>
-                    <InputBox data={{ name: 'plotno', label: 'Plot No', value: addressInfo?.plotNo }}
+                    <InputBox data={{ name: 'plotno', label: 'Plot No*', value: addressInfo?.plotNo }}
                         onChange={validatePlotNo}
                     />
                     {plotInfo.error && <p className="text-red">{plotInfo.error}</p>}
                 </Grid>
                 <Grid item xs={3}>
-                    <InputBox data={{ name: 'houseno', label: 'House No', value: addressInfo?.houseNo }}
+                    <InputBox data={{ name: 'houseno', label: 'House No*', value: addressInfo?.houseNo }}
                         onChange={validateHouseNo}
                     />
                     {houseInfo.error && <p className="text-red">{houseInfo.error}</p>}

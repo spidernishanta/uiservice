@@ -434,12 +434,25 @@ const UserProfile = () => {
 
                                                                 </div>
                                                                 <Button variant="secondary" className='btn sf-btn text-capitalize' onClick={() => swal({
-                                                                    title: "An input!",
-                                                                    text: "Write something interesting:",
-                                                                }).then(function (inputValue) {
-                                                                    if (inputValue === null) return false;
+                                                                    title: "Are you sure ?",
+                                                                    buttons: {
+                                                                        buttonOne: {
+                                                                            text: "No",
+                                                                            value: "ec",
+                                                                            visible: true,
+                                                                            className: "sf-btn",
+                                                                        },
+                                                                        buttonTwo: {
+                                                                            text: "Yes",
+                                                                            value: "nc",
+                                                                            visible: true,
+                                                                            className: "sf-btn",
+                                                                        }
+                                                                    }
+                                                                }).then(function (Value) {
+                                                                    if (Value === null) return false;
 
-                                                                    if (inputValue === "") {
+                                                                    if (Value === "ec") {
                                                                         return false
                                                                     }
 
