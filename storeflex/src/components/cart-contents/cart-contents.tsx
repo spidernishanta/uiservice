@@ -43,7 +43,7 @@ const PriceDetailsHeader = () => {
 }
 
 const CartContents = () => {
-    
+
     const [data, setData] = useState<Array<any>>([]);
     const [hourData, setHourData] = useState<Array<any>>([]);
     const [addData, setAddData] = useState(0);
@@ -98,6 +98,7 @@ const CartContents = () => {
     };
 
     const [spaceOrdered, setSpaceOrdered] = useState('');
+    const [startLease, setStartLease] = useState('');
     const [errorMessage, setErrorMessage] = React.useState("");
     const [onUpdateInfo, setonUpdateInfo] = useState(false);
 
@@ -113,6 +114,27 @@ const CartContents = () => {
             if (name === 'sporder') {
                 setSpaceOrdered(value);
                 if (value > 20000 || value < 9425)
+                    setErrorMessage("Space Ordered should be between 9,425 Sq. Ft.-20,000 Sq. Ft.")
+                else {
+                    setErrorMessage("")
+                }
+            }
+            else {
+                return false;
+            }
+            setonUpdateInfo(true);
+        }
+    }
+
+    const validateStartLease = (evt: any) => {
+        if (evt?.target?.value) {
+            const name = evt.target.name;
+            const value = evt.target.value;
+            let startDate = new Date().getTime();
+            console.log(startDate);
+            if (name === 'startdata') {
+                setStartLease(value);
+                if (value < startDate)
                     setErrorMessage("Space Ordered should be between 9,425 Sq. Ft.-20,000 Sq. Ft.")
                 else {
                     setErrorMessage("")
@@ -154,7 +176,7 @@ const CartContents = () => {
                                                     </div>
                                                 </div>
                                             </Grid>
-                                            <Grid item sm={7}>
+                                            <Grid item sm={6}>
                                                 <div className='card p-top-xl'>
                                                     <div className='text-left'>
                                                         <div className='sub-header'> {data['warehouseId']} </div>
@@ -172,10 +194,13 @@ const CartContents = () => {
                                                 </div>
                                             </Grid>
 
-                                            <Grid item sm={2}>
+                                            <Grid item sm={3}>
                                                 <div className='card p-top-xl'>
+                                                    <div className='sub-header'> Rate </div>
                                                     <div className='text-left'>
-                                                        <span>&#x20B9;{ }<i>&nbsp;/ month</i></span>
+                                                        <span><b>Rental</b>&#x20B9;{ }<i>&nbsp;/month  </i></span>
+                                                        <span><b>Unloading</b>&#x20B9;{ }<i>&nbsp;/month  </i></span>
+                                                        <span><b>Loading</b>&#x20B9;{ }<i>&nbsp;/month  </i></span>
                                                     </div>
                                                 </div>
                                             </Grid>
@@ -188,10 +213,21 @@ const CartContents = () => {
                                                 {errorMessage && <div className="text-red"> {errorMessage} </div>}
                                             </Grid>
                                             <Grid item xs={3}>
-                                                <InputBox data={{ name: 'startdata', label: 'Start Lease', value: '', type: 'date' }} />
+                                                <InputBox data={{ name: 'startdata', label: 'Start Lease', value: '', type: 'date' }}
+                                                    onChange={validateStartLease} />
+                                                {errorMessage && <div className="text-red"> {errorMessage} </div>}
                                             </Grid>
                                             <Grid item xs={3}>
                                                 <InputBox data={{ name: 'enddata', label: 'End Lease', value: '', type: 'date' }} />
+                                            </Grid>
+                                            <Grid item sm={3}>
+                                            </Grid>
+                                            <Grid item sm={3}>
+                                                <InputBox data={{ name: 'nop', label: 'No. of Pallets (Loading/Unloading)', value: '', type: 'number' }} />
+                                            </Grid>
+                                            <Grid item sm={3}>
+                                            </Grid>
+                                            <Grid item sm={3}>
                                             </Grid>
                                             <Grid item sm={3}>
                                             </Grid>
@@ -199,57 +235,59 @@ const CartContents = () => {
                                                 <InputBox data={{ name: 'NotestoWarehouse', label: 'Notes to Warehouse (Optional)', value: '' }} />
                                             </Grid>
                                         </Grid>
-                                        </Grid>
-                                    </Item>
-                                        {/* {<OrderReview />} */}
+                                    </Grid>
+                                </Item>
+                                {/* {<OrderReview />} */}
                             </Grid>
-                            
+
                             <Grid item xs={3} sx={{ pl: 3 }}>
 
                                 <Item sx={{ p: 0 }}>
                                     <Grid item xs={12}>
                                         {PriceDetailsHeader()}
-                                                        <form id="merchantHostedForm">
-                                                            <table className="mainForm">
-                                                                <tbody>
-                                                                    <tr>
-                                                                        {/* <td>order id</td> */}
-                                                                        <td><input type="hidden" onChange={handaleInput} name="orderId" value={inputField.orderId} /></td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        {/* <td>order amount</td> */}
-                                                                        <td><input type="hidden" onChange={handaleInput} name="orderAmount" value={inputField.orderAmount} /></td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        {/* <td>customer name</td> */}
-                                                                        <td><input type="hidden" onChange={handaleInput} name="customerName" value={inputField.customerName} /></td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        {/* <td>customer email</td> */}
-                                                                        <td><input type="hidden" onChange={handaleInput} name="customerEmail" value={inputField.customerEmail} /></td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        {/* <td>MERCHANTHOSTED</td> */}
-                                                                        <td><input type="hidden" onChange={handaleInput} name="paymentType" value={inputField.paymentType} /></td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        {/* <td>customer phone</td> */}
-                                                                        <td><input type="hidden" onChange={handaleInput} name="customerPhone" value={inputField.customerPhone} /></td>
-                                                                    </tr>
+                                        <form id="merchantHostedForm">
+                                            <table className="mainForm">
+                                                <tbody>
+                                                    <tr>
+                                                        {/* <td>order id</td> */}
+                                                        <td><input type="hidden" onChange={handaleInput} name="orderId" value={inputField.orderId} /></td>
+                                                    </tr>
+                                                    <tr>
+                                                        {/* <td>order amount</td> */}
+                                                        <td><input type="hidden" onChange={handaleInput} name="orderAmount" value={inputField.orderAmount} /></td>
+                                                    </tr>
+                                                    <tr>
+                                                        {/* <td>customer name</td> */}
+                                                        <td><input type="hidden" onChange={handaleInput} name="customerName" value={inputField.customerName} /></td>
+                                                    </tr>
+                                                    <tr>
+                                                        {/* <td>customer email</td> */}
+                                                        <td><input type="hidden" onChange={handaleInput} name="customerEmail" value={inputField.customerEmail} /></td>
+                                                    </tr>
+                                                    <tr>
+                                                        {/* <td>MERCHANTHOSTED</td> */}
+                                                        <td><input type="hidden" onChange={handaleInput} name="paymentType" value={inputField.paymentType} /></td>
+                                                    </tr>
+                                                    <tr>
+                                                        {/* <td>customer phone</td> */}
+                                                        <td><input type="hidden" onChange={handaleInput} name="customerPhone" value={inputField.customerPhone} /></td>
+                                                    </tr>
 
 
-                                                                </tbody>
-                                                            </table>
-                                                        </form>
+                                                </tbody>
+                                            </table>
+                                        </form>
                                         <Grid container spacing={2} sx={{ p: 1 }}>
                                             <Grid item sm={12}>
                                                 <div className='card'>
                                                     <div className='text-left'>
-                                                        <span className='text-left'>Price(2 Items):</span> <span className='text-right'> 45000.00</span>
+                                                        <span className='text-left'>Total Rental:</span> <span className='text-right'> 45000.00</span><p />
+                                                        <span className='text-left'>Unloading:</span> <span className='text-right'> 4500.00</span><p />
+                                                        <span className='text-left'>Loading:</span> <span className='text-right'> 4000.00</span>
                                                         <Divider sx={{ m: 2 }} />
-                                                        Discount: 0.00
+                                                        <span className='text-left'>Tax:</span> <span className='text-right'> 8100.00</span>
                                                         <Divider sx={{ m: 2 }} />
-                                                        {/* Total Amount: &#x20B9;{parseFloat(data.clientId) + 0.18 * parseFloat(data.clientId)} */}
+                                                        <span className='text-left'>Total:</span> <span className='text-right'> 61600.00</span>
                                                         <Divider sx={{ m: 2 }} />
 
                                                     </div>
@@ -294,10 +332,10 @@ const CartContents = () => {
                                             </Grid>
                                         </Grid>
                                     </Grid>
-                                    </Item>
+                                </Item>
 
-                                    </Grid>
-                               
+                            </Grid>
+
                         </Box>
                     </Container>
                 </Grid>

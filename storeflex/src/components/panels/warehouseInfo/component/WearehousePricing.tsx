@@ -105,23 +105,36 @@ const WearehousePricing = (props: WearehousePricingProps) => {
                 <div className='p-md'>
                     <Grid container spacing={2} columns={{ xs: 4, sm: 12, md: 12 }}>
                         <Grid item xs={4}>
-                            <InputBox data={{ name: 'availablespace', label: 'Total Available Space (sq.ft)*', value: '' }}
+                            <InputBox data={{ name: 'availablespace', label: 'Total Available Space (Sq.Ft)*', value: '' }}
                                 onChange={validateSpaceInfo}
                             />
                             <InputError errorText={spaceInfo.error} />
                         </Grid>
                         <Grid item xs={4}>
-                            <InputBox data={{ name: 'rate', label: 'Rate(Rs)/sq.ft/month *', value: '' }}
+                            <InputBox data={{ name: 'rate', label: 'Rental Rate(Rs)/Sq.Ft/30 days *', value: '' }}
                                 onChange={validateRateInfo}
                             />
                             <InputError errorText={rateInfo.error} />
                         </Grid>
                         <Grid item xs={4}>
-                            <InputBox data={{ name: 'quantity', label: 'Minimum Order Quantity (sq.ft)', value: '' }}
+                            <InputBox data={{ name: 'quantity', label: 'Minimum Order Quantity (Sq.Ft)', value: '' }}
                                 onChange={validateQuantityInfo}
                             />
                             <InputError errorText={quantityInfo.error} />
                         </Grid>
+                        <Grid item xs={4}>
+                            <InputBox data={{ name: 'quantity', label: 'Loading Price/Pallet', value: '' }}
+                                onChange={validateQuantityInfo}
+                            />
+                            <InputError errorText={quantityInfo.error} />
+                        </Grid>
+                        <Grid item xs={4}>
+                            <InputBox data={{ name: 'quantity', label: 'Unloading Price/Pallet', value: '' }}
+                                onChange={validateQuantityInfo}
+                            />
+                            <InputError errorText={quantityInfo.error} />
+                        </Grid>
+                        <Grid item xs={4} />
                         <Grid item xs={4}>
                             <InputBox data={{ type: 'date', name: 'fromdate', label: 'From' }} />
                         </Grid>

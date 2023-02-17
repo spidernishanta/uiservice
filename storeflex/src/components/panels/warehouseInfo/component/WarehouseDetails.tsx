@@ -154,7 +154,7 @@ const WarehouseDetails = (props: WarehouseDetailsProps) => {
                                 <Grid item xs={6}>
                                     <InputBox data={{
                                         name: 'clientid', label: 'Client ID*',
-                                        value: whData?.clientId, isDisabled: props.isDisabled
+                                        value: whData?.clientId, isDisabled: true
                                     }}
                                     />
                                 </Grid>
