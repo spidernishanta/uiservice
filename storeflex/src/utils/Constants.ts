@@ -64,6 +64,12 @@ export enum ROLE_TYPE {
   guest = 'GUEST',
 }
 
+export enum STATUS_TYPE {
+  active = 'ACTIVE',
+  inactive = 'IN-ACTIVE',
+  pending = 'PENDING',
+}
+
 export const PAGES = {
   Home: {
     path: "/home",
