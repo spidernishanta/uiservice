@@ -293,11 +293,12 @@ const EditBusiness = (props: EditBusinessProps) => {
 
     const onUpdate = () => {
         const postData = {} as AddCompanyPostData;
-        postData.clientId = businessProfile.clientId;
+        postData.clientId = businessProfile.clientId; //console.log(addressTypeInfo);
         postData.compyName = getVal(companyNameInfo);
         postData.compyDesc = getVal(companyDescription);
         postData.url = getVal(companyUrlInfo);
         postData.gstNo = getVal(gstIdInfo);
+        postData.status = getVal(addressTypeInfo);
 
         if (Object.keys(companyAddressInfo).length > 0) {
             postData.addresses = [companyAddressInfo];
@@ -310,7 +311,7 @@ const EditBusiness = (props: EditBusinessProps) => {
         };
 
         setLoader(true);
-        api.updateCompany(postData).then((response) => {
+        api.updateCompany(postData).then((response) => { console.log(postData);
             setLoader(false);
             swal('Great! Information updated successfully!', {
                 icon: "success",
@@ -323,7 +324,7 @@ const EditBusiness = (props: EditBusinessProps) => {
                 }
             }).then(willUpdate => {
                 if (willUpdate) {
-                    goToNextPage('/business/view');
+                    goToNextPage('/business/view#pending');
                 }
             });
             console.log(' Company creation res >>>>>> ', response);
@@ -341,9 +342,10 @@ const EditBusiness = (props: EditBusinessProps) => {
                         <div style={{ marginBottom: '8px' }}>
                             <div className='pb-2'>Status</div>
                             <select name="addresstype" className="form-control" onChange={selectAddressType}>
-                                <option value="ACT">Active</option>
-                                <option value="INP">In-Progress</option>
-                                <option value="INA">In-Active</option>
+                                <option value="ACTIVE">{businessProfile.status}</option>
+                                {!(businessProfile.status === 'ACTIVE')?<option value="ACTIVE">ACTIVE</option>:''}
+                                {!(businessProfile.status === 'IN-PROGRESS')?<option value="IN-PROGRESS">IN-PROGRESS</option>:''}
+                                {!(businessProfile.status === 'IN-ACTIVE')?<option value="IN-ACTIVE">IN-ACTIVE</option>:''}
                             </select>
                         </div>
                     </Grid>
@@ -380,6 +382,7 @@ const EditBusiness = (props: EditBusinessProps) => {
                                 onChange={onCompanyDescriptionChange}
                                 aria-label={businessDescriptionText}
                                 placeholder={businessProfile.compyDesc || businessDescriptionText}
+                                defaultValue={businessProfile.compyDesc}
                                 style={{ width: '100%' }}
                             />
                         </Grid>

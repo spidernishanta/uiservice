@@ -85,6 +85,7 @@ export interface AddCompanyPostData {
     gstNo?: string;
     addresses?: Address[];
     contact?: Contact[];
+    status?: string;
 }
 
 export interface WarehousePostData {

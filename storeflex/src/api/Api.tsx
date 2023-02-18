@@ -229,11 +229,11 @@ export default class Api {
             return Promise.reject(error);
         }
     }
-    async updateCompany(postData: AddCompanyPostData): Promise<any> {
+    async updateCompany(postData: AddCompanyPostData): Promise<any> { console.log(postData);
         const url = this.baseUrl + this.apiUrl.addCompanyUrl;
         try {
             const response = await axios.post(url, postData);
-            if (response.status === 200) {
+            if (response.status === 200) { console.log(response);
                 return Promise.resolve(response?.data);
             } else {
                 console.log(' error : updateCompany  ', response);

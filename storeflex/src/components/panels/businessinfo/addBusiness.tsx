@@ -302,7 +302,7 @@ const AddBusiness = (props: AddBusinessProps) => {
 
             setLoaderState(true);
 
-            api.addCompany(postData).then((resp) => {
+            api.addCompany(postData).then((resp) => { 
                 setLoaderState(false); setStep(3);
                 if (resp && resp.methodReturnValue.clientId && imageData) {
                     upladPhoto(imageData, resp.methodReturnValue.clientId);
@@ -321,7 +321,7 @@ const AddBusiness = (props: AddBusinessProps) => {
                     }
                 }).then(function (value) {
                     if (value == "ok") { window.location.href = "/business/view#pending"; }
-                    else { window.location.href = "/business/view#pendig"; }
+                    else { window.location.href = "/business/view#pending"; }
                 });
                 console.log(' Company creation res >>>>>> ', resp);
             }).catch((error) => {
