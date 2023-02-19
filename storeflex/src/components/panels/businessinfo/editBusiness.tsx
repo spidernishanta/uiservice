@@ -32,7 +32,8 @@ const EditBusiness = (props: EditBusinessProps) => {
     const [companyUrlInfo, setCompanyUrlInfo] = useState<objectData>({});
     const [businessPhoneInfo, setBusinessPhoneInfo] = useState<objectData>({});
     const [gstIdInfo, setGstIdInfo] = useState<objectData>({});
-    const [addressTypeInfo, setAddressTypeInfo] = useState<objectData>({});
+    //const [addressTypeInfo, setAddressTypeInfo] = useState<objectData>({});
+    const [statusTypeInfo, setStatusTypeInfo] = useState<objectData>({});
 
     // Address Information 
     const [companyAddressInfo, setCompanyAddressInfo] = useState<Address>({});
@@ -240,14 +241,22 @@ const EditBusiness = (props: EditBusinessProps) => {
         }
         setLandLineNoInfo(obj);
     }
-    const selectAddressType = (event: any) => {
+    // const selectAddressType = (event: any) => {
+    //     const obj = {
+    //         val: event.target.value || '',
+    //         error: '',
+    //         isUpdated: true,
+    //     } as objectData;
+    //     setAddressTypeInfo(obj);
+    //     // setOnUpdateInfo(true);
+    // }
+    const selectStatusType = (event: any) => {
         const obj = {
             val: event.target.value || '',
             error: '',
             isUpdated: true,
         } as objectData;
-        setAddressTypeInfo(obj);
-        // setOnUpdateInfo(true);
+        setStatusTypeInfo(obj);
     }
 
     const onAddressUpdate = (data: Address) => {
@@ -293,12 +302,12 @@ const EditBusiness = (props: EditBusinessProps) => {
 
     const onUpdate = () => {
         const postData = {} as AddCompanyPostData;
-        postData.clientId = businessProfile.clientId; //console.log(addressTypeInfo);
+        postData.clientId = businessProfile.clientId;
         postData.compyName = getVal(companyNameInfo);
         postData.compyDesc = getVal(companyDescription);
         postData.url = getVal(companyUrlInfo);
         postData.gstNo = getVal(gstIdInfo);
-        postData.status = getVal(addressTypeInfo);
+        postData.status = getVal(statusTypeInfo) || businessProfile.status;
 
         if (Object.keys(companyAddressInfo).length > 0) {
             postData.addresses = [companyAddressInfo];
@@ -341,8 +350,8 @@ const EditBusiness = (props: EditBusinessProps) => {
                     <Grid item xs={4}>
                         <div style={{ marginBottom: '8px' }}>
                             <div className='pb-2'>Status</div>
-                            <select name="addresstype" className="form-control" onChange={selectAddressType}>
-                                <option value="ACTIVE">{businessProfile.status}</option>
+                            <select name="addresstype" className="form-control" onChange={selectStatusType}>
+                                <option value={businessProfile.status}>{businessProfile.status}</option>
                                 {!(businessProfile.status === 'ACTIVE')?<option value="ACTIVE">ACTIVE</option>:''}
                                 {!(businessProfile.status === 'IN-PROGRESS')?<option value="IN-PROGRESS">IN-PROGRESS</option>:''}
                                 {!(businessProfile.status === 'IN-ACTIVE')?<option value="IN-ACTIVE">IN-ACTIVE</option>:''}
