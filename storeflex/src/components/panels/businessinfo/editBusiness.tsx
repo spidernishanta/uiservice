@@ -515,8 +515,8 @@ const EditBusiness = (props: EditBusinessProps) => {
                 </Accordion.Item>
             </Accordion>
             <div className='p-md align-r' style={{ float: 'right' }}>
-                <button className='btn primary-btn rounded-full' onClick={() => { goToNextPage('/business/view') }} style={{ marginRight: '5px' }}> Cancel </button>
-                <button className="btn primary-btn rounded-full" onClick={() => { onUpdate() }}> Update </button>
+                <button className='btn primary-btn sf-btn' onClick={() => { goToNextPage('/business/view') }} style={{ marginRight: '5px', color:"#fff" }}> Cancel </button>
+                <button className="btn primary-btn sf-btn" onClick={() => { onUpdate() }} style={{color: "#fff"}}> Update </button>
             </div>
 
         </>
