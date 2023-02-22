@@ -209,6 +209,7 @@ export interface UserPostData {
     state?: string;
     country?: string;
     roleType?: string;
+    status?: string;
     clientId?: string;
     addresses?: Address[];
 }

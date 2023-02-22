@@ -5,46 +5,46 @@ const Services = () => {
 
   const [modalShow, setModalShow] = React.useState(false);
   const [modalContent, setModalContent] = React.useState({
-    Header:'',
-    Text:''
+    Header: '',
+    Text: ''
   });
 
-  const showModal = (modalName:any) =>{
-    let contents:any={
-      Header:"No header",
+  const showModal = (modalName: any) => {
+    let contents: any = {
+      Header: "No header",
       Text: "No content available"
     }
-    switch(modalName){
-      case 'ListingPlatform': 
-        contents={
-          Header:"ListingPlatform",
+    switch (modalName) {
+      case 'ListingPlatform':
+        contents = {
+          Header: "ListingPlatform",
           Text: " Empowering Consumers with data,inspiration & knowlwdge..."
         }
         break;
-      case 'ResourceManagement':  
-      contents={
-        Header:"ResourceManagement",
-        Text: " Empowering Consumers with data,inspiration & knowlwdge..."
-      }
+      case 'ResourceManagement':
+        contents = {
+          Header: "ResourceManagement",
+          Text: " Empowering Consumers with data,inspiration & knowlwdge..."
+        }
         break;
-      case 'Technology':  
-      contents={
-        Header:"Technology",
-        Text: " Empowering Consumers with data,inspiration & knowlwdge..."
-      }
+      case 'Technology':
+        contents = {
+          Header: "Technology",
+          Text: " Empowering Consumers with data,inspiration & knowlwdge..."
+        }
         break;
-      case 'Accounting':  
-      contents={
-        Header:"Accounting",
-        Text: " Empowering Consumers with data,inspiration & knowlwdge..."
-      }
+      case 'Accounting':
+        contents = {
+          Header: "Accounting",
+          Text: " Empowering Consumers with data,inspiration & knowlwdge..."
+        }
         break;
     }
     setModalContent(contents);
     setModalShow(true);
   }
 
-  const DiscoverMoreModal=(props)=> {
+  const DiscoverMoreModal = (props) => {
     return (
       <Modal
         {...props}
@@ -54,7 +54,7 @@ const Services = () => {
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-           Services We Provide
+            Services We Provide
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -101,7 +101,7 @@ const Services = () => {
                   </p>
                   <div className="light-rounded-buttons">
                     <button
-                     onClick={() => {showModal('ListingPlatform')}}
+                      onClick={() => { showModal('ListingPlatform') }}
                       className="btn primary-btn btn-sm"
                     >
                       {" "}
@@ -110,7 +110,7 @@ const Services = () => {
                   </div>
                 </div>
               </div>
-              <div className="col-lg-3 col-md-4 col-12">
+              <div className="col-lg-31 col-md-4 col-12">
                 <div className="single-service">
                   <span className="serial">02</span>
                   <h4>Resource Management</h4>
@@ -121,7 +121,7 @@ const Services = () => {
                   <div className="light-rounded-buttons">
                     <button
                       className="btn primary-btn btn-sm"
-                      onClick={() => {showModal('ResourceManagement')}}
+                      onClick={() => { showModal('ResourceManagement') }}
                     >
                       {" "}
                       Read More{" "}
@@ -129,7 +129,7 @@ const Services = () => {
                   </div>
                 </div>
               </div>
-              <div className="col-lg-3 col-md-4 col-12">
+              <div className="col-lg-31 col-md-4 col-12">
                 <div className="single-service">
                   <span className="serial">03</span>
                   <h4>Technology backed warehousing solution</h4>
@@ -137,7 +137,7 @@ const Services = () => {
                   <div className="light-rounded-buttons">
                     <button
                       className="btn primary-btn btn-sm"
-                      onClick={() => {showModal('Technology')}}
+                      onClick={() => { showModal('Technology') }}
                     >
                       {" "}
                       Read More{" "}
@@ -153,7 +153,7 @@ const Services = () => {
                   <div className="light-rounded-buttons">
                     <button
                       className="btn primary-btn btn-sm"
-                      onClick={() => {showModal('Accounting')}}
+                      onClick={() => { showModal('Accounting') }}
                     >
                       {" "}
                       Read More{" "}

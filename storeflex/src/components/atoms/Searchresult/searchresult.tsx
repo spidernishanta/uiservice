@@ -32,8 +32,7 @@ const Item = styled(Paper)(({ theme }) => ({
 export default function Searchresult() {
 
   const [warehouse, setWarehouse] = useState<Array<any>>([]);
-
-
+  const [warehouseInfo, setWarehouseInfo] = useState<Array<any>>([]);
   const [office, setOffice] = useState<Array<any>>([]);
   const [filter, setFilter] = useState('');
   const navigate = useNavigate();
@@ -167,18 +166,25 @@ export default function Searchresult() {
                               <span>{ware.endLease}</span>
                             </div>
                             <div className="mb-2 text-muted small">
+                              <span><b>Unloading/Palette</b></span>
+                              <span>{ware.startLease}&nbsp;</span>
+                              <span><b>Loading/Palette</b></span>
+                              <span>{ware.endLease}</span>
+                            </div>
+                            <div className="mb-2 text-muted small">
                               <span><b>Industries Served</b></span>
                               <span className="text-primary"> . </span>
+                              <span>{JSON.stringify(getWhCategories('WT', warehouseInfo['industryId'])).substring(1, JSON.stringify(getWhCategories('WT', warehouseInfo['industryId'])).length - 1)}</span>
                             </div>
                             <div className="mb-2 text-muted small">
                               <span><b>Storage Layout</b></span>
                               <span className="text-primary"> . </span>
-                              <span>{JSON.stringify(getWhCategories('WS',ware.storagesId)).substring(1,JSON.stringify(getWhCategories('WS',ware.storagesId)).length - 1 )}</span>
+                              <span>{JSON.stringify(getWhCategories('WS', ware.storagesId)).substring(1, JSON.stringify(getWhCategories('WS', ware.storagesId)).length - 1)}</span>
                             </div>
                             <div className="mb-2 text-muted small">
                               <span><b>Facilities: </b></span>
                               <span className="text-primary"> . </span>
-                              <span>{JSON.stringify(getWhCategories('WF',ware.facilitiesId)).substring(1,JSON.stringify(getWhCategories('WF',ware.facilitiesId)).length - 1 )}</span>
+                              <span>{JSON.stringify(getWhCategories('WF', ware.facilitiesId)).substring(1, JSON.stringify(getWhCategories('WF', ware.facilitiesId)).length - 1)}</span>
                             </div>
                           </div>
                           <div className="col-md-6 col-lg-3 col-xl-3 border-sm-start-none border-start">
