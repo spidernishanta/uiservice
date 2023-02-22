@@ -19,6 +19,7 @@ const WarehouseDetails = () => {
 
   useEffect(() => {
     const stateWarehouseData: any = state;
+    console.log(stateWarehouseData);
     api.getWarehouseById(stateWarehouseData.warehouseId).then((response) => {
       if (response.status == 'SUCCESS') {
         setWarehouseInfo(response.methodReturnValue);

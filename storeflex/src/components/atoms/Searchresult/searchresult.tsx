@@ -35,6 +35,7 @@ export default function Searchresult() {
   const [warehouseInfo, setWarehouseInfo] = useState<Array<any>>([]);
   const [office, setOffice] = useState<Array<any>>([]);
   const [filter, setFilter] = useState('');
+  const [price, setPrice] = useState<Array<any>>([]);
   const navigate = useNavigate();
 
   const { state } = useLocation();
@@ -44,12 +45,13 @@ export default function Searchresult() {
   const img3 = 'https://media.istockphoto.com/id/980114338/photo/supervisor-and-employee-at-warehouse.webp?s=612x612&w=is&k=20&c=6TtBd269scsOMBrswgxy0tsa64_MsChdpXo_oBrz8yk=';
   const img4 = 'https://media.istockphoto.com/photos/warehouse-worker-picture-id1179825208';
 
-  const price = '200';
+  // const price = '200';
 
 
   useEffect(() => {
     const stateData: any = state;
     setWarehouse(stateData);
+    console.log(stateData[0].pricebean.availspace);
   }, [])
 
 
@@ -155,8 +157,8 @@ export default function Searchresult() {
                               <span></span>
                             </div>
                             <div className="mb-2 text-muted small">
-                              <span><b>Available Space</b></span>
-                              <span className="text-primary"> • </span>
+                              <span><b>Available Space: </b></span>
+                              <span>{ware.pricebean.availspace}</span>
                               <span></span>
                             </div>
                             <div className="mb-2 text-muted small">

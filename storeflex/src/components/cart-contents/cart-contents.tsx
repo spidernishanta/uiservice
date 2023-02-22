@@ -98,8 +98,11 @@ const CartContents = () => {
     };
 
     const [spaceOrdered, setSpaceOrdered] = useState('');
+    const [nopUnload, setNopUnload] = useState('');
+    const [nopLoad, setNopLoad] = useState('');
     const [startLease, setStartLease] = useState('');
     const [errorMessage, setErrorMessage] = React.useState("");
+    const [errorMessage0, setErrorMessage0] = React.useState("");
     const [onUpdateInfo, setonUpdateInfo] = useState(false);
 
     const navigate = useNavigate();
@@ -126,19 +129,12 @@ const CartContents = () => {
         }
     }
 
-    const validateStartLease = (evt: any) => {
+    const validateNopUnload = (evt: any) => {
         if (evt?.target?.value) {
             const name = evt.target.name;
             const value = evt.target.value;
-            let startDate = new Date().getTime();
-            console.log(startDate);
-            if (name === 'startdata') {
-                setStartLease(value);
-                if (value < startDate)
-                    setErrorMessage("Space Ordered should be between 9,425 Sq. Ft.-20,000 Sq. Ft.")
-                else {
-                    setErrorMessage("")
-                }
+            if (name === 'nopu') {
+                setNopUnload(value);
             }
             else {
                 return false;
@@ -147,6 +143,20 @@ const CartContents = () => {
         }
     }
 
+    const validateNopLoad = (evt: any) => {
+        if (evt?.target?.value) {
+            const name = evt.target.name;
+            const value = evt.target.value;
+            if (name === 'nopl') {
+                setNopLoad(value);
+            }
+            else {
+                return false;
+            }
+            setonUpdateInfo(true);
+            console.log('Value:', value);
+        }
+    }
 
     return (
         <>
@@ -213,9 +223,7 @@ const CartContents = () => {
                                                 {errorMessage && <div className="text-red"> {errorMessage} </div>}
                                             </Grid>
                                             <Grid item xs={3}>
-                                                <InputBox data={{ name: 'startdata', label: 'Start Lease', value: '', type: 'date' }}
-                                                    onChange={validateStartLease} />
-                                                {errorMessage && <div className="text-red"> {errorMessage} </div>}
+                                                <InputBox data={{ name: 'startdata', label: 'Start Lease', value: '', type: 'date' }} />
                                             </Grid>
                                             <Grid item xs={3}>
                                                 <InputBox data={{ name: 'enddata', label: 'End Lease', value: '', type: 'date' }} />
@@ -223,9 +231,14 @@ const CartContents = () => {
                                             <Grid item sm={3}>
                                             </Grid>
                                             <Grid item sm={3}>
-                                                <InputBox data={{ name: 'nop', label: 'No. of Pallets (Loading/Unloading)', value: '', type: 'number' }} />
+                                                <InputBox data={{ name: 'nopu', label: 'No. of Pallets (Unloading)', value: '', type: 'number' }}
+                                                    onChange={validateNopUnload}
+                                                />
                                             </Grid>
                                             <Grid item sm={3}>
+                                                <InputBox data={{ name: 'nopl', label: 'No. of Pallets (Loading)', value: '', type: 'number' }}
+                                                    onChange={validateNopLoad} />
+                                                {errorMessage0 && <div className="text-red"> {errorMessage0} </div>}
                                             </Grid>
                                             <Grid item sm={3}>
                                             </Grid>
