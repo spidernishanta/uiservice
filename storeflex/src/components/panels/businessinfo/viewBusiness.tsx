@@ -168,7 +168,7 @@ const ViewBusiness = () => {
                         </Tooltip>
                         <Tooltip
                             title="Delete"
-                            placement="top"
+                            placement="right"
                             arrow
                             enterDelay={100}
                             leaveDelay={100}

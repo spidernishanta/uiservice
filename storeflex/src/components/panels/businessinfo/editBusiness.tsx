@@ -32,7 +32,8 @@ const EditBusiness = (props: EditBusinessProps) => {
     const [companyUrlInfo, setCompanyUrlInfo] = useState<objectData>({});
     const [businessPhoneInfo, setBusinessPhoneInfo] = useState<objectData>({});
     const [gstIdInfo, setGstIdInfo] = useState<objectData>({});
-    const [addressTypeInfo, setAddressTypeInfo] = useState<objectData>({});
+    //const [addressTypeInfo, setAddressTypeInfo] = useState<objectData>({});
+    const [statusTypeInfo, setStatusTypeInfo] = useState<objectData>({});
 
     // Address Information 
     const [companyAddressInfo, setCompanyAddressInfo] = useState<Address>({});
@@ -240,14 +241,22 @@ const EditBusiness = (props: EditBusinessProps) => {
         }
         setLandLineNoInfo(obj);
     }
-    const selectAddressType = (event: any) => {
+    // const selectAddressType = (event: any) => {
+    //     const obj = {
+    //         val: event.target.value || '',
+    //         error: '',
+    //         isUpdated: true,
+    //     } as objectData;
+    //     setAddressTypeInfo(obj);
+    //     // setOnUpdateInfo(true);
+    // }
+    const selectStatusType = (event: any) => {
         const obj = {
             val: event.target.value || '',
             error: '',
             isUpdated: true,
         } as objectData;
-        setAddressTypeInfo(obj);
-        // setOnUpdateInfo(true);
+        setStatusTypeInfo(obj);
     }
 
     const onAddressUpdate = (data: Address) => {
@@ -298,6 +307,7 @@ const EditBusiness = (props: EditBusinessProps) => {
         postData.compyDesc = getVal(companyDescription);
         postData.url = getVal(companyUrlInfo);
         postData.gstNo = getVal(gstIdInfo);
+        postData.status = getVal(statusTypeInfo) || businessProfile.status;
 
         if (Object.keys(companyAddressInfo).length > 0) {
             postData.addresses = [companyAddressInfo];
@@ -310,7 +320,7 @@ const EditBusiness = (props: EditBusinessProps) => {
         };
 
         setLoader(true);
-        api.updateCompany(postData).then((response) => {
+        api.updateCompany(postData).then((response) => { console.log(postData);
             setLoader(false);
             swal('Great! Information updated successfully!', {
                 icon: "success",
@@ -323,7 +333,7 @@ const EditBusiness = (props: EditBusinessProps) => {
                 }
             }).then(willUpdate => {
                 if (willUpdate) {
-                    goToNextPage('/business/view');
+                    goToNextPage('/business/view#pending');
                 }
             });
             console.log(' Company creation res >>>>>> ', response);
@@ -340,10 +350,11 @@ const EditBusiness = (props: EditBusinessProps) => {
                     <Grid item xs={4}>
                         <div style={{ marginBottom: '8px' }}>
                             <div className='pb-2'>Status</div>
-                            <select name="addresstype" className="form-control" onChange={selectAddressType}>
-                                <option value="ACT">Active</option>
-                                <option value="INP">In-Progress</option>
-                                <option value="INA">In-Active</option>
+                            <select name="addresstype" className="form-control" onChange={selectStatusType}>
+                                <option value={businessProfile.status}>{businessProfile.status}</option>
+                                {!(businessProfile.status === 'ACTIVE')?<option value="ACTIVE">ACTIVE</option>:''}
+                                {!(businessProfile.status === 'IN-PROGRESS')?<option value="IN-PROGRESS">IN-PROGRESS</option>:''}
+                                {!(businessProfile.status === 'IN-ACTIVE')?<option value="IN-ACTIVE">IN-ACTIVE</option>:''}
                             </select>
                         </div>
                     </Grid>
@@ -380,6 +391,7 @@ const EditBusiness = (props: EditBusinessProps) => {
                                 onChange={onCompanyDescriptionChange}
                                 aria-label={businessDescriptionText}
                                 placeholder={businessProfile.compyDesc || businessDescriptionText}
+                                defaultValue={businessProfile.compyDesc}
                                 style={{ width: '100%' }}
                             />
                         </Grid>
@@ -503,8 +515,8 @@ const EditBusiness = (props: EditBusinessProps) => {
                 </Accordion.Item>
             </Accordion>
             <div className='p-md align-r' style={{ float: 'right' }}>
-                <button className='btn primary-btn rounded-full' onClick={() => { goToNextPage('/business/view') }} style={{ marginRight: '5px' }}> Cancel </button>
-                <button className="btn primary-btn rounded-full" onClick={() => { onUpdate() }}> Update </button>
+                <button className='btn primary-btn sf-btn' onClick={() => { goToNextPage('/business/view') }} style={{ marginRight: '5px', color:"#fff" }}> Cancel </button>
+                <button className="btn primary-btn sf-btn" onClick={() => { onUpdate() }} style={{color: "#fff"}}> Update </button>
             </div>
 
         </>
