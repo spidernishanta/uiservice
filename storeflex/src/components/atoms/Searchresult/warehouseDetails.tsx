@@ -144,23 +144,29 @@ const WarehouseDetails = () => {
 
                 <tbody>
                   <tr>
-                    <th>Status</th>
-                    <td>{warehouseInfo['status']}</td>
-                    <th>Available Days</th>
-                    <td>{hours['openday']}</td>
-                  </tr>
-
-                  <tr>
                     <th>Available Space</th>
                     <td></td>
                     <th>Price/Sq.Ft./30 days</th>
                     <td>&#x20B9;</td>
                   </tr>
+
                   <tr>
                     <th>Minimum Order Quantity</th>
                     <td></td>
                     <th>Clear Ceiling Height</th>
                     <td>{warehouseInfo['ceillingheight']}</td>
+                  </tr>
+                  <tr>
+                    <th>Unloading/Palette</th>
+                    <td>&#x20B9;</td>
+                    <th>Loading/Palette</th>
+                    <td>&#x20B9;</td>
+                  </tr>
+                  <tr>
+                    <th>Status</th>
+                    <td>{warehouseInfo['status']}</td>
+                    <th>Available Days</th>
+                    <td>{hours['openday']}</td>
                   </tr>
 
                   <tr>
