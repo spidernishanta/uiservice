@@ -46,6 +46,7 @@ const CartContents = () => {
 
     const [data, setData] = useState<Array<any>>([]);
     const [hourData, setHourData] = useState<Array<any>>([]);
+    const [priceData, setPriceData] = useState(0);
     const [addData, setAddData] = useState(0);
     const [valueId, setValueId] = useState(false);
     const { state } = useLocation();
@@ -53,11 +54,13 @@ const CartContents = () => {
         const warehouseData: any = state;
         setData(warehouseData);
         setHourData(warehouseData.hours);
-        if (warehouseData.address) {
+        // setPriceData(warehouseData.warehousepriceList);
+        if (warehouseData.address && warehouseData.warehousepriceList) {
             setAddData(warehouseData.address);
+            setPriceData(warehouseData.warehousepriceList);
             setValueId(true);
         }
-
+        console.log(warehouseData.warehousepriceList[0].minordersqt)
     }, []);
 
     const [inputField, setInputField] = useState({
@@ -158,6 +161,34 @@ const CartContents = () => {
         }
     }
 
+    const viewStartDate = (evt: any) => {
+        if (evt?.target?.value) {
+            const name = evt.target.name;
+            const value = evt.target.value;
+            if (name === 'startdata') {
+                console.log('Start Date:', value);
+            }
+            else {
+                return false;
+            }
+            setonUpdateInfo(true);
+        }
+    }
+
+    const viewEndDate = (evt: any) => {
+        if (evt?.target?.value) {
+            const name = evt.target.name;
+            const value = evt.target.value;
+            if (name === 'enddata') {
+                console.log('End Date:', value);
+            }
+            else {
+                return false;
+            }
+            setonUpdateInfo(true);
+        }
+    }
+
     return (
         <>
             <CustomizedSteppers />
@@ -197,7 +228,7 @@ const CartContents = () => {
                                                             <div><b>Address:</b>{data['streetAddrs']}, {data['houseNo']}, {data['plotNo']}, {data['pincode']}, {data['city']}, {data['state']}</div>
                                                         }
                                                         <div><b>Available Days:</b>{hourData['openday']}</div>
-                                                        <div><b>Min. Space</b> : { }&nbsp;&nbsp;
+                                                        <div><b>Min. Space</b> : &nbsp;&nbsp;
                                                             <b>Available Space</b> : { }
                                                         </div>
                                                     </div>
@@ -223,10 +254,10 @@ const CartContents = () => {
                                                 {errorMessage && <div className="text-red"> {errorMessage} </div>}
                                             </Grid>
                                             <Grid item xs={3}>
-                                                <InputBox data={{ name: 'startdata', label: 'Start Lease', value: '', type: 'date' }} />
+                                                <InputBox data={{ name: 'startdata', label: 'Start Lease', value: '', type: 'date' }} onChange={viewStartDate} />
                                             </Grid>
                                             <Grid item xs={3}>
-                                                <InputBox data={{ name: 'enddata', label: 'End Lease', value: '', type: 'date' }} />
+                                                <InputBox data={{ name: 'enddata', label: 'End Lease', value: '', type: 'date' }} onChange={viewEndDate} />
                                             </Grid>
                                             <Grid item sm={3}>
                                             </Grid>

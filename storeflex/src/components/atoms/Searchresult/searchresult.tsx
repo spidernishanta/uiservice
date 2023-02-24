@@ -51,7 +51,7 @@ export default function Searchresult() {
   useEffect(() => {
     const stateData: any = state;
     setWarehouse(stateData);
-    console.log(stateData[0].pricebean.availspace);
+    console.log(stateData[0]);
   }, [])
 
 
@@ -176,7 +176,7 @@ export default function Searchresult() {
                             <div className="mb-2 text-muted small">
                               <span><b>Industries Served</b></span>
                               <span className="text-primary"> . </span>
-                              <span>{JSON.stringify(getWhCategories('WT', warehouseInfo['industryId'])).substring(1, JSON.stringify(getWhCategories('WT', warehouseInfo['industryId'])).length - 1)}</span>
+                              <span>{JSON.stringify(getWhCategories('WT', ware.industryId)).substring(1, JSON.stringify(getWhCategories('WT', ware.industryId)).length - 1)}</span>
                             </div>
                             <div className="mb-2 text-muted small">
                               <span><b>Storage Layout</b></span>

@@ -16,6 +16,7 @@ const WarehouseDetails = () => {
   const api = new Api();
   const [address, setAddress] = useState<Array<any>>([]);
   const [hours, setHours] = useState<Array<any>>([]);
+  const [priceList, setPriceList] = useState<Array<any>>([]);
 
   useEffect(() => {
     const stateWarehouseData: any = state;
@@ -25,6 +26,8 @@ const WarehouseDetails = () => {
         setWarehouseInfo(response.methodReturnValue);
         setAddress(response.methodReturnValue.address);
         setHours(response.methodReturnValue.hours);
+        setPriceList(response.methodReturnValue.warehousepriceList);
+        console.log(stateWarehouseData.pricebean.priceId);
       }
     }).catch((error) => {
       console.log(error);
@@ -194,7 +197,7 @@ const WarehouseDetails = () => {
                 <div className="d-flex flex-row align-items-center mb-1">
                   <h4 className="mb-1 me-1">Storage Layout</h4>
                 </div>
-                <li>Storage Id: {warehouseInfo['storagesId']} </li>
+                <li>{JSON.stringify(getWhCategories('WS', warehouseInfo['storagesId'])).substring(1, JSON.stringify(getWhCategories('WS', warehouseInfo['storagesId'])).length - 1)}</li>
               </div>
 
               <div className="col-md-12 col-lg-12 col-xl-12 border-sm-start-none border-start p-3">
