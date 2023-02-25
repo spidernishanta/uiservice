@@ -51,7 +51,6 @@ export default function Searchresult() {
   useEffect(() => {
     const stateData: any = state;
     setWarehouse(stateData);
-    console.log(stateData[0]);
   }, [])
 
 

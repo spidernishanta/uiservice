@@ -20,14 +20,15 @@ const WarehouseDetails = () => {
 
   useEffect(() => {
     const stateWarehouseData: any = state;
-    console.log(stateWarehouseData);
+    setPriceList(stateWarehouseData.pricebean);
+    // console.log(stateWarehouseData.pricebean);
     api.getWarehouseById(stateWarehouseData.warehouseId).then((response) => {
       if (response.status == 'SUCCESS') {
         setWarehouseInfo(response.methodReturnValue);
         setAddress(response.methodReturnValue.address);
         setHours(response.methodReturnValue.hours);
-        setPriceList(response.methodReturnValue.warehousepriceList);
-        console.log(stateWarehouseData.pricebean.priceId);
+        // setPriceList(response.methodReturnValue.warehousepriceList);
+        // console.log(response.methodReturnValue);
       }
     }).catch((error) => {
       console.log(error);
@@ -148,22 +149,22 @@ const WarehouseDetails = () => {
                 <tbody>
                   <tr>
                     <th>Available Space</th>
-                    <td></td>
+                    <td>{priceList['availspace']}</td>
                     <th>Price/Sq.Ft./30 days</th>
-                    <td>&#x20B9;</td>
+                    <td>&#x20B9;{priceList['ratesqtft']}</td>
                   </tr>
 
                   <tr>
                     <th>Minimum Order Quantity</th>
-                    <td></td>
+                    <td>{priceList['minordersqt']}</td>
                     <th>Clear Ceiling Height</th>
                     <td>{warehouseInfo['ceillingheight']}</td>
                   </tr>
                   <tr>
                     <th>Unloading/Palette</th>
-                    <td>&#x20B9;</td>
+                    <td>&#x20B9;{priceList['unloading']}</td>
                     <th>Loading/Palette</th>
-                    <td>&#x20B9;</td>
+                    <td>&#x20B9;{priceList['loading']}</td>
                   </tr>
                   <tr>
                     <th>Status</th>
