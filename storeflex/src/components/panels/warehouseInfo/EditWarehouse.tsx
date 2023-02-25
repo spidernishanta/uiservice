@@ -31,6 +31,8 @@ const EditWarehouse = (props: EditWarehouseProps) => {
     const [pricing, setPricing] = useState<Warehouseprice>({});
     const [whHours, setWhHours] = useState<Hours>({});
     const [whLayout, setLayout] = useState<WarehouseLayoutObj>({});
+    const [warehouseStatus, setWarehouseStatus] = useState('');
+    const [warehouseStatusTypeInfo, setWarehouseStatusTypeInfo] = useState('');
 
     useEffect(() => {
         const whId = location.state.editRecord;
@@ -41,8 +43,9 @@ const EditWarehouse = (props: EditWarehouseProps) => {
         setIsLoader(true);
         api.getWarehouseById(whId).then((resp) => {
             setIsLoader(false);
-            if (resp.methodReturnValue) {
+            if (resp.methodReturnValue) { //console.log();
                 warehouseDataFormatter(resp.methodReturnValue);
+                setWarehouseStatus(resp.methodReturnValue.status);
             }
 
         }).catch((error) => {
@@ -114,6 +117,7 @@ const EditWarehouse = (props: EditWarehouseProps) => {
         buildPostData.ceillingheight = whLayout.ceillingheight;
         buildPostData.forkliftcapacity = whLayout.forkliftcapacity;
         buildPostData.warehouseprice = pricing;
+        buildPostData.status = warehouseStatusTypeInfo; console.log(warehouseStatusTypeInfo);
 
         setIsLoader(true);
         api.addWarehouse(buildPostData).then((resp) => {
@@ -136,6 +140,12 @@ const EditWarehouse = (props: EditWarehouseProps) => {
             console.log(' updateWarehouse creation erroor ', error);
         });
     }
+
+    const selectWarehouseStatusType = (event: any) => {
+        const val = event.target.value || '';
+        setWarehouseStatusTypeInfo(val);
+    }
+
     return (
         <>
             {isLoader && <LoaderFull />}
@@ -150,11 +160,12 @@ const EditWarehouse = (props: EditWarehouseProps) => {
                                 <Grid item xs={4}>
                                     <div style={{ marginBottom: '8px' }}>
                                         <div className='pb-2'><i>Select Status</i></div>
-                                        <select name="addresstype" className="form-control" onChange={() => { }}>
-                                            <option value="ACT">Active</option>
-                                            <option value="INP">In-Progress</option>
-                                            <option value="INA">In-Active</option>
-                                        </select>
+                                        <select name="addresstype" className="form-control" onChange={selectWarehouseStatusType}>
+                                            <option value={warehouseStatus}>{warehouseStatus}</option>
+                                                {!(warehouseStatus === 'ACTIVE')?<option value="ACTIVE">ACTIVE</option>:''}
+                                                {!(warehouseStatus === 'IN-PROGRESS')?<option value="IN-PROGRESS">IN-PROGRESS</option>:''}
+                                                {!(warehouseStatus === 'IN-ACTIVE')?<option value="IN-ACTIVE">IN-ACTIVE</option>:''}
+                                            </select>
                                     </div>
                                 </Grid>
                             </Grid>
