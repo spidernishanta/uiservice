@@ -158,6 +158,7 @@ const CartContents = () => {
     const unloading = (evt: any) => {
         setCounter(1);
         setTexting(evt.target.value);
+    }
 
     const validateNopLoad = (evt: any) => {
         if (evt?.target?.value) {
@@ -411,6 +412,6 @@ const CartContents = () => {
     )
 
 }
-}
+
 
 export default CartContents;
