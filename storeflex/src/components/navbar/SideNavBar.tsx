@@ -48,9 +48,9 @@ const SideNavBar = (props) => {
   const api = new Api();
 
   useEffect(() => {
-    api.getWarehouseCategories().then((response)=>{
+    api.getWarehouseCategories().then((response) => {
       console.log(response);
-    }).catch((error)=>{
+    }).catch((error) => {
       console.log(error);
     });
     getUserMenu();
@@ -111,46 +111,46 @@ const SideNavBar = (props) => {
   return (
     <div className='sf-box-shadow-orange'>
       <div className='p-top-md'>
-          <nav className="sidebar sidebar-offcanvas" id="sidebar">
-            <ul className="nav">
-              {listItems.map((element, index) => {
-                const menuKey = `menu_${index}`; 
-                if (element.SubMenu.length >= 1) {
-                  return (
-                    <li key={menuKey} className='nav-item'>
-                      <div className={'nav-link'} onClick={() => toggleMenuState(element.Name)} data-toggle="collapse">
-                        <span className="menu-title"><>{element.Label}</></span>
-                        <i className="menu-arrow"></i>
-                        <i className={element.Icon}></i>
-                      </div>
-                      <Collapse in={values[element.Name]}>
-                        <ul className="nav flex-column sub-menu">
-                          {element.SubMenu.map((ele, submenu) => (
-                            <li key={`submenu_${submenu}`} className="nav-item">
-                              <div className="nav-link" onClick={() => { handleOnClick(ele.NavigateTo) }}>
-                                <span className="menu-title"><>{ele.Label}</></span>
-                              </div>
-                            </li>
-                          ))}
-                        </ul>
-                      </Collapse>
+        <nav className="sidebar sidebar-offcanvas" id="sidebar">
+          <ul className="nav">
+            {listItems.map((element, index) => {
+              const menuKey = `menu_${index}`;
+              if (element.SubMenu.length >= 1) {
+                return (
+                  <li key={menuKey} className='nav-item'>
+                    <div className={'nav-link'} onClick={() => toggleMenuState(element.Name)} data-toggle="collapse">
+                      <span className="menu-title"><>{element.Label}</></span>
+                      <i className="menu-arrow"></i>
+                      <i className={element.Icon}></i>
+                    </div>
+                    <Collapse in={values[element.Name]}>
+                      <ul className="nav flex-column sub-menu">
+                        {element.SubMenu.map((ele, submenu) => (
+                          <li key={`submenu_${submenu}`} className="nav-item">
+                            <div className="nav-link" onClick={() => { handleOnClick(ele.NavigateTo) }}>
+                              <span className="menu-title"><>{ele.Label}</></span>
+                            </div>
+                          </li>
+                        ))}
+                      </ul>
+                    </Collapse>
 
-                    </li>
-                  )
-                } else {
-                  return (
-                    <li key={menuKey} className='nav-item'>
-                      <div className={'nav-link'} onClick={() => { handleOnClick(element.NavigateTo) }} data-toggle="collapse">
-                        <span className="menu-title"><>{element.Label}</></span>
-                        <i className="menu-arrow"></i>
-                        <i className={element.Icon}></i>
-                      </div>
-                    </li>
-                  )
-                }
-              })}
-            </ul>
-          </nav>
+                  </li>
+                )
+              } else {
+                return (
+                  <li key={menuKey} className='nav-item'>
+                    <div className={'nav-link'} onClick={() => { handleOnClick(element.NavigateTo) }} data-toggle="collapse">
+                      <span className="menu-title"><>{element.Label}</></span>
+                      <i className="menu-arrow"></i>
+                      <i className={element.Icon}></i>
+                    </div>
+                  </li>
+                )
+              }
+            })}
+          </ul>
+        </nav>
       </div>
     </div>
   );

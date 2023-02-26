@@ -35,6 +35,7 @@ export default function Searchresult() {
   const [warehouseInfo, setWarehouseInfo] = useState<Array<any>>([]);
   const [office, setOffice] = useState<Array<any>>([]);
   const [filter, setFilter] = useState('');
+  const [price, setPrice] = useState<Array<any>>([]);
   const navigate = useNavigate();
 
   const { state } = useLocation();
@@ -44,7 +45,7 @@ export default function Searchresult() {
   const img3 = 'https://media.istockphoto.com/id/980114338/photo/supervisor-and-employee-at-warehouse.webp?s=612x612&w=is&k=20&c=6TtBd269scsOMBrswgxy0tsa64_MsChdpXo_oBrz8yk=';
   const img4 = 'https://media.istockphoto.com/photos/warehouse-worker-picture-id1179825208';
 
-  const price = '200';
+  // const price = '200';
 
 
   useEffect(() => {
@@ -150,31 +151,31 @@ export default function Searchresult() {
                             </div>
                             &nbsp;
                             <div className="mb-2 text-muted small">
-                              <span><b>Minimum Order Quantity</b></span>
-                              <span className="text-primary"> • </span>
+                              <span><b>Minimum Order Quantity: </b></span>
+                              <span>{ware.pricebean.minordersqt}</span>
                               <span></span>
                             </div>
                             <div className="mb-2 text-muted small">
-                              <span><b>Available Space</b></span>
-                              <span className="text-primary"> • </span>
+                              <span><b>Available Space: </b></span>
+                              <span>{ware.pricebean.availspace}</span>
                               <span></span>
                             </div>
                             <div className="mb-2 text-muted small">
-                              <span><b>From:</b></span>
-                              <span>{ware.startLease}&nbsp;</span>
-                              <span><b>To:</b></span>
-                              <span>{ware.endLease}</span>
+                              <span><b>From: </b></span>
+                              <span>{ware.pricebean.startLease}&nbsp;&nbsp;</span>
+                              <span><b>To: </b></span>
+                              <span>{ware.pricebean.endLease}</span>
                             </div>
                             <div className="mb-2 text-muted small">
-                              <span><b>Unloading/Palette</b></span>
-                              <span>{ware.startLease}&nbsp;</span>
-                              <span><b>Loading/Palette</b></span>
-                              <span>{ware.endLease}</span>
+                              <span><b>Unloading/Palette: </b></span>
+                              <span>{ware.pricebean.unloading}&nbsp;&nbsp;</span>
+                              <span><b>Loading/Palette: </b></span>
+                              <span>{ware.pricebean.loading}</span>
                             </div>
                             <div className="mb-2 text-muted small">
                               <span><b>Industries Served</b></span>
                               <span className="text-primary"> . </span>
-                              <span>{JSON.stringify(getWhCategories('WT', warehouseInfo['industryId'])).substring(1, JSON.stringify(getWhCategories('WT', warehouseInfo['industryId'])).length - 1)}</span>
+                              <span>{JSON.stringify(getWhCategories('WT', ware.industryId)).substring(1, JSON.stringify(getWhCategories('WT', ware.industryId)).length - 1)}</span>
                             </div>
                             <div className="mb-2 text-muted small">
                               <span><b>Storage Layout</b></span>
@@ -189,7 +190,7 @@ export default function Searchresult() {
                           </div>
                           <div className="col-md-6 col-lg-3 col-xl-3 border-sm-start-none border-start">
                             <div className="d-flex flex-row align-items-center mb-1">
-                              <h4 className="mb-1 me-1">&#x20B9; {price}.00</h4>
+                              <h4 className="mb-1 me-1">&#x20B9; {ware.pricebean.ratesqtft}.00</h4>
                               <span className="text-danger"><s>&#x20B9; 200.99</s></span>
                             </div>
                             <h6 className="text-success"> Few rooms left.</h6>
