@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { Button, Grid, Box, Container, styled, Paper, Divider } from '@mui/material';
+import { Button, Grid, Box, Container, styled, Paper, Divider, TextField } from '@mui/material';
 import BeenhereIcon from '@mui/icons-material/Beenhere';
 import './cart-content.scss';
 import Axios from 'axios';
@@ -8,6 +8,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import InputBox from '../atoms/textfield/InputBox';
 //import OrderReview from '../atoms/payment/orderReview';
 import CustomizedSteppers from '../../pages/Steps';
+import { Terminal } from '@mui/icons-material';
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -175,6 +176,19 @@ const CartContents = () => {
         }
     }
 
+
+    const [conter, setCounter] = useState(0);
+    const [sameText, setSameText] = useState('');
+    const sampleText = (evt: any) => {
+        setCounter(0);
+        setSameText(evt.target.value);
+    }
+    const [texting, setTexting] = useState('');
+    const unloading = (evt: any) => {
+        setCounter(1);
+        setTexting(evt.target.value);
+     }
+
     const viewEndDate = (evt: any) => {
         if (evt?.target?.value) {
             const name = evt.target.name;
@@ -187,6 +201,7 @@ const CartContents = () => {
             }
             setonUpdateInfo(true);
         }
+
     }
 
     return (
@@ -262,9 +277,14 @@ const CartContents = () => {
                                             <Grid item sm={3}>
                                             </Grid>
                                             <Grid item sm={3}>
-                                                <InputBox data={{ name: 'nopu', label: 'No. of Pallets (Unloading)', value: '', type: 'number' }}
-                                                    onChange={validateNopUnload}
-                                                />
+
+                                                {/* <InputBox data={{ name: 'nop', label: 'No. of Pallets (Loading/Unloading)', value: '', type: 'number'}} /> */}
+                                                <TextField type="text" onKeyUp={sampleText} label="No. of Pallets (Loading)"/> 
+                                            </Grid>
+                                            <Grid item sm={3}>
+                                            {/* <InputBox data={{ name: 'nop', label: 'No. of Pallets (Loading/Unloading)',value:sameText, type: 'number' }}  /> */}
+                                                <TextField type="text" value={conter === 0 ? sameText : texting } onChange={unloading} label="No. of Pallets (Unloading)"/> 
+                                                
                                             </Grid>
                                             <Grid item sm={3}>
                                                 <InputBox data={{ name: 'nopl', label: 'No. of Pallets (Loading)', value: '', type: 'number' }}
