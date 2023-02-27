@@ -61,7 +61,6 @@ const CartContents = () => {
             setPriceData(warehouseData.warehousepriceList);
             setValueId(true);
         }
-        console.log(warehouseData.warehousepriceList[0].minordersqt)
     }, []);
 
     const [inputField, setInputField] = useState({
@@ -202,6 +201,10 @@ const CartContents = () => {
             setonUpdateInfo(true);
         }
     }
+
+    const goToPayments = (e: any, selectedItem: any) => {
+        navigate('/paymentstatus', { state: selectedItem });
+      }
 
     return (
         <>
@@ -393,7 +396,7 @@ const CartContents = () => {
                                                         </table>
                                                     </form>
                                                     <div >
-                                                        <Button variant="contained" color="warning" size="small" onClick={() => { goToNextPage('/paymentstatus') }}>Review Order</Button>
+                                                        <Button variant="contained" color="warning" size="small" onClick={(e) => { goToPayments(e, data) }}>Review Order</Button>
                                                     </div>
                                                 </div>
                                             </Grid>

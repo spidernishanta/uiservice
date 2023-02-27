@@ -1,10 +1,11 @@
 import React from 'react';
 import { Box, Button, Grid, Typography } from '@mui/material';
 import { DataGrid } from "@mui/x-data-grid";
-import PaymentMsg from '../../atoms/payment/paymentMsg';
+//import PaymentMsg from '../../atoms/payment/paymentMsg';
 import swal from 'sweetalert';
 
-const OrderReview = () => {
+const OrderReview = (props: any) => {
+    console.log(props.warehouseData.warehouseId);
     const columns = [
         {
             field: "actions",
@@ -48,23 +49,20 @@ const OrderReview = () => {
                 <Typography component="p">Your Order Details</Typography>
                 <Grid container spacing={2} sx={{ mt: 0 }}>
                     <Grid item xs={6}>
-                        <p>Warehouse:ABC</p>
+                        <p>Warehouse Name : {props.warehouseData.warehouseName}</p>
                     </Grid>
                     <Grid item xs={6}>
-                        <p>Order:</p>
-                    </Grid>
-                </Grid>
-                <Grid container spacing={2} sx={{ mt: 1 }}>
-                    <Grid item xs={6}>
-                        <p>Order By: Mehboob Alam</p>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <p>Order Date: 01/01/2023</p>
+                        <p>Order By: {props.warehouseData.clientId}</p>
                     </Grid>
                 </Grid>
                 <Grid container spacing={2} sx={{ mt: 1 }}>
                     <Grid item xs={6}>
-                        <p>Start Date: 01/01/2012</p>
+                        <p>Order Date: {Date()}</p>
+                    </Grid>
+                </Grid>
+                <Grid container spacing={2} sx={{ mt: 1 }}>
+                    <Grid item xs={6}>
+                        <p>Start Date:</p>
                     </Grid>
                     <Grid item xs={6}>
                         <p>End Date: 01/01/2024</p>
