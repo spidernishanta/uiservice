@@ -147,17 +147,9 @@ const CartContents = () => {
     }
 
 
-    const [conter, setCounter] = useState(0);
-    const [sameText, setSameText] = useState('');
-    const sampleText = (evt: any) => {
-        setCounter(0);
-        setSameText(evt.target.value);
-    }
-    const [texting, setTexting] = useState('');
-    const unloading = (evt: any) => {
-        setCounter(1);
-        setTexting(evt.target.value);
-    }
+
+   
+
 
     const validateNopLoad = (evt: any) => {
         if (evt?.target?.value) {
@@ -187,6 +179,19 @@ const CartContents = () => {
             setonUpdateInfo(true);
         }
     }
+
+
+    const [conter, setCounter] = useState(0);
+    const [sameText, setSameText] = useState('');
+    const sampleText = (evt: any) => {
+        setCounter(0);
+        setSameText(evt.target.value);
+    }
+    const [texting, setTexting] = useState('');
+    const unloading = (evt: any) => {
+        setCounter(1);
+        setTexting(evt.target.value);
+     }
 
     const viewEndDate = (evt: any) => {
         if (evt?.target?.value) {
@@ -287,6 +292,7 @@ const CartContents = () => {
                                             {/* <InputBox data={{ name: 'nop', label: 'No. of Pallets (Loading/Unloading)',value:sameText, type: 'number' }}  /> */}
                                                 <TextField type="text" value={conter === 0 ? sameText : texting } onChange={unloading} label="No. of Pallets (Unloading)"/> 
 
+
                                                 {/* <InputBox data={{ name: 'nopu', label: 'No. of Pallets (Unloading)', value: '', type: 'number' }}
                                                     onChange={validateNopUnload}
                                                 /> */}
@@ -295,6 +301,14 @@ const CartContents = () => {
                                                 {/* <InputBox data={{ name: 'nopl', label: 'No. of Pallets (Loading)', value: '', type: 'number' }}
                                                     onChange={validateNopLoad} />
                                                 {errorMessage0 && <div className="text-red"> {errorMessage0} </div>} */}
+
+
+                                                
+                                            </Grid>
+                                            <Grid item sm={3}>
+                                                <InputBox data={{ name: 'nopl', label: 'No. of Pallets (Loading)', value: '', type: 'number' }}
+                                                    onChange={validateNopLoad} />
+                                                {errorMessage0 && <div className="text-red"> {errorMessage0} </div>}
 
                                             </Grid>
                                             <Grid item sm={3}>
