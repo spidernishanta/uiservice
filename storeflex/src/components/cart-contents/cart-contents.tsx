@@ -61,7 +61,9 @@ const CartContents = () => {
             // setPriceData(warehouseData.warehousepriceList);
             setValueId(true);
         }
+
         // console.log(warehouseData.warehousepriceList[0].minordersqt)
+
     }, []);
 
     const [inputField, setInputField] = useState({
@@ -147,6 +149,11 @@ const CartContents = () => {
         }
     }
 
+
+
+   
+
+
     const validateNopLoad = (evt: any) => {
         if (evt?.target?.value) {
             const name = evt.target.name;
@@ -201,8 +208,11 @@ const CartContents = () => {
             }
             setonUpdateInfo(true);
         }
-
     }
+
+    const goToPayments = (e: any, selectedItem: any) => {
+        navigate('/paymentstatus', { state: selectedItem });
+      }
 
     return (
         <>
@@ -282,6 +292,22 @@ const CartContents = () => {
                                                 <TextField type="text" onKeyUp={sampleText} label="No. of Pallets (Unloading)" />
                                             </Grid>
                                             <Grid item sm={3}>
+
+                                            {/* <InputBox data={{ name: 'nop', label: 'No. of Pallets (Loading/Unloading)',value:sameText, type: 'number' }}  /> */}
+                                                <TextField type="text" value={conter === 0 ? sameText : texting } onChange={unloading} label="No. of Pallets (Unloading)"/> 
+
+
+                                                {/* <InputBox data={{ name: 'nopu', label: 'No. of Pallets (Unloading)', value: '', type: 'number' }}
+                                                    onChange={validateNopUnload}
+                                                /> */}
+                                            </Grid>
+                                            <Grid item sm={3}>
+                                                {/* <InputBox data={{ name: 'nopl', label: 'No. of Pallets (Loading)', value: '', type: 'number' }}
+                                                    onChange={validateNopLoad} />
+                                                {errorMessage0 && <div className="text-red"> {errorMessage0} </div>} */}
+
+
+                                                
                                                 {/* <InputBox data={{ name: 'nop', label: 'No. of Pallets (Loading/Unloading)',value:sameText, type: 'number' }}  /> */}
                                                 <TextField type="text" value={conter === 0 ? sameText : texting} onChange={unloading} label="No. of Pallets (Loading)" />
 
@@ -290,7 +316,10 @@ const CartContents = () => {
                                                 <InputBox data={{ name: 'nopl', label: 'No. of Pallets (Loading)', value: '', type: 'number' }}
                                                     onChange={validateNopLoad} />
                                                 {errorMessage0 && <div className="text-red"> {errorMessage0} </div>}
+
+                                            </Grid>
                                             </Grid> */}
+
                                             <Grid item sm={3}>
                                             </Grid>
                                             <Grid item sm={3}>
@@ -390,7 +419,7 @@ const CartContents = () => {
                                                         </table>
                                                     </form>
                                                     <div >
-                                                        <Button variant="contained" color="warning" size="small" onClick={() => { goToNextPage('/paymentstatus') }}>Review Order</Button>
+                                                        <Button variant="contained" color="warning" size="small" onClick={(e) => { goToPayments(e, data) }}>Review Order</Button>
                                                     </div>
                                                 </div>
                                             </Grid>
@@ -409,5 +438,6 @@ const CartContents = () => {
     )
 
 }
+
 
 export default CartContents;

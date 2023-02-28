@@ -23,7 +23,6 @@ const ViewBusiness = () => {
     const [isLoader, setIsLoader] = useState(false);
     const [currentView, setCurrentView] = useState('');
 
-    //const pageNo = '0';
     const [totalRecords, setTotalRecords] = useState(0);
     const [pageNo, setPageNo] = useState(0);
     const numberOfRecord = '10';
@@ -37,7 +36,7 @@ const ViewBusiness = () => {
     }, [companyView, pageNo])
 
 
-    const getMyCompanies = (curentPage, numberOfRecords) => { console.log(pageNo);
+    const getMyCompanies = (curentPage, numberOfRecords) => { 
         // IN-PROGRESS , IN-ACTIVE , ACTIVE
         let companyStatus = 'ACTIVE'
         if (companyView === '#inactive') {
@@ -57,7 +56,7 @@ const ViewBusiness = () => {
             status: companyStatus
         }
         api.getMyCompanies(data).then((response) => { 
-            setIsLoader(false); console.log(response.methodReturnValue.clientList);
+            setIsLoader(false); 
             setMyCompanies(response.methodReturnValue.clientList);
             setTotalRecords(response.methodReturnValue.totalRecords);
         }).catch((error) => {
@@ -75,7 +74,6 @@ const ViewBusiness = () => {
         );
     }
     const deleteBusiness = (company: any) => {
-        console.log(company);
         swal({
             title: "Are you sure?",
             text: 'You are about to delete the company "' + company.compyName + '(' + company.clientId + ')" . Once deleted, you will not be able to recover this company!',
@@ -246,8 +244,7 @@ const ViewBusiness = () => {
       }
 
     const showCompanyList = () => {
-        const text = companyData();
-        console.log("This is data" + JSON.stringify(text));
+        //const text = companyData();
         return (
             <Box className='m-top-md m-bot-md m-left-md m-right-md'>
                 <div className='primary-gradient'>
@@ -256,7 +253,7 @@ const ViewBusiness = () => {
                     </div>
                 </div>
                 <div style={{ height: 600, width: "100%" }}>
-                    <DataGrid getRowHeight={() => 'auto'}
+                    <DataGrid getRowHeight={() => 'auto'} paginationMode="server"
                         rows={companyData()}
                         componentsProps={{
                             row: {
