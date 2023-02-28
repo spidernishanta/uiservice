@@ -21,7 +21,7 @@ const WarehouseDetails = () => {
   useEffect(() => {
     const stateWarehouseData: any = state;
     setPriceList(stateWarehouseData.pricebean);
-    // console.log(stateWarehouseData.pricebean);
+    console.log(stateWarehouseData);
     api.getWarehouseById(stateWarehouseData.warehouseId).then((response) => {
       if (response.status == 'SUCCESS') {
         setWarehouseInfo(response.methodReturnValue);
@@ -181,9 +181,9 @@ const WarehouseDetails = () => {
                   </tr>
                   <tr>
                     <th>#Start Lease</th>
-                    <td>{warehouseInfo['startLease']}</td>
+                    <td>{priceList['startLease']}</td>
                     <th>#End Lease</th>
-                    <td>{warehouseInfo['endLease']}</td>
+                    <td>{priceList['endLease']}</td>
                   </tr>
                 </tbody>
               </Table>

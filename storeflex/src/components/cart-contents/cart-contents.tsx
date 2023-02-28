@@ -47,7 +47,7 @@ const CartContents = () => {
 
     const [data, setData] = useState<Array<any>>([]);
     const [hourData, setHourData] = useState<Array<any>>([]);
-    const [priceData, setPriceData] = useState(0);
+    // const [priceData, setPriceData] = useState(0);
     const [addData, setAddData] = useState(0);
     const [valueId, setValueId] = useState(false);
     const { state } = useLocation();
@@ -56,12 +56,12 @@ const CartContents = () => {
         setData(warehouseData);
         setHourData(warehouseData.hours);
         // setPriceData(warehouseData.warehousepriceList);
-        if (warehouseData.address && warehouseData.warehousepriceList) {
+        if (warehouseData.address) {
             setAddData(warehouseData.address);
-            setPriceData(warehouseData.warehousepriceList);
+            // setPriceData(warehouseData.warehousepriceList);
             setValueId(true);
         }
-        console.log(warehouseData.warehousepriceList[0].minordersqt)
+        // console.log(warehouseData.warehousepriceList[0].minordersqt)
     }, []);
 
     const [inputField, setInputField] = useState({
@@ -187,7 +187,7 @@ const CartContents = () => {
     const unloading = (evt: any) => {
         setCounter(1);
         setTexting(evt.target.value);
-     }
+    }
 
     const viewEndDate = (evt: any) => {
         if (evt?.target?.value) {
@@ -279,18 +279,18 @@ const CartContents = () => {
                                             <Grid item sm={3}>
 
                                                 {/* <InputBox data={{ name: 'nop', label: 'No. of Pallets (Loading/Unloading)', value: '', type: 'number'}} /> */}
-                                                <TextField type="text" onKeyUp={sampleText} label="No. of Pallets (Loading)"/> 
+                                                <TextField type="text" onKeyUp={sampleText} label="No. of Pallets (Unloading)" />
                                             </Grid>
                                             <Grid item sm={3}>
-                                            {/* <InputBox data={{ name: 'nop', label: 'No. of Pallets (Loading/Unloading)',value:sameText, type: 'number' }}  /> */}
-                                                <TextField type="text" value={conter === 0 ? sameText : texting } onChange={unloading} label="No. of Pallets (Unloading)"/> 
-                                                
+                                                {/* <InputBox data={{ name: 'nop', label: 'No. of Pallets (Loading/Unloading)',value:sameText, type: 'number' }}  /> */}
+                                                <TextField type="text" value={conter === 0 ? sameText : texting} onChange={unloading} label="No. of Pallets (Loading)" />
+
                                             </Grid>
-                                            <Grid item sm={3}>
+                                            {/* <Grid item sm={3}>
                                                 <InputBox data={{ name: 'nopl', label: 'No. of Pallets (Loading)', value: '', type: 'number' }}
                                                     onChange={validateNopLoad} />
                                                 {errorMessage0 && <div className="text-red"> {errorMessage0} </div>}
-                                            </Grid>
+                                            </Grid> */}
                                             <Grid item sm={3}>
                                             </Grid>
                                             <Grid item sm={3}>
