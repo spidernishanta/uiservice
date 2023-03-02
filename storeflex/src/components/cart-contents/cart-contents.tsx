@@ -151,7 +151,7 @@ const CartContents = () => {
 
 
 
-   
+
 
 
     const validateNopLoad = (evt: any) => {
@@ -212,7 +212,7 @@ const CartContents = () => {
 
     const goToPayments = (e: any, selectedItem: any) => {
         navigate('/paymentstatus', { state: selectedItem });
-      }
+    }
 
     return (
         <>
@@ -292,22 +292,12 @@ const CartContents = () => {
                                                 <TextField type="text" onKeyUp={sampleText} label="No. of Pallets (Unloading)" />
                                             </Grid>
                                             <Grid item sm={3}>
-
-                                            {/* <InputBox data={{ name: 'nop', label: 'No. of Pallets (Loading/Unloading)',value:sameText, type: 'number' }}  /> */}
-                                                <TextField type="text" value={conter === 0 ? sameText : texting } onChange={unloading} label="No. of Pallets (Unloading)"/> 
-
-
-                                                {/* <InputBox data={{ name: 'nopu', label: 'No. of Pallets (Unloading)', value: '', type: 'number' }}
-                                                    onChange={validateNopUnload}
-                                                /> */}
-                                            </Grid>
-                                            <Grid item sm={3}>
                                                 {/* <InputBox data={{ name: 'nopl', label: 'No. of Pallets (Loading)', value: '', type: 'number' }}
                                                     onChange={validateNopLoad} />
                                                 {errorMessage0 && <div className="text-red"> {errorMessage0} </div>} */}
 
 
-                                                
+
                                                 {/* <InputBox data={{ name: 'nop', label: 'No. of Pallets (Loading/Unloading)',value:sameText, type: 'number' }}  /> */}
                                                 <TextField type="text" value={conter === 0 ? sameText : texting} onChange={unloading} label="No. of Pallets (Loading)" />
 
