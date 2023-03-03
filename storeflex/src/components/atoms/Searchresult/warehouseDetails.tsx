@@ -19,20 +19,20 @@ const WarehouseDetails = () => {
   const [priceList, setPriceList] = useState<Array<any>>([]);
 
   useEffect(() => {
-    const stateWarehouseData: any = state;
+    const stateWarehouseData: any = state; console.log(stateWarehouseData);
     setPriceList(stateWarehouseData.pricebean);
-    console.log(stateWarehouseData);
-    api.getWarehouseById(stateWarehouseData.warehouseId).then((response) => {
-      if (response.status == 'SUCCESS') {
-        setWarehouseInfo(response.methodReturnValue);
-        setAddress(response.methodReturnValue.address);
-        setHours(response.methodReturnValue.hours);
-        // setPriceList(response.methodReturnValue.warehousepriceList);
-        // console.log(response.methodReturnValue);
-      }
-    }).catch((error) => {
-      console.log(error);
-    });
+    setHours(stateWarehouseData.hours);
+    setWarehouseInfo(stateWarehouseData);
+    //console.log(stateWarehouseData);
+    // api.getWarehouseById(stateWarehouseData.warehouseId).then((response) => {
+    //   if (response.status == 'SUCCESS') {
+    //     setWarehouseInfo(response.methodReturnValue);
+    //     setAddress(response.methodReturnValue.address);
+    //     setHours(response.methodReturnValue.hours);
+    //   }
+    // }).catch((error) => {
+    //   console.log(error);
+    // });
   }, []);
 
   const navigate = useNavigate();
@@ -132,9 +132,9 @@ const WarehouseDetails = () => {
                 </div>
                 <div className="mb-2 text-muted small">
                   <span>Room Size</span>
-                  <span className="text-primary"> • </span>
+                  <span className="text-primary">  </span>
                   {/* <span>24x24</span> */}
-                  <span className="text-primary"> • </span>
+                  <span className="text-primary"> </span>
                   {/* <span>10x12<br /></span> */}
                 </div>
                 <p className="text-truncate mb-4 mb-md-0">
