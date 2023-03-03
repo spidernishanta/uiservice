@@ -168,9 +168,9 @@ export default function Searchresult() {
                             </div>
                             <div className="mb-2 text-muted small">
                               <span><b>Unloading/Palette: </b></span>
-                              <span>{ware.pricebean.unloading}&nbsp;&nbsp;</span>
+                              <span>&#x20B9;{parseFloat(ware.pricebean.unloading).toFixed(2)}&nbsp;&nbsp;</span>
                               <span><b>Loading/Palette: </b></span>
-                              <span>{ware.pricebean.loading}</span>
+                              <span>&#x20B9;{parseFloat(ware.pricebean.loading).toFixed(2)}</span>
                             </div>
                             <div className="mb-2 text-muted small">
                               <span><b>Industries Served</b></span>
@@ -190,7 +190,7 @@ export default function Searchresult() {
                           </div>
                           <div className="col-md-6 col-lg-3 col-xl-3 border-sm-start-none border-start">
                             <div className="d-flex flex-row align-items-center mb-1">
-                              <h4 className="mb-1 me-1">&#x20B9; {ware.pricebean.ratesqtft}.00</h4>
+                              <h4 className="mb-1 me-1">&#x20B9; {parseFloat(ware.pricebean.ratesqtft).toFixed(2)}</h4>
                               <span className="text-danger"><s>&#x20B9; 200.99</s></span>
                             </div>
                             <h6 className="text-success"> Few rooms left.</h6>

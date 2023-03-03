@@ -77,7 +77,7 @@ const ViewUser = () => {
     console.log(company);
     swal({
       title: "Are you sure?",
-      text: 'You are about to delete the company "' + company.compyName + '(' + company.clientId + ')" . Once deleted, you will not be able to recover this company!',
+      text: 'You are about to delete the user "' + company.compyName + '(' + company.clientId + ')" . Once deleted, you will not be able to recover this user!',
       icon: "warning",
       buttons: [true, true],
       dangerMode: true,
@@ -209,8 +209,8 @@ const ViewUser = () => {
   ];
 
   const userData = () => {
-    const user : any[] = [];
-    if(userList && userList.length > 0) {
+    const user: any[] = [];
+    if (userList && userList.length > 0) {
       const t = userList.map((item, index) => {
         return {
           id: item.userId || index,
@@ -218,7 +218,7 @@ const ViewUser = () => {
           address: `${item.houseNo} ${item.address}`,
           phone: `${item.mobileNo}`,
           email: `${item.email}`,
-          userInfo : item,
+          userInfo: item,
         }
       })
       return t;

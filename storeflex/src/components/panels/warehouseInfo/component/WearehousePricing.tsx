@@ -5,6 +5,7 @@ import { validateAreaSpace, validateRate } from '../../../../utils/CommonUtils';
 import { objectData, Warehouseprice } from '../../../../utils/ResponseSchema';
 import { InputError } from '../../../atoms/textfield/InputError';
 import { Value } from "sass";
+import { fdatasyncSync } from "fs";
 
 interface WearehousePricingProps {
     space?: number;
@@ -14,13 +15,14 @@ interface WearehousePricingProps {
 }
 
 const WearehousePricing = (props: WearehousePricingProps) => {
-    var fdate, tdate;
 
     const [spaceInfo, setSpaceInfo] = useState<objectData>({});
     const [rateInfo, setRateInfo] = useState<objectData>({});
     const [quantityInfo, setQuantityInfo] = useState<objectData>({});
     const [errorMessage, setErrorMessage] = React.useState("");
     const [onUpdateInfo, setonUpdateInfo] = useState(false);
+    const [fDate, setFDate] = useState(0);
+    const [tDate, setTDate] = useState(0);
 
     useEffect(() => {
         if (onUpdateInfo) {
@@ -97,33 +99,43 @@ const WearehousePricing = (props: WearehousePricingProps) => {
     }
 
     const viewFromDate = (evt: any) => {
-        if (evt?.target?.value) {
-            const name = evt.target.name;
-            const value = evt.target.value;
-            if (name === 'fromdate') {
-                fdate = Date.parse(value);
-                console.log(fdate);
-            }
-        }
+        // if (evt?.target?.value) {
+        //     const name = evt.target.name;
+        //     const value = evt.target.value;
+        //     if (name === 'fromdate') {
+        //         setFDate(Date.parse(value));
+        //     }
+        //     console.log("From Date from viewFromDate:", fDate);
+        //     console.log("To Date from viewFromDate:", tDate);
+        // }
+        console.log("Before setFDate: ", fDate);
+        setFDate(Date.parse(evt.target.value));
+        console.log("After setFDate: ", fDate);
+        diffInDays(1678060800000, fDate);
     }
 
     const viewToDate = (evt: any) => {
-        if (evt?.target?.value) {
-            const name = evt.target.name;
-            const value = evt.target.value;
-            if (name === 'todate') {
-                tdate = Date.parse(value);
-                console.log(tdate);
-            }
-            diffInDays(fdate, tdate);
-        }
+        // if (evt?.target?.value) {
+        //     const name = evt.target.name;
+        //     const value = evt.target.value;
+        //     if (name === 'todate') {
+        //         setTDate(Date.parse(value));
+        //     }
+        //     console.log("From Date from viewToDate:", fDate);
+        //     console.log("To Date from viewToDate:", tDate);
+        //     diffInDays(fDate, tDate);
+        // }
+        // console.log("Hi! from To");
     }
 
-    function diffInDays(a, b) {
-        var msDiff = Math.floor((b - a) / (1000 * 60 * 60 * 24));
+    function diffInDays(fdata, tdata) {
+        var msDiff = Math.floor((tdata - fdata) / (1000 * 60 * 60 * 24));
         console.log(msDiff);
-        if (msDiff < 30) {
-            setErrorMessage('Please select a range of 30 days or more')
+        if (msDiff < 30 && msDiff >= 0) {
+            setErrorMessage('Please select a range of 30 days or more');
+        }
+        else if (msDiff < 0) {
+            setErrorMessage('From Date cannot be after To Date');
         }
         else {
             setErrorMessage('');
