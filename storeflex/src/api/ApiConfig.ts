@@ -158,6 +158,8 @@ export interface SearchProps {
     search?: string;
 }
 
+// For the production environment: https://payout-api.cashfree.com
+// For the test environment: https://payout-gamma.cashfree.com
 export class ApiConfig {
     endPointGateWay = '/';
     testApi = '/test';
@@ -189,6 +191,7 @@ export class ApiConfig {
     getCompanyListApi = '/clientDropList';
     getWarehouseCategoriesApi = '/categories';
     getValidationBank = 'https://payout-api.cashfree.com/payout/v1/asyncValidation/bankDetails';
+    authorisationBank = 'http://payout-gamma.cashfree.com/payout/v1/authorize';
 
 }
 
