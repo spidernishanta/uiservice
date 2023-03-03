@@ -49,7 +49,7 @@ export default function Searchresult() {
 
 
   useEffect(() => {
-    const stateData: any = state;
+    const stateData: any = state; console.log(stateData);
     setWarehouse(stateData);
   }, [])
 

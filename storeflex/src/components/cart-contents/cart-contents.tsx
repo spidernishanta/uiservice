@@ -1,5 +1,5 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+//import { useState, useEffect } from 'react';
 import { Button, Grid, Box, Container, styled, Paper, Divider, TextField } from '@mui/material';
 import BeenhereIcon from '@mui/icons-material/Beenhere';
 import './cart-content.scss';
@@ -47,74 +47,74 @@ const CartContents = () => {
 
     const [data, setData] = useState<Array<any>>([]);
     const [hourData, setHourData] = useState<Array<any>>([]);
-    // const [priceData, setPriceData] = useState(0);
-    const [addData, setAddData] = useState(0);
+    const [priceData, setPriceData] = useState(0);
+    const [addressData, setAddressData] = useState(0);
     const [valueId, setValueId] = useState(false);
     const { state } = useLocation();
     useEffect(() => {
-        const warehouseData: any = state;
+        const warehouseData: any = state; console.log(warehouseData);
         setData(warehouseData);
         setHourData(warehouseData.hours);
-        // setPriceData(warehouseData.warehousepriceList);
-        if (warehouseData.address) {
-            setAddData(warehouseData.address);
-            // setPriceData(warehouseData.warehousepriceList);
-            setValueId(true);
-        }
+        setAddressData(warehouseData.address);
+        setPriceData(warehouseData.pricebean);
+        // if (warehouseData.address) {
+        //     setAddData(warehouseData.address);
+        //     setValueId(true);
+        // }
 
         // console.log(warehouseData.warehousepriceList[0].minordersqt)
 
     }, []);
 
-    const [inputField, setInputField] = useState({
-        orderId: '1211',
-        orderAmount: '100',
-        customerName: 'a',
-        customerEmail: 'a@a.a',
-        paymentType: 'MERCHANTHOSTED',
-        customerPhone: '1234512345'
+    // const [inputField, setInputField] = useState({
+    //     orderId: '1211',
+    //     orderAmount: '100',
+    //     customerName: 'a',
+    //     customerEmail: 'a@a.a',
+    //     paymentType: 'MERCHANTHOSTED',
+    //     customerPhone: '1234512345'
 
-    });
+    // });
 
 
-    const handaleInput = (Event) => {
-        console.log(Event.target.value);
-        setInputField({ ...inputField, [Event.target.name]: Event.target.value })
+    // const handaleInput = (Event) => {
+    //     console.log(Event.target.value);
+    //     setInputField({ ...inputField, [Event.target.name]: Event.target.value })
 
-    }
+    // }
 
-    const handleSubmit = async (e) => {
-        const url = "http://127.0.0.1:8000/test";
-        console.log(JSON.stringify({ inputField }));
-        e.preventDefault();
+    // const handleSubmit = async (e) => {
+    //     const url = "http://127.0.0.1:8000/test";
+    //     console.log(JSON.stringify({ inputField }));
+    //     e.preventDefault();
 
-        Axios.post(url, {
-            orderId: inputField.orderId,
-            orderAmount: inputField.orderAmount,
-            customerName: inputField.customerName,
-            customerEmail: inputField.customerEmail,
-            paymentType: inputField.paymentType,
-            customerPhone: inputField.customerPhone
-        })
-            .then(res => {
-                console.log(res.data);
+    //     Axios.post(url, {
+    //         orderId: inputField.orderId,
+    //         orderAmount: inputField.orderAmount,
+    //         customerName: inputField.customerName,
+    //         customerEmail: inputField.customerEmail,
+    //         paymentType: inputField.paymentType,
+    //         customerPhone: inputField.customerPhone
+    //     })
+    //         .then(res => {
+    //             console.log(res.data);
 
-            })
+    //         })
 
-    };
+    // };
 
     const [spaceOrdered, setSpaceOrdered] = useState('');
-    const [nopUnload, setNopUnload] = useState('');
-    const [nopLoad, setNopLoad] = useState('');
-    const [startLease, setStartLease] = useState('');
-    const [errorMessage, setErrorMessage] = React.useState("");
-    const [errorMessage0, setErrorMessage0] = React.useState("");
+    // const [nopUnload, setNopUnload] = useState('');
+    // const [nopLoad, setNopLoad] = useState('');
+    // const [startLease, setStartLease] = useState('');
+    const [errorMessage, setErrorMessage] = useState("");
+    // const [errorMessage0, setErrorMessage0] = React.useState("");
     const [onUpdateInfo, setonUpdateInfo] = useState(false);
 
     const navigate = useNavigate();
-    const goToNextPage = (pagePath: string) => {
-        navigate(pagePath);
-    }
+    // const goToNextPage = (pagePath: string) => {
+    //     navigate(pagePath);
+    // }
 
     const validateSpaceOrdered = (evt: any) => {
         if (evt?.target?.value) {
@@ -135,39 +135,39 @@ const CartContents = () => {
         }
     }
 
-    const validateNopUnload = (evt: any) => {
-        if (evt?.target?.value) {
-            const name = evt.target.name;
-            const value = evt.target.value;
-            if (name === 'nopu') {
-                setNopUnload(value);
-            }
-            else {
-                return false;
-            }
-            setonUpdateInfo(true);
-        }
-    }
+    // const validateNopUnload = (evt: any) => {
+    //     if (evt?.target?.value) {
+    //         const name = evt.target.name;
+    //         const value = evt.target.value;
+    //         if (name === 'nopu') {
+    //             setNopUnload(value);
+    //         }
+    //         else {
+    //             return false;
+    //         }
+    //         setonUpdateInfo(true);
+    //     }
+    // }
 
 
 
 
 
 
-    const validateNopLoad = (evt: any) => {
-        if (evt?.target?.value) {
-            const name = evt.target.name;
-            const value = evt.target.value;
-            if (name === 'nopl') {
-                setNopLoad(value);
-            }
-            else {
-                return false;
-            }
-            setonUpdateInfo(true);
-            console.log('Value:', value);
-        }
-    }
+    // const validateNopLoad = (evt: any) => {
+    //     if (evt?.target?.value) {
+    //         const name = evt.target.name;
+    //         const value = evt.target.value;
+    //         if (name === 'nopl') {
+    //             setNopLoad(value);
+    //         }
+    //         else {
+    //             return false;
+    //         }
+    //         setonUpdateInfo(true);
+    //         console.log('Value:', value);
+    //     }
+    // }
 
     const viewStartDate = (evt: any) => {
         if (evt?.target?.value) {
@@ -247,14 +247,14 @@ const CartContents = () => {
                                                     <div className='text-left'>
                                                         <div className='sub-header'> {data['warehouseId']} </div>
                                                         <div className='sub-header'> { } </div>
-                                                        <div><b>From Date:</b>{data['startLease']}&nbsp;
-                                                            <b>To Date:</b>{data['endLease']}</div>
-                                                        {valueId ? <div><b>Address:</b>{addData[0]['streetDetails']}, {addData[0]['houseNo']}, {addData[0]['plotNo']}, {addData[0]['pincode']}, {addData[0]['city']}, {addData[0]['state']}</div> :
+                                                        <div><b>From Date:</b>{priceData['startLease']}&nbsp;
+                                                            <b>To Date:</b>{priceData['endLease']}</div>
+                                                        {valueId ? <div><b>Address:</b>{addressData[0]['streetDetails']}, {addressData[0]['houseNo']}, {addressData[0]['plotNo']}, {addressData[0]['pincode']}, {addressData[0]['city']}, {addressData[0]['state']}</div> :
                                                             <div><b>Address:</b>{data['streetAddrs']}, {data['houseNo']}, {data['plotNo']}, {data['pincode']}, {data['city']}, {data['state']}</div>
                                                         }
                                                         <div><b>Available Days:</b>{hourData['openday']}</div>
-                                                        <div><b>Min. Space</b> : &nbsp;&nbsp;
-                                                            <b>Available Space</b> : { }
+                                                        <div><b>Min. Space</b> :{priceData['minordersqt']} &nbsp;&nbsp;
+                                                            <b>Available Space</b> : {priceData['availspace']}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -264,9 +264,9 @@ const CartContents = () => {
                                                 <div className='card p-top-xl'>
                                                     <div className='sub-header'> Rate </div>
                                                     <div className='text-left'>
-                                                        <span><b>Rental</b>&#x20B9;{ }<i>&nbsp;/month  </i></span>
-                                                        <span><b>Unloading</b>&#x20B9;{ }<i>&nbsp;/month  </i></span>
-                                                        <span><b>Loading</b>&#x20B9;{ }<i>&nbsp;/month  </i></span>
+                                                        <span><b>Rental:&nbsp;&nbsp;</b>&#x20B9;{ Number(priceData['minordersqt']) * Number(priceData['ratesqtft']) }<i>&nbsp;/month  </i></span>
+                                                        <span><b>Unloading:&nbsp;&nbsp;</b>&#x20B9;{priceData['unloading']}<i>&nbsp;/month  </i></span>
+                                                        <span><b>Loading:&nbsp;&nbsp;</b>&#x20B9;{priceData['loading']}<i>&nbsp;/month  </i></span>
                                                     </div>
                                                 </div>
                                             </Grid>
@@ -328,86 +328,86 @@ const CartContents = () => {
                                 <Item sx={{ p: 0 }}>
                                     <Grid item xs={12}>
                                         {PriceDetailsHeader()}
-                                        <form id="merchantHostedForm">
+                                        {/* <form id="merchantHostedForm">
                                             <table className="mainForm">
                                                 <tbody>
                                                     <tr>
-                                                        {/* <td>order id</td> */}
+                                                        
                                                         <td><input type="hidden" onChange={handaleInput} name="orderId" value={inputField.orderId} /></td>
                                                     </tr>
                                                     <tr>
-                                                        {/* <td>order amount</td> */}
+                                                        
                                                         <td><input type="hidden" onChange={handaleInput} name="orderAmount" value={inputField.orderAmount} /></td>
                                                     </tr>
                                                     <tr>
-                                                        {/* <td>customer name</td> */}
+                                                        
                                                         <td><input type="hidden" onChange={handaleInput} name="customerName" value={inputField.customerName} /></td>
                                                     </tr>
                                                     <tr>
-                                                        {/* <td>customer email</td> */}
+                                                       
                                                         <td><input type="hidden" onChange={handaleInput} name="customerEmail" value={inputField.customerEmail} /></td>
                                                     </tr>
                                                     <tr>
-                                                        {/* <td>MERCHANTHOSTED</td> */}
+                                                        
                                                         <td><input type="hidden" onChange={handaleInput} name="paymentType" value={inputField.paymentType} /></td>
                                                     </tr>
                                                     <tr>
-                                                        {/* <td>customer phone</td> */}
+                                                        
                                                         <td><input type="hidden" onChange={handaleInput} name="customerPhone" value={inputField.customerPhone} /></td>
                                                     </tr>
 
 
                                                 </tbody>
                                             </table>
-                                        </form>
+                                        </form> */}
                                         <Grid container spacing={2} sx={{ p: 1 }}>
                                             <Grid item sm={12}>
                                                 <div className='card'>
                                                     <div className='text-left'>
-                                                        <span className='text-left'>Total Rental:</span> <span className='text-right'> 45000.00</span><p />
-                                                        <span className='text-left'>Unloading:</span> <span className='text-right'> 4500.00</span><p />
-                                                        <span className='text-left'>Loading:</span> <span className='text-right'> 4000.00</span>
+                                                        <span className='text-left'>Total Rental:</span> <span className='text-right'>{ Number(priceData['minordersqt']) * Number(priceData['ratesqtft']) }</span><p />
+                                                        <span className='text-left'>Unloading:</span> <span className='text-right'>{Number(priceData['unloading'])}</span><p />
+                                                        <span className='text-left'>Loading:</span> <span className='text-right'>{Number(priceData['loading'])}</span>
                                                         <Divider sx={{ m: 2 }} />
-                                                        <span className='text-left'>Tax:</span> <span className='text-right'> 8100.00</span>
+                                                        <span className='text-left'>Tax:</span> <span className='text-right'>{(Number(18) * (Number(priceData['minordersqt']) * Number(priceData['ratesqtft'])+Number(priceData['unloading'])+Number(priceData['loading'])))/Number(100)}</span>
                                                         <Divider sx={{ m: 2 }} />
-                                                        <span className='text-left'>Total:</span> <span className='text-right'> 61600.00</span>
+                                                        <span className='text-left'>Total:</span> <span className='text-right'>{(Number(priceData['minordersqt']) * Number(priceData['ratesqtft']))+Number(priceData['unloading'])+Number(priceData['loading'])+((Number(18) * (Number(priceData['minordersqt']) * Number(priceData['ratesqtft'])+Number(priceData['unloading'])+Number(priceData['loading'])))/Number(100))}</span>
                                                         <Divider sx={{ m: 2 }} />
 
                                                     </div>
 
 
-                                                    <form id="merchantHostedForm">
+                                                    {/* <form id="merchantHostedForm">
                                                         <table className="mainForm">
                                                             <tbody>
                                                                 <tr>
-                                                                    {/* <td>order id</td> */}
+                                                                    
                                                                     <td><input type="hidden" onChange={handaleInput} name="orderId" value={inputField.orderId} /></td>
                                                                 </tr>
                                                                 <tr>
-                                                                    {/* <td>order amount</td> */}
+                                                                    
                                                                     <td><input type="hidden" onChange={handaleInput} name="orderAmount" value={inputField.orderAmount} /></td>
                                                                 </tr>
                                                                 <tr>
-                                                                    {/* <td>customer name</td> */}
+                                                                    
                                                                     <td><input type="hidden" onChange={handaleInput} name="customerName" value={inputField.customerName} /></td>
                                                                 </tr>
                                                                 <tr>
-                                                                    {/* <td>customer email</td> */}
+                                                                    
                                                                     <td><input type="hidden" onChange={handaleInput} name="customerEmail" value={inputField.customerEmail} /></td>
                                                                 </tr>
                                                                 <tr>
-                                                                    {/* <td>MERCHANTHOSTED</td> */}
+                                                                    
                                                                     <td><input type="hidden" onChange={handaleInput} name="paymentType" value={inputField.paymentType} /></td>
                                                                 </tr>
                                                                 <tr>
-                                                                    {/* <td>customer phone</td> */}
+                                                                    
                                                                     <td><input type="hidden" onChange={handaleInput} name="customerPhone" value={inputField.customerPhone} /></td>
                                                                 </tr>
 
 
                                                             </tbody>
                                                         </table>
-                                                    </form>
+                                                    </form> */}
                                                     <div >
                                                         <Button variant="contained" color="warning" size="small" onClick={(e) => { goToPayments(e, data) }}>Review Order</Button>
                                                     </div>
