@@ -16,18 +16,23 @@ const WarehouseDetails = () => {
   const api = new Api();
   const [address, setAddress] = useState<Array<any>>([]);
   const [hours, setHours] = useState<Array<any>>([]);
+  const [priceList, setPriceList] = useState<Array<any>>([]);
 
   useEffect(() => {
-    const stateWarehouseData: any = state;
-    api.getWarehouseById(stateWarehouseData.warehouseId).then((response) => {
-      if (response.status == 'SUCCESS') {
-        setWarehouseInfo(response.methodReturnValue);
-        setAddress(response.methodReturnValue.address);
-        setHours(response.methodReturnValue.hours);
-      }
-    }).catch((error) => {
-      console.log(error);
-    });
+    const stateWarehouseData: any = state; console.log(stateWarehouseData);
+    setPriceList(stateWarehouseData.pricebean);
+    setHours(stateWarehouseData.hours);
+    setWarehouseInfo(stateWarehouseData);
+    //console.log(stateWarehouseData);
+    // api.getWarehouseById(stateWarehouseData.warehouseId).then((response) => {
+    //   if (response.status == 'SUCCESS') {
+    //     setWarehouseInfo(response.methodReturnValue);
+    //     setAddress(response.methodReturnValue.address);
+    //     setHours(response.methodReturnValue.hours);
+    //   }
+    // }).catch((error) => {
+    //   console.log(error);
+    // });
   }, []);
 
   const navigate = useNavigate();
@@ -127,9 +132,9 @@ const WarehouseDetails = () => {
                 </div>
                 <div className="mb-2 text-muted small">
                   <span>Room Size</span>
-                  <span className="text-primary"> • </span>
+                  <span className="text-primary">  </span>
                   {/* <span>24x24</span> */}
-                  <span className="text-primary"> • </span>
+                  <span className="text-primary"> </span>
                   {/* <span>10x12<br /></span> */}
                 </div>
                 <p className="text-truncate mb-4 mb-md-0">
@@ -143,23 +148,29 @@ const WarehouseDetails = () => {
 
                 <tbody>
                   <tr>
+                    <th>Available Space</th>
+                    <td>{priceList['availspace']}</td>
+                    <th>Price/Sq.Ft./30 days</th>
+                    <td>&#x20B9;{priceList['ratesqtft']}</td>
+                  </tr>
+
+                  <tr>
+                    <th>Minimum Order Quantity</th>
+                    <td>{priceList['minordersqt']}</td>
+                    <th>Clear Ceiling Height</th>
+                    <td>{warehouseInfo['ceillingheight']}</td>
+                  </tr>
+                  <tr>
+                    <th>Unloading/Palette</th>
+                    <td>&#x20B9;{priceList['unloading']}</td>
+                    <th>Loading/Palette</th>
+                    <td>&#x20B9;{priceList['loading']}</td>
+                  </tr>
+                  <tr>
                     <th>Status</th>
                     <td>{warehouseInfo['status']}</td>
                     <th>Available Days</th>
                     <td>{hours['openday']}</td>
-                  </tr>
-
-                  <tr>
-                    <th>Available Space</th>
-                    <td></td>
-                    <th>Price/Sq.Ft./30 days</th>
-                    <td>&#x20B9;</td>
-                  </tr>
-                  <tr>
-                    <th>Minimum Order Quantity</th>
-                    <td></td>
-                    <th>Clear Ceiling Height</th>
-                    <td>{warehouseInfo['ceillingheight']}</td>
                   </tr>
 
                   <tr>
@@ -170,9 +181,9 @@ const WarehouseDetails = () => {
                   </tr>
                   <tr>
                     <th>#Start Lease</th>
-                    <td>{warehouseInfo['startLease']}</td>
+                    <td>{priceList['startLease']}</td>
                     <th>#End Lease</th>
-                    <td>{warehouseInfo['endLease']}</td>
+                    <td>{priceList['endLease']}</td>
                   </tr>
                 </tbody>
               </Table>
@@ -187,7 +198,7 @@ const WarehouseDetails = () => {
                 <div className="d-flex flex-row align-items-center mb-1">
                   <h4 className="mb-1 me-1">Storage Layout</h4>
                 </div>
-                <li>Storage Id: {warehouseInfo['storagesId']} </li>
+                <li>{JSON.stringify(getWhCategories('WS', warehouseInfo['storagesId'])).substring(1, JSON.stringify(getWhCategories('WS', warehouseInfo['storagesId'])).length - 1)}</li>
               </div>
 
               <div className="col-md-12 col-lg-12 col-xl-12 border-sm-start-none border-start p-3">

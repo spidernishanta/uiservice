@@ -63,7 +63,7 @@ const WarehouseDetails = (props: WarehouseDetailsProps) => {
 
     const companyChange = (companyId: string) => {
         // setCompanyCode(companyId);
-        const data: WhDetail = whData;
+        const data: WhDetail = whData; console.log(data);
         data.clientId = companyId;
         setWhData(data);
         setonUpdateInfo(true);

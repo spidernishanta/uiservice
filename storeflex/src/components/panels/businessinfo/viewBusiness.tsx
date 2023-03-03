@@ -23,7 +23,8 @@ const ViewBusiness = () => {
     const [isLoader, setIsLoader] = useState(false);
     const [currentView, setCurrentView] = useState('');
 
-    const pageNo = '0';
+    const [totalRecords, setTotalRecords] = useState(0);
+    const [pageNo, setPageNo] = useState(0);
     const numberOfRecord = '10';
 
     useEffect(() => {
@@ -31,10 +32,11 @@ const ViewBusiness = () => {
             getMyCompanies(pageNo, numberOfRecord);
             setCurrentView(companyView);
         }
-    }, [companyView])
+        getMyCompanies(pageNo, numberOfRecord);
+    }, [companyView, pageNo])
 
 
-    const getMyCompanies = (curentPage, numberOfRecords) => {
+    const getMyCompanies = (curentPage, numberOfRecords) => { 
         // IN-PROGRESS , IN-ACTIVE , ACTIVE
         let companyStatus = 'ACTIVE'
         if (companyView === '#inactive') {
@@ -53,9 +55,10 @@ const ViewBusiness = () => {
             size: numberOfRecords,
             status: companyStatus
         }
-        api.getMyCompanies(data).then((response) => {
-            setIsLoader(false); console.log(response.methodReturnValue.clientList);
+        api.getMyCompanies(data).then((response) => { 
+            setIsLoader(false); 
             setMyCompanies(response.methodReturnValue.clientList);
+            setTotalRecords(response.methodReturnValue.totalRecords);
         }).catch((error) => {
             setIsLoader(false);
             console.log(' getMyCompanies  ', error);
@@ -71,7 +74,6 @@ const ViewBusiness = () => {
         );
     }
     const deleteBusiness = (company: any) => {
-        console.log(company);
         swal({
             title: "Are you sure?",
             text: 'You are about to delete the company "' + company.compyName + '(' + company.clientId + ')" . Once deleted, you will not be able to recover this company!',
@@ -220,7 +222,7 @@ const ViewBusiness = () => {
     const companyData = () => {
         let list : any[] = [];
         if(myCompanies && myCompanies.length > 0) {
-            list = myCompanies.map((item, index) => {
+            list = myCompanies.map((item, index) => { 
             return {
                 id: item.clientId,
                 clientId: item?.clientId,
@@ -237,7 +239,12 @@ const ViewBusiness = () => {
         }
       }
 
+      const handlePageChange = (e: any) => {
+        setPageNo(e);
+      }
+
     const showCompanyList = () => {
+        //const text = companyData();
         return (
             <Box className='m-top-md m-bot-md m-left-md m-right-md'>
                 <div className='primary-gradient'>
@@ -245,8 +252,8 @@ const ViewBusiness = () => {
                         {recordLabel}
                     </div>
                 </div>
-                <div style={{ height: 370, width: "100%" }}>
-                    <DataGrid getRowHeight={() => 'auto'}
+                <div style={{ height: 600, width: "100%" }}>
+                    <DataGrid getRowHeight={() => 'auto'} paginationMode="server"
                         rows={companyData()}
                         componentsProps={{
                             row: {
@@ -255,8 +262,10 @@ const ViewBusiness = () => {
                             },
                         }}
                         columns={columns}
-                        pageSize={5}
-                        rowsPerPageOptions={[5]}
+                        pageSize={10}
+                        rowCount={totalRecords}
+                        onPageChange={handlePageChange}
+                        rowsPerPageOptions={[10]}
                         disableSelectionOnClick
                     />
                 </div>

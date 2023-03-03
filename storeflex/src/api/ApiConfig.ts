@@ -107,6 +107,7 @@ export interface WarehousePostData {
     address?: Address[];
     hours?: Hours;
     warehouseprice?: Warehouseprice;
+    status?: string;
 }
 
 export interface CompanyUserPostData {

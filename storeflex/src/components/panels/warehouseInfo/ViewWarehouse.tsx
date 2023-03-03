@@ -22,12 +22,13 @@ const ViewWarehouse = () => {
   const [currentView, setCurrentView] = useState('');
 
   var page: any = "0";
-  var size: any = "6";
+  var size: any = "10";
 
   useEffect(() => {
-    if (warehouseView !== currentView)
+    if (warehouseView !== currentView) {
       getWarehouseAdmin(page, size);
-    setCurrentView(warehouseView);
+      setCurrentView(warehouseView);
+    }
   }, [warehouseView]);
 
   const getWarehouseAdmin = (page, size) => {
@@ -214,7 +215,7 @@ const ViewWarehouse = () => {
           <div className="primary-gradient">
             <div className="font-white p-sm f-18px f-bold">{recordLabel}</div>
           </div>
-          <div style={{ height: 370, width: "100%" }}>
+          <div style={{ height: 600, width: "100%" }}>
             <DataGrid getRowHeight={() => 'auto'}
               rows={myWarehouse && myWarehouse.map((item: any) => ({
                 id: item.warehouseId,
@@ -236,8 +237,8 @@ const ViewWarehouse = () => {
                 },
               }}
               columns={columns}
-              pageSize={5}
-              rowsPerPageOptions={[5]}
+              pageSize={10}
+              rowsPerPageOptions={[10]}
               disableSelectionOnClick
             />
           </div>
