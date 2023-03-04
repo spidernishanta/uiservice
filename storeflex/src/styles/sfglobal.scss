@@ -135,6 +135,15 @@ $sf-primary-color: #f66711;
   }
 }
 
+.font-xlg {
+  font-size: 36px !important;
+  line-height: normal;
+
+  @include mediabreakpoint(mobile) {
+    font-size: 32px !important;
+  }
+}
+
 .font-xxxl {
   font-size: 5rem !important;
   line-height: normal;

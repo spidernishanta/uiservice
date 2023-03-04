@@ -488,7 +488,33 @@ export default class Api {
             }
         }
         catch (error) {
-            console.log(' error : enquiry', error);
+            console.log(' error : asyncValidationBankDetails', error);
+            return Promise.reject(error);
+        }
+    }
+
+    async getAuthorisationBank(bankInfo: BankInfo): Promise<any> {
+        let axiosConfig = {
+            headers: {
+                'X-Client-Id': 'admin@skaplink.com',
+                'X-Client-Secret': 'Kari0356!',
+                'cache-control': 'no-cache'
+            }
+        };
+        const url = `${this.apiUrl.authorisationBank}`;
+        try {
+            const response = await axios.post(url, axiosConfig);
+            console.log('<< getAuthorisationBank >>', response);
+            if (response?.data?.statusCode === 600) {
+                sessionStorageSet(response.data, SESSION_TYPE.wh_categories);
+                return Promise.resolve(response?.data);
+            } else {
+                console.log(' error : getWarehouseCategories ', response);
+                return Promise.reject(response);
+            }
+        }
+        catch (error) {
+            console.log(' error : getAuthorisationBank', error);
             return Promise.reject(error);
         }
     }

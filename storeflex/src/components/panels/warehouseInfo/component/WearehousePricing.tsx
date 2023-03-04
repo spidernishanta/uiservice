@@ -4,32 +4,30 @@ import InputBox from '../../../atoms/textfield/InputBox';
 import { validateAreaSpace, validateRate } from '../../../../utils/CommonUtils';
 import { objectData, Warehouseprice } from '../../../../utils/ResponseSchema';
 import { InputError } from '../../../atoms/textfield/InputError';
-import { Value } from "sass";
-import { fdatasyncSync } from "fs";
 
 interface WearehousePricingProps {
     space?: number;
     rate?: number;
     quantity?: number;
     onWearehousePricingUpdate?: (data: any) => void;
+    data?: Warehouseprice
 }
-
 const WearehousePricing = (props: WearehousePricingProps) => {
 
     const [spaceInfo, setSpaceInfo] = useState<objectData>({});
     const [rateInfo, setRateInfo] = useState<objectData>({});
     const [quantityInfo, setQuantityInfo] = useState<objectData>({});
     const [errorMessage, setErrorMessage] = React.useState("");
-    const [onUpdateInfo, setonUpdateInfo] = useState(false);
-    const [fDate, setFDate] = useState(0);
-    const [tDate, setTDate] = useState(0);
+    // const [onUpdateInfo, setonUpdateInfo] = useState(false);
+
+    const [defaultData, setDefaultData] = useState<Warehouseprice>({});
 
     useEffect(() => {
-        if (onUpdateInfo) {
-            setonUpdateInfo(false);
+        if (defaultData) {
+            // setonUpdateInfo(false);
             onChangeUpdateInfo();
         }
-    }, [onUpdateInfo]);
+    }, [defaultData]);
 
     const getVal = (obj: objectData) => {
         if (obj.isUpdated) {
@@ -40,11 +38,12 @@ const WearehousePricing = (props: WearehousePricingProps) => {
     }
     const onChangeUpdateInfo = () => {
         if (props?.onWearehousePricingUpdate) {
+            console.log(' @#######', defaultData);
             const obj = {} as Warehouseprice;
             obj.availspace = getVal(spaceInfo);
             obj.ratesqtft = getVal(rateInfo);
             obj.minordersqt = getVal(quantityInfo);
-            props.onWearehousePricingUpdate(obj);
+            // props.onWearehousePricingUpdate(obj);
         }
     }
 
@@ -62,7 +61,8 @@ const WearehousePricing = (props: WearehousePricingProps) => {
             obj.error = '';
         }
         setSpaceInfo(obj);
-        setonUpdateInfo(true);
+        // setonUpdateInfo(true);
+        setDefaultData({...defaultData, availspace: obj.val} )
     }
 
     const validateRateInfo = (event: any) => {
@@ -79,7 +79,8 @@ const WearehousePricing = (props: WearehousePricingProps) => {
             obj.error = '';
         }
         setRateInfo(obj);
-        setonUpdateInfo(true);
+        // setonUpdateInfo(true);
+        setDefaultData({...defaultData, ratesqtft: obj.val});
     }
     const validateQuantityInfo = (event: any) => {
         const obj = {
@@ -95,41 +96,55 @@ const WearehousePricing = (props: WearehousePricingProps) => {
         //     obj.error = '';
         // }
         setQuantityInfo(obj);
-        setonUpdateInfo(true);
+        // setonUpdateInfo(true);
+        setDefaultData({...defaultData, minordersqt: obj.val});
     }
 
-    const viewFromDate = (evt: any) => {
-        // if (evt?.target?.value) {
-        //     const name = evt.target.name;
-        //     const value = evt.target.value;
-        //     if (name === 'fromdate') {
-        //         setFDate(Date.parse(value));
-        //     }
-        //     console.log("From Date from viewFromDate:", fDate);
-        //     console.log("To Date from viewFromDate:", tDate);
-        // }
-        console.log("Before setFDate: ", fDate);
-        setFDate(Date.parse(evt.target.value));
-        console.log("After setFDate: ", fDate);
-        diffInDays(1678060800000, fDate);
+    const onUpdateLoadingPrice = (event: any) => {
+        const obj = {
+            val: event.target.value || '',
+            error: '',
+            isUpdated: true,
+        } as objectData;
+        // setQuantityInfo(obj);
+        // setonUpdateInfo(true);
+        setDefaultData({...defaultData, loading: obj.val});
+    }
+    const onUpdateUnLoadingPrice = (event: any) => {
+        const obj = {
+            val: event.target.value || '',
+            error: '',
+            isUpdated: true,
+        } as objectData;
+        setDefaultData({...defaultData, unloading: obj.val});
     }
 
-    const viewToDate = (evt: any) => {
-        // if (evt?.target?.value) {
-        //     const name = evt.target.name;
-        //     const value = evt.target.value;
-        //     if (name === 'todate') {
-        //         setTDate(Date.parse(value));
-        //     }
-        //     console.log("From Date from viewToDate:", fDate);
-        //     console.log("To Date from viewToDate:", tDate);
-        //     diffInDays(fDate, tDate);
-        // }
-        // console.log("Hi! from To");
+    const onChageStartDate = (evt: any) => {
+        if (evt?.target?.value) {
+            const name = evt.target.name;
+            let startDate;
+            if (name === 'fromdate') {
+                startDate = Date.parse(evt.target.value);
+                setDefaultData({...defaultData, startLease: startDate});
+            }
+            diffInDays(startDate, defaultData.endLease);
+        }
     }
 
-    function diffInDays(fdata, tdata) {
-        var msDiff = Math.floor((tdata - fdata) / (1000 * 60 * 60 * 24));
+    const onChageEndDate = (evt: any) => {
+        if (evt?.target?.value) {
+            const name = evt.target.name;
+            let endDate;
+            if (name === 'todate') {
+                endDate = Date.parse(evt.target.value);
+                setDefaultData({...defaultData, endLease: endDate});
+            }
+            diffInDays(defaultData.startLease, endDate);
+        }
+    }
+
+    function diffInDays(startDate, endDate) {
+        var msDiff = Math.floor(( endDate - startDate) / (1000 * 60 * 60 * 24));
         console.log(msDiff);
         if (msDiff < 30 && msDiff >= 0) {
             setErrorMessage('Please select a range of 30 days or more');
@@ -140,7 +155,7 @@ const WearehousePricing = (props: WearehousePricingProps) => {
         else {
             setErrorMessage('');
         }
-        setonUpdateInfo(true);
+        // setonUpdateInfo(true);
     }
 
     return (
@@ -170,24 +185,24 @@ const WearehousePricing = (props: WearehousePricingProps) => {
                             <InputError errorText={quantityInfo.error} />
                         </Grid>
                         <Grid item xs={4}>
-                            <InputBox data={{ name: 'quantity', label: 'Loading Price/Pallet', value: '' }}
-                                onChange={validateQuantityInfo}
+                            <InputBox data={{ name: 'loading', label: 'Loading Price/Pallet', value: '' }}
+                                onChange={onUpdateLoadingPrice}
                             />
                             <InputError errorText={quantityInfo.error} />
                         </Grid>
                         <Grid item xs={4}>
-                            <InputBox data={{ name: 'quantity', label: 'Unloading Price/Pallet', value: '' }}
-                                onChange={validateQuantityInfo}
+                            <InputBox data={{ name: 'unloading', label: 'Unloading Price/Pallet', value: '' }}
+                                onChange={onUpdateUnLoadingPrice}
                             />
                             <InputError errorText={quantityInfo.error} />
                         </Grid>
                         <Grid item xs={4} />
                         <Grid item xs={4}>
-                            <InputBox data={{ type: 'date', name: 'fromdate', label: 'From' }} onChange={viewFromDate} />
+                            <InputBox data={{ type: 'date', name: 'fromdate', label: 'From' }} onChange={onChageStartDate} />
                             {errorMessage && <div className="text-red"> {errorMessage} </div>}
                         </Grid>
                         <Grid item xs={4}>
-                            <InputBox data={{ type: 'date', name: 'todate', label: 'To' }} onChange={viewToDate} />
+                            <InputBox data={{ type: 'date', name: 'todate', label: 'To' }} onChange={onChageEndDate} />
                             {errorMessage && <div className="text-red"> {errorMessage} </div>}
                         </Grid>
                     </Grid>
@@ -196,6 +211,5 @@ const WearehousePricing = (props: WearehousePricingProps) => {
         </>
     )
 }
-
 
 export default WearehousePricing;
