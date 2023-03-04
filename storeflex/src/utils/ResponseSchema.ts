@@ -175,4 +175,8 @@ export interface Warehouseprice {
   createDate?: string;
   updatedBy?: string;
   updateDate?: string;
+  startLease?: number | string;
+  endLease?: number | string;
+  loading?: string;
+  unloading?: string;
 }

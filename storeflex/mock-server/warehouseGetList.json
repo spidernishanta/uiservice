@@ -1,0 +1,76 @@
+{
+    "methodReturnValue": {
+      "totalRecord": 0,
+      "warehouseViewBean": [
+        {
+          "warehouseId": "string",
+          "clientId": "string",
+          "warehouseName": "string",
+          "profilePicName": "string",
+          "profilePic": [
+            "string"
+          ],
+          "descp": "string",
+          "createdBy": "2023-03-03T22:08:23.608Z",
+          "createdTime": "2023-03-03T22:08:23.608Z",
+          "status": "string",
+          "houseNo": "string",
+          "plotNo": "string",
+          "streetAddrs": "string",
+          "city": "string",
+          "state": "string",
+          "pincode": "string",
+          "facilitiesId": "string",
+          "industryId": "string",
+          "storagesId": "string",
+          "dockhighdoors": "string",
+          "atgradedoors": "string",
+          "ceillingheight": "string",
+          "forkliftcapacity": "string",
+          "hours": {
+            "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            "warehouseId": "string",
+            "openday": "string",
+            "starttime": "string",
+            "endtime": "string",
+            "openall": true,
+            "createBy": "string",
+            "createDate": "2023-03-03T22:08:23.608Z",
+            "updatedBy": "string",
+            "updateDate": "2023-03-03T22:08:23.608Z"
+          },
+          "pricebean": {
+            "priceId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            "availspace": "string",
+            "ratesqtft": "string",
+            "minordersqt": "string",
+            "createBy": "string",
+            "createDate": "2023-03-03T22:08:23.608Z",
+            "updatedBy": "string",
+            "updateDate": "2023-03-03T22:08:23.608Z",
+            "startLease": "2023-03-03T22:08:23.608Z",
+            "endLease": "2023-03-03T22:08:23.608Z",
+            "loading": "string",
+            "unloading": "string"
+          }
+        }
+      ],
+      "errorCode": {
+        "errorCode": "string",
+        "errorMessage": "string"
+      }
+    },
+    "statusCode": 0,
+    "message": "string",
+    "errorResponse": {
+      "errorCode": "string",
+      "message": "string",
+      "details": [
+        "string"
+      ],
+      "timestamp": "2023-03-03T22:08:23.608Z",
+      "statusCode": "string",
+      "status": "string"
+    },
+    "status": "SUCCESS"
+  }
