@@ -8,6 +8,8 @@ import Carousel from 'react-bootstrap/Carousel';
 import Table from 'react-bootstrap/Table';
 import Api from '../../../api/Api';
 import { getWhCategories } from '../../../utils/CommonUtils';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+
 
 
 const WarehouseDetails = () => {
@@ -43,7 +45,9 @@ const WarehouseDetails = () => {
   return (
     <>
       <TopNavBar />
-      <div className="col-md-12 col-xl-12 pt-5">
+      <br></br><br></br><br></br><br></br><br></br>
+      <button className="primary-btn" onClick={() => window.history.back()}><ArrowBackIcon /></button>
+      <div className="col-md-12 col-xl-12 pt-1">
         <div className="card shadow-0 border rounded-3">
           <div className="card-body">
             <div className="row">

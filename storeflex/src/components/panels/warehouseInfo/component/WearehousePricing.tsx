@@ -146,9 +146,9 @@ const WearehousePricing = (props: WearehousePricingProps) => {
     return (
         <>
             <div>
-                {/* <div className='primary-gradient'>
+                <div className='primary-gradient'>
                     <div className='font-white p-sm f-18px f-bold'>Pricing</div>
-                </div> */}
+                </div>
                 <div className='p-md'>
                     <Grid container spacing={2} columns={{ xs: 4, sm: 12, md: 12 }}>
                         <Grid item xs={4}>

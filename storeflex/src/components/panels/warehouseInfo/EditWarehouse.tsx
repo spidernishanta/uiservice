@@ -162,10 +162,10 @@ const EditWarehouse = (props: EditWarehouseProps) => {
                                         <div className='pb-2'><i>Select Status</i></div>
                                         <select name="addresstype" className="form-control" onChange={selectWarehouseStatusType}>
                                             <option value={warehouseStatus}>{warehouseStatus}</option>
-                                                {!(warehouseStatus === 'ACTIVE')?<option value="ACTIVE">ACTIVE</option>:''}
-                                                {!(warehouseStatus === 'IN-PROGRESS')?<option value="IN-PROGRESS">IN-PROGRESS</option>:''}
-                                                {!(warehouseStatus === 'IN-ACTIVE')?<option value="IN-ACTIVE">IN-ACTIVE</option>:''}
-                                            </select>
+                                            {!(warehouseStatus === 'ACTIVE') ? <option value="ACTIVE">ACTIVE</option> : ''}
+                                            {!(warehouseStatus === 'IN-PROGRESS') ? <option value="IN-PROGRESS">IN-PROGRESS</option> : ''}
+                                            {!(warehouseStatus === 'IN-ACTIVE') ? <option value="IN-ACTIVE">IN-ACTIVE</option> : ''}
+                                        </select>
                                     </div>
                                 </Grid>
                             </Grid>
@@ -175,9 +175,10 @@ const EditWarehouse = (props: EditWarehouseProps) => {
             </div>
             {<WarehouseDetails data={whDetails} onWarehouseDetailsUpdate={onWarehouseDetailsUpdate} isDisabled={true} />}
             {<WearehouseAddress editMode={true} data={whAddress} onWearehouseAddressUpdate={onWearehouseAddressUpdate} />}
-            {<WearehousePricing onWearehousePricingUpdate={onWearehousePricingUpdate} />}
             {<WarehouseHours onWarehouseHoursUpdate={onWarehouseHoursUpdate} />}
             {<WarehouseLayout onWarehouseLayoutUpdate={onWarehouseLayoutUpdate} />}
+            {<WearehousePricing onWearehousePricingUpdate={onWearehousePricingUpdate} />}
+
             <div className='p-top-md align-c'>
                 <Button className='sf-btn' variant="contained" onClick={() => { alert('Cancel') }}> Cancel </Button>
                 <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
