@@ -154,7 +154,7 @@ export const PAGES = {
     },
   },
   AddInfo: {
-    path: "/addinfo",
+    path: "/user/add",
     Component: AddInfo,
   },
   PgSearch: {
@@ -235,7 +235,7 @@ export const PAGES = {
     Component: SiteMap,
   },
   VIEW_USER: {
-    path: "/viewuser",
+    path: "/user/view#active",
     Component: ViewUser,
   },
   EDIT_COMPANY_USER: {

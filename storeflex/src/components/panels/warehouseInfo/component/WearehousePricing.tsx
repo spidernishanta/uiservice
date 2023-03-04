@@ -13,7 +13,6 @@ interface WearehousePricingProps {
     data?: Warehouseprice
 }
 const WearehousePricing = (props: WearehousePricingProps) => {
-    var fdate, tdate;
 
     const [spaceInfo, setSpaceInfo] = useState<objectData>({});
     const [rateInfo, setRateInfo] = useState<objectData>({});
@@ -111,7 +110,6 @@ const WearehousePricing = (props: WearehousePricingProps) => {
         // setonUpdateInfo(true);
         setDefaultData({...defaultData, loading: obj.val});
     }
-
     const onUpdateUnLoadingPrice = (event: any) => {
         const obj = {
             val: event.target.value || '',
@@ -148,8 +146,11 @@ const WearehousePricing = (props: WearehousePricingProps) => {
     function diffInDays(startDate, endDate) {
         var msDiff = Math.floor(( endDate - startDate) / (1000 * 60 * 60 * 24));
         console.log(msDiff);
-        if (msDiff < 30) {
-            setErrorMessage('Please select a range of 30 days or more')
+        if (msDiff < 30 && msDiff >= 0) {
+            setErrorMessage('Please select a range of 30 days or more');
+        }
+        else if (msDiff < 0) {
+            setErrorMessage('From Date cannot be after To Date');
         }
         else {
             setErrorMessage('');
@@ -160,9 +161,9 @@ const WearehousePricing = (props: WearehousePricingProps) => {
     return (
         <>
             <div>
-                {/* <div className='primary-gradient'>
+                <div className='primary-gradient'>
                     <div className='font-white p-sm f-18px f-bold'>Pricing</div>
-                </div> */}
+                </div>
                 <div className='p-md'>
                     <Grid container spacing={2} columns={{ xs: 4, sm: 12, md: 12 }}>
                         <Grid item xs={4}>
@@ -210,6 +211,5 @@ const WearehousePricing = (props: WearehousePricingProps) => {
         </>
     )
 }
-
 
 export default WearehousePricing;
