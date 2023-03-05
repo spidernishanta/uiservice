@@ -1,0 +1,74 @@
+{
+    "methodReturnValue": {
+      "warehouseId": "WH-135",
+      "clientId": "CL-172",
+      "warehouseName": "Tech Logo Logistic",
+      "descp": "Tech Lego Logistic Warehouse",
+      "profilePhoto": "/storeflexservice/warehouseprofilepic/warehouseId?WH-135",
+      "warehouseTaxId": "25AAACC4175D1Z4",
+      "createBy": "ADMIN",
+      "createDate": "2023-01-07",
+      "updatedBy": "ADMIN",
+      "updateDate": "2023-03-04",
+      "status": "",
+      "facilitiesId": "WF_13|WF_10",
+      "industryId": "WT_03|WT_09",
+      "storagesId": "WS_08|WS_09",
+      "dockhighdoors": "31",
+      "atgradedoors": "3",
+      "ceillingheight": "50",
+      "forkliftcapacity": "3000",
+      "address": [
+        {
+          "addressId": "ad5b0b8b-4e19-432d-ade7-3b9e72f28215",
+          "houseNo": "20A",
+          "plotNo": "92AB",
+          "streetDetails": "Bamburgh cir",
+          "city": "GHY",
+          "state": "ASM",
+          "country": "IND",
+          "pincode": "781063",
+          "createBy": "ADMIN",
+          "createDate": "2023-01-07",
+          "updatedBy": "ADMIN",
+          "updateDate": "2023-03-04"
+        }
+      ],
+      "hours": {
+        "id": "a41b9f47-7d20-4682-8ea5-3a426507bb41",
+        "openday": null,
+        "starttime": null,
+        "endtime": null,
+        "openall": true,
+        "createBy": "ADMIN",
+        "createDate": "2023-01-07",
+        "updateDate": null
+      },
+      "warehousepriceList": [
+        {
+          "priceId": "389116d6-beef-4785-b0f8-4a97670772d3",
+          "availspace": "2000",
+          "ratesqtft": "100",
+          "minordersqt": "1000",
+          "createBy": "ADMIN",
+          "createDate": "2023-01-06",
+          "updateDate": null,
+          "startLease": "2023-01-06",
+          "endLease": "2023-12-06"
+        },
+        {
+          "priceId": "a41236f8-d6af-49c1-8235-c7ef6112cb10",
+          "availspace": "2000",
+          "ratesqtft": "100",
+          "minordersqt": "1000",
+          "createBy": "ADMIN",
+          "createDate": "2023-01-06",
+          "updateDate": null,
+          "startLease": "2023-01-06",
+          "endLease": "2023-12-06"
+        }
+      ]
+    },
+    "statusCode": 600,
+    "status": "SUCCESS"
+  }
