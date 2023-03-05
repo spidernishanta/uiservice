@@ -197,5 +197,4 @@ const WearehousePricing = (props: WearehousePricingProps) => {
         </>
     )
 }
-
 export default WearehousePricing;
