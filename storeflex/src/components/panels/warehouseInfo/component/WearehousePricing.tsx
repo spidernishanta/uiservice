@@ -12,38 +12,27 @@ interface WearehousePricingProps {
     onWearehousePricingUpdate?: (data: any) => void;
     data?: Warehouseprice
 }
+
+const errMsgObj = {} as Warehouseprice;
 const WearehousePricing = (props: WearehousePricingProps) => {
-
-    const [spaceInfo, setSpaceInfo] = useState<objectData>({});
-    const [rateInfo, setRateInfo] = useState<objectData>({});
-    const [quantityInfo, setQuantityInfo] = useState<objectData>({});
     const [errorMessage, setErrorMessage] = React.useState("");
-    // const [onUpdateInfo, setonUpdateInfo] = useState(false);
-
     const [defaultData, setDefaultData] = useState<Warehouseprice>({});
-
+    const [updatedData, setUpdatedData] = useState<Warehouseprice>({});
+    // const t = defaultData?.availspace
     useEffect(() => {
-        if (defaultData) {
-            // setonUpdateInfo(false);
+        if (updatedData) {
             onChangeUpdateInfo();
         }
-    }, [defaultData]);
+    }, [updatedData]);
 
-    const getVal = (obj: objectData) => {
-        if (obj.isUpdated) {
-            return obj.val
-        } else {
-            return undefined;
-        }
-    }
     const onChangeUpdateInfo = () => {
         if (props?.onWearehousePricingUpdate) {
-            console.log(' @#######', defaultData);
-            const obj = {} as Warehouseprice;
-            obj.availspace = getVal(spaceInfo);
-            obj.ratesqtft = getVal(rateInfo);
-            obj.minordersqt = getVal(quantityInfo);
-            // props.onWearehousePricingUpdate(obj);
+            // const obj = {} as Warehouseprice;
+            // obj.availspace = getVal(spaceInfo);
+            // obj.ratesqtft = getVal(rateInfo);
+            // obj.minordersqt = getVal(quantityInfo);
+            // console.log('<<updatedData>>', updatedData);
+            props.onWearehousePricingUpdate(updatedData);
         }
     }
 
@@ -60,9 +49,8 @@ const WearehousePricing = (props: WearehousePricingProps) => {
         } else {
             obj.error = '';
         }
-        setSpaceInfo(obj);
-        // setonUpdateInfo(true);
-        setDefaultData({...defaultData, availspace: obj.val} )
+        errMsgObj.availspace = obj.error;
+        setUpdatedData({...updatedData, availspace: obj.val} )
     }
 
     const validateRateInfo = (event: any) => {
@@ -78,9 +66,8 @@ const WearehousePricing = (props: WearehousePricingProps) => {
         } else {
             obj.error = '';
         }
-        setRateInfo(obj);
-        // setonUpdateInfo(true);
-        setDefaultData({...defaultData, ratesqtft: obj.val});
+        errMsgObj.ratesqtft = obj.error;
+        setUpdatedData({...updatedData, ratesqtft: obj.val});
     }
     const validateQuantityInfo = (event: any) => {
         const obj = {
@@ -95,9 +82,8 @@ const WearehousePricing = (props: WearehousePricingProps) => {
         // } else {
         //     obj.error = '';
         // }
-        setQuantityInfo(obj);
-        // setonUpdateInfo(true);
-        setDefaultData({...defaultData, minordersqt: obj.val});
+        errMsgObj.minordersqt = obj.error;
+        setUpdatedData({...updatedData, minordersqt: obj.val});
     }
 
     const onUpdateLoadingPrice = (event: any) => {
@@ -106,9 +92,9 @@ const WearehousePricing = (props: WearehousePricingProps) => {
             error: '',
             isUpdated: true,
         } as objectData;
-        // setQuantityInfo(obj);
-        // setonUpdateInfo(true);
-        setDefaultData({...defaultData, loading: obj.val});
+
+        errMsgObj.loading = obj.error;
+        setUpdatedData({...updatedData, loading: obj.val});
     }
     const onUpdateUnLoadingPrice = (event: any) => {
         const obj = {
@@ -116,7 +102,8 @@ const WearehousePricing = (props: WearehousePricingProps) => {
             error: '',
             isUpdated: true,
         } as objectData;
-        setDefaultData({...defaultData, unloading: obj.val});
+        errMsgObj.unloading = obj.error;
+        setUpdatedData({...updatedData, unloading: obj.val});
     }
 
     const onChageStartDate = (evt: any) => {
@@ -125,9 +112,9 @@ const WearehousePricing = (props: WearehousePricingProps) => {
             let startDate;
             if (name === 'fromdate') {
                 startDate = Date.parse(evt.target.value);
-                setDefaultData({...defaultData, startLease: startDate});
+                setUpdatedData({...updatedData, startLease: startDate});
             }
-            diffInDays(startDate, defaultData.endLease);
+            diffInDays(startDate, updatedData.endLease);
         }
     }
 
@@ -137,13 +124,13 @@ const WearehousePricing = (props: WearehousePricingProps) => {
             let endDate;
             if (name === 'todate') {
                 endDate = Date.parse(evt.target.value);
-                setDefaultData({...defaultData, endLease: endDate});
+                setUpdatedData({...updatedData, endLease: endDate});
             }
-            diffInDays(defaultData.startLease, endDate);
+            diffInDays(updatedData.startLease, endDate);
         }
     }
 
-    function diffInDays(startDate, endDate) {
+    const diffInDays = (startDate, endDate) => {
         var msDiff = Math.floor(( endDate - startDate) / (1000 * 60 * 60 * 24));
         console.log(msDiff);
         if (msDiff < 30 && msDiff >= 0) {
@@ -155,7 +142,6 @@ const WearehousePricing = (props: WearehousePricingProps) => {
         else {
             setErrorMessage('');
         }
-        // setonUpdateInfo(true);
     }
 
     return (
@@ -167,34 +153,34 @@ const WearehousePricing = (props: WearehousePricingProps) => {
                 <div className='p-md'>
                     <Grid container spacing={2} columns={{ xs: 4, sm: 12, md: 12 }}>
                         <Grid item xs={4}>
-                            <InputBox data={{ name: 'availablespace', label: 'Total Available Space (Sq.Ft)*', value: '' }}
+                            <InputBox data={{ name: 'availablespace', label: 'Total Available Space (Sq.Ft)*', value: defaultData?.availspace }}
                                 onChange={validateSpaceInfo}
                             />
-                            <InputError errorText={spaceInfo.error} />
+                            <InputError errorText={ errMsgObj.availspace} />
                         </Grid>
                         <Grid item xs={4}>
-                            <InputBox data={{ name: 'rate', label: 'Rental Rate(Rs)/Sq.Ft/30 days *', value: '' }}
+                            <InputBox data={{ name: 'rate', label: 'Rental Rate(Rs)/Sq.Ft/30 days *', value: defaultData?.ratesqtft }}
                                 onChange={validateRateInfo}
                             />
-                            <InputError errorText={rateInfo.error} />
+                            <InputError errorText={errMsgObj.ratesqtft} />
                         </Grid>
                         <Grid item xs={4}>
-                            <InputBox data={{ name: 'quantity', label: 'Minimum Order Quantity (Sq.Ft)', value: '' }}
+                            <InputBox data={{ name: 'quantity', label: 'Minimum Order Quantity (Sq.Ft)', value: defaultData?.minordersqt }}
                                 onChange={validateQuantityInfo}
                             />
-                            <InputError errorText={quantityInfo.error} />
+                            <InputError errorText={errMsgObj.minordersqt} />
                         </Grid>
                         <Grid item xs={4}>
-                            <InputBox data={{ name: 'loading', label: 'Loading Price/Pallet', value: '' }}
+                            <InputBox data={{ name: 'loading', label: 'Loading Price/Pallet', value: defaultData?.loading }}
                                 onChange={onUpdateLoadingPrice}
                             />
-                            <InputError errorText={quantityInfo.error} />
+                            <InputError errorText={errMsgObj.loading} />
                         </Grid>
                         <Grid item xs={4}>
-                            <InputBox data={{ name: 'unloading', label: 'Unloading Price/Pallet', value: '' }}
+                            <InputBox data={{ name: 'unloading', label: 'Unloading Price/Pallet', value: defaultData?.unloading }}
                                 onChange={onUpdateUnLoadingPrice}
                             />
-                            <InputError errorText={quantityInfo.error} />
+                            <InputError errorText={errMsgObj.unloading} />
                         </Grid>
                         <Grid item xs={4} />
                         <Grid item xs={4}>
@@ -211,5 +197,4 @@ const WearehousePricing = (props: WearehousePricingProps) => {
         </>
     )
 }
-
 export default WearehousePricing;
