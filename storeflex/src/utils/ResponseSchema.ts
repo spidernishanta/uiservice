@@ -1,3 +1,4 @@
+import { WarehousePostData } from "../api/ApiConfig";
 export interface BusinessDetails {
   businessid: string;
   name: string;
@@ -94,6 +95,8 @@ export interface objectData {
   val?: string;
   error?: string;
   isUpdated?: boolean;
+  id?: string;
+  attributeName?: string;
 }
 
 export interface CompanyInfoList {
@@ -166,6 +169,11 @@ export interface WarehouseCategories {
   status?: string;
 }
 
+export interface WarehouseInfo {
+  methodReturnValue?: WarehousePostData;
+  statusCode?: number;
+  status?: string;
+}
 export interface Warehouseprice {
   priceId?: string;
   availspace?: string;
@@ -179,4 +187,13 @@ export interface Warehouseprice {
   endLease?: number | string;
   loading?: string;
   unloading?: string;
+}
+
+export interface WhHours {
+  id?: string;
+  warehouseId?: string;
+  openday?: string;
+  starttime?: string;
+  endtime?: string;
+  openall?: boolean;
 }
