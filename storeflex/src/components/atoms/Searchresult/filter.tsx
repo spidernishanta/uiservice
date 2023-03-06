@@ -2,6 +2,8 @@ import * as React from 'react';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import './searchresult.css';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { Button } from 'react-bootstrap';
 
 
 interface parentProps {
@@ -50,8 +52,8 @@ export default function Filter(props?: parentProps) {
 
     return (
         <>
-
             <div className="col-md-2 pr-1" style={{ backgroundColor: '#eee' }}>
+                <button className="primary-btn" onClick={() => window.history.back()}><ArrowBackIcon /></button>
                 <div className="card m-0">
                     <div className="col-md-12 p-1">
                         <span>
@@ -138,11 +140,11 @@ export default function Filter(props?: parentProps) {
                                         <label className="form-check">
                                             Area
                                             <span className="input-group">
-                                            <select className='form-control' name="" id="">
-                                                <option value='1" x 1"'>1" x 1"</option>
-                                                <option value='2" x 2"'>2" x 2"</option>
-                                                <option value='3" x 3"'>3" x 3"</option>
-                                            </select>
+                                                <select className='form-control' name="" id="">
+                                                    <option value='1" x 1"'>1" x 1"</option>
+                                                    <option value='2" x 2"'>2" x 2"</option>
+                                                    <option value='3" x 3"'>3" x 3"</option>
+                                                </select>
                                             </span>
                                         </label>
                                     </form>
@@ -161,12 +163,12 @@ export default function Filter(props?: parentProps) {
                                         <label className="form-check">
                                             Range
                                             <span className="input-group">
-                                            <select className='form-control' name="" id="">
-                                                <option value="">&#x20B9;0.00 - &#x20B9;500.00</option>
-                                                <option value="">&#x20B9;500.00 - &#x20B9;1500.00</option>
-                                                <option value="">&#x20B9;1500.00 - &#x20B9;2500.00</option>
-                                                <option value="">&#x20B9;3000.00 - &#x20B9;4500.00</option>
-                                            </select>
+                                                <select className='form-control' name="" id="">
+                                                    <option value="">&#x20B9;0.00 - &#x20B9;500.00</option>
+                                                    <option value="">&#x20B9;500.00 - &#x20B9;1500.00</option>
+                                                    <option value="">&#x20B9;1500.00 - &#x20B9;2500.00</option>
+                                                    <option value="">&#x20B9;3000.00 - &#x20B9;4500.00</option>
+                                                </select>
                                             </span>
                                         </label>
                                     </form>
@@ -184,11 +186,11 @@ export default function Filter(props?: parentProps) {
                                         <label className="form-check">
                                             Qualification
                                             <span className="input-group">
-                                            <select className='form-control' name="" id="">
-                                                <option value="">Qualification-1</option>
-                                                <option value="">Qualification-2</option>
-                                                <option value="">Qualification-3</option>
-                                            </select>
+                                                <select className='form-control' name="" id="">
+                                                    <option value="">Qualification-1</option>
+                                                    <option value="">Qualification-2</option>
+                                                    <option value="">Qualification-3</option>
+                                                </select>
                                             </span>
                                         </label>
                                     </form>

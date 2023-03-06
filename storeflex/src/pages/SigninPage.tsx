@@ -51,6 +51,7 @@ const SignInPage = () => {
   }
 
   const submitSignIn = () => {
+    setPasswordType("password");
     const emailValid = validateMinLen(values.email, true);
     const passwordValid = validateMinLen(values.password, true);
     setUserLoggedIn('false');
@@ -141,6 +142,7 @@ const SignInPage = () => {
   const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
       submitSignIn()
+      setPasswordType("password")
     }
   }
 

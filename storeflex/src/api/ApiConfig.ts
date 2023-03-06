@@ -1,5 +1,5 @@
 
-import { Address, Contact, Photo, Warehouseprice } from '../../src/utils/ResponseSchema'
+import { Address, Contact, Photo, Warehouseprice, WhHours} from '../../src/utils/ResponseSchema'
 export interface SlLoginProps {
     username: string;
     emailId: string;
@@ -93,6 +93,7 @@ export interface WarehousePostData {
     clientName?: string;
     warehouseName?: string;
     descp?: string;
+    profilePhoto?: string;
     warehouseTaxId?: string;
     warehouseId?: string;
     days?: string;
@@ -105,8 +106,8 @@ export interface WarehousePostData {
     ceillingheight?: string;
     forkliftcapacity?: string;
     address?: Address[];
-    hours?: Hours;
-    warehouseprice?: Warehouseprice;
+    hours?: WhHours;
+    warehousepriceList?: Warehouseprice[];
     status?: string;
 }
 
@@ -126,15 +127,6 @@ export interface CompanyUserPostData {
     roleType?: string;
     status?: string;
     userPhoto?: string;
-}
-
-export interface Hours {
-    id?: string;
-    warehouseId?: string;
-    openday?: string;
-    starttime?: string;
-    endtime?: string;
-    openall?: boolean;
 }
 export interface EnquiryProps {
 
@@ -159,6 +151,8 @@ export interface SearchProps {
     search?: string;
 }
 
+// For the production environment: https://payout-api.cashfree.com
+// For the test environment: https://payout-gamma.cashfree.com
 export class ApiConfig {
     endPointGateWay = '/';
     testApi = '/test';
@@ -190,6 +184,7 @@ export class ApiConfig {
     getCompanyListApi = '/clientDropList';
     getWarehouseCategoriesApi = '/categories';
     getValidationBank = 'https://payout-api.cashfree.com/payout/v1/asyncValidation/bankDetails';
+    authorisationBank = 'http://payout-gamma.cashfree.com/payout/v1/authorize';
 
 }
 

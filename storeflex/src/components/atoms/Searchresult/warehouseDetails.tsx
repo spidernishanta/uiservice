@@ -8,6 +8,8 @@ import Carousel from 'react-bootstrap/Carousel';
 import Table from 'react-bootstrap/Table';
 import Api from '../../../api/Api';
 import { getWhCategories } from '../../../utils/CommonUtils';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+
 
 
 const WarehouseDetails = () => {
@@ -43,7 +45,9 @@ const WarehouseDetails = () => {
   return (
     <>
       <TopNavBar />
-      <div className="col-md-12 col-xl-12 pt-5">
+      <br></br><br></br><br></br><br></br><br></br>
+      <button className="primary-btn" onClick={() => window.history.back()}><ArrowBackIcon /></button>
+      <div className="col-md-12 col-xl-12 pt-1">
         <div className="card shadow-0 border rounded-3">
           <div className="card-body">
             <div className="row">
@@ -151,7 +155,7 @@ const WarehouseDetails = () => {
                     <th>Available Space</th>
                     <td>{priceList['availspace']}</td>
                     <th>Price/Sq.Ft./30 days</th>
-                    <td>&#x20B9;{priceList['ratesqtft']}</td>
+                    <td>&#x20B9;{parseFloat(priceList['ratesqtft']).toFixed(2)}</td>
                   </tr>
 
                   <tr>
@@ -162,9 +166,9 @@ const WarehouseDetails = () => {
                   </tr>
                   <tr>
                     <th>Unloading/Palette</th>
-                    <td>&#x20B9;{priceList['unloading']}</td>
+                    <td>&#x20B9;{parseFloat(priceList['unloading']).toFixed(2)}</td>
                     <th>Loading/Palette</th>
-                    <td>&#x20B9;{priceList['loading']}</td>
+                    <td>&#x20B9;{parseFloat(priceList['loading']).toFixed(2)}</td>
                   </tr>
                   <tr>
                     <th>Status</th>
@@ -211,7 +215,7 @@ const WarehouseDetails = () => {
 
               <div className="col-md-12 col-lg-12 col-xl-12 border-sm-start-none border-start">
                 <div className="d-flex flex-row align-items-center mb-1">
-                  <h4 className="mb-1 me-1">&#x20B9; {'155'}.00</h4>
+                  <h4 className="mb-1 me-1">&#x20B9; {parseFloat(priceList['ratesqtft']).toFixed(2)}</h4>
                   <span className="text-danger"><s>&#x20B9; 200.99</s></span>
                 </div>
                 <h6 className="text-success"> Few space left.</h6>

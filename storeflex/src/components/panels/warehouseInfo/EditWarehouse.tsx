@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { Grid, Button } from '@mui/material';
 import swal from 'sweetalert';
 import Api from '../../../../src/api/Api';
@@ -9,9 +9,9 @@ import WearehousePricing from './component/WearehousePricing';
 import WarehouseHours from './component/WarehouseHours';
 import WarehouseLayout, { WarehouseLayoutObj } from './component/WarehouseLayout';
 import WarehouseDetails from './component/WarehouseDetails';
-import { WarehousePostData, Hours } from '../../../api/ApiConfig';
+import { WarehousePostData } from '../../../api/ApiConfig';
 import { WhDetail } from './component/WarehouseDetails';
-import { Address, Warehouseprice, EditWarehouseDetails } from '../../../utils/ResponseSchema';
+import { Address, Warehouseprice, EditWarehouseDetails, WarehouseInfo, WhHours } from '../../../utils/ResponseSchema';
 
 interface EditWarehouseProps {
     profileData?: EditWarehouseDetails;
@@ -20,16 +20,15 @@ interface EditWarehouseProps {
 }
 const EditWarehouse = (props: EditWarehouseProps) => {
 
-    const profile = {} as EditWarehouseDetails;
     const location = useLocation();
-    const navigate = useNavigate();
-    const [warehouseDetails, setWarehouseDetails] = useState<WarehousePostData>({});
+    // const navigate = useNavigate();
     const api = new Api();
+    const [warehouseGetData, setWarehouseGetData] = useState<WarehouseInfo>({});
     const [isLoader, setIsLoader] = useState(false);
     const [whDetails, setWhDetails] = useState<WhDetail>({});
     const [whAddress, setWhAddress] = useState<Address>({});
-    const [pricing, setPricing] = useState<Warehouseprice>({});
-    const [whHours, setWhHours] = useState<Hours>({});
+    const [whPricing, setWhPricing] = useState<Warehouseprice[]>();
+    const [whHours, setWhHours] = useState<WhHours>({});
     const [whLayout, setLayout] = useState<WarehouseLayoutObj>({});
     const [warehouseStatus, setWarehouseStatus] = useState('');
     const [warehouseStatusTypeInfo, setWarehouseStatusTypeInfo] = useState('');
@@ -43,26 +42,24 @@ const EditWarehouse = (props: EditWarehouseProps) => {
         setIsLoader(true);
         api.getWarehouseById(whId).then((resp) => {
             setIsLoader(false);
-            if (resp.methodReturnValue) { //console.log();
-                warehouseDataFormatter(resp.methodReturnValue);
-                setWarehouseStatus(resp.methodReturnValue.status);
+            if (resp.methodReturnValue) {
+                warehouseDataFormatter(resp);
             }
-
         }).catch((error) => {
             setIsLoader(false);
             console.log(' updateWarehouse creation erroor ', error);
         });
     }
 
-    const warehouseDataFormatter = (data: WarehousePostData) => {
-        console.log(' >>>>> warehouseDataFormatter ', data);
+    const warehouseDataFormatter = (whInfo: WarehouseInfo) => {
+        const data = whInfo.methodReturnValue;
         const whDetailObj = {} as WhDetail;
         whDetailObj.clientId = data?.clientId;
         whDetailObj.clientName = data?.clientName;
         whDetailObj.warehouseId = data?.warehouseId;
         whDetailObj.warehouseName = data?.warehouseName;
         whDetailObj.warehouseTaxId = data?.warehouseTaxId;
-        whDetailObj.descp = data.descp;
+        whDetailObj.descp = data?.descp;
         onWarehouseDetailsUpdate(whDetailObj);
 
         const address = data?.address?.[0];
@@ -77,6 +74,35 @@ const EditWarehouse = (props: EditWarehouseProps) => {
         whAddressObj.state = address?.state;
         whAddressObj.streetDetails = address?.streetDetails;
         onWearehouseAddressUpdate(whAddressObj);
+
+        const warehousepriceList = [
+            {
+              "priceId": "389116d6-beef-4785-b0f8-4a97670772d3",
+              "availspace": "2000",
+              "ratesqtft": "100",
+              "minordersqt": "1000",
+              "createBy": "ADMIN",
+              "createDate": "2023-01-06",
+              "updateDate": null,
+              "startLease": "2023-01-06",
+              "endLease": "2023-12-06"
+            },
+            {
+              "priceId": "a41236f8-d6af-49c1-8235-c7ef6112cb10",
+              "availspace": "2000",
+              "ratesqtft": "100",
+              "minordersqt": "1000",
+              "createBy": "ADMIN",
+              "createDate": "2023-01-06",
+              "updateDate": null,
+              "startLease": "2023-01-06",
+              "endLease": "2023-12-06"
+            }
+          ]
+        onWearehousePricingUpdate(warehousepriceList);
+
+        setWarehouseGetData(whInfo);
+        setWarehouseStatus(data?.status || '');
     };
 
     const onWarehouseDetailsUpdate = (data: WhDetail) => {
@@ -88,7 +114,7 @@ const EditWarehouse = (props: EditWarehouseProps) => {
         console.log(' onWearehouseAddressUpdate >>> ', data);
     }
     const onWearehousePricingUpdate = (data: any) => {
-        setPricing(data);
+        setWhPricing(data);
         console.log(' onWearehousePricingUpdate >>> ', data);
     }
     const onWarehouseHoursUpdate = (data: any) => {
@@ -102,10 +128,10 @@ const EditWarehouse = (props: EditWarehouseProps) => {
 
     const updateWarehouse = () => {
         const buildPostData = {} as WarehousePostData;
-        buildPostData.clientId = whDetails?.clientId;
+        buildPostData.clientId = whDetails?.clientId || warehouseGetData.methodReturnValue?.clientId;
+        buildPostData.warehouseId = whDetails.warehouseId || warehouseGetData.methodReturnValue?.warehouseId;
         buildPostData.warehouseName = whDetails?.warehouseName;
         buildPostData.warehouseTaxId = whDetails?.warehouseTaxId;
-        buildPostData.warehouseId = whDetails.warehouseId;
         buildPostData.descp = whDetails?.descp;
         buildPostData.address = [whAddress];
         buildPostData.hours = whHours;
@@ -116,36 +142,36 @@ const EditWarehouse = (props: EditWarehouseProps) => {
         buildPostData.atgradedoors = whLayout.atgradedoors;
         buildPostData.ceillingheight = whLayout.ceillingheight;
         buildPostData.forkliftcapacity = whLayout.forkliftcapacity;
-        buildPostData.warehouseprice = pricing;
+        buildPostData.warehousepriceList = whPricing;
         buildPostData.status = warehouseStatusTypeInfo; console.log(warehouseStatusTypeInfo);
 
-        setIsLoader(true);
-        api.addWarehouse(buildPostData).then((resp) => {
-            setIsLoader(false);
-            if (resp && resp.methodReturnValue.clientId) {
-                // upladPhoto(imageData, resp.methodReturnValue.clientId);
-            }
-            swal('Success! Your warehouse has been added successfully!', {
-                icon: "success",
-                buttons: {
-                    buttonOne: {
-                        text: "OK",
-                        visible: true,
-                        className: "sf-btn",
-                    }
-                }
-            });
-        }).catch((error) => {
-            setIsLoader(false);
-            console.log(' updateWarehouse creation erroor ', error);
-        });
+        console.log('<< buildPostData >>', buildPostData);
+        // setIsLoader(true);
+        // api.addWarehouse(buildPostData).then((resp) => {
+        //     setIsLoader(false);
+        //     if (resp && resp.methodReturnValue.clientId) {
+        //         // upladPhoto(imageData, resp.methodReturnValue.clientId);
+        //     }
+        //     swal('Success! Your warehouse has been added successfully!', {
+        //         icon: "success",
+        //         buttons: {
+        //             buttonOne: {
+        //                 text: "OK",
+        //                 visible: true,
+        //                 className: "sf-btn",
+        //             }
+        //         }
+        //     });
+        // }).catch((error) => {
+        //     setIsLoader(false);
+        //     console.log(' updateWarehouse creation erroor ', error);
+        // });
     }
 
     const selectWarehouseStatusType = (event: any) => {
         const val = event.target.value || '';
         setWarehouseStatusTypeInfo(val);
     }
-
     return (
         <>
             {isLoader && <LoaderFull />}
@@ -162,10 +188,10 @@ const EditWarehouse = (props: EditWarehouseProps) => {
                                         <div className='pb-2'><i>Select Status</i></div>
                                         <select name="addresstype" className="form-control" onChange={selectWarehouseStatusType}>
                                             <option value={warehouseStatus}>{warehouseStatus}</option>
-                                                {!(warehouseStatus === 'ACTIVE')?<option value="ACTIVE">ACTIVE</option>:''}
-                                                {!(warehouseStatus === 'IN-PROGRESS')?<option value="IN-PROGRESS">IN-PROGRESS</option>:''}
-                                                {!(warehouseStatus === 'IN-ACTIVE')?<option value="IN-ACTIVE">IN-ACTIVE</option>:''}
-                                            </select>
+                                            {!(warehouseStatus === 'ACTIVE') ? <option value="ACTIVE">ACTIVE</option> : ''}
+                                            {!(warehouseStatus === 'IN-PROGRESS') ? <option value="IN-PROGRESS">IN-PROGRESS</option> : ''}
+                                            {!(warehouseStatus === 'IN-ACTIVE') ? <option value="IN-ACTIVE">IN-ACTIVE</option> : ''}
+                                        </select>
                                     </div>
                                 </Grid>
                             </Grid>
@@ -173,11 +199,15 @@ const EditWarehouse = (props: EditWarehouseProps) => {
                     </Grid>
                 </div>
             </div>
-            {<WarehouseDetails data={whDetails} onWarehouseDetailsUpdate={onWarehouseDetailsUpdate} isDisabled={true} />}
-            {<WearehouseAddress editMode={true} data={whAddress} onWearehouseAddressUpdate={onWearehouseAddressUpdate} />}
-            {<WearehousePricing onWearehousePricingUpdate={onWearehousePricingUpdate} />}
-            {<WarehouseHours onWarehouseHoursUpdate={onWarehouseHoursUpdate} />}
-            {<WarehouseLayout onWarehouseLayoutUpdate={onWarehouseLayoutUpdate} />}
+            { warehouseGetData?.status === 'SUCCESS' && 
+                <>
+                    {<WarehouseDetails data={whDetails} onWarehouseDetailsUpdate={onWarehouseDetailsUpdate} isDisabled={true} />}
+                    {<WearehouseAddress editMode={true} data={whAddress} onWearehouseAddressUpdate={onWearehouseAddressUpdate} />}
+                    {<WarehouseHours data={{}} onWarehouseHoursUpdate={onWarehouseHoursUpdate} />}
+                    {<WarehouseLayout onWarehouseLayoutUpdate={onWarehouseLayoutUpdate} />}
+                    {<WearehousePricing data={whPricing} onWearehousePricingUpdate={onWearehousePricingUpdate} />}
+                </>
+            }
             <div className='p-top-md align-c'>
                 <Button className='sf-btn' variant="contained" onClick={() => { alert('Cancel') }}> Cancel </Button>
                 <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>

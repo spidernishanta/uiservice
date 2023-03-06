@@ -79,7 +79,8 @@ const PaymentVerify = () => {
         bankInfo.ifsc = ifscInfo.val;
         bankInfo.name = nameInfo.val;
         bankInfo.phone = mobileNoInfo.val;
-        api.asyncValidationBankDetails(bankInfo).then((resp) => {
+        //  api.asyncValidationBankDetails(bankInfo).then((resp) => {
+        api.getAuthorisationBank(bankInfo).then((resp) => {
             setLoaderState(false);
             console.log(' ##### >>> ', resp);
             // console.log(' Company creation res >>>>>> ', resp);

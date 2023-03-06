@@ -162,12 +162,12 @@ const PrimeSection = () => {
                     <h1>
                       {homeContent?.homeTitleText}
                       <br />
-                      <h4>
+                      <div className='font-lg'>
                         <i>
                           {" "}
                           {homeContent?.homeSubTitleText}
                         </i>
-                      </h4>
+                      </div>
                       <div className="light-rounded-buttons">
                         <a
                           href="javascript:void(0)"

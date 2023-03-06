@@ -58,7 +58,7 @@ const Services = () => {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <h4>{modalContent.Header}</h4>
+        <div className='font-xlg'>{modalContent.Header}</div>
           <p>
             {modalContent.Text}
           </p>
@@ -95,7 +95,7 @@ const Services = () => {
               <div className=" col-lg-3 col-md-4 col-12">
                 <div className="single-service">
                   <span className="serial">01</span>
-                  <h4>Listing Platform</h4>
+                  <div className='font-xlg'>Listing Platform</div>
                   <p>
                     Empowering Consumers with data,inspiration & knowlwdge...
                   </p>
@@ -113,7 +113,7 @@ const Services = () => {
               <div className="col-lg-31 col-md-4 col-12">
                 <div className="single-service">
                   <span className="serial">02</span>
-                  <h4>Resource Management</h4>
+                  <div className='font-xlg'>Resource Management</div>
                   <p>
                     We enjoy working with discerning clients, people &
                     company...
@@ -132,7 +132,7 @@ const Services = () => {
               <div className="col-lg-31 col-md-4 col-12">
                 <div className="single-service">
                   <span className="serial">03</span>
-                  <h4>Technology backed warehousing solution</h4>
+                  <div className='font-xlg'>Technology backed warehousing solution</div>
                   <p>Browse rentals with clients, people...</p>
                   <div className="light-rounded-buttons">
                     <button
@@ -148,7 +148,7 @@ const Services = () => {
               <div className="col-lg-3 col-md-4 col-12">
                 <div className="single-service">
                   <span className="serial">04</span>
-                  <h4>Accounting & Transaction Services</h4>
+                  <div className='font-xlg'>Accounting & Transaction Services</div>
                   <p>We take care of the lease and...</p>
                   <div className="light-rounded-buttons">
                     <button

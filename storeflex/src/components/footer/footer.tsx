@@ -28,7 +28,7 @@ const Footer = () => {
 
                   <ul>
                     <li>
-                      <h4>Follow Us On</h4>
+                      <div className='font-xlg'>Follow Us On</div>
                     </li>
                     <li>
                       <a href="javascript:void(0)"> <i className="lni lni-facebook-filled"></i> </a>
