@@ -11,7 +11,8 @@ import WarehouseLayout, { WarehouseLayoutObj } from './component/WarehouseLayout
 import WarehouseDetails from './component/WarehouseDetails';
 import { WarehousePostData } from '../../../api/ApiConfig';
 import { WhDetail } from './component/WarehouseDetails';
-import { Address, Warehouseprice, EditWarehouseDetails, WarehouseInfo, WhHours } from '../../../utils/ResponseSchema';
+import { Address, Warehouseprice, EditWarehouseDetails, 
+    WarehouseInfo, WhsHours } from '../../../utils/ResponseSchema';
 
 interface EditWarehouseProps {
     profileData?: EditWarehouseDetails;
@@ -28,7 +29,7 @@ const EditWarehouse = (props: EditWarehouseProps) => {
     const [whDetails, setWhDetails] = useState<WhDetail>({});
     const [whAddress, setWhAddress] = useState<Address>({});
     const [whPricing, setWhPricing] = useState<Warehouseprice[]>();
-    const [whHours, setWhHours] = useState<WhHours>({});
+    const [whHours, setWhHours] = useState<WhsHours>({});
     const [whLayout, setLayout] = useState<WarehouseLayoutObj>({});
     const [warehouseStatus, setWarehouseStatus] = useState('');
     const [warehouseStatusTypeInfo, setWarehouseStatusTypeInfo] = useState('');
@@ -100,7 +101,7 @@ const EditWarehouse = (props: EditWarehouseProps) => {
             }
           ]
         onWearehousePricingUpdate(warehousepriceList);
-
+        onWarehouseHoursUpdate(data?.hours || {});
         setWarehouseGetData(whInfo);
         setWarehouseStatus(data?.status || '');
     };
@@ -117,9 +118,9 @@ const EditWarehouse = (props: EditWarehouseProps) => {
         setWhPricing(data);
         console.log(' onWearehousePricingUpdate >>> ', data);
     }
-    const onWarehouseHoursUpdate = (data: any) => {
-        setWhHours(data);
-        console.log(' onWarehouseHoursUpdate >>> ', data);
+    const onWarehouseHoursUpdate = (hrs: WhsHours) => {
+        setWhHours(hrs);
+        console.log(' onWarehouseHoursUpdate >>> ', hrs);
     }
     const onWarehouseLayoutUpdate = (data: any) => {
         setLayout(data);
@@ -203,7 +204,7 @@ const EditWarehouse = (props: EditWarehouseProps) => {
                 <>
                     {<WarehouseDetails data={whDetails} onWarehouseDetailsUpdate={onWarehouseDetailsUpdate} isDisabled={true} />}
                     {<WearehouseAddress editMode={true} data={whAddress} onWearehouseAddressUpdate={onWearehouseAddressUpdate} />}
-                    {<WarehouseHours data={{}} onWarehouseHoursUpdate={onWarehouseHoursUpdate} />}
+                    {<WarehouseHours data={whHours} onWarehouseHoursUpdate={onWarehouseHoursUpdate} />}
                     {<WarehouseLayout onWarehouseLayoutUpdate={onWarehouseLayoutUpdate} />}
                     {<WearehousePricing data={whPricing} onWearehousePricingUpdate={onWearehousePricingUpdate} />}
                 </>

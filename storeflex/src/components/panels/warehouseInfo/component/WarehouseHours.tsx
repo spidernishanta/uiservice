@@ -1,74 +1,75 @@
 import React, { useState, useEffect } from "react";
 import { Grid } from '@mui/material';
 import InputBox from "../../../atoms/textfield/InputBox";
-import { WhHours } from "../../../../utils/ResponseSchema";
+import { WhsHours } from "../../../../utils/ResponseSchema";
 
 interface WarehouseHoursProps {
     onWarehouseHoursUpdate?: (data: any) => void;
-    data?: WhHours;
+    data?: WhsHours;
 }
 
 const daysArry = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
 
 const WarehouseHours = (props: WarehouseHoursProps) => {
 
-    const [allDay, setAllDay] = useState(false);
-    const [days, setDays] = useState({});
-    const [fromTime, setFromTime] = useState('00:00');
-    const [toTime, setToTime] = useState('00:00');
-
-    const [onUpdateInfo, setOnUpdateInfo] = useState(false);
+    const [selectedDays, setSelectedDays] = useState({});
+    const [defaultHours, setDefaultHours] = useState<WhsHours>({});
+    const [updatedHours, setUpdatedHours] = useState<WhsHours>({});
 
     useEffect(() => {
-        if (onUpdateInfo) {
-            setOnUpdateInfo(false);
-            onChangeUpdateInfo();
+        defaultDataProcess(props?.data || {});
+    },[]);
+
+    useEffect(() => {
+        onChangeUpdateInfo();
+    }, [updatedHours]);
+
+    useEffect(() => {
+        let tempSelectedDays = '';
+        if(updatedHours.openall ) {
+            tempSelectedDays = 'alldays';
+        } else {
+            const dayArry: string[] = [];
+            for (const status in selectedDays) {
+                if(selectedDays[status]) {
+                    dayArry.push(status);
+                }
+            }
+            tempSelectedDays = dayArry.join('|');
         }
-    }, [onUpdateInfo]);
+        setUpdatedHours({...updatedHours, openday: tempSelectedDays});
+    }, [selectedDays]);
+
+    const defaultDataProcess = (hrsData: WhsHours) => {
+        setDefaultHours(hrsData);
+        availableAllDay(hrsData?.openall || false);
+    }
 
     const onChangeUpdateInfo = () => {
         if(props?.onWarehouseHoursUpdate) {
-            let selectedDays = '';
-            if(allDay ) {
-                selectedDays = 'alldays';
-            } else {
-                const dayArry: string[] = [];
-                for (const status in days) {
-                    if(days[status]) {
-                        dayArry.push(status);
-                    }
-                }
-                selectedDays = dayArry.join('|');
-            }
-            const obj = {} as WhHours;
-            obj.openall = allDay;
-            obj.openday = allDay ? '' : selectedDays;
-            obj.starttime = fromTime;
-            obj.endtime = toTime;
-            props.onWarehouseHoursUpdate(obj);
+            // console.log(' onChangeUpdateInfo ###### >>  ', updatedHours);
+            props.onWarehouseHoursUpdate(updatedHours);
         }
     }
 
-    const selectDayRange = (day: string) => {
-        if (day === 'alldays') {
-            setAllDay(true);
+    const availableAllDay = (isAllDay?: boolean) => {
+        if (isAllDay) {
+            setUpdatedHours({...updatedHours, openall: true});
         } else {
-            setAllDay(false);
+            setUpdatedHours({...updatedHours, openall: false});
         }
-        setOnUpdateInfo(true);
     }
     const selectDays = (evn: any) => {
         const traget = evn.target.value;
         const status = evn.target.checked || false;
-        setDays({ ...days, [traget]: status });
-        setOnUpdateInfo(true);
+        setSelectedDays({ ...selectedDays, [traget]: status });
     }
 
     const checkSelectedDays = (dayName: string) => {
-        if (allDay) {
+        if (updatedHours.openall) {
             return true;
         } else {
-            return days[dayName] ? true : false;
+            return selectedDays[dayName] ? true : false;
         }
     }
 
@@ -90,23 +91,21 @@ const WarehouseHours = (props: WarehouseHoursProps) => {
         }
     }
 
-    const onToTimeChange = (event: any) => {
+    const onEndTimeChange = (event: any) => {
         if(event.target.value) {
-            const time = getMeridian(event.target.value);
-            setToTime(time);
-            setOnUpdateInfo(true);
+            const totime = getMeridian(event.target.value);
+            setUpdatedHours({...updatedHours, endtime: totime});
         }
     }
-    const onFromTimeChange = (event: any) => {
+    const onStartTimeChange = (event: any) => {
         if(event.target.value) {
-            const time = getMeridian(event.target.value)
-            setFromTime(time);
-            setOnUpdateInfo(true);
+            const fromtime = getMeridian(event.target.value)
+            setUpdatedHours({...updatedHours, starttime: fromtime});
         }
     }
 
     const showTime = () => {
-        const desabled = allDay;
+        const desabled = updatedHours.openall || false;
         return(
             <div>
                 <Grid className='mt-1' container spacing={2} columns={{ xs: 6, sm: 12, md: 12 }}>
@@ -117,12 +116,12 @@ const WarehouseHours = (props: WarehouseHoursProps) => {
                     <div className='sf-flex'>
                         <div className="m-right-md">
                             <InputBox data={{ type: 'time',  name: 'fromdate', label: 'From', isDisabled: desabled}}
-                                onChange={onFromTimeChange} 
+                                onChange={onStartTimeChange} 
                             />
                         </div>
                         <div>
                             <InputBox data={{ type: 'time',  name: 'todate', label: 'To', isDisabled: desabled}}
-                                onChange={onToTimeChange}
+                                onChange={onEndTimeChange}
                             />
                         </div>
                     </div>
@@ -144,10 +143,10 @@ const WarehouseHours = (props: WarehouseHoursProps) => {
                         <div>
                             <div className='sf-flex'>
                                 <div className="m-right-md">
-                                    <input type="radio" name="week" id="days" onChange={() => { selectDayRange('days') }} /> Select Days Of Works
+                                    <input type="radio" name="week" id="days" onChange={() => { availableAllDay(false) }} checked={!updatedHours.openall}/> Select Days Of Works
                                 </div>
                                 <div>
-                                    <input type="radio" name="week" id="alldays" onChange={() => { selectDayRange('alldays') }} /> Available 24x7
+                                    <input type="radio" name="week" id="alldays" onChange={() => { availableAllDay(true) }} checked={updatedHours.openall}/> Available 24x7
                                 </div>
                             </div>
                             <div className='sf-flex sf-justify p-top-md'>
