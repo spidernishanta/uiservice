@@ -167,10 +167,8 @@ const WearehousePricing = (props: WearehousePricingProps) => {
     }
 
     const displayPricingList = () => {
-        console.log(' >>>>> ##### >>', defaultData);
         return defaultData?.map((item, index) => {
             const keyId = `priceList${index}`;
-            console.log(' >>>>> #####', item);
             return (
                 <div className='p-md sf-box-shadow-blue' key={keyId}>
                     <div className="f-24px p-bot-sm align-c"> Availability {index + 1}</div>
