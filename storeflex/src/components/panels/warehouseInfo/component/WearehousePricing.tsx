@@ -6,19 +6,21 @@ import { objectData, Warehouseprice } from '../../../../utils/ResponseSchema';
 import { InputError } from '../../../atoms/textfield/InputError';
 
 interface WearehousePricingProps {
-    space?: number;
-    rate?: number;
-    quantity?: number;
     onWearehousePricingUpdate?: (data: any) => void;
-    data?: Warehouseprice
+    data?: Warehouseprice[];
 }
 
 const errMsgObj = {} as Warehouseprice;
 const WearehousePricing = (props: WearehousePricingProps) => {
     const [errorMessage, setErrorMessage] = React.useState("");
-    const [defaultData, setDefaultData] = useState<Warehouseprice>({});
-    const [updatedData, setUpdatedData] = useState<Warehouseprice>({});
+    const [defaultData, setDefaultData] = useState<Warehouseprice[]>();
+    const [updatedData, setUpdatedData] = useState<Warehouseprice[]>();
     // const t = defaultData?.availspace
+    useEffect(() => {
+        if (props?.data && props?.data.length > 0 ) {
+            setDefaultData(props.data);
+        }
+    }, []);
     useEffect(() => {
         if (updatedData) {
             onChangeUpdateInfo();
@@ -31,16 +33,33 @@ const WearehousePricing = (props: WearehousePricingProps) => {
             // obj.availspace = getVal(spaceInfo);
             // obj.ratesqtft = getVal(rateInfo);
             // obj.minordersqt = getVal(quantityInfo);
-            // console.log('<<updatedData>>', updatedData);
-            props.onWearehousePricingUpdate(updatedData);
+            console.log('<<updatedData>>', updatedData);
+            // props.onWearehousePricingUpdate(updatedData);
         }
     }
 
-    const validateSpaceInfo = (event: any) => {
+    const updateNewValue = (updatedItem: objectData) => {
+        const updatedInfo = 
+            updatedData?.map((item) => {
+                const attributeName = updatedItem?.attributeName;
+                if(item.priceId === updatedItem?.id && attributeName) {
+                    item[attributeName] = updatedItem.val;
+                    return item;
+                } else {
+                    return item;
+                }
+            });
+
+        setUpdatedData(updatedInfo);
+
+    }
+    const validateSpaceInfo = (event: any, id: string) => {
         const obj = {
             val: event.target.value || '',
             error: '',
             isUpdated: true,
+            id,
+            attributeName: 'availspace'
         } as objectData;
         if (!obj.val) {
             obj.error = " *This can not be empty ";
@@ -50,10 +69,11 @@ const WearehousePricing = (props: WearehousePricingProps) => {
             obj.error = '';
         }
         errMsgObj.availspace = obj.error;
-        setUpdatedData({...updatedData, availspace: obj.val} )
+        updateNewValue(obj);
+        // setUpdatedData({...updatedData, availspace: obj.val} )
     }
 
-    const validateRateInfo = (event: any) => {
+    const validateRateInfo = (event: any, id: string) => {
         const obj = {
             val: event.target.value || '',
             error: '',
@@ -67,13 +87,15 @@ const WearehousePricing = (props: WearehousePricingProps) => {
             obj.error = '';
         }
         errMsgObj.ratesqtft = obj.error;
-        setUpdatedData({...updatedData, ratesqtft: obj.val});
+        // setUpdatedData({...updatedData, ratesqtft: obj.val});
     }
-    const validateQuantityInfo = (event: any) => {
+    const validateQuantityInfo = (event: any, id: string) => {
         const obj = {
             val: event.target.value || '',
             error: '',
             isUpdated: true,
+            id,
+            attributeName: 'minordersqt',
         } as objectData;
         // if (!obj.val) {
         //     obj.error = " *Company Name is required. ";
@@ -83,10 +105,10 @@ const WearehousePricing = (props: WearehousePricingProps) => {
         //     obj.error = '';
         // }
         errMsgObj.minordersqt = obj.error;
-        setUpdatedData({...updatedData, minordersqt: obj.val});
+        // setUpdatedData({...updatedData, minordersqt: obj.val});
     }
 
-    const onUpdateLoadingPrice = (event: any) => {
+    const onUpdateLoadingPrice = (event: any, id: string) => {
         const obj = {
             val: event.target.value || '',
             error: '',
@@ -94,16 +116,16 @@ const WearehousePricing = (props: WearehousePricingProps) => {
         } as objectData;
 
         errMsgObj.loading = obj.error;
-        setUpdatedData({...updatedData, loading: obj.val});
+        // setUpdatedData({...updatedData, loading: obj.val});
     }
-    const onUpdateUnLoadingPrice = (event: any) => {
+    const onUpdateUnLoadingPrice = (event: any, id: string) => {
         const obj = {
             val: event.target.value || '',
             error: '',
             isUpdated: true,
         } as objectData;
         errMsgObj.unloading = obj.error;
-        setUpdatedData({...updatedData, unloading: obj.val});
+        // setUpdatedData({...updatedData, unloading: obj.val});
     }
 
     const onChageStartDate = (evt: any) => {
@@ -112,9 +134,9 @@ const WearehousePricing = (props: WearehousePricingProps) => {
             let startDate;
             if (name === 'fromdate') {
                 startDate = Date.parse(evt.target.value);
-                setUpdatedData({...updatedData, startLease: startDate});
+                // setUpdatedData({...updatedData, startLease: startDate});
             }
-            diffInDays(startDate, updatedData.endLease);
+            // diffInDays(startDate, updatedData.endLease);
         }
     }
 
@@ -124,9 +146,9 @@ const WearehousePricing = (props: WearehousePricingProps) => {
             let endDate;
             if (name === 'todate') {
                 endDate = Date.parse(evt.target.value);
-                setUpdatedData({...updatedData, endLease: endDate});
+                // setUpdatedData({...updatedData, endLease: endDate});
             }
-            diffInDays(updatedData.startLease, endDate);
+            // diffInDays(updatedData.startLease, endDate);
         }
     }
 
@@ -144,41 +166,42 @@ const WearehousePricing = (props: WearehousePricingProps) => {
         }
     }
 
-    return (
-        <>
-            <div>
-                <div className='primary-gradient'>
-                    <div className='font-white p-sm f-18px f-bold'>Pricing</div>
-                </div>
-                <div className='p-md'>
+    const displayPricingList = () => {
+        console.log(' >>>>> ##### >>', defaultData);
+        return defaultData?.map((item, index) => {
+            const keyId = `priceList${index}`;
+            console.log(' >>>>> #####', item);
+            return (
+                <div className='p-md sf-box-shadow-blue' key={keyId}>
+                    <div className="f-24px p-bot-sm align-c"> Availability {index + 1}</div>
                     <Grid container spacing={2} columns={{ xs: 4, sm: 12, md: 12 }}>
                         <Grid item xs={4}>
-                            <InputBox data={{ name: 'availablespace', label: 'Total Available Space (Sq.Ft)*', value: defaultData?.availspace }}
-                                onChange={validateSpaceInfo}
+                            <InputBox data={{ name: 'availablespace', label: 'Total Available Space (Sq.Ft)*', value: item?.availspace}}
+                                onChange={(e) => validateSpaceInfo(e, keyId)}
                             />
                             <InputError errorText={ errMsgObj.availspace} />
                         </Grid>
                         <Grid item xs={4}>
-                            <InputBox data={{ name: 'rate', label: 'Rental Rate(Rs)/Sq.Ft/30 days *', value: defaultData?.ratesqtft }}
-                                onChange={validateRateInfo}
+                            <InputBox data={{ name: 'rate', label: 'Rental Rate(Rs)/Sq.Ft/30 days *', value: item?.ratesqtft}}
+                                onChange={(e) => validateRateInfo(e, keyId)}
                             />
                             <InputError errorText={errMsgObj.ratesqtft} />
                         </Grid>
                         <Grid item xs={4}>
-                            <InputBox data={{ name: 'quantity', label: 'Minimum Order Quantity (Sq.Ft)', value: defaultData?.minordersqt }}
-                                onChange={validateQuantityInfo}
+                            <InputBox data={{ name: 'quantity', label: 'Minimum Order Quantity (Sq.Ft)', value: item?.minordersqt}}
+                                onChange={(e) => validateQuantityInfo(e, keyId)}
                             />
                             <InputError errorText={errMsgObj.minordersqt} />
                         </Grid>
                         <Grid item xs={4}>
-                            <InputBox data={{ name: 'loading', label: 'Loading Price/Pallet', value: defaultData?.loading }}
-                                onChange={onUpdateLoadingPrice}
+                            <InputBox data={{ name: 'loading', label: 'Loading Price/Pallet', value: item?.loading }}
+                                onChange={(e) => onUpdateLoadingPrice(e, keyId)} 
                             />
                             <InputError errorText={errMsgObj.loading} />
                         </Grid>
                         <Grid item xs={4}>
-                            <InputBox data={{ name: 'unloading', label: 'Unloading Price/Pallet', value: defaultData?.unloading }}
-                                onChange={onUpdateUnLoadingPrice}
+                            <InputBox data={{ name: 'unloading', label: 'Unloading Price/Pallet', value: item?.unloading}}
+                                onChange={(e) => onUpdateUnLoadingPrice(e, keyId)} 
                             />
                             <InputError errorText={errMsgObj.unloading} />
                         </Grid>
@@ -193,6 +216,17 @@ const WearehousePricing = (props: WearehousePricingProps) => {
                         </Grid>
                     </Grid>
                 </div>
+            )
+        })
+
+    }
+    return (
+        <>
+            <div>
+                <div className='primary-gradient'>
+                    <div className='font-white p-sm f-18px f-bold'>Pricing</div>
+                </div>
+                {displayPricingList()}
             </div>
         </>
     )

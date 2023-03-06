@@ -14,6 +14,7 @@ export interface WarehouseLayoutObj {
 };
 interface WarehouseLayoutProps {
     onWarehouseLayoutUpdate?: (data: any) => void;
+    data?: WarehouseLayoutObj;
 }
 
 const WarehouseLayout = (props: WarehouseLayoutProps) => {

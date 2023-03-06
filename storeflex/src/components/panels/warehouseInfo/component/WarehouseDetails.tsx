@@ -22,51 +22,35 @@ export interface WhDetail {
     warehouseTaxId?: string;
     warehouseId?: string;
 }
+
+const errMsgObj = {} as WhDetail;
+
 const WarehouseDetails = (props: WarehouseDetailsProps) => {
-    // const [companyCode, setCompanyCode] = useState('');
-    const [warehouseNameInfo, setWarehouseNameInfo] = useState<objectData>({});
-    const [gstIdInfo, setGstIdInfo] = useState<objectData>({});
-    const [warehouseDecInfo, setWarehouseDecInfo] = useState<objectData>({});
-    const [onUpdateInfo, setonUpdateInfo] = useState(false);
     const [imageData, setImageData] = useState<File>();
-    const [whData, setWhData] = useState<WhDetail>({});
+    const [defaultData, setDefaultData] = useState<WhDetail>({});
+    const [updatedData, setUpdatedData] = useState<WhDetail>({});
+    
+    useEffect(() => {
+        if (props?.data?.clientId && (props?.data?.clientId !== defaultData?.clientId)) {
+            setDefaultData(props.data);
+        }
+    }, [props?.data?.clientId]);
 
     useEffect(() => {
-        if (onUpdateInfo) {
-            setonUpdateInfo(false);
-            onChangeUpdateInfo();
-        }
-        if (props?.data?.clientId && (props?.data?.clientId !== whData?.clientId)) {
-            setWhData(props.data);
-        }
-    }, [onUpdateInfo, props?.data?.clientId]);
+        onChangeUpdateInfo();
+    }, [updatedData]);
 
-    const getVal = (obj: objectData) => {
-        if (obj.isUpdated) {
-            return obj.val
-        } else {
-            return undefined;
-        }
-    }
     const onChangeUpdateInfo = () => {
         if (props?.onWarehouseDetailsUpdate) {
-            const obj = {} as WhDetail;
-            obj.clientId = whData?.clientId;
-            obj.warehouseId = whData?.warehouseId;
-            obj.clientName = whData?.clientName;
-            obj.descp = getVal(warehouseDecInfo);
-            obj.warehouseName = getVal(warehouseNameInfo);
-            obj.warehouseTaxId = getVal(gstIdInfo);
-            props.onWarehouseDetailsUpdate(obj);
+            props.onWarehouseDetailsUpdate(updatedData);
         }
     }
 
     const companyChange = (companyId: string) => {
         // setCompanyCode(companyId);
-        const data: WhDetail = whData; console.log(data);
+        const data: WhDetail = defaultData;
         data.clientId = companyId;
-        setWhData(data);
-        setonUpdateInfo(true);
+        setDefaultData(data);
     }
 
     const validateWarehouseName = (event: any) => {
@@ -82,8 +66,8 @@ const WarehouseDetails = (props: WarehouseDetailsProps) => {
         } else {
             obj.error = 'Please enter valid name ';
         }
-        setWarehouseNameInfo(obj);
-        setonUpdateInfo(true);
+        errMsgObj.warehouseName = obj.error;
+        setUpdatedData({...updatedData, warehouseName: obj.val});
     }
 
     const onGstIdChange = (event: any) => {
@@ -99,8 +83,8 @@ const WarehouseDetails = (props: WarehouseDetailsProps) => {
         } else {
             obj.error = '';
         }
-        setGstIdInfo(obj);
-        setonUpdateInfo(true);
+        errMsgObj.warehouseTaxId = obj.error;
+        setUpdatedData({...updatedData, warehouseTaxId: obj.val});
     }
 
     const validateWarehouseDec = (event: any) => {
@@ -114,8 +98,9 @@ const WarehouseDetails = (props: WarehouseDetailsProps) => {
         } else {
             obj.error = 'Please enter description ';
         }
-        setWarehouseDecInfo(obj);
-        setonUpdateInfo(true);
+
+        errMsgObj.descp = obj.error;
+        setUpdatedData({...updatedData, descp: obj.val});
     }
 
     const onPhotoUploadChange = (file: any) => {
@@ -138,7 +123,7 @@ const WarehouseDetails = (props: WarehouseDetailsProps) => {
                                     {props.isDisabled &&
                                         <InputBox data={{
                                             name: 'company', label: 'Company*',
-                                            value: whData?.clientName, isDisabled: props.isDisabled
+                                            value: defaultData?.clientName, isDisabled: props.isDisabled
                                         }}
                                         />
                                     }
@@ -154,7 +139,7 @@ const WarehouseDetails = (props: WarehouseDetailsProps) => {
                                 <Grid item xs={6}>
                                     <InputBox data={{
                                         name: 'clientid', label: 'Client ID*',
-                                        value: whData?.clientId, isDisabled: true
+                                        value: defaultData?.clientId, isDisabled: true
                                     }}
                                     />
                                 </Grid>
@@ -163,20 +148,20 @@ const WarehouseDetails = (props: WarehouseDetailsProps) => {
                                 <Grid item xs={6}>
                                     <InputBox data={{
                                         name: 'cityname', label: 'Warehouse Name*',
-                                        value: whData?.warehouseName
+                                        value: defaultData?.warehouseName
                                     }}
                                         onChange={validateWarehouseName}
                                     />
-                                    <InputError errorText={warehouseNameInfo.error} />
+                                    <InputError errorText={errMsgObj.warehouseName} />
                                 </Grid>
                                 <Grid item xs={6}>
                                     <InputBox data={{
                                         name: 'gstid', label: 'GST Number*',
-                                        value: whData?.warehouseTaxId, isDisabled: props.isDisabled
+                                        value: defaultData?.warehouseTaxId, isDisabled: props.isDisabled
                                     }}
                                         onChange={onGstIdChange}
                                     />
-                                    <InputError errorText={gstIdInfo.error} />
+                                    <InputError errorText={errMsgObj?.warehouseTaxId} />
                                 </Grid>
                             </Grid>
                             <Grid container spacing={2} columns={{ xs: 6, sm: 12, md: 12 }}>
@@ -184,21 +169,21 @@ const WarehouseDetails = (props: WarehouseDetailsProps) => {
                                     <Grid item xs={6}>
                                         <InputBox data={{
                                             name: 'Warehouseid', label: 'Warehouse Id*',
-                                            value: whData?.warehouseId, isDisabled: props.isDisabled
+                                            value: defaultData?.warehouseId, isDisabled: props.isDisabled
                                         }}
                                             onChange={validateWarehouseDec}
                                         />
-                                        <InputError errorText={warehouseDecInfo.error} />
+                                        <InputError errorText={errMsgObj.descp} />
                                     </Grid>
                                 }
                                 <Grid item xs={6}>
                                     <InputBox data={{
                                         name: 'whdescription', label: 'Warehouse Description*',
-                                        value: whData?.descp
+                                        value: defaultData?.descp
                                     }}
                                         onChange={validateWarehouseDec}
                                     />
-                                    <InputError errorText={warehouseDecInfo.error} />
+                                    <InputError errorText={errMsgObj.descp} />
                                 </Grid>
                             </Grid>
                         </Grid>

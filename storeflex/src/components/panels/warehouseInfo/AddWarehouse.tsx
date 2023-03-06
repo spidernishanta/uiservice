@@ -8,9 +8,9 @@ import WearehousePricing from './component/WearehousePricing';
 import WarehouseHours from './component/WarehouseHours';
 import WarehouseLayout, { WarehouseLayoutObj } from './component/WarehouseLayout';
 import WarehouseDetails from './component/WarehouseDetails';
-import { WarehousePostData, Hours } from '../../../api/ApiConfig';
+import { WarehousePostData } from '../../../api/ApiConfig';
 import { WhDetail } from './component/WarehouseDetails';
-import { Address, objectData, Warehouseprice } from '../../../utils/ResponseSchema';
+import { Address, objectData, Warehouseprice, WhHours } from '../../../utils/ResponseSchema';
 import { Value } from 'sass';
 import { AddBusiness } from '@mui/icons-material';
 import Accordion from 'react-bootstrap/Accordion';
@@ -24,7 +24,7 @@ const AddWarehouse = () => {
     const [whDetails, setWhDetails] = useState<WhDetail>({});
     const [whAddress, setWhAddress] = useState<Address>({});
     const [pricing, setPricing] = useState<Warehouseprice>({});
-    const [whHours, setWhHours] = useState<Hours>({});
+    const [whHours, setWhHours] = useState<WhHours>({});
     const [whLayout, setLayout] = useState<WarehouseLayoutObj>({});
 
     const [priceList, setPriceList] = useState([{price: ""}]);
