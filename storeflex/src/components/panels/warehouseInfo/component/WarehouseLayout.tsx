@@ -30,6 +30,17 @@ const WarehouseLayout = (props: WarehouseLayoutProps) => {
     const [whCategories, setWhCategories] = useState<WarehouseCategories>();
 
     useEffect(() => {
+        const data = props?.data || {};
+        setIndustriesCategories(defaultChecked(data?.industryId));
+        setStoragesCategories(defaultChecked(data?.storagesId));
+        setFacilitiesCategories(defaultChecked(data?.facilitiesId));
+        setDockHighdoors(data?.dockhighdoors || '');
+        setAtGradeDoors(data?.atgradedoors || '');
+        setCeillingHeight(data?.ceillingheight || '');
+        setForkLiftCapacity(data?.forkliftcapacity || '');
+
+    }, [] )
+    useEffect(() => {
         if (onUpdateInfo) {
             setonUpdateInfo(false);
             onChangeUpdateInfo();
@@ -76,6 +87,18 @@ const WarehouseLayout = (props: WarehouseLayoutProps) => {
         });
     }
 
+    const defaultChecked = (checkedItem) => {
+        if(checkedItem) {
+            const checkedItemArry = checkedItem.split('|');
+            const obj = {};
+            checkedItemArry.forEach((item) => {
+                obj[item] = true;
+            });
+            return obj;
+        } else {
+            return {};
+        }
+    }
     const onChangeIndustriesCategories = (evn: any) => {
         const tragetCode = evn?.target?.id || 'NA';
         const isSelected = evn?.target?.checked || false;
@@ -151,11 +174,12 @@ const WarehouseLayout = (props: WarehouseLayoutProps) => {
                     {
                         obj.map((item, index) => {
                             const keyId = item[0];
+                            const isChecked = industriesCategories[keyId] || false;
                             return (
                                 <Grid key={keyId} item xs={4}>
                                     <div>
                                         <label>
-                                            <input type="checkbox" id={item[0]} name={item[0]} onChange={onChangeIndustriesCategories} />
+                                            <input type="checkbox" id={item[0]} name={item[0]} onChange={onChangeIndustriesCategories} checked={isChecked}/>
                                             <span className="p-left-sm">{item[1]}</span>
                                         </label>
                                     </div>
@@ -181,11 +205,12 @@ const WarehouseLayout = (props: WarehouseLayoutProps) => {
                     {
                         obj.map((item, index) => {
                             const keyId = item[0];
+                            const isChecked = storagesCategories[keyId] || false;
                             return (
                                 <Grid key={keyId} item xs={4}>
                                     <div>
                                         <label>
-                                            <input type="checkbox" id={item[0]} name={item[0]} onChange={onChangeStoragesCategories} />
+                                            <input type="checkbox" id={item[0]} name={item[0]} onChange={onChangeStoragesCategories} checked={isChecked}/>
                                             <span className="p-left-sm">{item[1]}</span>
                                         </label>
                                     </div>
@@ -211,11 +236,12 @@ const WarehouseLayout = (props: WarehouseLayoutProps) => {
                     {
                         obj.map((item, index) => {
                             const keyId = item[0];
+                            const isChecked = facilitiesCategories[keyId] || false;
                             return (
                                 <Grid key={keyId} item xs={4}>
                                     <div>
                                         <label>
-                                            <input type="checkbox" id={item[0]} name={item[0]} onChange={onChangeFacilitiesCategories} />
+                                            <input type="checkbox" id={item[0]} name={item[0]} onChange={onChangeFacilitiesCategories} checked={isChecked}/>
                                             <span className="p-left-sm">{item[1]}</span>
                                         </label>
                                     </div>
@@ -250,25 +276,25 @@ const WarehouseLayout = (props: WarehouseLayoutProps) => {
 
                             <Grid container spacing={2} columns={{ xs: 6, sm: 12, md: 12 }}>
                                 <Grid item xs={3}>
-                                    <InputBox data={{ name: 'dockhighdoors', label: '#Dock High Doors', value: '' }}
+                                    <InputBox data={{ name: 'dockhighdoors', label: '#Dock High Doors', value: dockHighDoors }}
                                         onChange={onChangeFearureChange}
                                     />
                                     {errorMessage0 && <div className="text-red"> {errorMessage0} </div>}
                                 </Grid>
                                 <Grid item xs={3}>
-                                    <InputBox data={{ name: 'atgradedoors', label: '#At Grade Doors', value: '' }}
+                                    <InputBox data={{ name: 'atgradedoors', label: '#At Grade Doors', value: atGradeDoors }}
                                         onChange={onChangeFearureChange}
                                     />
                                     {errorMessage1 && <div className="text-red"> {errorMessage1} </div>}
                                 </Grid>
                                 <Grid item xs={3}>
-                                    <InputBox data={{ name: 'ceillingheight', label: 'Clear Ceilling Height (feet)', value: '' }}
+                                    <InputBox data={{ name: 'ceillingheight', label: 'Clear Ceilling Height (feet)', value: ceillingHeight }}
                                         onChange={onChangeFearureChange}
                                     />
                                     {errorMessage2 && <div className="text-red"> {errorMessage2} </div>}
                                 </Grid>
                                 <Grid item xs={3}>
-                                    <InputBox data={{ name: 'forkliftcapacity', label: 'Max Forklift Capacity (Lbs)', value: '' }}
+                                    <InputBox data={{ name: 'forkliftcapacity', label: 'Max Forklift Capacity (Lbs)', value: forkLiftCapacity }}
                                         onChange={onChangeFearureChange}
                                     />
                                     {errorMessage3 && <div className="text-red"> {errorMessage3} </div>}

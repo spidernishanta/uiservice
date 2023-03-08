@@ -189,11 +189,12 @@ export interface Warehouseprice {
   unloading?: string;
 }
 
-export interface WhHours {
+export interface WhsHours {
   id?: string;
   warehouseId?: string;
   openday?: string;
   starttime?: string;
   endtime?: string;
   openall?: boolean;
+  isUpdated?: boolean;
 }
