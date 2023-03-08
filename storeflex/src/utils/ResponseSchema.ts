@@ -196,4 +196,5 @@ export interface WhsHours {
   starttime?: string;
   endtime?: string;
   openall?: boolean;
+  isUpdated?: boolean;
 }
