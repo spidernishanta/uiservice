@@ -102,6 +102,8 @@ const EditWarehouse = (props: EditWarehouseProps) => {
           ]
         onWearehousePricingUpdate(warehousepriceList);
         onWarehouseHoursUpdate(data?.hours || {});
+        
+        // Do not change the sequence
         setWarehouseGetData(whInfo);
         setWarehouseStatus(data?.status || '');
     };
@@ -205,7 +207,7 @@ const EditWarehouse = (props: EditWarehouseProps) => {
                     {<WarehouseDetails data={whDetails} onWarehouseDetailsUpdate={onWarehouseDetailsUpdate} isDisabled={true} />}
                     {<WearehouseAddress editMode={true} data={whAddress} onWearehouseAddressUpdate={onWearehouseAddressUpdate} />}
                     {<WarehouseHours data={whHours} onWarehouseHoursUpdate={onWarehouseHoursUpdate} />}
-                    {<WarehouseLayout onWarehouseLayoutUpdate={onWarehouseLayoutUpdate} />}
+                    {<WarehouseLayout data={warehouseGetData.methodReturnValue} onWarehouseLayoutUpdate={onWarehouseLayoutUpdate} />}
                     {<WearehousePricing data={whPricing} onWearehousePricingUpdate={onWearehousePricingUpdate} />}
                 </>
             }

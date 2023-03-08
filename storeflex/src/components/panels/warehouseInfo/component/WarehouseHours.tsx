@@ -9,7 +9,7 @@ interface WarehouseHoursProps {
 }
 
 const daysArry = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
-
+let sendUpdate = false;
 const WarehouseHours = (props: WarehouseHoursProps) => {
 
     const [selectedDays, setSelectedDays] = useState({});
@@ -21,7 +21,9 @@ const WarehouseHours = (props: WarehouseHoursProps) => {
     },[]);
 
     useEffect(() => {
-        onChangeUpdateInfo();
+        if(sendUpdate) {
+            onChangeUpdateInfo();
+        }
     }, [updatedHours]);
 
     useEffect(() => {
@@ -37,22 +39,27 @@ const WarehouseHours = (props: WarehouseHoursProps) => {
             }
             tempSelectedDays = dayArry.join('|');
         }
-        setUpdatedHours({...updatedHours, openday: tempSelectedDays});
+        if(sendUpdate) {
+            setUpdatedHours({...updatedHours, openday: tempSelectedDays});
+        }
     }, [selectedDays]);
 
     const defaultDataProcess = (hrsData: WhsHours) => {
+        sendUpdate = false;
         setDefaultHours(hrsData);
-        availableAllDay(hrsData?.openall || false);
+        setUpdatedHours({...updatedHours, openall: hrsData?.openall || false});
     }
 
     const onChangeUpdateInfo = () => {
         if(props?.onWarehouseHoursUpdate) {
-            // console.log(' onChangeUpdateInfo ###### >>  ', updatedHours);
-            props.onWarehouseHoursUpdate(updatedHours);
+            const tempObj = updatedHours;
+            tempObj.isUpdated = true;
+            props.onWarehouseHoursUpdate(tempObj);
         }
     }
 
     const availableAllDay = (isAllDay?: boolean) => {
+        sendUpdate = true;
         if (isAllDay) {
             setUpdatedHours({...updatedHours, openall: true});
         } else {
@@ -62,6 +69,7 @@ const WarehouseHours = (props: WarehouseHoursProps) => {
     const selectDays = (evn: any) => {
         const traget = evn.target.value;
         const status = evn.target.checked || false;
+        sendUpdate = true;
         setSelectedDays({ ...selectedDays, [traget]: status });
     }
 
@@ -92,12 +100,14 @@ const WarehouseHours = (props: WarehouseHoursProps) => {
     }
 
     const onEndTimeChange = (event: any) => {
+        sendUpdate = true;
         if(event.target.value) {
             const totime = getMeridian(event.target.value);
             setUpdatedHours({...updatedHours, endtime: totime});
         }
     }
     const onStartTimeChange = (event: any) => {
+        sendUpdate = true;
         if(event.target.value) {
             const fromtime = getMeridian(event.target.value)
             setUpdatedHours({...updatedHours, starttime: fromtime});
