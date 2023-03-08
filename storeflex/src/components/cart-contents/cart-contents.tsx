@@ -1,14 +1,9 @@
 import React, { useState, useEffect } from 'react';
-//import { useState, useEffect } from 'react';
-import { Button, Grid, Box, Container, styled, Paper, Divider, TextField } from '@mui/material';
-import BeenhereIcon from '@mui/icons-material/Beenhere';
+import { Button, Grid, Box, Container, styled, Paper, TextField } from '@mui/material';
 import './cart-content.scss';
-import Axios from 'axios';
 import { useNavigate, useLocation } from "react-router-dom";
 import InputBox from '../atoms/textfield/InputBox';
-//import OrderReview from '../atoms/payment/orderReview';
 import CustomizedSteppers from '../../pages/Steps';
-import { Terminal } from '@mui/icons-material';
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -50,72 +45,80 @@ const CartContents = () => {
     const [priceData, setPriceData] = useState(0);
     const [addressData, setAddressData] = useState(0);
     const [valueId, setValueId] = useState(false);
-    const { state } = useLocation();
-    useEffect(() => {
-        const warehouseData: any = state; console.log(warehouseData);
-        setData(warehouseData);
-        setHourData(warehouseData.hours);
-        setAddressData(warehouseData.address);
-        setPriceData(warehouseData.pricebean);
-        // if (warehouseData.address) {
-        //     setAddData(warehouseData.address);
-        //     setValueId(true);
-        // }
-
-        // console.log(warehouseData.warehousepriceList[0].minordersqt)
-
-    }, []);
-
-    // const [inputField, setInputField] = useState({
-    //     orderId: '1211',
-    //     orderAmount: '100',
-    //     customerName: 'a',
-    //     customerEmail: 'a@a.a',
-    //     paymentType: 'MERCHANTHOSTED',
-    //     customerPhone: '1234512345'
-
-    // });
-
-
-    // const handaleInput = (Event) => {
-    //     console.log(Event.target.value);
-    //     setInputField({ ...inputField, [Event.target.name]: Event.target.value })
-
-    // }
-
-    // const handleSubmit = async (e) => {
-    //     const url = "http://127.0.0.1:8000/test";
-    //     console.log(JSON.stringify({ inputField }));
-    //     e.preventDefault();
-
-    //     Axios.post(url, {
-    //         orderId: inputField.orderId,
-    //         orderAmount: inputField.orderAmount,
-    //         customerName: inputField.customerName,
-    //         customerEmail: inputField.customerEmail,
-    //         paymentType: inputField.paymentType,
-    //         customerPhone: inputField.customerPhone
-    //     })
-    //         .then(res => {
-    //             console.log(res.data);
-
-    //         })
-
-    // };
-
-    const [spaceOrdered, setSpaceOrdered] = useState('');
-    // const [nopUnload, setNopUnload] = useState('');
-    // const [nopLoad, setNopLoad] = useState('');
+    const navigate = useNavigate();
     // const [startLease, setStartLease] = useState('');
     const [errorMessage, setErrorMessage] = useState("");
     // const [errorMessage0, setErrorMessage0] = React.useState("");
     const [onUpdateInfo, setonUpdateInfo] = useState(false);
 
-    const navigate = useNavigate();
-    // const goToNextPage = (pagePath: string) => {
-    //     navigate(pagePath);
-    // }
+    const [conter, setCounter] = useState(0);
+    const [spaceOrdered, setSpaceOrdered] = useState(0);
+    const [totalRental, setTotalRental] = useState(0);
+    const [noOfUnlodingPallets, setNoOfUnlodingPallets] = useState(0);
+    const [totalUnloadingPrice, setTotalUnloadingPrice] = useState(0);
+    const [noOfLodingPallets, setNoOfLodingPallets] = useState(0);
+    const [totalLoadingPrice, setTotalLoadingPrice] = useState(0);
+    const [totalTaxPrice, setTotalTaxPrice] = useState(0);
+    const [grandTotalPrice, setGrandTotalPrice] = useState(0);
 
+    const { state } = useLocation();
+    useEffect(() => {
+        const warehouseData: any = state; 
+        setData(warehouseData);
+        setHourData(warehouseData.hours);
+        setAddressData(warehouseData.address);
+        setPriceData(warehouseData.pricebean);
+        calculateRental(spaceOrdered);
+        calculateUnloadingTotal(noOfUnlodingPallets);
+        calculateLoadingTotal(noOfLodingPallets);
+        calculateTax(totalRental, totalUnloadingPrice, totalLoadingPrice);
+        calculateGrandTotal(totalRental, totalUnloadingPrice, totalLoadingPrice, totalTaxPrice);
+    }, [spaceOrdered,noOfUnlodingPallets,noOfLodingPallets,totalRental,totalUnloadingPrice,totalLoadingPrice,totalTaxPrice]);
+
+    const calculateRental = (spaceOrdered: Number) => {
+        if(spaceOrdered !== 0) {
+            setTotalRental(Number(spaceOrdered) * Number(priceData['ratesqtft']));
+        } else {
+            setTotalRental(0);
+        }
+    };
+    const calculateUnloadingTotal = (noOfUnlodingPallets: Number) => {
+        if(noOfUnlodingPallets !== 0) {
+            setTotalUnloadingPrice(Number(noOfUnlodingPallets) * Number(priceData['unloading']));
+        } else {
+            setTotalUnloadingPrice(0);
+        }
+    };
+    const calculateLoadingTotal = (noOfLodingPallets: Number) => {
+        if(noOfLodingPallets !== 0) {
+            setTotalLoadingPrice(Number(noOfLodingPallets) * Number(priceData['loading']));
+        } else {
+            setTotalLoadingPrice(0);
+        }
+    };
+    const calculateTax = (totalRental: Number, totalUnloadingPrice: Number, totalLoadingPrice: Number) => {
+        if(totalRental !== 0 && totalUnloadingPrice !== 0 && totalLoadingPrice !== 0) {
+            setTotalTaxPrice((Number(18)*((Number(totalRental))+(Number(totalUnloadingPrice))+(Number(totalLoadingPrice))))/Number(100));
+        } else {
+            setTotalTaxPrice(0);
+        }
+    };
+    const calculateGrandTotal = (totalRental: Number, totalUnloadingPrice: Number,totalLoadingPrice: Number, totalTaxPrice: Number) => {
+        if(totalRental !== 0 && totalUnloadingPrice !== 0 && totalLoadingPrice !== 0 && totalTaxPrice !== 0) {
+            setGrandTotalPrice(Number(totalRental)+Number(totalUnloadingPrice)+Number(totalLoadingPrice)+Number(totalTaxPrice));
+        } else {
+            setGrandTotalPrice(0);
+        }
+    };
+    const unloadingPallets = (evt: any) => {
+        setCounter(0);
+        setNoOfUnlodingPallets(evt.target.value);
+        setNoOfLodingPallets(evt.target.value);
+    };
+    const loadingPallets = (evt: any) => {
+        setCounter(1);
+        setNoOfLodingPallets(evt.target.value);
+    };
     const validateSpaceOrdered = (evt: any) => {
         if (evt?.target?.value) {
             const name = evt.target.name;
@@ -132,8 +135,10 @@ const CartContents = () => {
                 return false;
             }
             setonUpdateInfo(true);
+        } else {
+            setSpaceOrdered(0);
         }
-    }
+    };
 
     // const validateNopUnload = (evt: any) => {
     //     if (evt?.target?.value) {
@@ -148,12 +153,6 @@ const CartContents = () => {
     //         setonUpdateInfo(true);
     //     }
     // }
-
-
-
-
-
-
     // const validateNopLoad = (evt: any) => {
     //     if (evt?.target?.value) {
     //         const name = evt.target.name;
@@ -181,21 +180,7 @@ const CartContents = () => {
             }
             setonUpdateInfo(true);
         }
-    }
-
-
-    const [conter, setCounter] = useState(0);
-    const [sameText, setSameText] = useState('');
-    const sampleText = (evt: any) => {
-        setCounter(0);
-        setSameText(evt.target.value);
-    }
-    const [texting, setTexting] = useState('');
-    const unloading = (evt: any) => {
-        setCounter(1);
-        setTexting(evt.target.value);
-    }
-
+    };
     const viewEndDate = (evt: any) => {
         if (evt?.target?.value) {
             const name = evt.target.name;
@@ -210,8 +195,8 @@ const CartContents = () => {
         }
     }
 
-    const goToPayments = (e: any, selectedItem: any) => {
-        navigate('/paymentstatus', { state: selectedItem });
+    const goToPayments = (e: any, selectedWarehouse: any, selectedGrandTotal: any) => {
+        navigate('/paymentstatus', { state: [selectedWarehouse, selectedGrandTotal] });
     }
 
     return (
@@ -264,9 +249,25 @@ const CartContents = () => {
                                                 <div className='card p-top-xl'>
                                                     <div className='sub-header'> Rate </div>
                                                     <div className='text-left'>
-                                                        <span><b>Rental:&nbsp;&nbsp;</b>&#x20B9;{ Number(priceData['minordersqt']) * Number(priceData['ratesqtft']) }<i>&nbsp;/month  </i></span>
-                                                        <span><b>Unloading:&nbsp;&nbsp;</b>&#x20B9;{priceData['unloading']}<i>&nbsp;/month  </i></span>
-                                                        <span><b>Loading:&nbsp;&nbsp;</b>&#x20B9;{priceData['loading']}<i>&nbsp;/month  </i></span>
+                                                        <table className="table table-responsive">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td><b>Rental</b></td>
+                                                                    <td>:</td>
+                                                                    <td>&#x20B9;{totalRental}<i>&nbsp;/month</i></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td><b>Unloading</b></td>
+                                                                    <td>:</td>
+                                                                    <td>&#x20B9;{totalUnloadingPrice}<i>&nbsp;/month</i></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td><b>Loading</b></td>
+                                                                    <td>:</td>
+                                                                    <td>&#x20B9;{totalLoadingPrice}<i>&nbsp;/month</i></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
                                                     </div>
                                                 </div>
                                             </Grid>
@@ -287,19 +288,14 @@ const CartContents = () => {
                                             <Grid item sm={3}>
                                             </Grid>
                                             <Grid item sm={3}>
-
-                                                {/* <InputBox data={{ name: 'nop', label: 'No. of Pallets (Loading/Unloading)', value: '', type: 'number'}} /> */}
-                                                <TextField type="text" onKeyUp={sampleText} label="No. of Pallets (Unloading)" />
+                                                <TextField type="text" onKeyUp={unloadingPallets} label="No. of Pallets (Unloading)" />
                                             </Grid>
                                             <Grid item sm={3}>
                                                 {/* <InputBox data={{ name: 'nopl', label: 'No. of Pallets (Loading)', value: '', type: 'number' }}
                                                     onChange={validateNopLoad} />
                                                 {errorMessage0 && <div className="text-red"> {errorMessage0} </div>} */}
-
-
-
                                                 {/* <InputBox data={{ name: 'nop', label: 'No. of Pallets (Loading/Unloading)',value:sameText, type: 'number' }}  /> */}
-                                                <TextField type="text" value={conter === 0 ? sameText : texting} onChange={unloading} label="No. of Pallets (Loading)" />
+                                                <TextField type="text" value={conter === 0 ? noOfUnlodingPallets : noOfLodingPallets} onChange={loadingPallets} label="No. of Pallets (Loading)" />
 
                                             </Grid>
                                             {/* <Grid item sm={3}>
@@ -328,88 +324,42 @@ const CartContents = () => {
                                 <Item sx={{ p: 0 }}>
                                     <Grid item xs={12}>
                                         {PriceDetailsHeader()}
-                                        {/* <form id="merchantHostedForm">
-                                            <table className="mainForm">
-                                                <tbody>
-                                                    <tr>
-                                                        
-                                                        <td><input type="hidden" onChange={handaleInput} name="orderId" value={inputField.orderId} /></td>
-                                                    </tr>
-                                                    <tr>
-                                                        
-                                                        <td><input type="hidden" onChange={handaleInput} name="orderAmount" value={inputField.orderAmount} /></td>
-                                                    </tr>
-                                                    <tr>
-                                                        
-                                                        <td><input type="hidden" onChange={handaleInput} name="customerName" value={inputField.customerName} /></td>
-                                                    </tr>
-                                                    <tr>
-                                                       
-                                                        <td><input type="hidden" onChange={handaleInput} name="customerEmail" value={inputField.customerEmail} /></td>
-                                                    </tr>
-                                                    <tr>
-                                                        
-                                                        <td><input type="hidden" onChange={handaleInput} name="paymentType" value={inputField.paymentType} /></td>
-                                                    </tr>
-                                                    <tr>
-                                                        
-                                                        <td><input type="hidden" onChange={handaleInput} name="customerPhone" value={inputField.customerPhone} /></td>
-                                                    </tr>
-
-
-                                                </tbody>
-                                            </table>
-                                        </form> */}
                                         <Grid container spacing={2} sx={{ p: 1 }}>
                                             <Grid item sm={12}>
                                                 <div className='card'>
                                                     <div className='text-left'>
-                                                        <span className='text-left'>Total Rental:</span> <span className='text-right'>{ Number(priceData['minordersqt']) * Number(priceData['ratesqtft']) }</span><p />
-                                                        <span className='text-left'>Unloading:</span> <span className='text-right'>{Number(priceData['unloading'])}</span><p />
-                                                        <span className='text-left'>Loading:</span> <span className='text-right'>{Number(priceData['loading'])}</span>
-                                                        <Divider sx={{ m: 2 }} />
-                                                        <span className='text-left'>Tax:</span> <span className='text-right'>{(Number(18) * (Number(priceData['minordersqt']) * Number(priceData['ratesqtft'])+Number(priceData['unloading'])+Number(priceData['loading'])))/Number(100)}</span>
-                                                        <Divider sx={{ m: 2 }} />
-                                                        <span className='text-left'>Total:</span> <span className='text-right'>{(Number(priceData['minordersqt']) * Number(priceData['ratesqtft']))+Number(priceData['unloading'])+Number(priceData['loading'])+((Number(18) * (Number(priceData['minordersqt']) * Number(priceData['ratesqtft'])+Number(priceData['unloading'])+Number(priceData['loading'])))/Number(100))}</span>
-                                                        <Divider sx={{ m: 2 }} />
-
-                                                    </div>
-
-
-                                                    {/* <form id="merchantHostedForm">
-                                                        <table className="mainForm">
+                                                        <table className="table table-responsive">
                                                             <tbody>
                                                                 <tr>
-                                                                    
-                                                                    <td><input type="hidden" onChange={handaleInput} name="orderId" value={inputField.orderId} /></td>
+                                                                    <td><b>Total Rental</b></td>
+                                                                    <td>:</td>
+                                                                    <td>&#x20B9;{totalRental}<i>&nbsp;/month</i></td>
                                                                 </tr>
                                                                 <tr>
-                                                                    
-                                                                    <td><input type="hidden" onChange={handaleInput} name="orderAmount" value={inputField.orderAmount} /></td>
+                                                                    <td><b>Unloading</b></td>
+                                                                    <td>:</td>
+                                                                    <td>&#x20B9;{totalUnloadingPrice}<i>&nbsp;/month</i></td>
                                                                 </tr>
                                                                 <tr>
-                                                                    
-                                                                    <td><input type="hidden" onChange={handaleInput} name="customerName" value={inputField.customerName} /></td>
+                                                                    <td><b>Loading</b></td>
+                                                                    <td>:</td>
+                                                                    <td>&#x20B9;{totalLoadingPrice}<i>&nbsp;/month</i></td>
                                                                 </tr>
                                                                 <tr>
-                                                                    
-                                                                    <td><input type="hidden" onChange={handaleInput} name="customerEmail" value={inputField.customerEmail} /></td>
+                                                                    <td><b>Tax</b></td>
+                                                                    <td>:</td>
+                                                                    <td>&#x20B9;{totalTaxPrice}<i>&nbsp;/month</i></td>
                                                                 </tr>
-                                                                <tr>
-                                                                    
-                                                                    <td><input type="hidden" onChange={handaleInput} name="paymentType" value={inputField.paymentType} /></td>
+                                                                <tr style={{backgroundColor: '#e6e3e3'}}>
+                                                                    <td><b>Payable Amount</b></td>
+                                                                    <td>:</td>
+                                                                    <td><b>&#x20B9;{grandTotalPrice}<i>&nbsp;/month</i></b></td>
                                                                 </tr>
-                                                                <tr>
-                                                                    
-                                                                    <td><input type="hidden" onChange={handaleInput} name="customerPhone" value={inputField.customerPhone} /></td>
-                                                                </tr>
-
-
                                                             </tbody>
                                                         </table>
-                                                    </form> */}
+                                                    </div>
                                                     <div >
-                                                        <Button variant="contained" color="warning" size="small" onClick={(e) => { goToPayments(e, data) }}>Review Order</Button>
+                                                        <Button variant="contained" color="warning" size="small" onClick={(e) => { goToPayments(e, data, grandTotalPrice) }}>Review Order</Button>
                                                     </div>
                                                 </div>
                                             </Grid>
