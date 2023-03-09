@@ -198,3 +198,8 @@ export interface WhsHours {
   openall?: boolean;
   isUpdated?: boolean;
 }
+
+export interface LoadUnloadAmount {
+  loadamt?: string | number;
+  unloadamt?: string | number;
+}

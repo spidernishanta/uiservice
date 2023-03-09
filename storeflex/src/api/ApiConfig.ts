@@ -1,5 +1,5 @@
 
-import { Address, Contact, Photo, Warehouseprice, WhsHours} from '../../src/utils/ResponseSchema'
+import { Address, Contact, Photo, Warehouseprice, WhsHours, LoadUnloadAmount} from '../../src/utils/ResponseSchema'
 export interface SlLoginProps {
     username: string;
     emailId: string;
@@ -185,7 +185,7 @@ export class ApiConfig {
     getWarehouseCategoriesApi = '/categories';
     getValidationBank = 'https://payout-api.cashfree.com/payout/v1/asyncValidation/bankDetails';
     authorisationBank = 'http://payout-gamma.cashfree.com/payout/v1/authorize';
-
+    postOrderUrl = '/order';
 }
 
 export interface UserPostData {
@@ -216,4 +216,14 @@ export interface BankInfo {
     name?: string;
     bankAccount?: string;
     ifsc?: string;
+}
+
+export interface AddOrderPostData {
+    orderById?: string;
+    warehouseId?: string;
+    spaceSize?: Number;
+    formDate?: string;
+    toDate?: string;
+    unitPrice?: string;
+    overhead?: LoadUnloadAmount[];
 }

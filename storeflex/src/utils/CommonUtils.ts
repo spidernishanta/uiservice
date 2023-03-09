@@ -302,3 +302,13 @@ export const getWhCategories = (type?: string, ids?: string) => {
     }
 
 }
+
+export const getUserId = () => {
+    const data = sessionStorage.getItem(SESSION_TYPE.login_resp);
+    if (data && JSON.parse(data)) {
+        const obj = JSON.parse(data);
+        return obj.userId;
+    } else {
+        return null;
+    }
+}

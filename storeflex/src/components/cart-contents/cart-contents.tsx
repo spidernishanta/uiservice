@@ -4,6 +4,10 @@ import './cart-content.scss';
 import { useNavigate, useLocation } from "react-router-dom";
 import InputBox from '../atoms/textfield/InputBox';
 import CustomizedSteppers from '../../pages/Steps';
+import { AddOrderPostData } from '../../api/ApiConfig';
+import { LoadUnloadAmount } from '../../utils/ResponseSchema';
+import Api from '../../api/Api';
+import { getUserId } from '../../utils/CommonUtils'
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -60,6 +64,11 @@ const CartContents = () => {
     const [totalLoadingPrice, setTotalLoadingPrice] = useState(0);
     const [totalTaxPrice, setTotalTaxPrice] = useState(0);
     const [grandTotalPrice, setGrandTotalPrice] = useState(0);
+    const [startDate, setStartDate] = useState();
+    const [endDate, setEndDate] = useState();
+    
+    const userId = getUserId();
+    const api = new Api();
 
     const { state } = useLocation();
     useEffect(() => {
@@ -73,6 +82,7 @@ const CartContents = () => {
         calculateLoadingTotal(noOfLodingPallets);
         calculateTax(totalRental, totalUnloadingPrice, totalLoadingPrice);
         calculateGrandTotal(totalRental, totalUnloadingPrice, totalLoadingPrice, totalTaxPrice);
+        
     }, [spaceOrdered,noOfUnlodingPallets,noOfLodingPallets,totalRental,totalUnloadingPrice,totalLoadingPrice,totalTaxPrice]);
 
     const calculateRental = (spaceOrdered: Number) => {
@@ -139,6 +149,32 @@ const CartContents = () => {
             setSpaceOrdered(0);
         }
     };
+    const loadUnloadAmount = () => {
+        const amount = {} as LoadUnloadAmount;
+        amount.loadamt = totalLoadingPrice;
+        amount.unloadamt = totalUnloadingPrice;
+        return amount;
+    }
+    const onReviewOrder = () => {
+        const orderPostData = {} as AddOrderPostData;
+        orderPostData.orderById = userId;
+        orderPostData.warehouseId = data['warehouseId'];
+        orderPostData.spaceSize = spaceOrdered;
+        orderPostData.formDate = startDate;
+        orderPostData.toDate = endDate;
+        orderPostData.unitPrice = priceData['ratesqtft'];
+        orderPostData.overhead = [loadUnloadAmount()];
+        api.postOrder(orderPostData).then((response)=>{
+            //console.log(response);
+            if(response.message === 'Order Submitted') {
+                const orderData = response.methodReturnValue
+                navigate('/paymentstatus', { state: orderData })
+            }
+        }
+        ).catch((error)=>{
+            console.log(error);
+        })
+    }
 
     // const validateNopUnload = (evt: any) => {
     //     if (evt?.target?.value) {
@@ -169,35 +205,27 @@ const CartContents = () => {
     // }
 
     const viewStartDate = (evt: any) => {
-        if (evt?.target?.value) {
-            const name = evt.target.name;
-            const value = evt.target.value;
-            if (name === 'startdata') {
-                console.log('Start Date:', value);
-            }
-            else {
-                return false;
-            }
-            setonUpdateInfo(true);
-        }
+        setStartDate(evt.target.value);
     };
     const viewEndDate = (evt: any) => {
-        if (evt?.target?.value) {
-            const name = evt.target.name;
-            const value = evt.target.value;
-            if (name === 'enddata') {
-                console.log('End Date:', value);
-            }
-            else {
-                return false;
-            }
-            setonUpdateInfo(true);
-        }
-    }
+        setEndDate(evt.target.value);
+        // if (evt?.target?.value) {
+        //     const name = evt.target.name;
+        //     const value = evt.target.value;
+        //     if (name === 'enddata') {
+        //         //console.log('End Date:', value);
+        //         setEndDate(value);
+        //     }
+        //     else {
+        //         return false;
+        //     }
+        //     setonUpdateInfo(true);
+        // }
+    };
 
-    const goToPayments = (e: any, selectedWarehouse: any, selectedGrandTotal: any) => {
-        navigate('/paymentstatus', { state: [selectedWarehouse, selectedGrandTotal] });
-    }
+    // const goToPayments = (e: any, selectedWarehouse: any, spaceOrdered: any, selectedGrandTotal: any) => {
+    //     navigate('/paymentstatus', { state: [selectedWarehouse, spaceOrdered, selectedGrandTotal] });
+    // }
 
     return (
         <>
@@ -254,17 +282,17 @@ const CartContents = () => {
                                                                 <tr>
                                                                     <td><b>Rental</b></td>
                                                                     <td>:</td>
-                                                                    <td>&#x20B9;{totalRental}<i>&nbsp;/month</i></td>
+                                                                    <td>&#x20B9;{priceData['ratesqtft']}<i>&nbsp;/sq. ft.</i></td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td><b>Unloading</b></td>
                                                                     <td>:</td>
-                                                                    <td>&#x20B9;{totalUnloadingPrice}<i>&nbsp;/month</i></td>
+                                                                    <td>&#x20B9;{priceData['unloading']}<i>&nbsp;/pallets</i></td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td><b>Loading</b></td>
                                                                     <td>:</td>
-                                                                    <td>&#x20B9;{totalLoadingPrice}<i>&nbsp;/month</i></td>
+                                                                    <td>&#x20B9;{priceData['loading']}<i>&nbsp;/pallets</i></td>
                                                                 </tr>
                                                             </tbody>
                                                         </table>
@@ -280,10 +308,12 @@ const CartContents = () => {
                                                 {errorMessage && <div className="text-red"> {errorMessage} </div>}
                                             </Grid>
                                             <Grid item xs={3}>
-                                                <InputBox data={{ name: 'startdata', label: 'Start Lease', value: '', type: 'date' }} onChange={viewStartDate} />
+                                                <label>Start Lease:</label>
+                                                <input className='form-control' type="date" min={priceData['startLease']} value={startDate || priceData['startLease']} onChange={(e)=>{viewStartDate(e)}}/>
                                             </Grid>
                                             <Grid item xs={3}>
-                                                <InputBox data={{ name: 'enddata', label: 'End Lease', value: '', type: 'date' }} onChange={viewEndDate} />
+                                                <label>End Lease:</label>
+                                                <input className='form-control' type="date" max={priceData['endLease']} value={endDate || priceData['endLease']} onChange={(e)=>{viewEndDate(e)}}/>
                                             </Grid>
                                             <Grid item sm={3}>
                                             </Grid>
@@ -359,7 +389,8 @@ const CartContents = () => {
                                                         </table>
                                                     </div>
                                                     <div >
-                                                        <Button variant="contained" color="warning" size="small" onClick={(e) => { goToPayments(e, data, grandTotalPrice) }}>Review Order</Button>
+                                                        {/* <Button variant="contained" color="warning" size="small" onClick={(e) => { goToPayments(e, data, spaceOrdered ,grandTotalPrice) }}>Review Order</Button> */}
+                                                        <Button variant="contained" color="warning" size="small" onClick={() => { onReviewOrder() }}>Review Order</Button>
                                                     </div>
                                                 </div>
                                             </Grid>
