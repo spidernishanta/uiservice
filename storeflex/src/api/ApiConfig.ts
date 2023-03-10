@@ -222,8 +222,8 @@ export interface AddOrderPostData {
     orderById?: string;
     warehouseId?: string;
     spaceSize?: Number;
-    formDate?: string;
+    fromDate?: string;
     toDate?: string;
     unitPrice?: string;
-    overhead?: LoadUnloadAmount[];
+    overhead?: LoadUnloadAmount;
 }

@@ -520,7 +520,7 @@ export default class Api {
         }
     }
     async postOrder(postData: AddOrderPostData): Promise<any> {
-        //console.log(postData);
+        console.log(postData);
         const url = `${this.baseUrl}${this.apiUrl.postOrderUrl}`;
         try {
             const response = await axios.post(url, postData);

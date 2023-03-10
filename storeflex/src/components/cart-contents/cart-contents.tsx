@@ -64,8 +64,8 @@ const CartContents = () => {
     const [totalLoadingPrice, setTotalLoadingPrice] = useState(0);
     const [totalTaxPrice, setTotalTaxPrice] = useState(0);
     const [grandTotalPrice, setGrandTotalPrice] = useState(0);
-    const [startDate, setStartDate] = useState();
-    const [endDate, setEndDate] = useState();
+    const [startDate, setStartDate] = useState('');
+    const [endDate, setEndDate] = useState('');
     
     const userId = getUserId();
     const api = new Api();
@@ -156,14 +156,22 @@ const CartContents = () => {
         return amount;
     }
     const onReviewOrder = () => {
+        if(startDate === '') {
+            alert("Plz change the start date");
+            return;
+        }
+        if(endDate === '') {
+            alert("Plz change the end date");
+            return;
+        }
         const orderPostData = {} as AddOrderPostData;
         orderPostData.orderById = userId;
         orderPostData.warehouseId = data['warehouseId'];
         orderPostData.spaceSize = spaceOrdered;
-        orderPostData.formDate = startDate;
+        orderPostData.fromDate = startDate;
         orderPostData.toDate = endDate;
         orderPostData.unitPrice = priceData['ratesqtft'];
-        orderPostData.overhead = [loadUnloadAmount()];
+        orderPostData.overhead= loadUnloadAmount();console.log(orderPostData.overhead)
         api.postOrder(orderPostData).then((response)=>{
             //console.log(response);
             if(response.message === 'Order Submitted') {
