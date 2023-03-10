@@ -5,10 +5,11 @@ import swal from 'sweetalert';
 import Api from '../../../../src/api/Api';
 import { LoaderFull } from '../../atoms/loader/loader';
 import WearehouseAddress from './component/WearehouseAddress';
-import WearehousePricing from './component/WearehousePricing';
+// import WearehousePricing from './component/WearehousePricing';
 import WarehouseHours from './component/WarehouseHours';
 import WarehouseLayout, { WarehouseLayoutObj } from './component/WarehouseLayout';
 import WarehouseDetails from './component/WarehouseDetails';
+import WarehouseTotalSpace from './component/WarehouseTotalSpace';
 import { WarehousePostData } from '../../../api/ApiConfig';
 import { WhDetail } from './component/WarehouseDetails';
 import { Address, Warehouseprice, EditWarehouseDetails, 
@@ -75,34 +76,8 @@ const EditWarehouse = (props: EditWarehouseProps) => {
         whAddressObj.state = address?.state;
         whAddressObj.streetDetails = address?.streetDetails;
         onWearehouseAddressUpdate(whAddressObj);
-
-        const warehousepriceList = [
-            {
-              "priceId": "389116d6-beef-4785-b0f8-4a97670772d3",
-              "availspace": "2000",
-              "ratesqtft": "100",
-              "minordersqt": "1000",
-              "createBy": "ADMIN",
-              "createDate": "2023-01-06",
-              "updateDate": null,
-              "startLease": "2023-01-06",
-              "endLease": "2023-12-06"
-            },
-            {
-              "priceId": "a41236f8-d6af-49c1-8235-c7ef6112cb10",
-              "availspace": "2000",
-              "ratesqtft": "100",
-              "minordersqt": "1000",
-              "createBy": "ADMIN",
-              "createDate": "2023-01-06",
-              "updateDate": null,
-              "startLease": "2023-01-06",
-              "endLease": "2023-12-06"
-            }
-          ]
-        onWearehousePricingUpdate(warehousepriceList);
+        onWearehousePricingUpdate(data?.warehousepriceList);
         onWarehouseHoursUpdate(data?.hours || {});
-        
         // Do not change the sequence
         setWarehouseGetData(whInfo);
         setWarehouseStatus(data?.status || '');
@@ -149,26 +124,26 @@ const EditWarehouse = (props: EditWarehouseProps) => {
         buildPostData.status = warehouseStatusTypeInfo; console.log(warehouseStatusTypeInfo);
 
         console.log('<< buildPostData >>', buildPostData);
-        // setIsLoader(true);
-        // api.addWarehouse(buildPostData).then((resp) => {
-        //     setIsLoader(false);
-        //     if (resp && resp.methodReturnValue.clientId) {
-        //         // upladPhoto(imageData, resp.methodReturnValue.clientId);
-        //     }
-        //     swal('Success! Your warehouse has been added successfully!', {
-        //         icon: "success",
-        //         buttons: {
-        //             buttonOne: {
-        //                 text: "OK",
-        //                 visible: true,
-        //                 className: "sf-btn",
-        //             }
-        //         }
-        //     });
-        // }).catch((error) => {
-        //     setIsLoader(false);
-        //     console.log(' updateWarehouse creation erroor ', error);
-        // });
+        setIsLoader(true);
+        api.addWarehouse(buildPostData).then((resp) => {
+            setIsLoader(false);
+            if (resp && resp.methodReturnValue.clientId) {
+                // upladPhoto(imageData, resp.methodReturnValue.clientId);
+            }
+            swal('Success! Your warehouse has been added successfully!', {
+                icon: "success",
+                buttons: {
+                    buttonOne: {
+                        text: "OK",
+                        visible: true,
+                        className: "sf-btn",
+                    }
+                }
+            });
+        }).catch((error) => {
+            setIsLoader(false);
+            console.log(' updateWarehouse creation erroor ', error);
+        });
     }
 
     const selectWarehouseStatusType = (event: any) => {
@@ -208,7 +183,7 @@ const EditWarehouse = (props: EditWarehouseProps) => {
                     {<WearehouseAddress editMode={true} data={whAddress} onWearehouseAddressUpdate={onWearehouseAddressUpdate} />}
                     {<WarehouseHours data={whHours} onWarehouseHoursUpdate={onWarehouseHoursUpdate} />}
                     {<WarehouseLayout data={warehouseGetData.methodReturnValue} onWarehouseLayoutUpdate={onWarehouseLayoutUpdate} />}
-                    {<WearehousePricing data={whPricing} onWearehousePricingUpdate={onWearehousePricingUpdate} />}
+                    {<WarehouseTotalSpace data={whPricing} showHeading={true} onUpdate={onWearehousePricingUpdate} />}
                 </>
             }
             <div className='p-top-md align-c'>

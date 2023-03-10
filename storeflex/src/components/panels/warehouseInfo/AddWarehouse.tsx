@@ -4,7 +4,8 @@ import swal from 'sweetalert';
 import Api from '../../../../src/api/Api';
 import { LoaderFull } from '../../atoms/loader/loader';
 import WearehouseAddress from './component/WearehouseAddress';
-import WearehousePricing from './component/WearehousePricing';
+// import WearehousePricing from './component/WearehousePricing';
+import WarehouseTotalSpace from './component/WarehouseTotalSpace';
 import WarehouseHours from './component/WarehouseHours';
 import WarehouseLayout, { WarehouseLayoutObj } from './component/WarehouseLayout';
 import WarehouseDetails from './component/WarehouseDetails';
@@ -189,17 +190,7 @@ const AddWarehouse = () => {
                         </div>
                     </Accordion.Header>
                     <Accordion.Body>
-                        <>     
-                        {priceList.map((data,index)=>(
-                            <div key={index}>
-                                <WearehousePricing onWearehousePricingUpdate={onWearehousePricingUpdate}/>
-                                {priceList.length - 1 === index && priceList.length < 4 && <Button variant="contained" color="primary" onClick={handlePriceAdd} style={{marginLeft:'20px'}}>Add Pricing</Button>}
-                                {priceList.length > 1 && <Button variant="contained" color="secondary" onClick={()=>handlePriceRemove(index)} style={{marginLeft:'20px'}}>Remove Pricing</Button>}
-                            </div>
-                            
-                        ))}
-                           
-                        </>
+                        {<WarehouseTotalSpace onUpdate={onWearehousePricingUpdate}/>}
                     </Accordion.Body>
                 </Accordion.Item>
             </Accordion>
