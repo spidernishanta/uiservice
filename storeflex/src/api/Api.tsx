@@ -3,7 +3,8 @@ import axios from 'axios';
 import {
     ApiConfig, SlLoginProps, SignInPost, SignUpPost, GetStatesProp, GetCitiesProp, AddCompanyPostData,
     ViewCompaniesProps, ViewWarehouseProps, viewWarehouseAdminProps, EnquiryProps, viewUserProps,
-    WarehousePostData, UserPostData, SearchProps, ChangePassPost, GetForgotPassProp, UpdatePassPost, BankInfo
+    WarehousePostData, UserPostData, SearchProps, ChangePassPost, GetForgotPassProp, UpdatePassPost, BankInfo,
+    AddOrderPostData
 } from './ApiConfig';
 import { sessionStorageSet, sessionStorageGet } from '../utils/CommonUtils';
 import { SESSION_TYPE } from '../utils/Constants';
@@ -515,6 +516,23 @@ export default class Api {
         }
         catch (error) {
             console.log(' error : getAuthorisationBank', error);
+            return Promise.reject(error);
+        }
+    }
+    async postOrder(postData: AddOrderPostData): Promise<any> {
+        //console.log(postData);
+        const url = `${this.baseUrl}${this.apiUrl.postOrderUrl}`;
+        try {
+            const response = await axios.post(url, postData);
+            if (response?.data?.statusCode === 600) {
+                return Promise.resolve(response?.data);
+            } else {
+                console.log(' error : postOrder', response);
+                return Promise.reject(response);
+            }
+        }
+        catch (error) {
+            console.log(' error : postOrder', error);
             return Promise.reject(error);
         }
     }
