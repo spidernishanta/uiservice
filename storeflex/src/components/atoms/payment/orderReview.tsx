@@ -4,12 +4,6 @@ import { DataGrid } from "@mui/x-data-grid";
 import swal from 'sweetalert';
 
 const OrderReview = (props: any) => {
-
-    // const [startDate, setStartDate] = useState();
-    // const [endDate, setEndDate] = useState();
-    // useEffect(()=>{
-    //     convertedDate();
-    // },[]);
     
     const columns = [
         { field: "paymentId", headerName: "Payment Id", width: 150 },
@@ -23,15 +17,6 @@ const OrderReview = (props: any) => {
         { field: "status", headerName: "Status", width: 150 },
         { field: "paytype", headerName: "Pay Type", witdh: 150 },
     ];
-
-    // const convertedDate = () => {
-    //     let date: any, month: any, year: any;
-    //     date = props.orderReviewData.fromDate.slice(8,10);
-    //     month = props.orderReviewData.fromDate.slice(5,7);
-    //     year = props.orderReviewData.fromDate.slice(0,4);
-    //     console.log(`${date}/${month}/${year}`);
-    //     setStartDate(date+month+year)
-    // }
 
     const orderPaymentData = () => {
         let list : any[] = [];
@@ -71,50 +56,55 @@ const OrderReview = (props: any) => {
                         }}>
                             <div className='card'>
                                 <div className='card-header'><Typography align='center' variant='h5'>Review Order</Typography></div>
-                                <Typography align='center'>Order Id: {props.orderReviewData.orderId} </Typography>
-                                <Typography align='center'>Warehouse Id: {props.orderReviewData.warehouseId}</Typography>
-                                <Typography align='center'>Start Date: {props.orderReviewData.fromDate}</Typography>
-                                <Typography align='center'>End Date: {props.orderReviewData.toDate}</Typography>
-                                <Typography align='center'>Initial Amount: {props.orderReviewData.initialAmt}</Typography>
-                                <Typography align='center'>Total Amount: {props.orderReviewData.totalAmt}</Typography>
-                                <Typography align='center'>Required Space: {props.orderReviewData.spaceSize}&nbsp;sq.ft.</Typography>
-                                <Typography align='center'>Unit Price: &#x20B9;{props.orderReviewData.unitPrice}&nbsp;/sq.ft</Typography>
-                                <Grid item sm={12}>
-                                <div style={{ height: 370, width: "100%" }}>
-                                <DataGrid getRowHeight={() => 'auto'}
-                                // rows={[
-                                //     { id: '1', orderId: '123', monthYear: '1270001', qty: '12-10-2022', unitPrice: '12-11-2022', price: 'UP, Noida', tax: '', totalPrice: '$90 million USD', paidAmount: '', balance: 'Active', status: '', payout: '', paid: '', balPayout: '' },
-                                //     { id: '2', orderId: '123', monthYear: '1270001', qty: '12-10-2022', unitPrice: '12-11-2022', price: 'UP, Noida', tax: '', totalPrice: '$90 million USD', paidAmount: '', balance: 'Active', status: '', payout: '', paid: '', balPayout: '' },
-                                //     { id: '3', orderId: '123', monthYear: '1270001', qty: '12-10-2022', unitPrice: '12-11-2022', price: 'UP, Noida', tax: '', totalPrice: '$90 million USD', paidAmount: '', balance: 'Active', status: '', payout: '', paid: '', balPayout: '' },
-                                // ]}
-                                rows={orderPaymentData()}
-                                componentsProps={{}}
-                                columns={columns}
-                                pageSize={5}
-                                rowsPerPageOptions={[5]}
-                                disableSelectionOnClick
-                                />
+                                <div className='card-body'>
+                                    <Grid container spacing={2} >
+                                        <Grid item sm={4}><Typography>Order Id: {props.orderReviewData.orderId} </Typography></Grid>
+                                        <Grid item sm={4}><Typography>Warehouse Id: {props.orderReviewData.warehouseId} </Typography></Grid>
+                                        <Grid item sm={4}><Typography>Start Date: {props.orderReviewData.fromDate} </Typography></Grid>
+                                    </Grid>
+                                    <Grid container spacing={2}>
+                                        <Grid item sm={4}><Typography>End Date: {props.orderReviewData.toDate}</Typography></Grid>
+                                        <Grid item sm={4}><Typography>Initial Amount: {props.orderReviewData.initialAmt}</Typography></Grid>
+                                        <Grid item sm={4}><Typography>Total Amount: {props.orderReviewData.totalAmt}</Typography></Grid>
+                                    </Grid>
+                                    <Grid container spacing={2}>
+                                        <Grid item sm={4}><Typography>Total Amount: {props.orderReviewData.totalAmt}</Typography></Grid>
+                                        <Grid item sm={4}><Typography>Required Space: {props.orderReviewData.spaceSize}&nbsp;sq.ft.</Typography></Grid>
+                                        <Grid item sm={4}><Typography>Unit Price: &#x20B9;{props.orderReviewData.unitPrice}&nbsp;/sq.ft</Typography></Grid>
+                                    </Grid>
+                                    <Grid item sm={12}>
+                                        <div style={{ height: 480, width: "100%" }}>
+                                        <DataGrid getRowHeight={() => 'auto'}
+                                            rows={orderPaymentData()}
+                                            componentsProps={{}}
+                                            columns={columns}
+                                            pageSize={5}
+                                            rowsPerPageOptions={[5]}
+                                            disableSelectionOnClick
+                                        />
+                                        </div>
+                                    </Grid>
+                                </div> 
+                                <div className='card-footer'>
+                                    <Button variant="contained" sx={{ backgroundColor: '#fb8c00', marginTop: '20px', left: '50%' }} onClick={() => {
+                                        swal({
+                                        icon: "success",
+                                        title: "Payment Successful!",
+                                        text: "Your 100 RS payment has been received with reference number 123456 and Order ID 987654.\n\nThank You",
+                                        buttons: {
+                                            buttonOne: {
+                                                text: "My Orders",
+                                                value: "mo",
+                                                visible: true,
+                                                className: "sf-btn",
+                                                }
+                                            }
+                                        }).then(function (value) {
+                                        if (value === "mo") { window.location.href = "/myorders"; }
+                                        else { window.location.href = "/myorders"; }
+                                        });
+                                    }}>Make Payment</Button>
                                 </div>
-                                <Button variant="contained" sx={{ backgroundColor: '#fb8c00', marginTop: '20px', left: '50%' }} onClick={() => {
-                                swal({
-                                icon: "success",
-                                title: "Payment Successful!",
-                                text: "Your 100 RS payment has been received with reference number 123456 and Order ID 987654.\n\nThank You",
-                                buttons: {
-                                    buttonOne: {
-                                        text: "My Orders",
-                                        value: "mo",
-                                        visible: true,
-                                        className: "sf-btn",
-                                    }
-                                }
-                                }).then(function (value) {
-                                if (value === "mo") { window.location.href = "/myorders"; }
-                                else { window.location.href = "/myorders"; }
-
-                                });
-                            }}>Make Payment</Button>
-                            </Grid>
                             </div>          
                         </Box>
                     </Container>
