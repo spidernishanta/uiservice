@@ -9,6 +9,7 @@ import Table from 'react-bootstrap/Table';
 import Api from '../../../api/Api';
 import { getWhCategories } from '../../../utils/CommonUtils';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import Footer from '../../footer/footer';
 
 
 
@@ -232,6 +233,7 @@ const WarehouseDetails = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   )
 }
