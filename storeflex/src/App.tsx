@@ -137,6 +137,10 @@ function App() {
               path={PAGES.PgSearchNew.path}
               element={<PAGES.PgSearchNew.Component />}
             />
+            <Route
+              path={PAGES.FeaturedWH.path}
+              element={<PAGES.FeaturedWH.Component />}
+            />
             <Route path={PAGES.Cart.path} element={<PAGES.Cart.Component />} />
             <Route
               path={PAGES.ContactUs.path}

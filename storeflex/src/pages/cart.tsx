@@ -1,8 +1,9 @@
-import React, {useEffect,useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container } from '@mui/material';
 import CartContents from '../components/cart-contents/cart-contents';
 import TopNavBar from '../components/navbar/TopNavBar';
 import { useLocation } from "react-router-dom"
+import Footer from '../components/footer/footer';
 
 
 
@@ -26,8 +27,8 @@ const Cart = () => {
 
     useEffect(() => {
         const stateWarehouseData: any = state;
-        setWarehouseData(stateWarehouseData); 
-      }, [])
+        setWarehouseData(stateWarehouseData);
+    }, [])
 
     return (
         <>
@@ -35,9 +36,9 @@ const Cart = () => {
             <Container component="main" maxWidth="xl" className='p-no'>
                 <div className='font-gray f-24px p-top-xl'>Your Shopping Cart(1)</div>
                 {/* {<CartContents storeInfo={warehouseData} />} */}
-                {<CartContents/>}
+                {<CartContents />}
             </Container>
-
+            {<Footer />}
         </>
     )
 }

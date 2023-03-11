@@ -211,20 +211,30 @@ export const getLogInType = () => {
 }
 
 export const setLogInType = (val: string) => {
-        const data = sessionStorage.getItem(SESSION_TYPE.login_resp);
-        if (data && JSON.parse(data)) {
-            const obj = JSON.parse(data);
-            obj.loginType = val;
-            sessionStorage.setItem(SESSION_TYPE.login_resp,JSON.stringify(obj));
-        }
-    } 
-    
+    const data = sessionStorage.getItem(SESSION_TYPE.login_resp);
+    if (data && JSON.parse(data)) {
+        const obj = JSON.parse(data);
+        obj.loginType = val;
+        sessionStorage.setItem(SESSION_TYPE.login_resp, JSON.stringify(obj));
+    }
+}
+
 
 export const getFirstName = () => {
     const data = sessionStorage.getItem(SESSION_TYPE.login_resp);
     if (data && JSON.parse(data)) {
         const obj = JSON.parse(data);
         return obj.firstName;
+    } else {
+        return null;
+    }
+}
+
+export const getClientId = () => {
+    const data = sessionStorage.getItem(SESSION_TYPE.login_resp);
+    if (data && JSON.parse(data)) {
+        const obj = JSON.parse(data);
+        return obj.clientId;
     } else {
         return null;
     }
@@ -251,15 +261,15 @@ export const getIntent = () => {
 }
 
 export const getWhCategories = (type?: string, ids?: string) => {
-    const   warehouseCategories = sessionStorageGet(SESSION_TYPE.wh_categories);
+    const warehouseCategories = sessionStorageGet(SESSION_TYPE.wh_categories);
     if (type && ids && warehouseCategories && JSON.parse(warehouseCategories)) {
-        const whCategories =  JSON.parse(warehouseCategories);
-        
-        if(whCategories && type === 'WF') {
+        const whCategories = JSON.parse(warehouseCategories);
+
+        if (whCategories && type === 'WF') {
             const facilities = whCategories?.methodReturnValue?.facilities;
             const idArry = ids.split("|");
             const values = idArry.map((id) => {
-                if( facilities[id] ) {
+                if (facilities[id]) {
                     //return {[id] : facilities[id]};
                     return facilities[id];
                 } else {
@@ -267,12 +277,12 @@ export const getWhCategories = (type?: string, ids?: string) => {
                 }
             });
             return values
-    
-        } else if(whCategories && type === 'WT') {
+
+        } else if (whCategories && type === 'WT') {
             const industries = whCategories?.methodReturnValue?.industries;
             const idArry = ids.split("|");
             const values = idArry.map((id) => {
-                if( industries[id] ) {
+                if (industries[id]) {
                     //return {[id] : industries[id]};
                     return industries[id];
                 } else {
@@ -280,12 +290,12 @@ export const getWhCategories = (type?: string, ids?: string) => {
                 }
             });
             return values
-    
-        } else if(whCategories && type === 'WS') {
+
+        } else if (whCategories && type === 'WS') {
             const storages = whCategories?.methodReturnValue?.storages;
             const idArry = ids.split("|");
             const values = idArry.map((id) => {
-                if( storages[id] ) {
+                if (storages[id]) {
                     //return {[id] : storages[id]};
                     return storages[id];
                 } else {
@@ -293,7 +303,7 @@ export const getWhCategories = (type?: string, ids?: string) => {
                 }
             });
             return values
-    
+
         } else {
             return null;
         }
