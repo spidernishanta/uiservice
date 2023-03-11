@@ -42,6 +42,7 @@ const WarehouseDetails = (props: WarehouseDetailsProps) => {
 
     const onChangeUpdateInfo = () => {
         if (props?.onWarehouseDetailsUpdate) {
+            updatedData.clientId = defaultData.clientId;
             props.onWarehouseDetailsUpdate(updatedData);
         }
     }
