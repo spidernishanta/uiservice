@@ -125,12 +125,12 @@ const WarehouseHours = (props: WarehouseHoursProps) => {
                 <Grid item xs={8}>
                     <div className='sf-flex'>
                         <div className="m-right-md">
-                            <InputBox data={{ type: 'time',  name: 'fromdate', label: 'From', isDisabled: desabled}}
+                            <InputBox data={{ type: 'time',  name: 'fromdate', label: 'From', value: '', isDisabled: desabled}}
                                 onChange={onStartTimeChange} 
                             />
                         </div>
                         <div>
-                            <InputBox data={{ type: 'time',  name: 'todate', label: 'To', isDisabled: desabled}}
+                            <InputBox data={{ type: 'time',  name: 'todate', label: 'To', value: '', isDisabled: desabled}}
                                 onChange={onEndTimeChange}
                             />
                         </div>

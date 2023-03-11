@@ -6,8 +6,9 @@ import { objectData, Warehouseprice } from '../../../../utils/ResponseSchema';
 import { InputError } from '../../../atoms/textfield/InputError';
 
 interface WearehousePricingProps {
-    onWearehousePricingUpdate?: (data: any) => void;
+    onWearehousePricingUpdate?: (data: any, displayId?: string) => void;
     data?: Warehouseprice;
+    displayId?: string;
 }
 
 const errMsgObj = {} as Warehouseprice;
@@ -32,7 +33,7 @@ const WearehousePricing = (props: WearehousePricingProps) => {
             // obj.ratesqtft = getVal(rateInfo);
             // obj.minordersqt = getVal(quantityInfo);
             console.log('<<updatedData>>', updatedData);
-            props.onWearehousePricingUpdate(updatedData);
+            props.onWearehousePricingUpdate(updatedData, props?.displayId);
         }
     }
 
@@ -178,50 +179,47 @@ const WearehousePricing = (props: WearehousePricingProps) => {
         const keyId =  '0';
         const item = defaultData;
         return (
-            <div className='p-md sf-box-shadow-blue'>
-                <div className="f-24px p-bot-sm align-c"> Availability {keyId}</div>
-                <Grid container spacing={2} columns={{ xs: 4, sm: 12, md: 12 }}>
-                    <Grid item xs={4}>
-                        <InputBox data={{ name: 'availablespace', label: 'Total Available Space (Sq.Ft)*', value: item?.availspace}}
-                            onChange={(e) => validateSpaceInfo(e, keyId)}
-                        />
-                        <InputError errorText={ errMsgObj.availspace} />
-                    </Grid>
-                    <Grid item xs={4}>
-                        <InputBox data={{ name: 'rate', label: 'Rental Rate(Rs)/Sq.Ft/30 days *', value: item?.ratesqtft}}
-                            onChange={(e) => validateRateInfo(e, keyId)}
-                        />
-                        <InputError errorText={errMsgObj.ratesqtft} />
-                    </Grid>
-                    <Grid item xs={4}>
-                        <InputBox data={{ name: 'quantity', label: 'Minimum Order Quantity (Sq.Ft)', value: item?.minordersqt}}
-                            onChange={(e) => validateQuantityInfo(e, keyId)}
-                        />
-                        <InputError errorText={errMsgObj.minordersqt} />
-                    </Grid>
-                    <Grid item xs={4}>
-                        <InputBox data={{ name: 'loading', label: 'Loading Price/Pallet', value: item?.loading }}
-                            onChange={(e) => onUpdateLoadingPrice(e, keyId)} 
-                        />
-                        <InputError errorText={errMsgObj.loading} />
-                    </Grid>
-                    <Grid item xs={4}>
-                        <InputBox data={{ name: 'unloading', label: 'Unloading Price/Pallet', value: item?.unloading}}
-                            onChange={(e) => onUpdateUnLoadingPrice(e, keyId)} 
-                        />
-                        <InputError errorText={errMsgObj.unloading} />
-                    </Grid>
-                    <Grid item xs={4} />
-                    <Grid item xs={4}>
-                        <InputBox data={{ type: 'date', name: 'fromdate', label: 'From' }} onChange={(e) => onChageStartDate(e, keyId)} />
-                        {errorMessage && <div className="text-red"> {errorMessage} </div>}
-                    </Grid>
-                    <Grid item xs={4}>
-                        <InputBox data={{ type: 'date', name: 'todate', label: 'To' }} onChange={(e) => onChageEndDate(e, keyId)} />
-                        {errorMessage && <div className="text-red"> {errorMessage} </div>}
-                    </Grid>
+            <Grid container spacing={2} columns={{ xs: 4, sm: 12, md: 12 }}>
+                <Grid item xs={4}>
+                    <InputBox data={{ name: 'availablespace', label: 'Total Available Space (Sq.Ft)*', value: item?.availspace}}
+                        onChange={(e) => validateSpaceInfo(e, keyId)}
+                    />
+                    <InputError errorText={ errMsgObj.availspace} />
                 </Grid>
-            </div>
+                <Grid item xs={4}>
+                    <InputBox data={{ name: 'rate', label: 'Rental Rate(Rs)/Sq.Ft/30 days *', value: item?.ratesqtft}}
+                        onChange={(e) => validateRateInfo(e, keyId)}
+                    />
+                    <InputError errorText={errMsgObj.ratesqtft} />
+                </Grid>
+                <Grid item xs={4}>
+                    <InputBox data={{ name: 'quantity', label: 'Minimum Order Quantity (Sq.Ft)', value: item?.minordersqt}}
+                        onChange={(e) => validateQuantityInfo(e, keyId)}
+                    />
+                    <InputError errorText={errMsgObj.minordersqt} />
+                </Grid>
+                <Grid item xs={4}>
+                    <InputBox data={{ name: 'loading', label: 'Loading Price/Pallet', value: item?.loading }}
+                        onChange={(e) => onUpdateLoadingPrice(e, keyId)} 
+                    />
+                    <InputError errorText={errMsgObj.loading} />
+                </Grid>
+                <Grid item xs={4}>
+                    <InputBox data={{ name: 'unloading', label: 'Unloading Price/Pallet', value: item?.unloading}}
+                        onChange={(e) => onUpdateUnLoadingPrice(e, keyId)} 
+                    />
+                    <InputError errorText={errMsgObj.unloading} />
+                </Grid>
+                <Grid item xs={4} />
+                <Grid item xs={4}>
+                    <InputBox data={{ type: 'date', name: 'fromdate', label: 'From' }} onChange={(e) => onChageStartDate(e, keyId)} />
+                    {errorMessage && <div className="text-red"> {errorMessage} </div>}
+                </Grid>
+                <Grid item xs={4}>
+                    <InputBox data={{ type: 'date', name: 'todate', label: 'To' }} onChange={(e) => onChageEndDate(e, keyId)} />
+                    {errorMessage && <div className="text-red"> {errorMessage} </div>}
+                </Grid>
+            </Grid>
         )
     }
     return (

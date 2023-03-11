@@ -25,17 +25,13 @@ const AddWarehouse = () => {
     const [pricing, setPricing] = useState<Warehouseprice>({});
     const [whHours, setWhHours] = useState<WhsHours>({});
     const [whLayout, setLayout] = useState<WarehouseLayoutObj>({});
+    const [whPriceList, setWhPriceList] = useState<Warehouseprice[]>();
 
     const [priceList, setPriceList] = useState([{price: ""}]);
+
     const handlePriceAdd = () => {
         setPriceList([...priceList, { price:"" }]);
-    }
-    const handlePriceRemove = (index) => {
-        const list = [...priceList];
-        list.splice(index,1);
-        setPriceList(list);
-    }
-    
+    }    
 
     const onWarehouseDetailsUpdate = (data: WhDetail) => {
         setWhDetails(data);
@@ -46,7 +42,7 @@ const AddWarehouse = () => {
         console.log(' onWearehouseAddressUpdate >>> ', data);
     }
     const onWearehousePricingUpdate = (data: any) => {
-        setPricing(data);
+        setWhPriceList(data);
         console.log(' onWearehousePricingUpdate >>> ', data);
     }
     const onWarehouseHoursUpdate = (data: any) => {
@@ -105,15 +101,15 @@ const AddWarehouse = () => {
         else if (!whLayout?.forkliftcapacity) {
             alert('Max Forklift Capacity is required');
         }
-        else if (!pricing?.availspace) {
-            alert('Total Available Space is required');
-        }
-        else if (!pricing?.ratesqtft) {
-            alert('Rate(Rs)/sq.ft/month is required');
-        }
-        else if (!pricing?.minordersqt) {
-            alert('Minimum Order Quantity is required');
-        }
+        // else if (!pricing?.availspace) {
+        //     alert('Total Available Space is required');
+        // }
+        // else if (!pricing?.ratesqtft) {
+        //     alert('Rate(Rs)/sq.ft/month is required');
+        // }
+        // else if (!pricing?.minordersqt) {
+        //     alert('Minimum Order Quantity is required');
+        // }
         else if (!whHours?.starttime) {
             alert('Facility houres is required');
         }
@@ -136,6 +132,7 @@ const AddWarehouse = () => {
             buildPostData.descp = whDetails?.descp;
             buildPostData.address = [whAddress];
             buildPostData.hours = whHours;
+            buildPostData.warehousepriceList = whPriceList;
             buildPostData.facilitiesId = whLayout.facilitiesId;
             buildPostData.industryId = whLayout.industryId;
             buildPostData.storagesId = whLayout.storagesId;
