@@ -6,7 +6,7 @@ import swal from 'sweetalert';
 import Api from '../../../../src/api/Api';
 import { ViewCompaniesProps } from '../../../api/ApiConfig';
 import { LoaderFull } from '../../atoms/loader/loader';
-
+import { getClientId, getLogInType } from '../../../utils/CommonUtils';
 
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -36,7 +36,7 @@ const ViewBusiness = () => {
     }, [companyView, pageNo])
 
 
-    const getMyCompanies = (curentPage, numberOfRecords) => { 
+    const getMyCompanies = (curentPage, numberOfRecords) => {
         // IN-PROGRESS , IN-ACTIVE , ACTIVE
         let companyStatus = 'ACTIVE'
         if (companyView === '#inactive') {
@@ -50,13 +50,15 @@ const ViewBusiness = () => {
             recordLabel = ' Companies Onboared '
         }
         setIsLoader(true);
+
         const data: ViewCompaniesProps = {
             page: curentPage,
             size: numberOfRecords,
-            status: companyStatus
+            status: companyStatus,
+            clientId: getClientId()
         }
-        api.getMyCompanies(data).then((response) => { 
-            setIsLoader(false); 
+        api.getMyCompanies(data).then((response) => {
+            setIsLoader(false);
             setMyCompanies(response.methodReturnValue.clientList);
             setTotalRecords(response.methodReturnValue.totalRecords);
         }).catch((error) => {
@@ -211,37 +213,37 @@ const ViewBusiness = () => {
 
     const getAddress = (item: any) => {
         let address = '';
-        if( item && item?.addresses.length) {
-            address = item.addresses[0]?.addressType + ':' + item.addresses[0]?.streetDetails + ',' + 
-            item.addresses[0]?.city + ',' + item.addresses[0]?.pincode;
-            return address;  
+        if (item && item?.addresses.length) {
+            address = item.addresses[0]?.addressType + ':' + item.addresses[0]?.streetDetails + ',' +
+                item.addresses[0]?.city + ',' + item.addresses[0]?.pincode;
+            return address;
         } else {
             return address;
         }
     }
     const companyData = () => {
-        let list : any[] = [];
-        if(myCompanies && myCompanies.length > 0) {
-            list = myCompanies.map((item, index) => { 
-            return {
-                id: item.clientId,
-                clientId: item?.clientId,
-                compyName: item?.compyName,
-                compyDesc: item?.compyDesc,
-                url: item.url,
-                addresses: getAddress(item),
-                contact: item?.contact[0]?.emailId + '/' + item?.contact[0]?.mobileNo,
-            }
-          })
-          return list;
+        let list: any[] = [];
+        if (myCompanies && myCompanies.length > 0) {
+            list = myCompanies.map((item, index) => {
+                return {
+                    id: item.clientId,
+                    clientId: item?.clientId,
+                    compyName: item?.compyName,
+                    compyDesc: item?.compyDesc,
+                    url: item.url,
+                    addresses: getAddress(item),
+                    contact: item?.contact[0]?.emailId + '/' + item?.contact[0]?.mobileNo,
+                }
+            })
+            return list;
         } else {
-          return list;
+            return list;
         }
-      }
+    }
 
-      const handlePageChange = (e: any) => {
+    const handlePageChange = (e: any) => {
         setPageNo(e);
-      }
+    }
 
     const showCompanyList = () => {
         //const text = companyData();

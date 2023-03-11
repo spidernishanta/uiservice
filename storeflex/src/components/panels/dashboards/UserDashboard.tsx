@@ -64,8 +64,8 @@ const UserDashboard = (props) => {
                         {dashboardContent?.addBusinessBtn}
                     </Button>
 
-                    <Button className='m-sm sf-btn w100' size="lg" active onClick={() => { handelOnClick(PAGES.PgSearchNew.path) }}>
-                        {dashboardContent?.searchBtn}
+                    <Button className='m-sm sf-btn w100' size="lg" active onClick={() => { handelOnClick(PAGES.FeaturedWH.path) }}>
+                        {dashboardContent?.featuredBtn}
                     </Button>
 
                     <Button className='m-sm sf-btn w100' size="lg" active onClick={() => { handelOnClick(PAGES.VIEW_USER.path) }}>

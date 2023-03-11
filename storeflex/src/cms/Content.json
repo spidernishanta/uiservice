@@ -20,6 +20,7 @@
     "dashboard": {
         "addBusinessBtn": "Add Company",
         "searchBtn": "Search",
+        "featuredBtn": "Featured WH",
         "addUserBtn": "View User",
         "addWarehouseBtn": "Add Warehouse",
         "reportBtn": "Reports",

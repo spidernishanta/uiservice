@@ -8,7 +8,7 @@ import AddInfo from "../pages/addinfo";
 import PgSearch from "../pages/PgSearch";
 
 import PgSearchNew from "../pages/PgSearchNew";
-
+import FeaturedWH from "../pages/FeaturedWH";
 import Cart from "../pages/cart";
 import ContactUsPage from "../pages/ContactUsPage";
 import faq from "../pages/faq";
@@ -165,6 +165,10 @@ export const PAGES = {
   PgSearchNew: {
     path: "/search-new",
     Component: PgSearchNew,
+  },
+  FeaturedWH: {
+    path: "/featured-wh",
+    Component: FeaturedWH,
   },
   Cart: {
     path: "/cart",

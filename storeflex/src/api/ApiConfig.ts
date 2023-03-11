@@ -1,5 +1,5 @@
 
-import { Address, Contact, Photo, Warehouseprice, WhsHours, LoadUnloadAmount} from '../../src/utils/ResponseSchema'
+import { Address, Contact, Photo, Warehouseprice, WhsHours, LoadUnloadAmount } from '../../src/utils/ResponseSchema'
 export interface SlLoginProps {
     username: string;
     emailId: string;
@@ -50,6 +50,7 @@ export interface ViewCompaniesProps {
     page: string;
     size: string;
     status: string;
+    clientId: string;
 }
 
 export interface GetStatesProp {

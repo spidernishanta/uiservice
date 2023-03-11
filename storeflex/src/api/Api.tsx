@@ -6,7 +6,7 @@ import {
     WarehousePostData, UserPostData, SearchProps, ChangePassPost, GetForgotPassProp, UpdatePassPost, BankInfo,
     AddOrderPostData
 } from './ApiConfig';
-import { sessionStorageSet, sessionStorageGet } from '../utils/CommonUtils';
+import { sessionStorageSet, sessionStorageGet, getLogInType } from '../utils/CommonUtils';
 import { SESSION_TYPE } from '../utils/Constants';
 
 
@@ -230,11 +230,13 @@ export default class Api {
             return Promise.reject(error);
         }
     }
-    async updateCompany(postData: AddCompanyPostData): Promise<any> { console.log(postData);
+    async updateCompany(postData: AddCompanyPostData): Promise<any> {
+        console.log(postData);
         const url = this.baseUrl + this.apiUrl.addCompanyUrl;
         try {
             const response = await axios.post(url, postData);
-            if (response.status === 200) { console.log(response);
+            if (response.status === 200) {
+                console.log(response);
                 return Promise.resolve(response?.data);
             } else {
                 console.log(' error : updateCompany  ', response);
@@ -248,19 +250,38 @@ export default class Api {
     }
 
     async getMyCompanies(getData: ViewCompaniesProps): Promise<any> {
-        const url = `${this.baseUrl}${this.apiUrl.getCompaniesApi}?page=${getData.page}&size=${getData.size}&status=${getData.status}`;
-        try {
-            const response = await axios.get(url);
-            if (response.status === 200) {
-                return Promise.resolve(response?.data);
-            } else {
-                console.log(' error : getMyCompanies ', response);
-                return Promise.reject(response);
+        console.log(getLogInType());
+        if (getLogInType() === 'CL') {
+            const url = `${this.baseUrl}${this.apiUrl.getCompaniesApi}?page=${getData.page}&size=${getData.size}&status=${getData.status}&clientId=${getData.clientId}`;
+            try {
+                const response = await axios.get(url);
+                if (response.status === 200) {
+                    return Promise.resolve(response?.data);
+                } else {
+                    console.log(' error : getMyCompanies ', response);
+                    return Promise.reject(response);
+                }
+            }
+            catch (error) {
+                console.log(' error : getMyCompanies', error);
+                return Promise.reject(error);
             }
         }
-        catch (error) {
-            console.log(' error : getMyCompanies', error);
-            return Promise.reject(error);
+        if (getLogInType() === 'SL') {
+            const url = `${this.baseUrl}${this.apiUrl.getCompaniesApi}?page=${getData.page}&size=${getData.size}&status=${getData.status}`;
+            try {
+                const response = await axios.get(url);
+                if (response.status === 200) {
+                    return Promise.resolve(response?.data);
+                } else {
+                    console.log(' error : getMyCompanies ', response);
+                    return Promise.reject(response);
+                }
+            }
+            catch (error) {
+                console.log(' error : getMyCompanies', error);
+                return Promise.reject(error);
+            }
         }
     }
 
