@@ -175,6 +175,7 @@ export interface WarehouseInfo {
   status?: string;
 }
 export interface Warehouseprice {
+  idforui?: string;
   priceId?: string;
   availspace?: string;
   ratesqtft?: string;

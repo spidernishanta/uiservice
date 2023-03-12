@@ -183,7 +183,7 @@ const EditWarehouse = (props: EditWarehouseProps) => {
                     {<WearehouseAddress editMode={true} data={whAddress} onWearehouseAddressUpdate={onWearehouseAddressUpdate} />}
                     {<WarehouseHours data={whHours} onWarehouseHoursUpdate={onWarehouseHoursUpdate} />}
                     {<WarehouseLayout data={warehouseGetData.methodReturnValue} onWarehouseLayoutUpdate={onWarehouseLayoutUpdate} />}
-                    {<WarehouseTotalSpace data={whPricing} showHeading={true} onUpdate={onWearehousePricingUpdate} />}
+                    {<WarehouseTotalSpace data={whPricing} onUpdate={onWearehousePricingUpdate} />}
                 </>
             }
             <div className='p-top-md align-c'>
