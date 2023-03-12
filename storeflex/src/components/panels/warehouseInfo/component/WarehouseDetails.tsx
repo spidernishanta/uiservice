@@ -51,7 +51,6 @@ const WarehouseDetails = (props: WarehouseDetailsProps) => {
         const data: WhDetail = updatedData;
         data.clientId = companyId;
         data.clientName = name || '';
-        idd = companyId;
         setDefaultData(data);
         setUpdatedData(data);
         // setDefaultData({...defaultData, clientId: companyId});
