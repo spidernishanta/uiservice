@@ -24,17 +24,17 @@ export interface WhDetail {
 }
 
 const errMsgObj = {} as WhDetail;
-
 const WarehouseDetails = (props: WarehouseDetailsProps) => {
     const [imageData, setImageData] = useState<File>();
     const [defaultData, setDefaultData] = useState<WhDetail>({});
     const [updatedData, setUpdatedData] = useState<WhDetail>({});
+    // const [resetData, setResetData] = useState(false);
     
     useEffect(() => {
-        if (props?.data?.clientId && (props?.data?.clientId !== defaultData?.clientId)) {
+        if (props?.data?.clientId) {
             setDefaultData(props.data);
         }
-    }, [props?.data?.clientId]);
+    }, []);
 
     useEffect(() => {
         onChangeUpdateInfo();
@@ -42,16 +42,21 @@ const WarehouseDetails = (props: WarehouseDetailsProps) => {
 
     const onChangeUpdateInfo = () => {
         if (props?.onWarehouseDetailsUpdate) {
-            updatedData.clientId = defaultData.clientId;
+            console.log('<<  onChangeUpdateInfo >>', updatedData);
             props.onWarehouseDetailsUpdate(updatedData);
         }
     }
 
-    const companyChange = (companyId: string) => {
-        // setCompanyCode(companyId);
-        const data: WhDetail = defaultData;
+    const companyChange = (companyId: string, name?: string) => {
+        const data: WhDetail = updatedData;
         data.clientId = companyId;
+        data.clientName = name || '';
         setDefaultData(data);
+        setUpdatedData(data);
+        // setDefaultData({...defaultData, clientId: companyId});
+        // setDefaultData({...defaultData, clientName: name});
+        setUpdatedData({...updatedData, clientId: companyId});
+        // setUpdatedData({...updatedData, clientName: name});
     }
 
     const validateWarehouseName = (event: any) => {
@@ -109,7 +114,7 @@ const WarehouseDetails = (props: WarehouseDetailsProps) => {
             setImageData(file);
         }
     }
-
+    // console.log(' companyChange >>>>>>> ##', defaultData);
     return (
         <>
             <div className='m-bot-lg'>
@@ -148,7 +153,7 @@ const WarehouseDetails = (props: WarehouseDetailsProps) => {
                             <Grid container spacing={2} columns={{ xs: 6, sm: 12, md: 12 }}>
                                 <Grid item xs={6}>
                                     <InputBox data={{
-                                        name: 'cityname', label: 'Warehouse Name*',
+                                        name: 'warehousename', label: 'Warehouse Name*',
                                         value: defaultData?.warehouseName
                                     }}
                                         onChange={validateWarehouseName}

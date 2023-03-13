@@ -187,7 +187,7 @@ const AddWarehouse = () => {
                         </div>
                     </Accordion.Header>
                     <Accordion.Body>
-                        {<WarehouseTotalSpace onUpdate={onWearehousePricingUpdate}/>}
+                        {<WarehouseTotalSpace showAddBtn={true} showRemoveBtn={true} onUpdate={onWearehousePricingUpdate}/>}
                     </Accordion.Body>
                 </Accordion.Item>
             </Accordion>

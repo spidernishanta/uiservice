@@ -6,7 +6,8 @@ import WearehousePricing from "./WearehousePricing";
 interface WearehousePricingProps {
     onUpdate?: (data: any) => void;
     data?: Warehouseprice[];
-    showHeading?: boolean;
+    showAddBtn?: boolean;
+    showRemoveBtn?: boolean;
 }
 
 interface wlList {
@@ -18,9 +19,11 @@ const minAvailableSpace = 100;
 const maxAvailableSpace = 200000; // yet to confirm;
 const WarehouseTotalSpace = (props: WearehousePricingProps) => {
     const [defaultTotalWh, setDefaultTotalWh] = useState<Warehouseprice[]>();
-    const [updatedWhList, setUpdatedWhlList] = useState<wlList>({'_1': {}});
+    const [updatedWhList, setUpdatedWhlList] = useState<Array<Warehouseprice>>([{}]);
     const [totalAvailableSpace, setTotalAvailableSpace] = useState(100);
     const [sendData, setSendData] = useState(false);
+    const [disableAddBtn, setDisableAddBtn] = useState(false);
+    const [disableRemoveBtn, setDisableRemoveBtn] = useState(true);
 
     useEffect(() => {
         if (props?.data && props?.data.length > 0 ) {
@@ -32,22 +35,26 @@ const WarehouseTotalSpace = (props: WearehousePricingProps) => {
     }, []);
 
     useEffect(() => {
-        if(sendData) {
-            onChangeUpdateInfo();
+        // if(sendData) {
+        //     onChangeUpdateInfo();
+        // }
+        onChangeUpdateInfo();
+        if(updatedWhList?.length) {
+            let wlLishLengh = updatedWhList.length;
+             wlLishLengh >= maxWhNo ? setDisableAddBtn(true) : setDisableAddBtn(false);
+            wlLishLengh > 1 ? setDisableRemoveBtn(false) : setDisableRemoveBtn(true);
         }
-    }, [sendData]);
+        
+    }, [updatedWhList]);
 
     const onChangeUpdateInfo = () => {
         if (props?.onUpdate) {
-            setSendData(false);
-            const tempList = Object.entries(updatedWhList);
-            const tempArry: Warehouseprice[] = [];
-            tempList.map((item) => {
-                console.log(item[1]);
-                tempArry.push(item[1])
+            const arryList = [...updatedWhList];
+            arryList.forEach((item) => {
+                item.idforui = undefined;
             })
-            // console.log('<< updatedWhList send data >>', tempArry);
-            props.onUpdate(tempArry);
+            console.log(updatedWhList, '<< updatedWhList send data >>', arryList);
+           props.onUpdate(arryList);
         }
     }
 
@@ -58,12 +65,19 @@ const WarehouseTotalSpace = (props: WearehousePricingProps) => {
     }
 
     const addNewWhPricing = (action: string) => {
-        const tempList = Object.entries(updatedWhList);
+        const tempList = updatedWhList;
         if(action === 'ADD' && updatedWhList && tempList.length < maxWhNo) {
-            // const tempList = Object.entries(updatedWhList);
-            const objId = `_${tempList.length + 1}`;
-            setUpdatedWhlList({...updatedWhList, [objId]: {} as Warehouseprice});
-            setSendData(true);
+            const objId = `_${tempList.length}`;
+            const obj = {} as Warehouseprice;
+            obj.idforui = objId;
+            setUpdatedWhlList([...updatedWhList, obj]);
+        } 
+    }
+
+    const handleRemove = (objectId) => {
+        console.log(' handleRemove >>>>> ', objectId);
+        if(objectId) {
+            setUpdatedWhlList(updatedWhList.filter( item => item.idforui !== objectId));
         }
     }
 
@@ -77,38 +91,36 @@ const WarehouseTotalSpace = (props: WearehousePricingProps) => {
     }
     const onWearehousePricingUpdate = (pricingInfo?: Warehouseprice, displayId?: string) => {
         if(pricingInfo && displayId ) {
-            setUpdatedWhlList({...updatedWhList, [displayId]: pricingInfo});
-            setSendData(true);
+            console.log(' displayId >>>  ', displayId);
+            const updateArry = updatedWhList.map((item) => {
+                if(item.idforui === displayId) {
+                    console.log('  displayIddisplayId ' , displayId);
+                    // item = pricingInfo;
+                    return pricingInfo;
+                } else {
+                    return item;
+                }
+            });
+            setUpdatedWhlList(updateArry);
         }
-    }
-
-    const handleRemove = (index) => {
-        // const list = [...priceList];
-        // list.splice(index,1);
-        // setPriceList(list);
-    }
-
-    const showAddREmove = () => {
-        return(
-            <div className="p-sm">
-            <Button variant="contained" color="primary" onClick={()=> addNewWhPricing('ADD')} style={{marginLeft:'20px'}}>Add Pricing</Button>
-            </div>
-        )
     }
 
     const showWhPricing = () => {
         if(updatedWhList) {
-            const tempList = Object.entries(updatedWhList);
+            const tempList = updatedWhList;
             return tempList.map((whItem, index) => {
-                const keyId = whItem[0]
+                whItem.idforui = `_${index}`;
+                const keyId = whItem.idforui
                 return (
                     <div key={keyId}>
                         <div className='p-md sf-box-shadow-blue'>
                             <div className="f-24px p-bot-sm align-c"> Availability {index + 1}</div>
                             {<WearehousePricing data={{}} displayId={keyId} onWearehousePricingUpdate={onWearehousePricingUpdate} />}
-                            <div className="align-rigth">
-                            <Button variant="contained" color="secondary" onClick={()=>handleRemove('index')} style={{marginLeft:'20px'}}>Remove Pricing</Button>
-                            </div>
+                            { props.showRemoveBtn && 
+                                <div className="align-rigth">
+                                <Button variant="contained" disabled={disableRemoveBtn} color="secondary" onClick={()=>handleRemove(keyId)} style={{marginLeft:'20px'}}>Remove Pricing</Button>
+                                </div>
+                            }
                         </div>
                     </div>
                 )
@@ -121,13 +133,17 @@ const WarehouseTotalSpace = (props: WearehousePricingProps) => {
     return (
         <>
             <div>
-            {props.showHeading && 
+            {!props.showAddBtn &&
                 <div className='primary-gradient'>
                     <div className='font-white p-sm f-18px f-bold'>Pricing</div>
                 </div>
             }
             {showWhPricing()}
-            {showAddREmove()}
+            {props.showAddBtn && 
+                <div className="p-sm">
+                <Button variant="contained" disabled={disableAddBtn} color="primary" onClick={()=> addNewWhPricing('ADD')} style={{marginLeft:'20px'}}>Add Pricing</Button>
+                </div>
+            }
             </div>
         </>
     )

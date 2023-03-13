@@ -5,7 +5,7 @@ import { objectData } from '../../../utils/ResponseSchema';
 
 interface storeCompany {
     company?: string;
-    onCompanyChange?(companyId?: string): void;
+    onCompanyChange?(companyId?: string, name?: string): void;
 }
 
 const GetCompany = (props?: storeCompany) => {
@@ -13,6 +13,7 @@ const GetCompany = (props?: storeCompany) => {
     const api = new Api();
     const [companyList, setCompanyList] = useState([]);
     const [companyCode, setCompanyCode] = useState<objectData>({val: 'Select Company'});
+    // const [companyName, setCompanyName] = useState('');
 
     useEffect(() => {
         getCompanies();
@@ -37,7 +38,15 @@ const GetCompany = (props?: storeCompany) => {
         } as objectData;
         setCompanyCode(obj);
         if(props?.onCompanyChange) {
-            props.onCompanyChange(obj.val)
+            let id = '';
+            let name = '';
+            companyList.forEach((item) => {
+                if(obj.val && item[obj.val]) {
+                    id = obj.val;
+                    name = item[obj.val];
+                }
+            })
+            props.onCompanyChange(id, name);
         }
     };
 
