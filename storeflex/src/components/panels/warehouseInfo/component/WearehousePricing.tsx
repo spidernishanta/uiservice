@@ -18,20 +18,17 @@ const WearehousePricing = (props: WearehousePricingProps) => {
     const [updatedData, setUpdatedData] = useState<Warehouseprice>();
     // const t = defaultData?.availspace
     useEffect(() => {
-        if (props?.data && props?.data) {
-            setDefaultData(props.data);
-        }
-    }, []);
+        // console.log('  WearehousePricing >> >>>> >>> >> ', props.data);
+        setDefaultData(props.data);
+    }, [props.data?.priceId]);
     useEffect(() => {
-        onChangeUpdateInfo();
+        if(updatedData) {
+            onChangeUpdateInfo();
+        }
     }, [updatedData]);
 
     const onChangeUpdateInfo = () => {
         if (props?.onWearehousePricingUpdate) {
-            // const obj = {} as Warehouseprice;
-            // obj.availspace = getVal(spaceInfo);
-            // obj.ratesqtft = getVal(rateInfo);
-            // obj.minordersqt = getVal(quantityInfo);
             console.log('<<updatedData>>', updatedData);
             props.onWearehousePricingUpdate(updatedData, props?.displayId);
         }
