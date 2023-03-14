@@ -4,7 +4,7 @@ import {
     ApiConfig, SlLoginProps, SignInPost, SignUpPost, GetStatesProp, GetCitiesProp, AddCompanyPostData,
     ViewCompaniesProps, ViewWarehouseProps, viewWarehouseAdminProps, EnquiryProps, viewUserProps,
     WarehousePostData, UserPostData, SearchProps, ChangePassPost, GetForgotPassProp, UpdatePassPost, BankInfo,
-    AddOrderPostData
+    AddOrderPostData,WarehouseId
 } from './ApiConfig';
 import { sessionStorageSet, sessionStorageGet, getLogInType } from '../utils/CommonUtils';
 import { SESSION_TYPE } from '../utils/Constants';
@@ -541,7 +541,7 @@ export default class Api {
         }
     }
     async postOrder(postData: AddOrderPostData): Promise<any> {
-        console.log(postData);
+        //console.log(postData);
         const url = `${this.baseUrl}${this.apiUrl.postOrderUrl}`;
         try {
             const response = await axios.post(url, postData);
@@ -554,6 +554,23 @@ export default class Api {
         }
         catch (error) {
             console.log(' error : postOrder', error);
+            return Promise.reject(error);
+        }
+    }
+    async getWarehouseOrdersList(wareId: WarehouseId): Promise<any> {
+        //console.log(postData);
+        const url = `${this.baseUrl}${this.apiUrl.getWarehouseOrdersList}?warehouseId=${wareId.warehouseId}`;
+        try {
+            const response = await axios.get(url);
+            if (response?.data?.statusCode === 600) {
+                return Promise.resolve(response?.data);
+            } else {
+                console.log(' error : getWarehouseOrderList ', response);
+                return Promise.reject(response);
+            }
+        }
+        catch (error) {
+            console.log(' error : getWarehouseOrderList', error);
             return Promise.reject(error);
         }
     }

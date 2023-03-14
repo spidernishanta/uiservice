@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Grid } from '@mui/material';
 import TopNavBar from '../components/navbar/TopNavBar';
 import SideNavBar from '../components/navbar/SideNavBar';
@@ -6,22 +6,27 @@ import { AppContainer, SplitPaneContainer } from '../components/containers/conta
 import Footer from '../components/footer/footer';
 import { getUserType } from '../utils/CommonUtils';
 import { DataGrid  } from "@mui/x-data-grid";
-import InputBox from '../components/atoms/textfield/InputBox';
-import { UserType } from '../components/atoms/adduser/UserHelper';
-import { UserPostData } from '../api/ApiConfig';
-import GetCompany from '../components/atoms/company/GetCompany';
-import { Balance, CallReceived } from '@mui/icons-material';
+import GetWarehouse from '../components/atoms/getwarehouse/GetWarehouse';
+import Api from '../api/Api';
 
 const PaymentReport = () => {
 
-    
-
-    const [userPostInfo, setUserPostInfo] = useState<UserPostData>();
-    const onCompanyChange = (id: string) => {
-        setUserPostInfo({ ...userPostInfo, clientId: id });
+    const api = new Api();
+    const [selectedWarehouseId, setSelectedWarehouseId] = useState('');
+    const onWarehouseChange = (id: string) => {
+        setSelectedWarehouseId(id)
         console.log(' << onCompanyChange >> ', id);
+    };
+    useEffect(()=>{
+        getOrderList(selectedWarehouseId);
+    },[selectedWarehouseId]);
+    const getOrderList = (selectedWarehouseId: any) => {
+        api.getWarehouseOrdersList(selectedWarehouseId).then((resp) => {
+            console.log(resp);
+       }).catch((error)=>{
+            console.log(' getWarehouse success >> ', error);
+        });
     }
-
     const columns = [
 
         { field: "orderId", headerName: "Order Id", width: 80 },
@@ -58,13 +63,13 @@ const PaymentReport = () => {
                                 <Grid item xs={6}>
                                     <p>Warhouse Name</p>
                                     <div className='p-top-md'>
-                                        {<GetCompany onCompanyChange={onCompanyChange} />}
+                                        {<GetWarehouse onWarehouseChange={onWarehouseChange}/>}
                                     </div>
                                 </Grid>
                                 <Grid item xs={6}>
                                     <p>Order:</p>
                                     <div className='p-top-md'>
-                                        {<GetCompany onCompanyChange={onCompanyChange} />}
+                                       
                                     </div>
                                 </Grid>
                             </Grid>

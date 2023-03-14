@@ -187,6 +187,7 @@ export class ApiConfig {
     getValidationBank = 'https://payout-api.cashfree.com/payout/v1/asyncValidation/bankDetails';
     authorisationBank = 'http://payout-gamma.cashfree.com/payout/v1/authorize';
     postOrderUrl = '/order';
+    getWarehouseOrdersList = '/whorders';
 }
 
 export interface UserPostData {
@@ -227,4 +228,8 @@ export interface AddOrderPostData {
     toDate?: string;
     unitPrice?: string;
     overhead?: LoadUnloadAmount;
+}
+
+export interface WarehouseId {
+    warehouseId?: string;
 }
