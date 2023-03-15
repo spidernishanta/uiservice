@@ -19,17 +19,12 @@ const GetWarehouse = (props?: storeWarehouse) => {
     }, []);
 
     const getWarehouse =() => {
-        const data = {
-            page: '0',
-            size: '10',
-            status: 'ACTIVE',
-        }
-        api.getWarehouseAdmin(data).then((resp) => {
-             if(resp?.methodReturnValue?.warehouseViewBean) {
-                setWarehouseList(resp.methodReturnValue.warehouseViewBean);
+        api.getActiveWHlist().then((resp) => {
+             if(resp?.methodReturnValue) { 
+                setWarehouseList(resp.methodReturnValue);
              }
         }).catch((error)=>{
-             console.log(' getWarehouse success >> ', error);
+             console.log(' getActiveWarehouselist fail >> ', error);
          });
      };
 
@@ -49,9 +44,9 @@ const GetWarehouse = (props?: storeWarehouse) => {
         <>
             <FormControl size="small" fullWidth={true}>
                 <Select autoWidth={false} defaultValue="" onChange={handleChange}>
-                    {warehouseList.map((item, index) => {
-                        const itemCode = item['warehouseId'];
-                        const itemName = item['warehouseName'];
+                    {warehouseList.map((item, index) => { 
+                        const itemCode = Object.keys(item).toString();
+                        const itemName = Object.values(item).toString();
                         return (
                             <MenuItem key={index + 1} value={itemCode}>{itemName}</MenuItem>
                         )
