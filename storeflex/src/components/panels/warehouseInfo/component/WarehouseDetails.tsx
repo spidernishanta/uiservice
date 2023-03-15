@@ -4,7 +4,7 @@ import InputBox from '../../../atoms/textfield/InputBox';
 import { InputError } from '../../../atoms/textfield/InputError';
 import GetCompany from "../../../atoms/company/GetCompany";
 import { objectData } from '../../../../utils/ResponseSchema';
-import { validateCharacterLength, validateGst } from "../../../../utils/CommonUtils";
+import { getClientId, getLogInType, validateCharacterLength, validateGst } from "../../../../utils/CommonUtils";
 import { UploadImage } from "../../../atoms/image/image";
 
 
@@ -29,7 +29,7 @@ const WarehouseDetails = (props: WarehouseDetailsProps) => {
     const [defaultData, setDefaultData] = useState<WhDetail>({});
     const [updatedData, setUpdatedData] = useState<WhDetail>({});
     // const [resetData, setResetData] = useState(false);
-    
+
     useEffect(() => {
         if (props?.data?.clientId) {
             setDefaultData(props.data);
@@ -55,7 +55,7 @@ const WarehouseDetails = (props: WarehouseDetailsProps) => {
         setUpdatedData(data);
         // setDefaultData({...defaultData, clientId: companyId});
         // setDefaultData({...defaultData, clientName: name});
-        setUpdatedData({...updatedData, clientId: companyId});
+        setUpdatedData({ ...updatedData, clientId: companyId });
         // setUpdatedData({...updatedData, clientName: name});
     }
 
@@ -73,7 +73,7 @@ const WarehouseDetails = (props: WarehouseDetailsProps) => {
             obj.error = 'Please enter valid name ';
         }
         errMsgObj.warehouseName = obj.error;
-        setUpdatedData({...updatedData, warehouseName: obj.val});
+        setUpdatedData({ ...updatedData, warehouseName: obj.val });
     }
 
     const onGstIdChange = (event: any) => {
@@ -90,7 +90,7 @@ const WarehouseDetails = (props: WarehouseDetailsProps) => {
             obj.error = '';
         }
         errMsgObj.warehouseTaxId = obj.error;
-        setUpdatedData({...updatedData, warehouseTaxId: obj.val});
+        setUpdatedData({ ...updatedData, warehouseTaxId: obj.val });
     }
 
     const validateWarehouseDec = (event: any) => {
@@ -106,7 +106,7 @@ const WarehouseDetails = (props: WarehouseDetailsProps) => {
         }
 
         errMsgObj.descp = obj.error;
-        setUpdatedData({...updatedData, descp: obj.val});
+        setUpdatedData({ ...updatedData, descp: obj.val });
     }
 
     const onPhotoUploadChange = (file: any) => {
@@ -143,11 +143,21 @@ const WarehouseDetails = (props: WarehouseDetailsProps) => {
                                     }
                                 </Grid>
                                 <Grid item xs={6}>
-                                    <InputBox data={{
-                                        name: 'clientid', label: 'Client ID*',
-                                        value: defaultData?.clientId, isDisabled: true
-                                    }}
-                                    />
+                                    {
+                                        getLogInType() === 'CL' ?
+                                            <InputBox data={{
+                                                name: 'clientid', label: 'Client ID*',
+                                                value: getClientId(), isDisabled: true
+                                            }}
+                                            />
+                                            :
+                                            <InputBox data={{
+                                                name: 'clientid', label: 'Client ID*',
+                                                value: defaultData?.clientId, isDisabled: true
+                                            }}
+                                            />
+                                    }
+
                                 </Grid>
                             </Grid>
                             <Grid container spacing={2} columns={{ xs: 6, sm: 12, md: 12 }}>

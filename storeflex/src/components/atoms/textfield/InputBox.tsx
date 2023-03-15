@@ -12,7 +12,7 @@ interface InputBoxProps {
 interface Data {
     size?: string;
     name?: string;
-    value?: string | number;
+    value?: string | number | never[];
     label?: string;
     type?: string;
     isDisabled?: boolean;

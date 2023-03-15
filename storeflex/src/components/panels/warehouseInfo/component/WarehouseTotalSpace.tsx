@@ -17,6 +17,7 @@ interface wlList {
 const maxWhNo = 5;
 const minAvailableSpace = 100;
 const maxAvailableSpace = 200000; // yet to confirm;
+let isUpdate = false;
 const WarehouseTotalSpace = (props: WearehousePricingProps) => {
     const [defaultTotalWh, setDefaultTotalWh] = useState<Warehouseprice[]>();
     const [updatedWhList, setUpdatedWhlList] = useState<Array<Warehouseprice>>([{}]);
@@ -28,6 +29,7 @@ const WarehouseTotalSpace = (props: WearehousePricingProps) => {
     useEffect(() => {
         if (props?.data && props?.data.length > 0 ) {
             setDefaultTotalWh(props.data);
+            setUpdatedWhlList(props.data);
             setWhList(props.data)
         } else {
             setWhList();
@@ -38,10 +40,11 @@ const WarehouseTotalSpace = (props: WearehousePricingProps) => {
         // if(sendData) {
         //     onChangeUpdateInfo();
         // }
-        onChangeUpdateInfo();
-        if(updatedWhList?.length) {
+        if(isUpdate && updatedWhList?.length > 0) {
+            isUpdate = false;
+            onChangeUpdateInfo();
             let wlLishLengh = updatedWhList.length;
-             wlLishLengh >= maxWhNo ? setDisableAddBtn(true) : setDisableAddBtn(false);
+            wlLishLengh >= maxWhNo ? setDisableAddBtn(true) : setDisableAddBtn(false);
             wlLishLengh > 1 ? setDisableRemoveBtn(false) : setDisableRemoveBtn(true);
         }
         
@@ -91,6 +94,7 @@ const WarehouseTotalSpace = (props: WearehousePricingProps) => {
     }
     const onWearehousePricingUpdate = (pricingInfo?: Warehouseprice, displayId?: string) => {
         if(pricingInfo && displayId ) {
+            isUpdate = true;
             console.log(' displayId >>>  ', displayId);
             const updateArry = updatedWhList.map((item) => {
                 if(item.idforui === displayId) {
@@ -115,7 +119,7 @@ const WarehouseTotalSpace = (props: WearehousePricingProps) => {
                     <div key={keyId}>
                         <div className='p-md sf-box-shadow-blue'>
                             <div className="f-24px p-bot-sm align-c"> Availability {index + 1}</div>
-                            {<WearehousePricing data={{}} displayId={keyId} onWearehousePricingUpdate={onWearehousePricingUpdate} />}
+                            {<WearehousePricing data={whItem} displayId={keyId} onWearehousePricingUpdate={onWearehousePricingUpdate} />}
                             { props.showRemoveBtn && 
                                 <div className="align-rigth">
                                 <Button variant="contained" disabled={disableRemoveBtn} color="secondary" onClick={()=>handleRemove(keyId)} style={{marginLeft:'20px'}}>Remove Pricing</Button>
