@@ -8,42 +8,109 @@ import { getUserType } from '../utils/CommonUtils';
 import { DataGrid  } from "@mui/x-data-grid";
 import GetWarehouse from '../components/atoms/getwarehouse/GetWarehouse';
 import Api from '../api/Api';
+import { FormControl, Select, MenuItem } from '@mui/material';
 
 const PaymentReport = () => {
 
     const api = new Api();
     const [selectedWarehouseId, setSelectedWarehouseId] = useState('');
+    const [warehouseOrderListData, SetWarehouseOrderListData] = useState([]);
+    const [orderCode, setOrderCode] = useState('');
+    const [orderDetails, setOrderDetails] = useState('');
+    const [orderPaymentDetails, setOrderPaymentDetails] = useState([]);
+    
     const onWarehouseChange = (id: string) => {
-        setSelectedWarehouseId(id)
-        console.log(' << onCompanyChange >> ', id);
+        setSelectedWarehouseId(id);
+        setOrderCode('');
     };
+
     useEffect(()=>{
         getOrderList(selectedWarehouseId);
-    },[selectedWarehouseId]);
+        getOrderDetails(orderCode);   
+    },[selectedWarehouseId,orderCode]);
+
     const getOrderList = (selectedWarehouseId: any) => {
         api.getWarehouseOrdersList(selectedWarehouseId).then((resp) => {
-            console.log(resp);
+            if(resp?.status === 'SUCCESS') {
+                SetWarehouseOrderListData(resp.methodReturnValue);
+            }
        }).catch((error)=>{
-            console.log(' getWarehouse success >> ', error);
+            console.log(' getWarehouse error >> ', error);
         });
+    };
+
+    const getOrderDetails = (orderCode: any) => {
+        if(orderCode === '') {
+            return;
+        } else {
+            api.getOrderListByOrderId(orderCode).then((resp)=>{ 
+                if(resp.status === 'SUCCESS') { 
+                    setOrderDetails(resp?.methodReturnValue); 
+                    setOrderPaymentDetails(resp?.methodReturnValue.orderPaymentDetails);
+                }
+            }).catch((error)=>{
+                console.log(' getOrderDetails >> ', error)
+            })
+        }
     }
+
+    const handleChangeOrderId = (event: any) => {
+        setOrderCode(event.target.value);
+    };
+    const GetOrderListByWareId = () => {
+        return(
+            <FormControl size="small" fullWidth={true}>
+                <Select autoWidth={false} defaultValue="" value={orderCode} onChange={handleChangeOrderId}>
+                    {warehouseOrderListData.map((item, index) => {
+                        const itemCode = item;
+                        const itemName = item;
+                        return (
+                            <MenuItem key={index + 1} value={itemCode}>{itemName}</MenuItem>
+                        )
+                    })}
+                </Select>
+            </FormControl>
+        );   
+    }
+   
     const columns = [
 
-        { field: "orderId", headerName: "Order Id", width: 80 },
-        { field: "monthYear", headerName: "Month/Year", width: 100 },
-        { field: "qty", headerName: "Qty", width: 100 },
-        { field: "unitPrice", headerName: "Unit Price", width: 100 },
-        { field: "price", headerName: "Price", width: 100 },
-        { field: "tax", headerName: "Tax", width: 100 },
-        { field: "totalPrice", headerName: "Total Price", width: 100 , },
-        { field: "amountRecieved", headerName: "Amount Recieved", width: 130, editable: true },
-        { field: "balance", headerName: "Balance", width: 100, aggfunc:"sum" },
-        { field: "status", headerName: "Status", width: 100 },
-        { field: "number", headerName: "Number", witdh: 100 },
-        { field: "paid", headerName: "Paid", witdh: 100, editable: true },
-        { field: "balPayout", headerName: "Bal Payout", witdh: 100 },
+        { field: "paymentId", headerName: "Payment Id", width: 150 },
+        { field: "month", headerName: "Month/Year", width: 150 },
+        { field: "monthlyBalance", headerName: "Monthly Balance", width: 150 },
+        { field: "monthlyPayment", headerName: "Monthly Payment", width: 150 },
+        { field: "paymentBalance", headerName: "Payment Balance", width: 150 },
+        { field: "paymentDone", headerName: "Payment Done", width: 150 },
+        { field: "payout", headerName: "Payout", width: 150 },
+        { field: "tax", headerName: "Tax", width: 150 },
+        { field: "status", headerName: "Status", width: 150 },
+        { field: "paytype", headerName: "Pay Type", witdh: 150 },
     
     ];
+
+    const OrderPaymentInfo = () => {
+        let list : any[] = [];
+        if(orderPaymentDetails) {
+            list = orderPaymentDetails.map((item, index) => { 
+            return {
+                id: index,
+                paymentId: item['paymentId'],
+                month: item['month']+' '+item['year'],
+                monthlyBalance: item['monthlyBalance'],
+                monthlyPayment: item['monthlyPayment'],
+                paymentBalance: item['paymentBalance'],
+                paymentDone: item['paymentDone'],
+                payout: item['payout'],
+                tax: item['tax'],
+                status: item['status'],
+                paytype: item['paytype']
+            }
+          })
+          return list;
+        } else {
+          return list;
+        }
+    }
 
 
     return (
@@ -61,7 +128,7 @@ const PaymentReport = () => {
                             </div>
                             <Grid container spacing={2} sx={{ mt: 0 }}>
                                 <Grid item xs={6}>
-                                    <p>Warhouse Name</p>
+                                    <p>Warehouse Name:</p>
                                     <div className='p-top-md'>
                                         {<GetWarehouse onWarehouseChange={onWarehouseChange}/>}
                                     </div>
@@ -69,42 +136,67 @@ const PaymentReport = () => {
                                 <Grid item xs={6}>
                                     <p>Order:</p>
                                     <div className='p-top-md'>
-                                       
+                                       <GetOrderListByWareId />
                                     </div>
                                 </Grid>
                             </Grid>
-                            <Grid container spacing={2} sx={{ mt: 1 }}>
-                                <Grid item xs={6}>
-                                    <p>Order By: Mehboob Alam</p>
+                            {selectedWarehouseId&&orderCode ? 
+                            <>
+                                <Grid container spacing={2} sx={{ mt: 1 }}>
+                                <Grid item xs={12} md={4}>
+                                    <p>Warehouse Id: {orderDetails['warehouseId']}</p>
                                 </Grid>
-                                <Grid item xs={6}>
-                                    <p>Order Date: 01/01/2023</p>
+                                <Grid item xs={12} md={4}>
+                                    <p>Order Date: {orderDetails['createDate']}</p>
+                                </Grid>
+                                <Grid item xs={12} md={4}>
+                                    <p>Order Id: {orderDetails['orderId']}</p>
+                                </Grid>
+                            </Grid>
+                            <Grid container spacing={2} sx={{ mt: 1 }}>
+                                <Grid item xs={4}>
+                                    <p>Start Date: {orderDetails['fromDate']}</p>
+                                </Grid>
+                                <Grid item xs={4}>
+                                    <p>End Date: {orderDetails['toDate']}</p>
+                                </Grid>
+                                <Grid item xs={4}>
+                                    <p>Total Amount: {orderDetails['totalAmt']}</p>
                                 </Grid>
                             </Grid>
                             <Grid container spacing={2} sx={{ mt: 1 }}>
-                                <Grid item xs={6}>
-                                    <p>Start Date: 01/01/2012</p>
+                                <Grid item xs={4}>
+                                    <p>Initial Amount: {orderDetails['initialAmt']}</p>
                                 </Grid>
-                                <Grid item xs={6}>
-                                    <p>End Date: 01/01/2024</p>
+                                <Grid item xs={4}>
+                                    <p>Status: {orderDetails['status']}</p>
+                                </Grid>
+                                <Grid item xs={4}>
+                                    <p>Unit Price: {orderDetails['unitPrice']}</p>
                                 </Grid>
                             </Grid>
-                            <div style={{ height: 370, width: "100%" }}>
-                                <DataGrid getRowHeight={() => 'auto'}
-                                    rows={[
-                                        
-                                        
-                                        { id: '1', orderId: 'WH1', monthYear: '12/2022', qty: '50', unitPrice: 'Rs.400', price: 'Rs.25,000', tax: 'Rs.1,000', totalPrice: 'Rs.90', amountRecieved: '', balance: '', status: '', payout: '', paid: '', balPayout: 'Rs.5000' },
-                                        { id: '2', orderId: 'WH87', monthYear: '12/2020', qty: '100', unitPrice: 'Rs.1000', price: 'Rs.25,000', tax: 'Rs.1,000', totalPrice: 'Rs.90', amountRecieved: '', balance: '', status: '', payout: '', paid: '', balPayout: '' },
-                                        { id: '3', orderId: 'WH3', monthYear: '01/2019', qty: '2000', unitPrice: 'Rs.20000', price: 'Rs.25,000', tax: 'Rs.1,000', totalPrice: 'Rs.90', amountRecieved: '', balance: '', status: '', payout: '', paid: '', balPayout: 'Rs.6000' },
-                                    ]}
-                                    componentsProps={{}}
-                                    columns={columns}
-                                    pageSize={5}
-                                    rowsPerPageOptions={[5]}
-                                    disableSelectionOnClick
-                                />
+                            <Grid container spacing={2} sx={{ mt: 1 }}>
+                                <Grid item xs={4}>
+                                    <p>Amount Remaining: {orderDetails['amtRemain']}</p>
+                                </Grid>
+                                <Grid item xs={4}>
+                                    <p>Requird Space Size: {orderDetails['spaceSize']}</p>
+                                </Grid>
+                                <Grid item xs={4}>
+                                    
+                                </Grid>
+                            </Grid>
+                            <div style={{ height: 480, width: "100%", marginTop: '10px'}}>
+                                    <DataGrid getRowHeight={() => 'auto'}
+                                            rows={OrderPaymentInfo()}
+                                            componentsProps={{}}
+                                            columns={columns}
+                                            pageSize={5}
+                                            rowsPerPageOptions={[5]}
+                                            disableSelectionOnClick
+                                    />
                             </div>
+                            </>:''}
                         </Box>
                     </div>
                 }

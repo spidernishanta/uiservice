@@ -188,6 +188,8 @@ export class ApiConfig {
     authorisationBank = 'http://payout-gamma.cashfree.com/payout/v1/authorize';
     postOrderUrl = '/order';
     getWarehouseOrdersList = '/whorders';
+    getOrderListByOrderId = '/order';
+    getActiveWHlist = '/getActiveWHlist';
 }
 
 export interface UserPostData {
@@ -232,4 +234,8 @@ export interface AddOrderPostData {
 
 export interface WarehouseId {
     warehouseId?: string;
+}
+
+export interface OrderId {
+    orderId?: string;
 }
