@@ -27,11 +27,11 @@ const AddWarehouse = () => {
     const [whLayout, setLayout] = useState<WarehouseLayoutObj>({});
     const [whPriceList, setWhPriceList] = useState<Warehouseprice[]>();
 
-    const [priceList, setPriceList] = useState([{price: ""}]);
+    const [priceList, setPriceList] = useState([{ price: "" }]);
 
     const handlePriceAdd = () => {
-        setPriceList([...priceList, { price:"" }]);
-    }    
+        setPriceList([...priceList, { price: "" }]);
+    }
 
     const onWarehouseDetailsUpdate = (data: WhDetail) => {
         setWhDetails(data);
@@ -187,12 +187,12 @@ const AddWarehouse = () => {
                         </div>
                     </Accordion.Header>
                     <Accordion.Body>
-                        {<WarehouseTotalSpace showAddBtn={true} showRemoveBtn={true} onUpdate={onWearehousePricingUpdate}/>}
+                        {<WarehouseTotalSpace showAddBtn={true} showRemoveBtn={true} onUpdate={onWearehousePricingUpdate} />}
                     </Accordion.Body>
                 </Accordion.Item>
             </Accordion>
             <div className='p-top-md align-c'>
-                <Button className='sf-btn' variant="contained" onClick={() => { alert('Cancel') }}> Cancel </Button>
+                <Button className='sf-btn' variant="contained" onClick={() => window.history.back()}> Cancel </Button>
                 <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
                 <Button className="btn primary-btn sf-btn" variant="contained" onClick={() => { addWarehouse() }}> Save </Button>
             </div>
