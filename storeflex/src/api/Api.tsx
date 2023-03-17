@@ -4,7 +4,7 @@ import {
     ApiConfig, SlLoginProps, SignInPost, SignUpPost, GetStatesProp, GetCitiesProp, AddCompanyPostData,
     ViewCompaniesProps, ViewWarehouseProps, viewWarehouseAdminProps, EnquiryProps, viewUserProps,
     WarehousePostData, UserPostData, SearchProps, ChangePassPost, GetForgotPassProp, UpdatePassPost, BankInfo,
-    AddOrderPostData,WarehouseId,OrderId
+    AddOrderPostData, WarehouseId, OrderId, MoveToFeatureWHPost
 } from './ApiConfig';
 import { sessionStorageSet, sessionStorageGet, getLogInType } from '../utils/CommonUtils';
 import { SESSION_TYPE } from '../utils/Constants';
@@ -60,6 +60,23 @@ export default class Api {
         }
         catch (error) {
             console.log(' error : signIn', error);
+            return Promise.reject(error);
+        }
+    }
+
+    async MoveToFeatureWH(postData: MoveToFeatureWHPost): Promise<any> {
+        const url = `${this.baseUrl}${this.apiUrl.moveToFeatureWH}?whIds=${postData.whIds}`;
+        try {
+            const response = await axios.post(url, postData);
+            if (response?.data?.statusCode === 600) {
+                return Promise.resolve(response?.data);
+            } else {
+                console.log(' error : MoveToFeature ', response);
+                return Promise.reject(response);
+            }
+        }
+        catch (error) {
+            console.log(' error : MoveToFeature', error);
             return Promise.reject(error);
         }
     }
@@ -605,5 +622,5 @@ export default class Api {
             return Promise.reject(error);
         }
     }
-    
+
 }
