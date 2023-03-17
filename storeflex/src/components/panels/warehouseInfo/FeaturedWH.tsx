@@ -7,7 +7,7 @@ import Api from "../../../api/Api";
 import { Button } from "@mui/material";
 import { FormControlLabel } from "@mui/material";
 import { Radio } from "@mui/material";
-import { viewWarehouseAdminProps } from "../../../api/ApiConfig";
+import { MoveToFeatureWHPost, viewWarehouseAdminProps } from "../../../api/ApiConfig";
 import { ToggleButton } from "@mui/material";
 import { LoaderFull } from "../../atoms/loader/loader";
 import { AppContainer } from "../../containers/containers";
@@ -18,6 +18,7 @@ import SideNavBar from "../../navbar/SideNavBar";
 import { getUserType } from "../../../utils/CommonUtils";
 import Footer from "../../footer/footer";
 import { Switch } from "@mui/material";
+import { CurrencyExchange, PanoramaSharp } from "@mui/icons-material";
 
 let recordLabel = '';
 
@@ -41,7 +42,7 @@ const FeaturedWH = () => {
 
     const getWarehouseAdmin = (page, size) => {
         let warehouseStatus = 'ACTIVE'
-        recordLabel = 'Featured Warehouses'
+        recordLabel = 'Active Warehouses'
         setIsLoader(true);
 
         const data: viewWarehouseAdminProps = { page: page, size: size, status: warehouseStatus };
@@ -123,6 +124,12 @@ const FeaturedWH = () => {
     ) => {
         setAlignment(newAlignment);
     };
+    const [searches, setSearches] = useState([]);
+
+    const func = (params: any) => {
+        setSearches(searches => searches.concat(params.id));
+        console.log("Testing:", searches);
+    }
 
     const columns = [
 
@@ -152,7 +159,7 @@ const FeaturedWH = () => {
                             defaultValue="no"
                             name="radio-buttons-group"
                         >
-                            <FormControlLabel value="yes" control={<Radio />} label="Yes" />
+                            <FormControlLabel value="yes" control={<Radio />} label="Yes" onClick={(e) => func(params)} />
                             <FormControlLabel value="no" control={<Radio />} label="No" />
                         </RadioGroup>
                     </Box>
@@ -200,6 +207,26 @@ const FeaturedWH = () => {
         );
     }
 
+    let whIds = ''
+
+    const submitList = (searches) => {
+        console.log("WarehouseId:", searches);
+        const data: MoveToFeatureWHPost = {
+            whIds: searches
+        }
+        api.MoveToFeatureWH(data).then((response) => {
+            if (response.statusCode === 600) {
+                swal({
+                    title: "Success",
+                    text: "Selected warehouses are added successfully",
+                    icon: "success",
+                    dangerMode: true,
+                    closeOnClickOutside: true,
+                });
+            }
+        })
+    }
+
     return (
         <AppContainer>
             <TopNavBar />
@@ -209,7 +236,7 @@ const FeaturedWH = () => {
                     <div className='c-box-shadow-blue'>
                         {myWarehouse.length > 0 && showWarehouseList()}
                         <div className='p-top-md align-c'>
-                            <Button className='sf-btn' variant="contained" onClick={() => { }}> Save </Button>
+                            <Button className='sf-btn' variant="contained" onClick={(e) => { submitList(searches) }}> Save </Button>
                             <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
                             <Button className="btn primary-btn sf-btn" variant="contained" onClick={() => window.history.back()}> Exit </Button>
                         </div>
