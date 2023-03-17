@@ -6,8 +6,10 @@ import { InputError } from '../../atoms/textfield/InputError';
 import Accordion from 'react-bootstrap/Accordion';
 import AddressDetails from '../../atoms/addressforms/AddressDetails';
 import { BusinessDetails, Address, Contact } from '../../../utils/ResponseSchema';
-import { validateCharacterLength, validateWebUrl, validateGst, validatePhone, 
-    CHARACTER_ONLY, validateCharacterOnly, validateEmail, validateCompanyName } from '../../../utils/CommonUtils';
+import {
+    validateCharacterLength, validateWebUrl, validateGst, validatePhone,
+    CHARACTER_ONLY, validateCharacterOnly, validateEmail, validateCompanyName
+} from '../../../utils/CommonUtils';
 import Api from '../../../../src/api/Api';
 import { AddCompanyPostData } from '../../../../src/api/ApiConfig';
 import LoaderSpinner from '../../atoms/spinner/spinner';
@@ -302,7 +304,7 @@ const AddBusiness = (props: AddBusinessProps) => {
 
             setLoaderState(true);
 
-            api.addCompany(postData).then((resp) => { 
+            api.addCompany(postData).then((resp) => {
                 setLoaderState(false); setStep(3);
                 if (resp && resp.methodReturnValue.clientId && imageData) {
                     upladPhoto(imageData, resp.methodReturnValue.clientId);
@@ -488,9 +490,9 @@ const AddBusiness = (props: AddBusinessProps) => {
                 </Accordion.Item>
             </Accordion>
             <div className='p-top-md align-c'>
-                <Button className='sf-btn' variant="contained" onClick={() => { setStep(2) }}> Cancel </Button>
+                <Button className='sf-btn' variant="contained" onClick={() => window.history.back()}> Cancel </Button>
                 <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                <Button className="btn primary-btn sf-btn" variant="contained" onClick={() => { onSave ()}}> Save </Button>
+                <Button className="btn primary-btn sf-btn" variant="contained" onClick={() => { onSave() }}> Save </Button>
             </div>
         </>
 

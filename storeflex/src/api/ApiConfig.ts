@@ -12,6 +12,9 @@ export interface SignInPost {
     password: string;
 }
 
+export interface MoveToFeatureWHPost {
+    whIds: string;
+}
 export interface SignUpPost {
     firstName?: string;
     middleName?: string;
@@ -190,6 +193,7 @@ export class ApiConfig {
     getWarehouseOrdersList = '/whorders';
     getOrderListByOrderId = '/order';
     getActiveWHlist = '/getActiveWHlist';
+    moveToFeatureWH = '/movetofeaturewh';
 }
 
 export interface UserPostData {
