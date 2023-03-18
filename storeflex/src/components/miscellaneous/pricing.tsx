@@ -2,23 +2,44 @@ import React from 'react';
 import Carousel from "../carousel/carousel";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
-import { useNavigate, useLocation } from "react-router-dom"
+import { useNavigate, useLocation } from "react-router-dom";
+import { useState, useEffect } from 'react';
+import Api from '../../api/Api';
+import InputBox from '../atoms/textfield/InputBox';
 
 const Pricing = () => {
+  const [featureWHList, setFeatureWHList] = useState<Array<any>>([]);
+  const api = new Api();
+
   const navigate = useNavigate();
 
   const WarehouseDetails = () => {
     navigate('/WarehouseDetails');
   }
+  const [priceList, setPriceList] = useState<Array<any>>([]);
 
   const addToCart = () => {
     navigate('/cart');
   }
 
+  useEffect(() => {
+    api.featurewarehouse().then((resp) => {
+      const data = resp.methodReturnValue;
+      console.log(' getFeatureWH success >> ', data);
+      if (resp?.methodReturnValue) {
+        setFeatureWHList(data);
+        setPriceList(data.warehousepriceList);
+      }
+    }).catch((error) => {
+      console.log(' getFeatureWH error >> ', error);
+    });
+
+  }, [""]);
 
 
-    return (
-      <>
+
+  return (
+    <>
       <section id="pricing" className="pricing-area pricing-fifteen">
         <div className="section-title-three">
           <div className="container">
@@ -31,7 +52,6 @@ const Pricing = () => {
             </div>
           </div>
         </div>
-
         {/*Custom Carousel*/}
         <div
           style={{
@@ -42,128 +62,36 @@ const Pricing = () => {
           }}
         >
           <Carousel show={3} slide={true}>
-          <Card border="warning" style={{ width: "18rem", marginRight: "25px", boxShadow: '1px 3px 9px #F4AAB9'}}>
-              <Card.Img variant="top" src="static\images/royal-palace.jpg"/>
-              <Card.Body className="text-center">
-                <Card.Title>WAREHOUSE_GUWAHATI</Card.Title>
-                <Card.Subtitle className="mb-2 text-muted">
-                  GUWAHATI,ASSAM
-                </Card.Subtitle>
-                <Card.Text>
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card's content.
-                </Card.Text>
-                <h6 className="amount">
-                  &#x20B9; 85,000.00 <span className="duration">/month</span>
-                </h6><br/>
-                <button className="btn primary-btn btn-sm" onClick={WarehouseDetails} >Details</button>
-                <p className="pt-1"><Card.Link href="/Cart"><u>Add to Wishlist</u></Card.Link></p>
-              </Card.Body>
-            </Card>
-            <Card border="warning" style={{ width: "18rem", marginRight: "25px", boxShadow: '1px 3px 9px #F4AAB9'}}>
-              <Card.Img variant="top" src="static\images/palace-1.jpg"/>
-              <Card.Body className="text-center">
-                <Card.Title>WAREHOUSE_SIXMILE</Card.Title>
-                <Card.Subtitle className="mb-2 text-muted">
-                  SIXMILE,GUWAHATI
-                </Card.Subtitle>
-                <Card.Text>
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card's content.
-                </Card.Text>
-                <h6 className="amount">
-                  &#x20B9; 85,000.00 <span className="duration">/month</span>
-                </h6><br/>
-                <button className="btn primary-btn btn-sm" onClick={WarehouseDetails} >Details</button>
-                <p className="pt-1"><Card.Link href="/Cart"><u>Add to Wishlist</u></Card.Link></p>
-              </Card.Body>
-            </Card>
-            <Card border="warning" style={{ width: "18rem", marginRight: "25px", boxShadow: '1px 3px 9px #F4AAB9'}}>
-              <Card.Img variant="top" src="static\images/02.jpg"/>
-              <Card.Body className="text-center">
-                <Card.Title>WAREHOUSE_DELHI</Card.Title>
-                <Card.Subtitle className="mb-2 text-muted">
-                  DELHI, INDIA
-                </Card.Subtitle>
-                <Card.Text>
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card's content.
-                </Card.Text>
-                <h6 className="amount">
-                  &#x20B9; 85,000.00 <span className="duration">/month</span>
-                </h6><br/>
-                <button className="btn primary-btn btn-sm" onClick={WarehouseDetails} >Details</button>
-                <p className="pt-1"><Card.Link href="/Cart"><u>Add to Wishlist</u></Card.Link></p>
-              </Card.Body>
-            </Card>
-            <Card border="warning" style={{ width: "18rem", marginRight: "25px", boxShadow: '1px 3px 9px #F4AAB9'}}>
-              <Card.Img variant="top" src="static\images/palace-3.jpg"/>
-              <Card.Body className="text-center">
-                <Card.Title>WAREHOUSE_MUMBAI</Card.Title>
-                <Card.Subtitle className="mb-2 text-muted">
-                  MUMBAI_INDIA
-                </Card.Subtitle>
-                <Card.Text>
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card's content.
-                </Card.Text>
-                <h6 className="amount">
-                  &#x20B9; 85,000.00 <span className="duration">/month</span>
-                </h6><br/>
-                <button className="btn primary-btn btn-sm" onClick={WarehouseDetails} >Details</button>
-                <p className="pt-1"><Card.Link href="/Cart"><u>Add to Wishlist</u></Card.Link></p>
-              </Card.Body>
-            </Card>
-            <Card border="warning" style={{ width: "18rem", marginRight: "25px", boxShadow: '1px 3px 9px #F4AAB9'}}>
-              <Card.Img variant="top" src="static\images/01.jpg"/>
-              <Card.Body className="text-center">
-                <Card.Title>RIVER_VALLEY PALACE</Card.Title>
-                <Card.Subtitle className="mb-2 text-muted">
-                  Greenwich, London
-                </Card.Subtitle>
-                <Card.Text>
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card's content.
-                </Card.Text>
-                <h6 className="amount">
-                  &#x20B9; 85,000.00 <span className="duration">/month</span>
-                </h6><br/>
-                <button className="btn primary-btn btn-sm" onClick={WarehouseDetails} >Details</button>
-                <p className="pt-1"><Card.Link href="/Cart"><u>Add to Wishlist</u></Card.Link></p>
-              </Card.Body>
-            </Card>
-            <Card border="warning" style={{ width: "18rem", marginRight: "25px", boxShadow: '1px 3px 9px #F4AAB9'}}>
-              <Card.Img variant="top" src="static\images/03.jpg"/>
-              <Card.Body className="text-center">
-                <Card.Title>WAREHOUSE_KOLKATA</Card.Title>
-                <Card.Subtitle className="mb-2 text-muted">
-                  KOLKATA, WEST BANGAL
-                </Card.Subtitle>
-                <Card.Text>
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card's content.
-                </Card.Text>
-                <h6 className="amount">
-                  &#x20B9; 85,000.00 <span className="duration">/month</span>
-                </h6><br/>
-                <button className="btn primary-btn btn-sm" onClick={WarehouseDetails} >Details</button>
-                <p className="pt-1"><Card.Link href="/Cart"><u>Add to Wishlist</u></Card.Link></p>
-              </Card.Body>
-            </Card>
+            {
+              featureWHList.map((ware) => (
+                <Card border="warning" style={{ width: "18rem", marginRight: "25px", boxShadow: '1px 3px 9px #F4AAB9' }}>
+                  <Card.Img variant="top" src="static\images/royal-palace.jpg" />
 
-            {/* <div>
-              <div style={{ padding: 8 }}>
-                <img
-                  src="https://via.placeholder.com/300/09f/fff.png"
-                  alt="placeholder"
-                  style={{ width: "100%" }}
-                />
-              </div>
-            </div> */}
+                  <Card.Body className="text-center">
+                    <Card.Title>{ware.warehouseName}</Card.Title>
+                    <Card.Subtitle className="mb-2 text-muted">
+                      {ware.address[0].city}, {ware.address[0].state}
+                    </Card.Subtitle>
+                    <Card.Text>
+                      {ware.descp}
+                    </Card.Text>
+                    <h6 className="amount">
+                      &#x20B9;{parseFloat(ware.warehousepriceList[0].ratesqtft).toFixed(2)}<span className="duration">/month</span>
+                    </h6><br />
+                    <button className="btn primary-btn btn-sm" onClick={WarehouseDetails} >Details</button>
+                    <p className="pt-1"><Card.Link href="/Cart"><u>Add to Wishlist</u></Card.Link></p>
+                  </Card.Body>
+
+                </Card>
+              ))
+            }
           </Carousel>
+          {/* {featureWHList.map((ware) => (
+            <input value={ware.warehouseName}></input>
+          ))} */}
         </div>
-      </section>
-      </>
-    );
+      </section >
+    </>
+  );
 };
 export default Pricing;

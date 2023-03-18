@@ -176,6 +176,7 @@ export class ApiConfig {
     updateCompanyApi = '/clientUpdate';
     uploadCompanyPhotoApi = '/uploadClientProfilePic';
     searchwarehouse = '/searchwarehouse';
+    featurewarehouse = '/featurewarehouse';
     guestsearchwarehouseApi = '/guestsearchwarehouse';
     getWarehouseByClientIdUrl = '/warehouseByClientId';
     getWarehouseByIdUrl = '/warehouseById';
