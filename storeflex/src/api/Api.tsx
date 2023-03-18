@@ -364,6 +364,23 @@ export default class Api {
         }
     }
 
+    async featurewarehouse(): Promise<any> {
+        const url = this.baseUrl + this.apiUrl.featurewarehouse;
+        try {
+            const response = await axios.get(url);
+            if (response?.data?.statusCode === 600) {
+                return Promise.resolve(response?.data);
+            }
+            else {
+                return Promise.reject(response);
+            }
+        }
+        catch (error) {
+            console.log(' error : Get FeatureWH', error);
+            return Promise.reject(error);
+        }
+    }
+
     async getGuestsearchwarehouse(data: SearchProps): Promise<any> {
         const url = `${this.baseUrl}${this.apiUrl.guestsearchwarehouseApi}?searchBy=${data.search}&page=${data?.page || 0}&size=${data?.size || 3}`;
         try {
