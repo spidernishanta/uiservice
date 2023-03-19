@@ -27,7 +27,7 @@ const styleModal = {
 export const PaymentGatewayModal = (props: PaymentGatewayProps) => {
 
   const api = new Api();
-  const [isLoader, setIsLoader] = useState(true);
+  const [isLoader, setIsLoader] = useState(false);
   const [open, setOpen] = useState(false);
   //  const handleOpen = () => setOpen(true);
   const handleClose = () => {
