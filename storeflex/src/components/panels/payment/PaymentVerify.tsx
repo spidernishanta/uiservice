@@ -7,6 +7,7 @@ import Api from '../../../../src/api/Api';
 import { BankInfo } from '../../../../src/api/ApiConfig';
 import LoaderSpinner from '../../atoms/spinner/spinner';
 import { validateCharacterLength, validateCharacterOnly, validatePhone } from '../../../utils/CommonUtils';
+import { PaymentGatewayModal } from './PaymentGateway';
 
 
 const PaymentVerify = () => {
@@ -19,6 +20,7 @@ const PaymentVerify = () => {
      const [accountNoInfo, setAccountNoInfo] = useState<objectData>({});
      const [ifscInfo, setIfscInfo] = useState<objectData>({});
      const [isLoader, setLoaderState] = useState(false);
+     const [openPayment, setPopenPayment] = useState(false);
 
     const ontNameChange = (event: any) => {
         const obj = {
@@ -90,6 +92,10 @@ const PaymentVerify = () => {
         });
     }
 
+    const Payment = (isOpen = false) => {
+        setPopenPayment(isOpen);
+    }
+
     return (
         <>
             {isLoader && (
@@ -137,7 +143,13 @@ const PaymentVerify = () => {
                     <Button variant="contained" sx={{backgroundColor: '#fb8c00'}} onClick={() => { verifyAc()}}>Verify</Button>
                 </Grid>
             </Grid>
+            <Grid container spacing={2} sx={{ mt: 1 }}>
+                <Grid item xs={12}>
+                    <Button variant="contained" sx={{backgroundColor: '#fb8c00'}} onClick={() => { Payment(true)}}>Pay</Button>
+                </Grid>
+            </Grid>
             </Box>
+            {<PaymentGatewayModal openModal={openPayment} onModalClose={Payment}/>}
         </div>
         </>
     )
