@@ -176,6 +176,7 @@ export class ApiConfig {
     updateCompanyApi = '/clientUpdate';
     uploadCompanyPhotoApi = '/uploadClientProfilePic';
     searchwarehouse = '/searchwarehouse';
+    featurewarehouse = '/featurewarehouse';
     guestsearchwarehouseApi = '/guestsearchwarehouse';
     getWarehouseByClientIdUrl = '/warehouseByClientId';
     getWarehouseByIdUrl = '/warehouseById';
@@ -189,6 +190,8 @@ export class ApiConfig {
     getWarehouseCategoriesApi = '/categories';
     getValidationBank = 'https://payout-api.cashfree.com/payout/v1/asyncValidation/bankDetails';
     authorisationBank = 'http://payout-gamma.cashfree.com/payout/v1/authorize';
+    paymentTestUrl = 'https://sandbox.cashfree.com/pg/orders';
+    paymentProdUrl = 'XXXXXX';
     postOrderUrl = '/order';
     getWarehouseOrdersList = '/whorders';
     getOrderListByOrderId = '/order';
@@ -243,4 +246,21 @@ export interface WarehouseId {
 
 export interface OrderId {
     orderId?: string;
+}
+
+export interface CustomerDetails {
+    customer_id: number | string ;
+    customer_email: string;
+    customer_phone : number | string;
+}
+
+export interface OrderMeta {
+    return_url: string;
+}
+export interface PaymentPostData {
+    order_id: string;
+    order_amount: number | string;
+    order_currency: string;
+    customer_details: CustomerDetails;
+    order_meta: OrderMeta;
 }

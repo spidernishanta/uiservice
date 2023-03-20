@@ -4,7 +4,7 @@ import {
     ApiConfig, SlLoginProps, SignInPost, SignUpPost, GetStatesProp, GetCitiesProp, AddCompanyPostData,
     ViewCompaniesProps, ViewWarehouseProps, viewWarehouseAdminProps, EnquiryProps, viewUserProps,
     WarehousePostData, UserPostData, SearchProps, ChangePassPost, GetForgotPassProp, UpdatePassPost, BankInfo,
-    AddOrderPostData, WarehouseId, OrderId, MoveToFeatureWHPost
+    AddOrderPostData, WarehouseId, OrderId, MoveToFeatureWHPost, PaymentPostData,
 } from './ApiConfig';
 import { sessionStorageSet, sessionStorageGet, getLogInType } from '../utils/CommonUtils';
 import { SESSION_TYPE } from '../utils/Constants';
@@ -364,6 +364,23 @@ export default class Api {
         }
     }
 
+    async featurewarehouse(): Promise<any> {
+        const url = this.baseUrl + this.apiUrl.featurewarehouse;
+        try {
+            const response = await axios.get(url);
+            if (response?.data?.statusCode === 600) {
+                return Promise.resolve(response?.data);
+            }
+            else {
+                return Promise.reject(response);
+            }
+        }
+        catch (error) {
+            console.log(' error : Get FeatureWH', error);
+            return Promise.reject(error);
+        }
+    }
+
     async getGuestsearchwarehouse(data: SearchProps): Promise<any> {
         const url = `${this.baseUrl}${this.apiUrl.guestsearchwarehouseApi}?searchBy=${data.search}&page=${data?.page || 0}&size=${data?.size || 3}`;
         try {
@@ -531,32 +548,6 @@ export default class Api {
             return Promise.reject(error);
         }
     }
-
-    async getAuthorisationBank(bankInfo: BankInfo): Promise<any> {
-        let axiosConfig = {
-            headers: {
-                'X-Client-Id': 'admin@skaplink.com',
-                'X-Client-Secret': 'Kari0356!',
-                'cache-control': 'no-cache'
-            }
-        };
-        const url = `${this.apiUrl.authorisationBank}`;
-        try {
-            const response = await axios.post(url, axiosConfig);
-            console.log('<< getAuthorisationBank >>', response);
-            if (response?.data?.statusCode === 600) {
-                sessionStorageSet(response.data, SESSION_TYPE.wh_categories);
-                return Promise.resolve(response?.data);
-            } else {
-                console.log(' error : getWarehouseCategories ', response);
-                return Promise.reject(response);
-            }
-        }
-        catch (error) {
-            console.log(' error : getAuthorisationBank', error);
-            return Promise.reject(error);
-        }
-    }
     async postOrder(postData: AddOrderPostData): Promise<any> {
         //console.log(postData);
         const url = `${this.baseUrl}${this.apiUrl.postOrderUrl}`;
@@ -640,5 +631,60 @@ export default class Api {
             return Promise.reject(error);
         }
     }
+
+    /**  Payment section */
+    async getAuthorisationBank(bankInfo: BankInfo): Promise<any> {
+        let axiosConfig = {
+            headers: {
+                'X-Client-Id': 'admin@skaplink.com',
+                'X-Client-Secret': 'Kari0356!',
+                'cache-control': 'no-cache'
+            }
+        };
+        const url = `${this.apiUrl.authorisationBank}`;
+        try {
+            const response = await axios.post(url, axiosConfig);
+            console.log('<< getAuthorisationBank >>', response);
+            if (response?.data?.statusCode === 600) {
+                sessionStorageSet(response.data, SESSION_TYPE.wh_categories);
+                return Promise.resolve(response?.data);
+            } else {
+                console.log(' error : getWarehouseCategories ', response);
+                return Promise.reject(response);
+            }
+        }
+        catch (error) {
+            console.log(' error : getAuthorisationBank', error);
+            return Promise.reject(error);
+        }
+    }
+
+    async paymentGateway(payData: PaymentPostData): Promise<any> {
+        let axiosConfig = {
+            headers: {
+                'Content-Type': 'application/json',
+                'x-api-version': '2022-09-01',
+                'x-client-id': '9297643fb3e7c537a834ee3929',
+                'x-client-secret': 'a12ed480ffa771f8aa0fd3789bea4f74e7abb4d3'
+            }
+        };
+        const url = `${this.apiUrl.paymentTestUrl}`;
+        try {
+            const response = await axios.post(url, payData, axiosConfig);
+            console.log(' paymentGateway : success >>', response);
+            // if (response?.data?.statusCode === 600) {
+            //     sessionStorageSet(response.data, SESSION_TYPE.wh_categories);
+            //     return Promise.resolve(response?.data);
+            // } else {
+            //     console.log(' error : paymentGateway ', response);
+            //     return Promise.reject(response);
+            // }
+        }
+        catch (error) {
+            console.log(' error : paymentGateway', error);
+            return Promise.reject(error);
+        }
+    }
+    /**  End Payment  */
 
 }
