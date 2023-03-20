@@ -6,13 +6,6 @@ import Paper from '@mui/material/Paper';
 import './searchresult.css';
 import BeenhereIcon from '@mui/icons-material/Beenhere';
 import Filter from './filter';
-import Form from 'react-bootstrap/Form';
-import Modal from 'react-bootstrap/Modal';
-import Carousel from 'react-bootstrap/Carousel';
-import Table from 'react-bootstrap/Table';
-import InputBox from '../textfield/InputBox';
-import WarehouseDetails from './warehouseDetails';
-import { Grid } from '@mui/material';
 import { getUserLoggedIn } from '../../../utils/CommonUtils';
 import swal from 'sweetalert';
 import Api from '../../../api/Api';
@@ -32,28 +25,29 @@ const Item = styled(Paper)(({ theme }) => ({
 export default function Searchresult() {
 
   const [warehouse, setWarehouse] = useState<Array<any>>([]);
-  const [warehouseInfo, setWarehouseInfo] = useState<Array<any>>([]);
   const [office, setOffice] = useState<Array<any>>([]);
   const [filter, setFilter] = useState('');
-  const [price, setPrice] = useState<Array<any>>([]);
   const navigate = useNavigate();
+  const api = new Api();
 
   const { state } = useLocation();
 
-  const img = 'https://media.istockphoto.com/photos/warehouse-worker-picture-id1179825208';
-  const img2 = 'https://media.istockphoto.com/id/1165357335/photo/male-worker-working-in-warehouse.webp?s=612x612&w=is&k=20&c=zcBK2kcxFDIBbd_aKXh_-kek_MGX30smjx64GURYGAU=';
-  const img3 = 'https://media.istockphoto.com/id/980114338/photo/supervisor-and-employee-at-warehouse.webp?s=612x612&w=is&k=20&c=6TtBd269scsOMBrswgxy0tsa64_MsChdpXo_oBrz8yk=';
-  const img4 = 'https://media.istockphoto.com/photos/warehouse-worker-picture-id1179825208';
-
-  // const price = '200';
-
-
+  const [profilePic, setProfilePic] = useState('');
+  
   useEffect(() => {
-    const stateData: any = state; console.log(stateData);
+    const stateData: any = state; 
     setWarehouse(stateData);
-  }, [])
-
-
+    stateData.map((item: any)=>{
+      api.getWarehouseProfilePic(item.warehouseId).then((response)=>{
+        setProfilePic(response.config.url.substring(0,113));
+        
+      }).catch((error)=>{
+          console.log(error);
+      });
+    })
+    
+  }, []);
+  
 
   const addToCart = (e: any, selectedItem: any) => {
     navigate('/cart', { state: selectedItem });
@@ -72,14 +66,7 @@ export default function Searchresult() {
     navigate('/WarehouseDetails', { state: warehousedata });
   }
 
-
-
-  const [index, setIndex] = useState(0);
-
-  const handleSelect = (selectedIndex, e) => {
-    setIndex(selectedIndex);
-  };
-
+  
   return (
 
     <>
@@ -122,8 +109,7 @@ export default function Searchresult() {
                         <div className="row">
                           <div className="col-md-12 col-lg-3 col-xl-3 mb-4 mb-lg-0">
                             <div className="bg-image hover-zoom ripple rounded ripple-surface">
-                              <img src={img}
-                                className="w-100" />
+                              <img src={profilePic.concat(ware.warehouseId)} alt="No profile Photo" className="w-100" />
                               <a href="#!">
                                 <div className="hover-overlay">
                                   <div className="mask" style={{ backgroundColor: 'rgba(253, 253, 253, 0.15)' }}></div>
@@ -133,21 +119,12 @@ export default function Searchresult() {
                           </div>
                           <div className="col-md-6 col-lg-6 col-xl-6">
                             <h5><BeenhereIcon />{ware.warehouseName}</h5>
+                            <span>{ware.warehouseId}</span>
                             <div className="d-flex flex-row">
-                              {/* <div className="text-danger mb-1 me-2">
-                                <i className="fa fa-star"></i>
-                                <i className="fa fa-star"></i>
-                                <i className="fa fa-star"></i>
-                                <i className="fa fa-star"></i>
-                              </div> */}
                               <span>{ware.descp}</span>
                             </div>
                             <div className="mt-1 mb-0 text-muted small">
                               <span>{ware.streetAddrs}, {ware.state}, {ware.pincode}</span>
-                              {/* <span className="text-primary"> • </span>
-                              <span>Light weight</span>
-                              <span className="text-primary"> • </span>
-                            <span>Best finish<br /></span> */}
                             </div>
                             &nbsp;
                             <div className="mb-2 text-muted small">
@@ -230,23 +207,12 @@ export default function Searchresult() {
                   </div>
                 </div>
               ))}
-
-
-
-
-
-
             </div>
           </section>
 
         </div>
 
       </div>
-
-
-
-
-
     </>
   );
 }
