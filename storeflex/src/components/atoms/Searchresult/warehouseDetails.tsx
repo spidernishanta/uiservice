@@ -20,22 +20,18 @@ const WarehouseDetails = () => {
   const [address, setAddress] = useState<Array<any>>([]);
   const [hours, setHours] = useState<Array<any>>([]);
   const [priceList, setPriceList] = useState<Array<any>>([]);
+  const [profilePic, setProfilePic] = useState();
 
   useEffect(() => {
-    const stateWarehouseData: any = state; console.log(stateWarehouseData);
+    const stateWarehouseData: any = state;
     setPriceList(stateWarehouseData.pricebean);
     setHours(stateWarehouseData.hours);
     setWarehouseInfo(stateWarehouseData);
-    //console.log(stateWarehouseData);
-    // api.getWarehouseById(stateWarehouseData.warehouseId).then((response) => {
-    //   if (response.status == 'SUCCESS') {
-    //     setWarehouseInfo(response.methodReturnValue);
-    //     setAddress(response.methodReturnValue.address);
-    //     setHours(response.methodReturnValue.hours);
-    //   }
-    // }).catch((error) => {
-    //   console.log(error);
-    // });
+    api.getWarehouseProfilePic(stateWarehouseData.warehouseId).then((response)=>{
+      setProfilePic(response.config.url);   
+    }).catch((error)=>{
+      console.log(error);
+    });
   }, []);
 
   const navigate = useNavigate();
@@ -57,21 +53,21 @@ const WarehouseDetails = () => {
                   <div className="col-md-12 col-lg-8 col-xl-8 p-2">
                     <Carousel fade>
                       <Carousel.Item>
-                        <img className="d-block  img-fluid border border-success" style={{ height: '50vh', width: '100%', objectFit: 'cover' }} src={'https://media.istockphoto.com/photos/warehouse-worker-picture-id1179825208'} />
+                        <img className="d-block  img-fluid border border-success" style={{ height: '50vh', width: '100%', objectFit: 'cover' }} src={profilePic} />
                         <Carousel.Caption>
 
                         </Carousel.Caption>
                       </Carousel.Item>
                       <Carousel.Item>
-                        <img className="d-block  img-fluid border border-success" style={{ height: '50vh', width: '100%', objectFit: 'cover' }} src={'https://media.istockphoto.com/id/1165357335/photo/male-worker-working-in-warehouse.webp?s=612x612&w=is&k=20&c=zcBK2kcxFDIBbd_aKXh_-kek_MGX30smjx64GURYGAU='} />
-
+                        {/* <img className="d-block  img-fluid border border-success" style={{ height: '50vh', width: '100%', objectFit: 'cover' }} src={'https://media.istockphoto.com/id/1165357335/photo/male-worker-working-in-warehouse.webp?s=612x612&w=is&k=20&c=zcBK2kcxFDIBbd_aKXh_-kek_MGX30smjx64GURYGAU='} /> */}
+                        <img className="d-block  img-fluid border border-success" style={{ height: '50vh', width: '100%', objectFit: 'cover' }} src={profilePic} />
                         <Carousel.Caption>
 
                         </Carousel.Caption>
                       </Carousel.Item>
                       <Carousel.Item>
-                        <img className="d-block  img-fluid border border-success" style={{ height: '50vh', width: '100%', objectFit: 'cover' }} src={'https://media.istockphoto.com/id/980114338/photo/supervisor-and-employee-at-warehouse.webp?s=612x612&w=is&k=20&c=6TtBd269scsOMBrswgxy0tsa64_MsChdpXo_oBrz8yk='} />
-
+                        {/* <img className="d-block  img-fluid border border-success" style={{ height: '50vh', width: '100%', objectFit: 'cover' }} src={'https://media.istockphoto.com/id/980114338/photo/supervisor-and-employee-at-warehouse.webp?s=612x612&w=is&k=20&c=6TtBd269scsOMBrswgxy0tsa64_MsChdpXo_oBrz8yk='} /> */}
+                        <img className="d-block  img-fluid border border-success" style={{ height: '50vh', width: '100%', objectFit: 'cover' }} src={profilePic} />
                         <Carousel.Caption>
 
                         </Carousel.Caption>
@@ -86,8 +82,9 @@ const WarehouseDetails = () => {
 
                       <div className="col-6">
                         <div className="bg-image border border-success hover-zoom ripple rounded ripple-surface p-2">
-                          <img src={'https://media.istockphoto.com/photos/warehouse-worker-picture-id1179825208'}
-                            className="w-100" />
+                          {/* <img src={'https://media.istockphoto.com/photos/warehouse-worker-picture-id1179825208'}
+                            className="w-100" /> */}
+                            <img src={'http://ec2-13-232-148-204.ap-south-1.compute.amazonaws.com:8082/storeflexservice/warehousepicbyid?pictureId=1eadb373-aa9a-48f9-b45b-1ff2933e40f3'} className="w-100"/>
                         </div>
                       </div>
 

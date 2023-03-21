@@ -66,13 +66,14 @@ const CartContents = () => {
     const [grandTotalPrice, setGrandTotalPrice] = useState(0);
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
+    const [profilePic, setProfilePic] = useState();
     
     const userId = getUserId();
     const api = new Api();
 
     const { state } = useLocation();
     useEffect(() => {
-        const warehouseData: any = state; 
+        const warehouseData: any = state; //console.log(warehouseData.warehouseId);
         setData(warehouseData);
         setHourData(warehouseData.hours);
         setAddressData(warehouseData.address);
@@ -82,6 +83,11 @@ const CartContents = () => {
         calculateLoadingTotal(noOfLodingPallets);
         calculateTax(totalRental, totalUnloadingPrice, totalLoadingPrice);
         calculateGrandTotal(totalRental, totalUnloadingPrice, totalLoadingPrice, totalTaxPrice);
+        api.getWarehouseProfilePic(warehouseData.warehouseId).then((response)=>{
+            setProfilePic(response.config.url);   
+          }).catch((error)=>{
+            console.log(error);
+          });
         
     }, [spaceOrdered,noOfUnlodingPallets,noOfLodingPallets,totalRental,totalUnloadingPrice,totalLoadingPrice,totalTaxPrice]);
 
@@ -258,7 +264,7 @@ const CartContents = () => {
                                                 <div className='card'>
                                                     <div className='text-left'>
                                                         <img className='img-200x150'
-                                                            src='../static/images/store1.jpg'
+                                                            src={profilePic}
                                                         />
                                                     </div>
                                                 </div>

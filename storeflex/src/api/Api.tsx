@@ -613,6 +613,24 @@ export default class Api {
             return Promise.reject(error);
         }
     }
+    async getWarehouseProfilePic(wareId: WarehouseId): Promise<any> {
+        const url = `${this.baseUrl}${this.apiUrl.getWarehouseProfilePic}?warehouseId=${wareId}`;
+        //const url = `${this.baseUrl}${this.apiUrl.getWarehouseProfilePic}?warehouseId=WH-137`;
+        //console.log(url);
+        try {
+            const response = await axios.get(url);
+            if (response) {
+                return Promise.resolve(response);
+            } else {
+                console.log(' error : getWarehouseProfilePic ', response);
+                return Promise.reject(response);
+            }
+        }
+        catch (error) {
+            console.log(' error : getWarehouseProfilePic', error);
+            return Promise.reject(error);
+        }
+    }
 
     /**  Payment section */
     async getAuthorisationBank(bankInfo: BankInfo): Promise<any> {

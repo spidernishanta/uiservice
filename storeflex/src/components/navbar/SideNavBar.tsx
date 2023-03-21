@@ -49,7 +49,7 @@ const SideNavBar = (props) => {
 
   useEffect(() => {
     api.getWarehouseCategories().then((response) => {
-      console.log(response);
+      //console.log(response);
     }).catch((error) => {
       console.log(error);
     });
@@ -70,7 +70,7 @@ const SideNavBar = (props) => {
       const api = new Api();
       const pin = ''
       api.searchwarehouse(pin).then((response) => {
-        const data: warehouse = response.data.methodReturnValue.warehouseViewBean;
+        const data: warehouse = response.data.methodReturnValue.warehouseViewBean; 
         if (response.data.status == 'SUCCESS') {
           navigate('/search-new', { state: data });
         }
