@@ -664,8 +664,8 @@ export default class Api {
             headers: {
                 'Content-Type': 'application/json',
                 'x-api-version': '2022-09-01',
-                'x-client-id': '9297643fb3e7c537a834ee3929',
-                'x-client-secret': 'a12ed480ffa771f8aa0fd3789bea4f74e7abb4d3'
+                'x-client-id': '',
+                'x-client-secret': ''
             }
         };
         const url = `${this.apiUrl.paymentTestUrl}`;
