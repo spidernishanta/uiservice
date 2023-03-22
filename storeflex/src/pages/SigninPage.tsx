@@ -68,7 +68,7 @@ const SignInPage = () => {
           setUserLoggedIn('true');
           let methodReturnValue = response.methodReturnValue;
           const loginType = methodReturnValue?.loginType ? methodReturnValue.loginType.split('|') : '';
-          console.log(loginType);
+          // console.log(' << signIn >> ', response);
           if (loginType && loginType.length > 1) {
             swal({
               title: "Welcome to StoreFlex",
