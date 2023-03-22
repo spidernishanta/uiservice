@@ -192,7 +192,12 @@ export const getRedirectionPage = (redirectUrl?: string) => {
 
 export const sessionStorageSet = (data: any, name: string) => {
     if (data && name) {
-        sessionStorage.setItem(name, JSON.stringify(data));
+        const type = typeof data;
+        if(type === 'number' || type === 'string') {
+            sessionStorage.setItem(name, data);
+        } else {
+            sessionStorage.setItem(name, JSON.stringify(data));
+        }
     }
 }
 
