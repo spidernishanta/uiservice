@@ -17,7 +17,12 @@ import { SESSION_TYPE } from '../utils/Constants';
 //     }
 //   };
 const getHeaders = () => {
-    const token = sessionStorageGet(SESSION_TYPE.api_token);
+    let token = sessionStorageGet(SESSION_TYPE.api_token);
+    if (token) {
+        token = token?.slice(1);
+        token = token?.slice(0, token.length-1);
+    }
+    console.log('  >>>> ', token);
     const axiosConfig = {
         headers : {
             Authorization: `Bearer ${token}`
