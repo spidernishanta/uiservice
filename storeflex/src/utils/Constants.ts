@@ -294,5 +294,6 @@ export const PAGES = {
 export enum SESSION_TYPE {
   login_resp = "LOGIN_RESP",
   wh_categories = "WH_CATEGORYS",
+  api_token = "API_TOKEN",
 }
 

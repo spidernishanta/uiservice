@@ -197,7 +197,8 @@ export class ApiConfig {
     getOrderListByOrderId = '/order';
     getActiveWHlist = '/getActiveWHlist';
     moveToFeatureWH = '/movetofeaturewh';
-    getWarehouseProfilePic = '/warehouseprofilepic'
+    getWarehouseProfilePic = '/warehouseprofilepic';
+    postAuthenticate = '/authenticate'
 }
 
 export interface UserPostData {

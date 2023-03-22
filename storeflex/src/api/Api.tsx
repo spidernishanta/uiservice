@@ -16,6 +16,15 @@ import { SESSION_TYPE } from '../utils/Constants';
 //         "Access-Control-Allow-Origin": "*",
 //     }
 //   };
+const getHeaders = () => {
+    const token = sessionStorageGet(SESSION_TYPE.api_token);
+    const axiosConfig = {
+        headers : {
+            Authorization: `Bearer ${token}`
+        }
+    }
+    return axiosConfig;
+}
 
 export default class Api {
     baseUrl: any;
@@ -23,11 +32,12 @@ export default class Api {
     constructor() {
         this.apiUrl = new ApiConfig();
         this.baseUrl = process.env.REACT_APP_API_URL;
+        this.getAuthToken = this.getAuthToken.bind(this);
     }
 
     async getTest() {
         const url = this.apiUrl.testApi;
-        return await axios.get(url).then((response) => {
+        return await axios.get(url, getHeaders()).then((response) => {
             return Promise.resolve(response);
         }).catch((error) => {
             console.log(' error >> ', error);
@@ -52,7 +62,18 @@ export default class Api {
         try {
             const response = await axios.post(url, postData);
             if (response?.data?.statusCode === 600) {
-                return Promise.resolve(response?.data);
+                const loginData = response?.data;
+                const authData = {
+                    username: postData.emailId,
+                    password: postData.password
+                }
+                const tokenData = await this.getAuthToken(authData, userType).then((response) => {
+                    return Promise.resolve(loginData);
+                }).catch(() => {
+                    console.log(' error : signIn -> getAuthToken >>', response);
+                    return Promise.reject(response);
+                });
+                return tokenData;
             } else {
                 console.log(' error : signIn ', response);
                 return Promise.reject(response);
@@ -60,6 +81,26 @@ export default class Api {
         }
         catch (error) {
             console.log(' error : signIn', error);
+            return Promise.reject(error);
+        }
+    }
+
+    async getAuthToken(postData: any, userType: string): Promise<any> {
+        const url = `${this.baseUrl}${this.apiUrl.postAuthenticate}`;
+        try {
+            const response = await axios.post(url, postData);
+            // console.log(' getAuthToken ', JSON.stringify(response));
+            if (response?.status === 200) {
+                const token = response?.data?.token;
+                sessionStorageSet(token, SESSION_TYPE.api_token);
+                return Promise.resolve(response?.data);
+            } else {
+                console.log(' error : getAuthToken ', response);
+                return Promise.reject(response);
+            }
+        }
+        catch (error) {
+            console.log(' error : getAuthToken', error);
             return Promise.reject(error);
         }
     }
@@ -105,7 +146,7 @@ export default class Api {
     async changePass(postData: ChangePassPost): Promise<any> {
         const url = `${this.baseUrl}${this.apiUrl.ChangePassUrl}?emailId=${sessionStorage.getItem('emailId')}&oldPassword=${postData.oldPassword}&password=${postData.password}`;
         try {
-            const response = await axios.post(url, postData);
+            const response = await axios.post(url, postData, getHeaders());
             if (response?.data?.statusCode === 600) {
                 return Promise.resolve(response?.data);
             } else if (response?.data?.statusCode === 603) {
@@ -124,7 +165,7 @@ export default class Api {
     async updatePass(postData: UpdatePassPost): Promise<any> {
         const url = `${this.baseUrl}${this.apiUrl.UpdatePassUrl}?emailId=${postData.emailId}&password=${postData.password}`;
         try {
-            const response = await axios.post(url, postData);
+            const response = await axios.post(url, postData, getHeaders());
             if (response?.data?.statusCode === 600) {
                 return Promise.resolve(response?.data);
             } else if (response?.data?.statusCode === 603) {
@@ -143,7 +184,7 @@ export default class Api {
     async getStatesByCountry(requestObject: GetStatesProp): Promise<any> {
         const url = this.baseUrl + this.apiUrl.getStatesUrl + '?countryId=' + requestObject.countryCode;
         try {
-            const response = await axios.get(url);
+            const response = await axios.get(url, getHeaders());
             if (response.status === 200) {
                 return Promise.resolve(response?.data);
             } else {
@@ -177,7 +218,7 @@ export default class Api {
     async getCitiesByState(requestObject: GetCitiesProp): Promise<any> {
         const url = this.baseUrl + this.apiUrl.getCitiesUrl + '?stateCode=' + requestObject.state;
         try {
-            const response = await axios.get(url);
+            const response = await axios.get(url, getHeaders());
             if (response?.data?.statusCode === 600) {
                 return Promise.resolve(response?.data);
             } else {
@@ -194,7 +235,7 @@ export default class Api {
     async addCompany(postData: AddCompanyPostData): Promise<any> {
         const url = this.baseUrl + this.apiUrl.addCompanyUrl;
         try {
-            const response = await axios.post(url, postData);
+            const response = await axios.post(url, postData, getHeaders());
             if (response?.data?.statusCode === 600) {
                 return Promise.resolve(response?.data);
             } else {
@@ -211,7 +252,7 @@ export default class Api {
     async deleteCompany(clientId: string): Promise<any> {
         const url = `${this.baseUrl}${this.apiUrl.deleteCompanyUrl}?clientId=${clientId}`;
         try {
-            const response = await axios.delete(url);
+            const response = await axios.delete(url, getHeaders());
             if (response?.data?.statusCode === 600) {
                 return Promise.resolve(response?.data);
             } else {
@@ -231,10 +272,14 @@ export default class Api {
         }
         const url = `${this.baseUrl}${this.apiUrl.uploadCompanyPhotoApi}?clientId=${clientId}`;
         try {
-            const config = {
-                headers: { 'content-type': 'multipart/form-data' }
-            }
+            // const config = {
+            //     headers: { 'content-type': 'multipart/form-data' }
+            // }
+
+            const config = getHeaders();
+            config.headers['content-type'] = 'multipart/form-data';
             const response = await axios.post(url, postData, config);
+
             if (response?.data?.statusCode === 600) {
                 return Promise.resolve(response?.data);
             } else {
@@ -251,7 +296,7 @@ export default class Api {
         console.log(postData);
         const url = this.baseUrl + this.apiUrl.addCompanyUrl;
         try {
-            const response = await axios.post(url, postData);
+            const response = await axios.post(url, postData, getHeaders());
             if (response.status === 200) {
                 console.log(response);
                 return Promise.resolve(response?.data);
@@ -271,7 +316,7 @@ export default class Api {
         if (getLogInType() === 'CL') {
             const url = `${this.baseUrl}${this.apiUrl.getCompaniesApi}?page=${getData.page}&size=${getData.size}&status=${getData.status}&clientId=${getData.clientId}`;
             try {
-                const response = await axios.get(url);
+                const response = await axios.get(url, getHeaders());
                 if (response.status === 200) {
                     return Promise.resolve(response?.data);
                 } else {
@@ -287,7 +332,7 @@ export default class Api {
         if (getLogInType() === 'SL') {
             const url = `${this.baseUrl}${this.apiUrl.getCompaniesApi}?page=${getData.page}&size=${getData.size}&status=${getData.status}`;
             try {
-                const response = await axios.get(url);
+                const response = await axios.get(url, getHeaders());
                 if (response.status === 200) {
                     return Promise.resolve(response?.data);
                 } else {
@@ -305,7 +350,7 @@ export default class Api {
     async getCompanyList(): Promise<any> {
         const url = this.baseUrl + this.apiUrl.getCompanyListApi;
         try {
-            const response = await axios.get(url);
+            const response = await axios.get(url, getHeaders());
             if (response?.data?.statusCode === 600) {
                 return Promise.resolve(response?.data);
             } else {
@@ -322,7 +367,7 @@ export default class Api {
     async getCompanyById(chId: string): Promise<any> {
         const url = `${this.baseUrl}${this.apiUrl.getCompanyByIdUrl}?clientId=${chId}`;
         try {
-            const response = await axios.get(url);
+            const response = await axios.get(url, getHeaders());
             if (response?.data?.statusCode === 600) {
                 return Promise.resolve(response?.data);
             } else {
@@ -338,7 +383,7 @@ export default class Api {
     async addWarehouse(postData: WarehousePostData): Promise<any> {
         const url = `${this.baseUrl}${this.apiUrl.addWarehouseUrl}`;
         try {
-            const response = await axios.post(url, postData);
+            const response = await axios.post(url, postData, getHeaders());
             if (response?.data?.statusCode === 600) {
                 return Promise.resolve(response?.data);
             } else {
@@ -401,7 +446,7 @@ export default class Api {
     async getWarehouseByClientId(getData: ViewWarehouseProps): Promise<any> {
         const url = this.baseUrl + this.apiUrl.getWarehouseByClientIdUrl + '?clientId=' + getData.clientId + '&page=' + getData.page + '&size=' + getData.size;
         try {
-            const response = await axios.get(url);
+            const response = await axios.get(url, getHeaders());
             return Promise.resolve(response);
         }
         catch (error) {
@@ -413,7 +458,7 @@ export default class Api {
     async getWarehouseById(whId: string): Promise<any> {
         const url = `${this.baseUrl}${this.apiUrl.getWarehouseByIdUrl}?warehouseId=${whId}`;
         try {
-            const response = await axios.get(url);
+            const response = await axios.get(url, getHeaders());
             if (response?.data?.statusCode === 600) {
                 return Promise.resolve(response?.data);
             } else {
@@ -430,7 +475,7 @@ export default class Api {
     async getWarehouseAdmin(getData: viewWarehouseAdminProps): Promise<any> {
         const url = `${this.baseUrl}${this.apiUrl.getWarehouseAdminUrl}?page=${getData.page}&size=${getData.size}&status=${getData.status}`;
         try {
-            const response = await axios.get(url);
+            const response = await axios.get(url, getHeaders());
             if (response?.data?.statusCode === 600) {
                 return Promise.resolve(response?.data);
             } else {
@@ -452,7 +497,7 @@ export default class Api {
             return Promise.resolve(whCategories);
         } else {
             try {
-                const response = await axios.get(url);
+                const response = await axios.get(url, getHeaders());
                 if (response?.data?.statusCode === 600) {
                     sessionStorageSet(response.data, SESSION_TYPE.wh_categories);
                     return Promise.resolve(response?.data);
@@ -493,7 +538,7 @@ export default class Api {
         }
 
         try {
-            const response = await axios.get(url);
+            const response = await axios.get(url,getHeaders());
             if (response?.data?.statusCode === 600 || response?.data?.statusCode === 603) {
                 return Promise.resolve(response?.data);
             } else {
@@ -584,7 +629,7 @@ export default class Api {
     async getOrderListByOrderId(oId: OrderId): Promise<any> {
         const url = `${this.baseUrl}${this.apiUrl.getOrderListByOrderId}?orderId=${oId}`;
         try {
-            const response = await axios.get(url);
+            const response = await axios.get(url, getHeaders());
             if (response?.data?.statusCode === 600) {
                 return Promise.resolve(response?.data);
             } else {
@@ -600,7 +645,7 @@ export default class Api {
     async getActiveWHlist(): Promise<any> {
         const url = `${this.baseUrl}${this.apiUrl.getActiveWHlist}`;
         try {
-            const response = await axios.get(url);
+            const response = await axios.get(url, getHeaders());
             if (response?.data?.statusCode === 600) {
                 return Promise.resolve(response?.data);
             } else {
@@ -618,7 +663,7 @@ export default class Api {
         //const url = `${this.baseUrl}${this.apiUrl.getWarehouseProfilePic}?warehouseId=WH-137`;
         //console.log(url);
         try {
-            const response = await axios.get(url);
+            const response = await axios.get(url, getHeaders());
             if (response) {
                 return Promise.resolve(response);
             } else {
@@ -686,5 +731,6 @@ export default class Api {
         }
     }
     /**  End Payment  */
+    
 
 }
