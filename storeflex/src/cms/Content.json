@@ -28,12 +28,22 @@
         "viewUserbtn": ""
     },
     "business": {
-        "businessInfoText": "Business Information",
+        "businessInfoText": "Company Information",
         "businessNameLabel": "Company Name*",
         "businessUrlLabel": "Company Url",
-        "businessPhoneLabel": "Business Phone*"
+        "businessPhoneLabel": "Business Phone*",
+        "addressLabel": "Address Information",
+        "contactLabel": "Contact Information"
     },
-    "warehouse": {},
-    "management": {},
+    "warehouse": {
+        "warehouseInfoText": "Warehouse Details",
+        "warehousePricingText": "Pricing",
+        "warehouseAddressLabel": "Where's warehouse located?",
+        "warehouseHoursLabel": "Facility Hours",
+        "warehouseLayoutLabel": "Warehouse Layout (select all that apply)"
+    },
+    "management": {
+        "addUserLabel": "Add User"
+    },
     "search": {}
 }

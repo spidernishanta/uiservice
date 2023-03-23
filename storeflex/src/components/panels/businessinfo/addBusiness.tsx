@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Grid, TextareaAutosize, Button } from '@mui/material';
+import { CmsContext } from '../../../context/ContextProvider';
 import swal from 'sweetalert';
 import InputBox from '../../atoms/textfield/InputBox';
 import { InputError } from '../../atoms/textfield/InputError';
@@ -443,6 +444,9 @@ const AddBusiness = (props: AddBusinessProps) => {
         );
     }
 
+    const cmsContent = useContext(CmsContext);
+    const businessContent = cmsContent['business'];
+
     return (
         <>
             {isLoader && (
@@ -461,7 +465,7 @@ const AddBusiness = (props: AddBusinessProps) => {
                 <Accordion.Item eventKey="0">
                     <Accordion.Header className='sf-ac'>
                         <div className='primary-gradient w100'>
-                            <div className='font-white p-sm f-18px f-bold'>Company Information</div>
+                            <div className='font-white p-sm f-18px f-bold'>{businessContent?.businessInfoText}</div>
                         </div>
                     </Accordion.Header>
                     <Accordion.Body>
@@ -471,7 +475,7 @@ const AddBusiness = (props: AddBusinessProps) => {
                 <Accordion.Item eventKey="1">
                     <Accordion.Header className='sf-ac'>
                         <div className='primary-gradient w100'>
-                            <div className='font-white p-sm f-18px f-bold'>Address Information</div>
+                            <div className='font-white p-sm f-18px f-bold'>{businessContent?.addressLabel}</div>
                         </div>
                     </Accordion.Header>
                     <Accordion.Body>
@@ -481,7 +485,7 @@ const AddBusiness = (props: AddBusinessProps) => {
                 <Accordion.Item eventKey="2">
                     <Accordion.Header className='sf-ac'>
                         <div className='primary-gradient w100'>
-                            <div className='font-white p-sm f-18px f-bold'>Contact Information</div>
+                            <div className='font-white p-sm f-18px f-bold'>{businessContent?.contactLabel}</div>
                         </div>
                     </Accordion.Header>
                     <Accordion.Body>

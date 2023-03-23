@@ -33,21 +33,22 @@ export default function Searchresult() {
   const { state } = useLocation();
 
   const [profilePic, setProfilePic] = useState('');
-  
+
   useEffect(() => {
-    const stateData: any = state; 
+    const stateData: any = state;
     setWarehouse(stateData);
-    stateData.map((item: any)=>{
-      api.getWarehouseProfilePic(item.warehouseId).then((response)=>{
-        setProfilePic(response.config.url.substring(0,113));
-        
-      }).catch((error)=>{
-          console.log(error);
+    console.log(stateData);
+    stateData.map((item: any) => {
+      api.getWarehouseProfilePic(item.warehouseId).then((response) => {
+        setProfilePic(response.config.url.substring(0, 113));
+
+      }).catch((error) => {
+        console.log(error);
       });
     })
-    
+
   }, []);
-  
+
 
   const addToCart = (e: any, selectedItem: any) => {
     navigate('/cart', { state: selectedItem });
@@ -66,7 +67,7 @@ export default function Searchresult() {
     navigate('/WarehouseDetails', { state: warehousedata });
   }
 
-  
+
   return (
 
     <>

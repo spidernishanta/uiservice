@@ -27,9 +27,9 @@ const WarehouseDetails = () => {
     setPriceList(stateWarehouseData.pricebean);
     setHours(stateWarehouseData.hours);
     setWarehouseInfo(stateWarehouseData);
-    api.getWarehouseProfilePic(stateWarehouseData.warehouseId).then((response)=>{
-      setProfilePic(response.config.url);   
-    }).catch((error)=>{
+    api.getWarehouseProfilePic(stateWarehouseData.warehouseId).then((response) => {
+      setProfilePic(response.config.url);
+    }).catch((error) => {
       console.log(error);
     });
   }, []);
@@ -84,7 +84,7 @@ const WarehouseDetails = () => {
                         <div className="bg-image border border-success hover-zoom ripple rounded ripple-surface p-2">
                           {/* <img src={'https://media.istockphoto.com/photos/warehouse-worker-picture-id1179825208'}
                             className="w-100" /> */}
-                            <img src={'http://ec2-13-232-148-204.ap-south-1.compute.amazonaws.com:8082/storeflexservice/warehousepicbyid?pictureId=1eadb373-aa9a-48f9-b45b-1ff2933e40f3'} className="w-100"/>
+                          <img src={'http://ec2-13-232-148-204.ap-south-1.compute.amazonaws.com:8082/storeflexservice/warehousepicbyid?pictureId=1eadb373-aa9a-48f9-b45b-1ff2933e40f3'} className="w-100" />
                         </div>
                       </div>
 

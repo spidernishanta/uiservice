@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Button } from '@mui/material';
 import swal from 'sweetalert';
+import { CmsContext } from '../../../context/ContextProvider';
 import Api from '../../../../src/api/Api';
 import { LoaderFull } from '../../atoms/loader/loader';
 import WearehouseAddress from './component/WearehouseAddress';
@@ -163,6 +164,10 @@ const AddWarehouse = () => {
             });
         }
     }
+
+    const cmsContent = useContext(CmsContext);
+    const warehouseContent = cmsContent['warehouse'];
+
     return (
         <>
             {isLoader && <LoaderFull />}
@@ -170,7 +175,7 @@ const AddWarehouse = () => {
                 <Accordion.Item eventKey="0">
                     <Accordion.Header className='sf-ac'>
                         <div className='primary-gradient w100'>
-                            <div className='font-white p-sm f-18px f-bold'>Warehouse Details</div>
+                            <div className='font-white p-sm f-18px f-bold'>{warehouseContent?.warehouseInfoText}</div>
                         </div>
                     </Accordion.Header>
                     <Accordion.Body>
@@ -183,7 +188,7 @@ const AddWarehouse = () => {
                 <Accordion.Item eventKey="2">
                     <Accordion.Header className='sf-ac'>
                         <div className='primary-gradient w100'>
-                            <div className='font-white p-sm f-18px f-bold'>Pricing</div>
+                            <div className='font-white p-sm f-18px f-bold'>{warehouseContent?.warehousePricingText}</div>
                         </div>
                     </Accordion.Header>
                     <Accordion.Body>

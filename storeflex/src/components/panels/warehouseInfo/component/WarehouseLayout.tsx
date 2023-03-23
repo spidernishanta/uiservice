@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Grid } from '@mui/material';
 import InputBox from '../../../atoms/textfield/InputBox';
 import Api from "../../../../api/Api";
 import { WarehouseCategories } from "../../../../utils/ResponseSchema";
+import { CmsContext } from "../../../../context/ContextProvider";
 export interface WarehouseLayoutObj {
     industryId?: string;
     storagesId?: string;
@@ -39,7 +40,7 @@ const WarehouseLayout = (props: WarehouseLayoutProps) => {
         setCeillingHeight(data?.ceillingheight || '');
         setForkLiftCapacity(data?.forkliftcapacity || '');
 
-    }, [] )
+    }, [])
     useEffect(() => {
         if (onUpdateInfo) {
             setonUpdateInfo(false);
@@ -88,7 +89,7 @@ const WarehouseLayout = (props: WarehouseLayoutProps) => {
     }
 
     const defaultChecked = (checkedItem) => {
-        if(checkedItem) {
+        if (checkedItem) {
             const checkedItemArry = checkedItem.split('|');
             const obj = {};
             checkedItemArry.forEach((item) => {
@@ -179,7 +180,7 @@ const WarehouseLayout = (props: WarehouseLayoutProps) => {
                                 <Grid key={keyId} item xs={4}>
                                     <div>
                                         <label>
-                                            <input type="checkbox" id={item[0]} name={item[0]} onChange={onChangeIndustriesCategories} checked={isChecked}/>
+                                            <input type="checkbox" id={item[0]} name={item[0]} onChange={onChangeIndustriesCategories} checked={isChecked} />
                                             <span className="p-left-sm">{item[1]}</span>
                                         </label>
                                     </div>
@@ -210,7 +211,7 @@ const WarehouseLayout = (props: WarehouseLayoutProps) => {
                                 <Grid key={keyId} item xs={4}>
                                     <div>
                                         <label>
-                                            <input type="checkbox" id={item[0]} name={item[0]} onChange={onChangeStoragesCategories} checked={isChecked}/>
+                                            <input type="checkbox" id={item[0]} name={item[0]} onChange={onChangeStoragesCategories} checked={isChecked} />
                                             <span className="p-left-sm">{item[1]}</span>
                                         </label>
                                     </div>
@@ -241,7 +242,7 @@ const WarehouseLayout = (props: WarehouseLayoutProps) => {
                                 <Grid key={keyId} item xs={4}>
                                     <div>
                                         <label>
-                                            <input type="checkbox" id={item[0]} name={item[0]} onChange={onChangeFacilitiesCategories} checked={isChecked}/>
+                                            <input type="checkbox" id={item[0]} name={item[0]} onChange={onChangeFacilitiesCategories} checked={isChecked} />
                                             <span className="p-left-sm">{item[1]}</span>
                                         </label>
                                     </div>
@@ -255,11 +256,15 @@ const WarehouseLayout = (props: WarehouseLayoutProps) => {
             return (<> </>)
         }
     }
+
+    const cmsContent = useContext(CmsContext);
+    const warehouseContent = cmsContent['warehouse'];
+
     return (
         <>
             <div className='m-bot-lg'>
                 <div className='primary-gradient m-bot-md'>
-                    <div className='font-white p-sm f-18px f-bold'>Warehouse Layout (select all that apply)</div>
+                    <div className='font-white p-sm f-18px f-bold'>{warehouseContent?.warehouseLayoutLabel}</div>
                 </div>
                 <div className='p-md'>
                     <div>

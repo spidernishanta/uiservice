@@ -1,14 +1,14 @@
 import React from 'react';
 import Carousel from "../carousel/carousel";
 import Card from "react-bootstrap/Card";
-import Button from "react-bootstrap/Button";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect } from 'react';
 import Api from '../../api/Api';
-import InputBox from '../atoms/textfield/InputBox';
 
 const Pricing = () => {
   const [featureWHList, setFeatureWHList] = useState<Array<any>>([]);
+  const [priceList, setPriceList] = useState<Array<any>>([]);
+
   const api = new Api();
 
   const navigate = useNavigate();
@@ -16,7 +16,6 @@ const Pricing = () => {
   const WarehouseDetails = () => {
     navigate('/WarehouseDetails');
   }
-  const [priceList, setPriceList] = useState<Array<any>>([]);
 
   const addToCart = () => {
     navigate('/cart');
@@ -28,7 +27,6 @@ const Pricing = () => {
       console.log(' getFeatureWH success >> ', data);
       if (resp?.methodReturnValue) {
         setFeatureWHList(data);
-        setPriceList(data.warehousepriceList);
       }
     }).catch((error) => {
       console.log(' getFeatureWH error >> ', error);
@@ -66,7 +64,6 @@ const Pricing = () => {
               featureWHList.map((ware) => (
                 <Card border="warning" style={{ width: "18rem", marginRight: "25px", boxShadow: '1px 3px 9px #F4AAB9' }}>
                   <Card.Img variant="top" src="static\images/royal-palace.jpg" />
-
                   <Card.Body className="text-center">
                     <Card.Title>{ware.warehouseName}</Card.Title>
                     <Card.Subtitle className="mb-2 text-muted">
@@ -75,9 +72,7 @@ const Pricing = () => {
                     <Card.Text>
                       {ware.descp}
                     </Card.Text>
-                    <h6 className="amount">
-                      &#x20B9;{parseFloat(ware.warehousepriceList[0].ratesqtft).toFixed(2)}<span className="duration">/month</span>
-                    </h6><br />
+                    <br />
                     <button className="btn primary-btn btn-sm" onClick={WarehouseDetails} >Details</button>
                     <p className="pt-1"><Card.Link href="/Cart"><u>Add to Wishlist</u></Card.Link></p>
                   </Card.Body>
@@ -86,6 +81,7 @@ const Pricing = () => {
               ))
             }
           </Carousel>
+
           {/* {featureWHList.map((ware) => (
             <input value={ware.warehouseName}></input>
           ))} */}
